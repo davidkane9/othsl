@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ team }} — OTHSL</title>
+<style>
+  body { font-family: Georgia, serif; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #222; background: #fafafa; }
+  h1 { font-size: 1.8em; margin-bottom: 4px; }
+  h2 { font-size: 1.2em; border-bottom: 2px solid #ccc; padding-bottom: 6px; margin-top: 36px; }
+  .meta { color: #666; margin-bottom: 28px; font-size: 0.95em; }
+  .record { font-size: 1.1em; margin-bottom: 6px; }
+  .elo-badge { display: inline-block; background: #1a5f2a; color: #fff; border-radius: 6px; padding: 4px 14px; font-size: 1.1em; margin-bottom: 20px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.93em; }
+  th { background: #eee; text-align: left; padding: 7px 10px; }
+  td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
+  tr.highlight td { background: #e8f4ec; font-weight: bold; }
+  tr:hover td { background: #f5f5f5; }
+
+  .W { color: #1a7a1a; font-weight: bold; }
+  .L { color: #b00; font-weight: bold; }
+  .T { color: #555; }
+  .F { color: #888; }
+
+  #elo-chart { width: 100%; height: 220px; margin-top: 12px; }
+
+  footer { margin-top: 60px; font-size: 0.8em; color: #999; border-top: 1px solid #ddd; padding-top: 12px; }
+</style>
+</head>
+<body>
+
+<h1>{{ team }}</h1>
+<div class="meta">{{ season }} &nbsp;·&nbsp; Over {{ age_group.split()[1] }} Division {{ division }} {{ geography }}</div>
+
+<div class="record">Record: <strong>{{ record.w }}-{{ record.l }}-{{ record.t }}</strong></div>
+{% if current_elo %}
+<div class="elo-badge">ELO: {{ "%.0f"|format(current_elo) }}</div>
+{% endif %}
+
+<h2>Results</h2>
+<table>
+  <thead>
+    <tr><th>Date</th><th>H/A</th><th>Opponent</th><th>Score</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    {% for g in games %}
+    <tr>
+      <td>{{ g.date }}</td>
+      <td>{{ g.venue }}</td>
+      <td>{{ g.opponent }}</td>
+      <td>{{ g.score }}{% if g.notes %} <span style="color:#999;font-size:0.85em">({{ g.notes }})</span>{% endif %}</td>
+      <td class="{{ g.result }}">{{ g.result }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" style="color:#999">No results yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Flight Standings — {{ age_group }} Div {{ division }} {{ geography }}</h2>
+<table>
+  <thead>
+    <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th>PPG</th></tr>
+  </thead>
+  <tbody>
+    {% for row in standings %}
+    <tr{% if row.is_iv %} class="highlight"{% endif %}>
+      <td>{{ row.team }}</td>
+      <td>{{ row.gp }}</td>
+      <td>{{ row.w }}</td>
+      <td>{{ row.l }}</td>
+      <td>{{ row.t }}</td>
+      <td>{{ row.pts }}</td>
+      <td>{{ row.gf }}</td>
+      <td>{{ row.ga }}</td>
+      <td>{{ "%+d"|format(row.gd) }}</td>
+      <td>{{ "%.2f"|format(row.ppg) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>ELO Rating — {{ season }}</h2>
+<canvas id="elo-chart"></canvas>
+
+<script>
+const eloData = {{ elo_history | tojson }};
+
+(function() {
+  const canvas = document.getElementById("elo-chart");
+  const ctx = canvas.getContext("2d");
+  canvas.width = canvas.offsetWidth;
+  canvas.height = 220;
+
+  if (eloData.length < 2) {
+    ctx.fillStyle = "#999";
+    ctx.font = "14px Georgia";
+    ctx.fillText("Not enough data yet.", 20, 110);
+    return;
+  }
+
+  const elos = eloData.map(d => d.elo);
+  const labels = eloData.map(d => d.date);
+  const minElo = Math.min(...elos) - 20;
+  const maxElo = Math.max(...elos) + 20;
+  const W = canvas.width, H = canvas.height;
+  const pad = { top: 20, bottom: 30, left: 55, right: 20 };
+
+  function xPos(i) { return pad.left + (i / (elos.length - 1)) * (W - pad.left - pad.right); }
+  function yPos(v) { return pad.top + (1 - (v - minElo) / (maxElo - minElo)) * (H - pad.top - pad.bottom); }
+
+  // Grid lines
+  ctx.strokeStyle = "#e0e0e0"; ctx.lineWidth = 1;
+  [1450, 1500, 1520, 1540, 1560].forEach(v => {
+    if (v < minElo || v > maxElo) return;
+    ctx.beginPath(); ctx.moveTo(pad.left, yPos(v)); ctx.lineTo(W - pad.right, yPos(v)); ctx.stroke();
+    ctx.fillStyle = "#aaa"; ctx.font = "11px sans-serif"; ctx.textAlign = "right";
+    ctx.fillText(v, pad.left - 6, yPos(v) + 4);
+  });
+
+  // Line
+  ctx.strokeStyle = "#1a5f2a"; ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  elos.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
+  ctx.stroke();
+
+  // Dots + date labels
+  elos.forEach((v, i) => {
+    ctx.fillStyle = "#1a5f2a";
+    ctx.beginPath(); ctx.arc(xPos(i), yPos(v), 4, 0, Math.PI * 2); ctx.fill();
+
+    // date label on x-axis
+    ctx.fillStyle = "#777"; ctx.font = "10px sans-serif"; ctx.textAlign = "center";
+    const d = labels[i].slice(5); // MM-DD
+    ctx.fillText(d, xPos(i), H - pad.bottom + 14);
+  });
+
+  // 1500 baseline
+  ctx.strokeStyle = "#bbb"; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+  if (1500 >= minElo && 1500 <= maxElo) {
+    ctx.beginPath(); ctx.moveTo(pad.left, yPos(1500)); ctx.lineTo(W - pad.right, yPos(1500)); ctx.stroke();
+  }
+  ctx.setLineDash([]);
+})();
+</script>
+
+<footer>
+  A Khaykin and Kane production.
+  Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+  ELO ratings are model estimates, not official standings.
+</footer>
+</body>
+</html>

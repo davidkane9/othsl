@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/raw/
+data/all_results.csv
+data/elo_history.csv
+data/refresh.log
