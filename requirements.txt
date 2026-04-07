@@ -1,0 +1,4 @@
+flask
+frozen-flask
+beautifulsoup4
+undetected-chromedriver

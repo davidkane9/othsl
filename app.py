@@ -16,7 +16,7 @@ app = Flask(__name__)
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 TEAM = "Irish Village"
 AGE_GROUP = "Over 55"
-CURRENT_SEASON = "Fall 2025"  # update each season
+CURRENT_SEASON = "Spring 2026"  # update each season
 
 
 def load_csv(path):
