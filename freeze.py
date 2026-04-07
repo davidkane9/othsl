@@ -9,9 +9,8 @@ Usage:
 """
 
 import os
-import shutil
 from flask_frozen import Freezer
-from app import app
+from app import app, get_team_catalog
 
 # Output directory — GitHub Pages serves from docs/ on main branch
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
@@ -21,6 +20,12 @@ app.config["FREEZER_RELATIVE_URLS"] = True
 app.config["FREEZER_REMOVE_EXTRA_FILES"] = True
 
 freezer = Freezer(app)
+
+
+@freezer.register_generator
+def team_page():
+    for item in get_team_catalog():
+        yield {"team_slug": item["slug"]}
 
 if __name__ == "__main__":
     print(f"Freezing site to {DOCS_DIR} ...")

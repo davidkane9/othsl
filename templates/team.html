@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ team_info.team }} | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --draw: #7d6d50;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .topbar {
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .topbar a {
+    text-decoration: none;
+  }
+
+  .hero {
+    padding: 34px;
+    border-radius: 28px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .hero h1 {
+    margin: 10px 0 10px;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .hero p {
+    margin: 0;
+    color: rgba(247, 242, 232, 0.8);
+    font-size: 1rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .chip {
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.9rem;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .metric {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    color: rgba(247, 242, 232, 0.66);
+  }
+
+  .metric .value {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .section {
+    margin-top: 22px;
+    padding: 26px;
+    border-radius: 24px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .section-title h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 18px;
+  }
+
+  .panel,
+  .chart-card {
+    padding: 22px;
+    border-radius: 22px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+  }
+
+  .chart-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .chart-range {
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(35, 68, 43, 0.06);
+    color: var(--field);
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+
+  .chart-range:hover {
+    transform: translateY(-1px);
+  }
+
+  .chart-range.is-active {
+    background: var(--field);
+    color: #f9f4ea;
+  }
+
+  .chart-note {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .panel h3 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  th {
+    padding: 11px 10px;
+    text-align: left;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(38, 61, 41, 0.08);
+  }
+
+  tbody tr:hover td {
+    background: rgba(35, 68, 43, 0.04);
+  }
+
+  tr.highlight td {
+    background: rgba(35, 68, 43, 0.08);
+    font-weight: 700;
+  }
+
+  .result-pill {
+    display: inline-flex;
+    min-width: 34px;
+    justify-content: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .W { color: var(--win); }
+  .L, .F { color: var(--loss); }
+  .T { color: var(--draw); }
+
+  .result-pill.W { background: rgba(35, 119, 68, 0.12); }
+  .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
+  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+
+  #elo-chart {
+    width: 100%;
+    height: 240px;
+    display: block;
+    margin-top: 10px;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  @media (max-width: 960px) {
+    .metrics,
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      width: min(100% - 20px, 1180px);
+      padding-top: 14px;
+    }
+
+    .hero,
+    .section {
+      padding: 20px;
+      border-radius: 22px;
+    }
+
+    .metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar"><a class="page-link" href="{{ url_for('index') }}">Back to homepage</a></div>
+
+    <section class="hero">
+      <p>{{ season }}</p>
+      <h1>{{ team_info.team }}</h1>
+      <p>{{ team_info.age_group }} Division {{ team_info.division }} {{ team_info.geography }}</p>
+
+      <div class="chips">
+        {% if current_elo %}
+        <span class="chip">ELO {{ "%.0f"|format(current_elo) }}</span>
+        {% endif %}
+        {% if team_info.standing %}
+        <span class="chip">Current place: {{ team_info.standing }}</span>
+        {% endif %}
+        <span class="chip">Record {{ record.w }}-{{ record.l }}-{{ record.t }}</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="label">Games</span>
+          <div class="value">{{ games|length }}</div>
+        </div>
+        <div class="metric">
+          <span class="label">Wins</span>
+          <div class="value">{{ record.w }}</div>
+        </div>
+        <div class="metric">
+          <span class="label">Losses</span>
+          <div class="value">{{ record.l }}</div>
+        </div>
+        <div class="metric">
+          <span class="label">Draws</span>
+          <div class="value">{{ record.t }}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Team Snapshot</h2>
+          <p>Current results, standings context, and ELO trend for this selected team.</p>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div class="panel">
+          <h3>Results</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>H/A</th>
+                <th>Opponent</th>
+                <th>Score</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for g in games %}
+              <tr>
+                <td>{{ g.date }}</td>
+                <td>{{ g.venue }}</td>
+                <td>{{ g.opponent }}</td>
+                <td>
+                  {{ g.score }}
+                  {% if g.notes %}
+                  <span class="note">({{ g.notes }})</span>
+                  {% endif %}
+                </td>
+                <td><span class="result-pill {{ g.result }}">{{ g.result }}</span></td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="5" class="note">No results yet.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h3>Flight Standings</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>GP</th>
+                <th>Pts</th>
+                <th>GD</th>
+                <th>PPG</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in standings %}
+              <tr{% if row.is_selected %} class="highlight"{% endif %}>
+                <td>{{ row.team }}</td>
+                <td>{{ row.gp }}</td>
+                <td>{{ row.pts }}</td>
+                <td>{{ "%+d"|format(row.gd) }}</td>
+                <td>{{ "%.2f"|format(row.ppg) }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-card" style="margin-top:18px">
+        <div class="section-title">
+          <div>
+            <h2 style="font-size:1.25rem">ELO Trend</h2>
+            <p>Current form at a glance, with range controls modeled after a stock chart view.</p>
+          </div>
+        </div>
+        <div class="chart-toolbar">
+          {% for option in elo_range_options %}
+          <button
+            class="chart-range{% if loop.first %} is-active{% endif %}"
+            type="button"
+            data-range="{{ option.value }}"
+          >{{ option.label }}</button>
+          {% endfor %}
+        </div>
+        <div id="chart-note" class="chart-note">
+          Showing {{ elo_range_options[0].label|lower }} for {{ team_info.team }} in {{ team_info.age_group }}.
+        </div>
+        <canvas id="elo-chart"></canvas>
+      </div>
+    </section>
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+    </footer>
+  </main>
+
+<script>
+const eloData = {{ elo_history | tojson }};
+const currentSeason = {{ season | tojson }};
+const eloSeasons = {{ elo_seasons | tojson }};
+
+(function() {
+  const canvas = document.getElementById("elo-chart");
+  const ctx = canvas.getContext("2d");
+  const card = canvas.parentElement;
+  const rangeButtons = Array.from(document.querySelectorAll(".chart-range"));
+  const chartNote = document.getElementById("chart-note");
+  const pageLinks = Array.from(document.querySelectorAll(".page-link"));
+
+  function filterHistory(range) {
+    if (range === "current") {
+      return eloData.filter((point) => point.season === currentSeason);
+    }
+
+    if (range === "5") {
+      const seasons = eloSeasons.slice(-5);
+      return eloData.filter((point) => seasons.includes(point.season));
+    }
+
+    return eloData;
+  }
+
+  function rangeLabel(range) {
+    if (range === "current") return "this season";
+    if (range === "5") return "the past 5 seasons";
+    return "all seasons";
+  }
+
+  function draw(range) {
+    const activeData = filterHistory(range);
+    canvas.width = card.clientWidth;
+    canvas.height = 240;
+
+    const W = canvas.width;
+    const H = canvas.height;
+    const pad = { top: 20, bottom: 34, left: 54, right: 20 };
+
+    ctx.clearRect(0, 0, W, H);
+
+    if (activeData.length < 2) {
+      ctx.fillStyle = "#5f695f";
+      ctx.font = "16px Georgia";
+      ctx.fillText("Not enough ELO history yet.", 20, 120);
+      return;
+    }
+
+    const elos = activeData.map((d) => d.elo);
+    const minElo = Math.min(...elos) - 15;
+    const maxElo = Math.max(...elos) + 15;
+
+    function xPos(i) {
+      return pad.left + (i / (elos.length - 1)) * (W - pad.left - pad.right);
+    }
+
+    function yPos(v) {
+      return pad.top + (1 - (v - minElo) / (maxElo - minElo || 1)) * (H - pad.top - pad.bottom);
+    }
+
+    ctx.strokeStyle = "rgba(35, 68, 43, 0.12)";
+    ctx.lineWidth = 1;
+
+    const tickCount = 4;
+    for (let i = 0; i <= tickCount; i += 1) {
+      const value = minElo + ((maxElo - minElo) * i / tickCount);
+      const y = yPos(value);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(W - pad.right, y);
+      ctx.stroke();
+
+      ctx.fillStyle = "#5f695f";
+      ctx.font = "11px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText(Math.round(value), pad.left - 8, y + 4);
+    }
+
+    if (1500 >= minElo && 1500 <= maxElo) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(198, 138, 43, 0.9)";
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(pad.left, yPos(1500));
+      ctx.lineTo(W - pad.right, yPos(1500));
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    const gradient = ctx.createLinearGradient(0, pad.top, 0, H - pad.bottom);
+    gradient.addColorStop(0, "rgba(35, 68, 43, 0.3)");
+    gradient.addColorStop(1, "rgba(35, 68, 43, 0.02)");
+
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), H - pad.bottom);
+    elos.forEach((value, i) => {
+      const x = xPos(i);
+      const y = yPos(value);
+      if (i === 0) {
+        ctx.lineTo(x, y);
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+    ctx.lineTo(xPos(elos.length - 1), H - pad.bottom);
+    ctx.closePath();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    let segmentOpen = false;
+    ctx.beginPath();
+    activeData.forEach((point, i) => {
+      const value = point.elo;
+      const x = xPos(i);
+      const y = yPos(value);
+      const previous = i > 0 ? activeData[i - 1] : null;
+      const sameSeasonAsPrevious = previous && previous.season === point.season;
+
+      if (!segmentOpen || !sameSeasonAsPrevious) {
+        ctx.moveTo(x, y);
+        segmentOpen = true;
+      } else {
+        ctx.lineTo(x, y);
+      }
+    });
+    ctx.strokeStyle = "#23442b";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    const tickIndexes = [];
+    const desiredTickCount = Math.min(6, activeData.length);
+    for (let i = 0; i < desiredTickCount; i += 1) {
+      tickIndexes.push(Math.round((i * (activeData.length - 1)) / Math.max(desiredTickCount - 1, 1)));
+    }
+
+    activeData.forEach((point, i) => {
+      const value = point.elo;
+      const x = xPos(i);
+      const y = yPos(value);
+
+      ctx.fillStyle = "#f9f4ea";
+      ctx.beginPath();
+      ctx.arc(x, y, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#23442b";
+      ctx.beginPath();
+      ctx.arc(x, y, 3.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#5f695f";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "center";
+      if (tickIndexes.includes(i)) {
+        const label = range === "current"
+          ? point.date.slice(5, 7)
+          : point.season.split(" ")[1];
+        ctx.fillText(label, x, H - 12);
+      }
+    });
+  }
+
+  let activeRange = "current";
+
+  function updateRange(range) {
+    activeRange = range;
+    rangeButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.range === range);
+    });
+    chartNote.textContent = `Showing ${rangeLabel(range)} for {{ team_info.team }} in {{ team_info.age_group }}.`;
+    draw(range);
+  }
+
+  rangeButtons.forEach((button) => {
+    button.addEventListener("click", () => updateRange(button.dataset.range));
+  });
+
+  pageLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      document.body.classList.add("is-leaving");
+      const destination = link.getAttribute("href");
+      window.setTimeout(() => {
+        window.location.href = destination;
+      }, 180);
+    });
+  });
+
+  updateRange(activeRange);
+  window.addEventListener("resize", () => draw(activeRange));
+})();
+</script>
+</body>
+</html>

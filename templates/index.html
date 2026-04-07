@@ -3,152 +3,707 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ team }} — OTHSL</title>
+<title>OTHSL | {{ season }}</title>
 <style>
-  body { font-family: Georgia, serif; max-width: 860px; margin: 40px auto; padding: 0 20px; color: #222; background: #fafafa; }
-  h1 { font-size: 1.8em; margin-bottom: 4px; }
-  h2 { font-size: 1.2em; border-bottom: 2px solid #ccc; padding-bottom: 6px; margin-top: 36px; }
-  .meta { color: #666; margin-bottom: 28px; font-size: 0.95em; }
-  .record { font-size: 1.1em; margin-bottom: 6px; }
-  .elo-badge { display: inline-block; background: #1a5f2a; color: #fff; border-radius: 6px; padding: 4px 14px; font-size: 1.1em; margin-bottom: 20px; }
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --field-2: #6f8f63;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
 
-  table { border-collapse: collapse; width: 100%; font-size: 0.93em; }
-  th { background: #eee; text-align: left; padding: 7px 10px; }
-  td { padding: 6px 10px; border-bottom: 1px solid #e0e0e0; }
-  tr.highlight td { background: #e8f4ec; font-weight: bold; }
-  tr:hover td { background: #f5f5f5; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
 
-  .W { color: #1a7a1a; font-weight: bold; }
-  .L { color: #b00; font-weight: bold; }
-  .T { color: #555; }
-  .F { color: #888; }
+  a { color: inherit; text-decoration: none; }
 
-  #elo-chart { width: 100%; height: 220px; margin-top: 12px; }
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
 
-  footer { margin-top: 60px; font-size: 0.8em; color: #999; border-top: 1px solid #ddd; padding-top: 12px; }
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 36px;
+    border-radius: 30px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -50px -120px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 26px;
+    align-items: end;
+    margin-top: 16px;
+  }
+
+  .hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .hero p {
+    margin: 0;
+    max-width: 58ch;
+    color: rgba(247, 242, 232, 0.82);
+    line-height: 1.65;
+    font-size: 1.03rem;
+  }
+
+  .hero-meta {
+    margin-top: 18px;
+    color: rgba(247, 242, 232, 0.72);
+    font-size: 0.95rem;
+  }
+
+  .hero-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hero-card {
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .hero-card .label {
+    color: rgba(247, 242, 232, 0.64);
+  }
+
+  .hero-card .value {
+    font-size: 1.95rem;
+    line-height: 1;
+  }
+
+  .hero-card .sub {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: rgba(247, 242, 232, 0.72);
+  }
+
+  .section {
+    margin-top: 26px;
+    padding: 28px;
+    border-radius: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .section-title h2 {
+    margin: 0;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .selector-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .selector-grid {
+    grid-template-columns: 1.05fr 1fr;
+  }
+
+  .selector-panel,
+  .summary-panel {
+    padding: 22px;
+    border-radius: 22px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+  }
+
+  .selector-panel h3,
+  .summary-panel h3 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+  }
+
+  .field select:disabled {
+    background: #f1ecdf;
+    color: #8a8f84;
+  }
+
+  .selector-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .button:disabled {
+    cursor: not-allowed;
+    background: #90a08f;
+  }
+
+  .button.alt {
+    background: rgba(35, 68, 43, 0.08);
+    color: var(--field);
+  }
+
+  .summary-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .summary-stat {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(35, 68, 43, 0.06), rgba(198, 138, 43, 0.08));
+    border: 1px solid var(--line);
+  }
+
+  .summary-stat .value {
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+
+  .age-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .age-tag {
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: rgba(35, 68, 43, 0.08);
+    color: var(--field);
+    font-size: 0.92rem;
+  }
+
+  .table-shell {
+    overflow: hidden;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .league-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 820px;
+  }
+
+  .league-table th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.77rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: rgba(35, 68, 43, 0.04);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .league-table td {
+    padding: 14px;
+    border-bottom: 1px solid rgba(38, 61, 41, 0.08);
+    vertical-align: top;
+  }
+
+  .league-table tbody tr:hover td {
+    background: rgba(35, 68, 43, 0.04);
+  }
+
+  .flight-name {
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  .flight-sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .leader-name {
+    color: var(--field);
+    font-weight: 700;
+  }
+
+  .leader-sub {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .mono-stat {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid,
+    .selector-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      width: min(100% - 20px, 1180px);
+      padding-top: 14px;
+    }
+
+    .hero,
+    .section {
+      padding: 20px;
+      border-radius: 22px;
+    }
+
+    .hero-cards,
+    .field-grid,
+    .summary-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
 </style>
 </head>
 <body>
+  <main class="page">
+    <section class="hero">
+      <span class="eyebrow">OTHSL Match Intelligence</span>
+      <div class="hero-grid">
+        <div>
+          <h1>{{ season }}</h1>
+          <p>
+            League standings, team pages, and model-driven views for the current season,
+            organized around a cleaner public homepage instead of a single default team.
+          </p>
+          <div class="hero-meta">
+            Latest update{% if league_overview.latest_date %}: {{ league_overview.latest_date }}{% endif %}
+          </div>
+        </div>
+        <div class="hero-cards">
+          <div class="hero-card">
+            <span class="label">Teams</span>
+            <div class="value">{{ league_overview.team_count }}</div>
+            <div class="sub">Active in the Spring 2026 dataset</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Flights</span>
+            <div class="value">{{ league_overview.flight_count }}</div>
+            <div class="sub">Age group, division, and geography combinations</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Games</span>
+            <div class="value">{{ league_overview.completed_count }}</div>
+            <div class="sub">Completed results currently loaded</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Coverage</span>
+            <div class="value">{{ selector_data.age_groups|length }}</div>
+            <div class="sub">Age-group ladders available to explore</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<h1>{{ team }}</h1>
-<div class="meta">{{ season }} &nbsp;·&nbsp; Over {{ age_group.split()[1] }} Division {{ division }} {{ geography }}</div>
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Choose A Team</h2>
+          <p>Start with an age group, narrow to a flight, and open the team page you want.</p>
+        </div>
+      </div>
 
-<div class="record">Record: <strong>{{ record.w }}-{{ record.l }}-{{ record.t }}</strong></div>
-{% if current_elo %}
-<div class="elo-badge">ELO: {{ "%.0f"|format(current_elo) }}</div>
-{% endif %}
+      <div class="selector-grid">
+        <div class="selector-panel">
+          <h3>Team Selector</h3>
+          <p class="note">The selector builds only valid combinations from the current season data.</p>
 
-<h2>Results</h2>
-<table>
-  <thead>
-    <tr><th>Date</th><th>H/A</th><th>Opponent</th><th>Score</th><th>Result</th></tr>
-  </thead>
-  <tbody>
-    {% for g in games %}
-    <tr>
-      <td>{{ g.date }}</td>
-      <td>{{ g.venue }}</td>
-      <td>{{ g.opponent }}</td>
-      <td>{{ g.score }}{% if g.notes %} <span style="color:#999;font-size:0.85em">({{ g.notes }})</span>{% endif %}</td>
-      <td class="{{ g.result }}">{{ g.result }}</td>
-    </tr>
-    {% else %}
-    <tr><td colspan="5" style="color:#999">No results yet.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+          <form id="team-selector">
+            <div class="field-grid">
+              <label class="field">
+                <span class="label">Age Group</span>
+                <select id="age-group-select">
+                  <option value="">Choose age group</option>
+                  {% for age_group in selector_data.age_groups %}
+                  <option value="{{ age_group }}">{{ age_group }}</option>
+                  {% endfor %}
+                </select>
+              </label>
 
-<h2>Flight Standings — {{ age_group }} Div {{ division }} {{ geography }}</h2>
-<table>
-  <thead>
-    <tr><th>Team</th><th>GP</th><th>W</th><th>L</th><th>T</th><th>Pts</th><th>GF</th><th>GA</th><th>GD</th><th>PPG</th></tr>
-  </thead>
-  <tbody>
-    {% for row in standings %}
-    <tr{% if row.is_iv %} class="highlight"{% endif %}>
-      <td>{{ row.team }}</td>
-      <td>{{ row.gp }}</td>
-      <td>{{ row.w }}</td>
-      <td>{{ row.l }}</td>
-      <td>{{ row.t }}</td>
-      <td>{{ row.pts }}</td>
-      <td>{{ row.gf }}</td>
-      <td>{{ row.ga }}</td>
-      <td>{{ "%+d"|format(row.gd) }}</td>
-      <td>{{ "%.2f"|format(row.ppg) }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+              <label class="field">
+                <span class="label">Division</span>
+                <select id="division-select" disabled>
+                  <option value="">Choose division</option>
+                </select>
+              </label>
 
-<h2>ELO Rating — {{ season }}</h2>
-<canvas id="elo-chart"></canvas>
+              <label class="field">
+                <span class="label">Geography</span>
+                <select id="geography-select" disabled>
+                  <option value="">Choose geography</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="label">Team</span>
+                <select id="team-select" disabled>
+                  <option value="">Choose team</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="selector-actions">
+              <button id="open-team-button" class="button" type="submit" disabled>Open Team Page</button>
+              <button id="reset-selector-button" class="button alt" type="button">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="summary-panel">
+          <h3>Season Scope</h3>
+          <p class="note">
+            Spring 2026 currently spans {{ league_overview.team_count }} teams across
+            {{ league_overview.flight_count }} active flights. Use the selector to jump straight
+            to a team page, or scan the full league table below.
+          </p>
+
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <span class="label">Tracked Teams</span>
+              <div class="value">{{ league_overview.team_count }}</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Completed Games</span>
+              <div class="value">{{ league_overview.completed_count }}</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Flights</span>
+              <div class="value">{{ league_overview.flight_count }}</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Latest Date</span>
+              <div class="value" style="font-size:1.2rem">{{ league_overview.latest_date or "N/A" }}</div>
+            </div>
+          </div>
+
+          <div class="age-tags">
+            {% for label in league_overview.age_groups %}
+            <span class="age-tag">{{ label }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Flight Directory</h2>
+          <p>Browse every current flight to see league structure, participation, and who sits on top right now.</p>
+        </div>
+      </div>
+
+      <div class="table-shell">
+        <div class="table-wrap">
+          <table class="league-table">
+            <thead>
+              <tr>
+                <th>Flight</th>
+                <th>Age Group</th>
+                <th>Division</th>
+                <th>Geography</th>
+                <th>Teams</th>
+                <th>Games</th>
+                <th>Current Leader</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for flight in flight_cards %}
+              <tr>
+                <td>
+                  <div class="flight-name">{{ flight.label }}</div>
+                  <div class="flight-sub">{{ flight.team_count }} teams · {{ flight.game_count }} recorded games</div>
+                </td>
+                <td>{{ flight.age_group }}</td>
+                <td class="mono-stat">{{ flight.division }}</td>
+                <td>{{ flight.geography }}</td>
+                <td class="mono-stat">{{ flight.team_count }}</td>
+                <td class="mono-stat">{{ flight.game_count }}</td>
+                <td>
+                  <div class="leader-name">{{ flight.leader or "TBD" }}</div>
+                  <div class="leader-sub">Top of {{ flight.age_group }} Division {{ flight.division }} {{ flight.geography }}</div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+    </footer>
+  </main>
 
 <script>
-const eloData = {{ elo_history | tojson }};
+const selectorData = {{ selector_data | tojson }};
 
 (function() {
-  const canvas = document.getElementById("elo-chart");
-  const ctx = canvas.getContext("2d");
-  canvas.width = canvas.offsetWidth;
-  canvas.height = 220;
+  const ageSelect = document.getElementById("age-group-select");
+  const divisionSelect = document.getElementById("division-select");
+  const geographySelect = document.getElementById("geography-select");
+  const teamSelect = document.getElementById("team-select");
+  const openButton = document.getElementById("open-team-button");
+  const resetButton = document.getElementById("reset-selector-button");
+  const form = document.getElementById("team-selector");
 
-  if (eloData.length < 2) {
-    ctx.fillStyle = "#999";
-    ctx.font = "14px Georgia";
-    ctx.fillText("Not enough data yet.", 20, 110);
-    return;
+  function setOptions(select, options, placeholder) {
+    select.innerHTML = "";
+    const placeholderOption = document.createElement("option");
+    placeholderOption.value = "";
+    placeholderOption.textContent = placeholder;
+    select.appendChild(placeholderOption);
+
+    options.forEach((option) => {
+      const element = document.createElement("option");
+      if (typeof option === "string") {
+        element.value = option;
+        element.textContent = option;
+      } else {
+        element.value = option.value;
+        element.textContent = option.label;
+        if (option.path) {
+          element.dataset.path = option.path;
+        }
+      }
+      select.appendChild(element);
+    });
   }
 
-  const elos = eloData.map(d => d.elo);
-  const labels = eloData.map(d => d.date);
-  const minElo = Math.min(...elos) - 20;
-  const maxElo = Math.max(...elos) + 20;
-  const W = canvas.width, H = canvas.height;
-  const pad = { top: 20, bottom: 30, left: 55, right: 20 };
-
-  function xPos(i) { return pad.left + (i / (elos.length - 1)) * (W - pad.left - pad.right); }
-  function yPos(v) { return pad.top + (1 - (v - minElo) / (maxElo - minElo)) * (H - pad.top - pad.bottom); }
-
-  // Grid lines
-  ctx.strokeStyle = "#e0e0e0"; ctx.lineWidth = 1;
-  [1450, 1500, 1520, 1540, 1560].forEach(v => {
-    if (v < minElo || v > maxElo) return;
-    ctx.beginPath(); ctx.moveTo(pad.left, yPos(v)); ctx.lineTo(W - pad.right, yPos(v)); ctx.stroke();
-    ctx.fillStyle = "#aaa"; ctx.font = "11px sans-serif"; ctx.textAlign = "right";
-    ctx.fillText(v, pad.left - 6, yPos(v) + 4);
-  });
-
-  // Line
-  ctx.strokeStyle = "#1a5f2a"; ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  elos.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
-  ctx.stroke();
-
-  // Dots + date labels
-  elos.forEach((v, i) => {
-    ctx.fillStyle = "#1a5f2a";
-    ctx.beginPath(); ctx.arc(xPos(i), yPos(v), 4, 0, Math.PI * 2); ctx.fill();
-
-    // date label on x-axis
-    ctx.fillStyle = "#777"; ctx.font = "10px sans-serif"; ctx.textAlign = "center";
-    const d = labels[i].slice(5); // MM-DD
-    ctx.fillText(d, xPos(i), H - pad.bottom + 14);
-  });
-
-  // 1500 baseline
-  ctx.strokeStyle = "#bbb"; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-  if (1500 >= minElo && 1500 <= maxElo) {
-    ctx.beginPath(); ctx.moveTo(pad.left, yPos(1500)); ctx.lineTo(W - pad.right, yPos(1500)); ctx.stroke();
+  function resetTeams() {
+    setOptions(teamSelect, [], "Choose team");
+    teamSelect.disabled = true;
+    openButton.disabled = true;
   }
-  ctx.setLineDash([]);
+
+  function resetGeography() {
+    setOptions(geographySelect, [], "Choose geography");
+    geographySelect.disabled = true;
+    resetTeams();
+  }
+
+  function resetDivisions() {
+    setOptions(divisionSelect, [], "Choose division");
+    divisionSelect.disabled = true;
+    resetGeography();
+  }
+
+  ageSelect.addEventListener("change", () => {
+    const age = ageSelect.value;
+    resetDivisions();
+    if (!age) return;
+
+    const flights = selectorData.flights_by_age[age] || [];
+    const divisionOptions = flights.map((flight) => ({
+      value: flight.division,
+      label: `Division ${flight.division}`,
+    }));
+    const uniqueDivisions = Array.from(new Map(divisionOptions.map((item) => [item.value, item])).values());
+    setOptions(divisionSelect, uniqueDivisions, "Choose division");
+    divisionSelect.disabled = false;
+  });
+
+  divisionSelect.addEventListener("change", () => {
+    const age = ageSelect.value;
+    const division = divisionSelect.value;
+    resetGeography();
+    if (!age || !division) return;
+
+    const flights = (selectorData.flights_by_age[age] || []).filter((flight) => flight.division === division);
+    const geographyOptions = flights.map((flight) => ({
+      value: flight.geography,
+      label: flight.geography,
+    }));
+    setOptions(geographySelect, geographyOptions, "Choose geography");
+    geographySelect.disabled = false;
+  });
+
+  geographySelect.addEventListener("change", () => {
+    const key = [ageSelect.value, divisionSelect.value, geographySelect.value].join("|");
+    resetTeams();
+    if (!ageSelect.value || !divisionSelect.value || !geographySelect.value) return;
+
+    const teams = selectorData.teams_by_flight[key] || [];
+    const teamOptions = teams.map((team) => ({
+      value: team.slug,
+      label: team.name,
+      path: team.path,
+    }));
+    setOptions(teamSelect, teamOptions, "Choose team");
+    teamSelect.disabled = false;
+  });
+
+  teamSelect.addEventListener("change", () => {
+    const selectedOption = teamSelect.options[teamSelect.selectedIndex];
+    openButton.disabled = !selectedOption || !selectedOption.dataset.path;
+  });
+
+  resetButton.addEventListener("click", () => {
+    ageSelect.value = "";
+    resetDivisions();
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const selectedOption = teamSelect.options[teamSelect.selectedIndex];
+    if (!selectedOption || !selectedOption.dataset.path) return;
+    document.body.classList.add("is-leaving");
+    window.setTimeout(() => {
+      window.location.href = selectedOption.dataset.path;
+    }, 180);
+  });
 })();
 </script>
-
-<footer>
-  A Khaykin and Kane production.
-  Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
-  ELO ratings are model estimates, not official standings.
-</footer>
 </body>
 </html>
