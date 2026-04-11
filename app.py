@@ -272,6 +272,8 @@ def get_team_catalog():
         for team in (r["home_team"], r["away_team"]):
             if not team or team.strip().upper() == "TBD":
                 continue
+            if re.search(r'lost by forfeit', team, re.IGNORECASE):
+                continue
             key = (*flight, team)
             if key in catalog:
                 continue
@@ -515,6 +517,8 @@ def simulate_team_outlook(team_info, standings, rows):
                 name,
             ),
         )
+        if team_info["team"] not in ordered:
+            continue
         final_place = ordered.index(team_info["team"]) + 1
         position_counts[final_place] += 1
 

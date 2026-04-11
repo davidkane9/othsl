@@ -148,9 +148,11 @@ def parse_game_cell(cell_text):
             "notes": "double forfeit",
         }
 
-    # Forfeit: "Team 2 -- forfeit[NP] lost by forfeit Other Team"
+    # Forfeit: "Team 2 -- forfeit[NP] lost by forfeit [without card point penalties] Other Team"
+    # Note: whitespace is already normalized to single spaces, so \s{2,} never matches.
+    # Explicitly skip the "lost by forfeit [without card point penalties]" phrase.
     forfeit = re.search(
-        r"^(.+?)\s+(\d+)\s+--\s+(forfeit\S*)\s+lost by forfeit.*?\s{2,}(.+)$",
+        r"^(.+?)\s+(\d+)\s+--\s+(forfeit\S*)\s+lost by forfeit\S*(?:\s+without\s+card\s+point\s+penalties)?\s+(.+)$",
         text,
         re.IGNORECASE,
     )

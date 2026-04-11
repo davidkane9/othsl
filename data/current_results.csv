@@ -133,7 +133,7 @@ Spring 2026,Over 30,2,South,2026-04-04,Old Colony Rovers,1,3,Fernandes FC,
 Spring 2026,Over 30,2,South,2026-04-05,Needham United,6,0,Classicos F.C,
 Spring 2026,Over 30,2,South,2026-04-05,Medfield,2,2,PRAIA KAPITAL FC,
 Spring 2026,Over 30,2,South,2026-04-12,Classicos F.C,,,Old Colony Rovers,scheduled
-Spring 2026,Over 30,2,South,2026-04-12,Fernandes FC,2,forfeitNP,lost by forfeit without card point penalties Needham United,forfeit
+Spring 2026,Over 30,2,South,2026-04-12,Fernandes FC,2,forfeitNP,Needham United,forfeit
 Spring 2026,Over 30,2,South,2026-04-12,Rovers FC,,,Medfield,scheduled
 Spring 2026,Over 30,2,South,2026-04-12,PRAIA KAPITAL FC,,,Juventus USA,scheduled
 Spring 2026,Over 30,2,South,2026-04-19,Old Colony Rovers,,,Needham United,scheduled
@@ -172,7 +172,7 @@ Spring 2026,Over 30,2,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,2,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,2,South,2026-06-28,TBD,,,TBD,scheduled
 Spring 2026,Over 30,3,North,2026-04-05,Concord United,2,1,Marblehead,
-Spring 2026,Over 30,3,North,2026-04-05,Lynn Leones,2,forfeit,lost by forfeit Sporting Club Malden,forfeit
+Spring 2026,Over 30,3,North,2026-04-05,Lynn Leones,2,forfeit,Sporting Club Malden,forfeit
 Spring 2026,Over 30,3,North,2026-04-05,Sandy Pond Soccer Club,6,3,Rebels FC,
 Spring 2026,Over 30,3,North,2026-04-12,Nashua City,,,Concord United,scheduled
 Spring 2026,Over 30,3,North,2026-04-12,Marblehead,,,Lowell United,scheduled
@@ -301,7 +301,7 @@ Spring 2026,Over 40,1,North,2026-06-28,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,North,TBD,Shrewsbury,,,Peabody Sporting Club,scheduled
 Spring 2026,Over 40,1,North,TBD,P.A.C. Lowell,,,BPK United,scheduled
 Spring 2026,Over 40,1,South,2026-04-05,Criciuma Boston,0,1,United International,
-Spring 2026,Over 40,1,South,2026-04-05,Stellar FC,2,forfeitNP,lost by forfeit without card point penalties Kel Kau Masters,forfeit
+Spring 2026,Over 40,1,South,2026-04-05,Stellar FC,2,forfeitNP,Kel Kau Masters,forfeit
 Spring 2026,Over 40,1,South,2026-04-05,FFM United,1,2,F C Bayern,
 Spring 2026,Over 40,1,South,2026-04-05,Ashland FC,1,1,Fernandes FC 40,
 Spring 2026,Over 40,1,South,2026-04-12,Kel Kau Masters,,,Criciuma Boston,scheduled
@@ -344,7 +344,7 @@ Spring 2026,Over 40,1,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,South,2026-06-28,TBD,,,TBD,scheduled
 Spring 2026,Over 40,2,North,2026-04-05,Kendall Wanderers,2,4,Melrose Wakefield Meadowlarks,
-Spring 2026,Over 40,2,North,2026-04-05,Os Amigos FC,2,forfeitNP,lost by forfeit without card point penalties DEA,forfeit
+Spring 2026,Over 40,2,North,2026-04-05,Os Amigos FC,2,forfeitNP,DEA,forfeit
 Spring 2026,Over 40,2,North,2026-04-05,Arlington Fossils,2,2,Seacoast United SC # review referee,
 Spring 2026,Over 40,2,North,2026-04-05,Charlestown FC,4,1,Marblehead,
 Spring 2026,Over 40,2,North,2026-04-12,DEA,,,Kendall Wanderers,scheduled
@@ -1312,7 +1312,7 @@ Spring 2026,Over 55,3,North,2026-06-14,MGG,,,Westford,scheduled
 Spring 2026,Over 55,3,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,3,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,3,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 55,3,North,TBD,MGG,2,forfeit,lost by forfeit Derry Eagles,forfeit
+Spring 2026,Over 55,3,North,TBD,MGG,2,forfeit,Derry Eagles,forfeit
 Spring 2026,Over 55,3,South,2026-03-29,Fernandes O55++,4,1,FC Franklin Seniors,
 Spring 2026,Over 55,3,South,2026-04-04,Warthog Legends,2,1,F.C. Westwood,
 Spring 2026,Over 55,3,South,2026-04-05,Western Mass Lusitanos,1,2,Arlington Pond Dawgz,
@@ -1466,7 +1466,7 @@ Spring 2026,Over 68,2,Central,2026-04-05,Burlington 0-68,3,2,Needham Relics,
 Spring 2026,Over 68,2,Central,2026-04-05,Exeter Seadogs,8,0,Londonderry FC,
 Spring 2026,Over 68,2,Central,2026-04-12,Needham Relics,,,Wayland Spirit,scheduled
 Spring 2026,Over 68,2,Central,2026-04-12,Wanderers,,,Burlington 0-68,scheduled
-Spring 2026,Over 68,2,Central,2026-04-12,Londonderry FC,2,forfeit,lost by forfeit Beverly,forfeit
+Spring 2026,Over 68,2,Central,2026-04-12,Londonderry FC,2,forfeit,Beverly,forfeit
 Spring 2026,Over 68,2,Central,2026-04-12,GRandOVER 68,,,Exeter Seadogs,scheduled
 Spring 2026,Over 68,2,Central,2026-04-19,Wayland Spirit,,,Burlington 0-68,scheduled
 Spring 2026,Over 68,2,Central,2026-04-19,Needham Relics,,,Wanderers,scheduled
