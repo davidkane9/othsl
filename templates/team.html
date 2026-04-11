@@ -1069,7 +1069,7 @@ function showPopup(e, teamName) {
 function movePopup(e) {
   const pw = 260, ph = 180, gap = 14;
   let left = e.clientX + gap;
-  let top  = e.clientY - ph - gap;
+  let top  = e.clientY - ph - 80;
   if (left + pw > window.innerWidth  - 8) left = e.clientX - pw - gap;
   if (top < 8) top = e.clientY + gap;
   popup.style.left = left + window.scrollX + "px";
