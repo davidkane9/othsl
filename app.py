@@ -95,6 +95,8 @@ def get_standings_for_flight(rows, age_group, division, geography, selected_team
 
         if "lost by forfeit" in ht.lower() or "lost by forfeit" in at.lower():
             continue
+        if ht.strip().upper() == "TBD" or at.strip().upper() == "TBD":
+            continue
 
         for team in (ht, at):
             if team not in stats:
@@ -268,6 +270,8 @@ def get_team_catalog():
     for r in rows:
         flight = (r["age_group"], r["division"], r["geography"])
         for team in (r["home_team"], r["away_team"]):
+            if not team or team.strip().upper() == "TBD":
+                continue
             key = (*flight, team)
             if key in catalog:
                 continue
@@ -440,6 +444,7 @@ def simulate_team_outlook(team_info, standings, rows):
     future_games = [
         r for r in flight_rows
         if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"])
+        and r["home_team"].strip().upper() != "TBD" and r["away_team"].strip().upper() != "TBD"
     ]
 
     teams = [row["team"] for row in standings]
@@ -449,8 +454,9 @@ def simulate_team_outlook(team_info, standings, rows):
     }
     position_counts = {place: 0 for place in range(1, len(teams) + 1)}
     latest_elos = get_latest_elo_map()
-    promotion_cut = 1
-    relegation_cut = 1 if len(teams) >= 4 else 0
+    promotion_cut = 2
+    n_teams = len(teams)
+    relegation_cut = 2 if n_teams >= 6 else (1 if n_teams >= 4 else 0)
 
     if not future_games:
         current_place = next((i + 1 for i, row in enumerate(standings) if row["is_selected"]), None)
@@ -521,7 +527,7 @@ def simulate_team_outlook(team_info, standings, rows):
         100 * sum(position_counts[p] for p in range(1, promotion_cut + 1)) / SIMULATION_RUNS, 1
     )
     relegation_probability = round(
-        100 * sum(position_counts[p] for p in range(len(teams) - relegation_cut + 1, len(teams) + 1)) / SIMULATION_RUNS,
+        100 * sum(position_counts[p] for p in range(n_teams - relegation_cut + 1, n_teams + 1)) / SIMULATION_RUNS,
         1,
     ) if relegation_cut else 0.0
     stay_probability = round(
@@ -536,6 +542,143 @@ def simulate_team_outlook(team_info, standings, rows):
         "relegation_probability": relegation_probability,
         "stay_probability": stay_probability,
         "summary": f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight.",
+    }
+
+
+def get_flight_team_cards(team_info, standings, rows):
+    """For each team in the flight return their slug + last 3 played games."""
+    age_group = team_info["age_group"]
+    division  = team_info["division"]
+    geography = team_info["geography"]
+
+    flight_rows = [
+        r for r in rows
+        if r["age_group"] == age_group
+        and r["division"] == division
+        and r["geography"] == geography
+    ]
+
+    team_catalog = get_team_catalog()
+    slug_map = {
+        item["team"]: item["slug"]
+        for item in team_catalog
+        if item["age_group"] == age_group
+        and item["division"] == division
+        and item["geography"] == geography
+    }
+
+    played = sorted(
+        [r for r in flight_rows if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])],
+        key=lambda r: r["date"],
+        reverse=True,
+    )
+
+    cards = {}
+    for row in standings:
+        team = row["team"]
+        recent = []
+        for r in played:
+            if r["home_team"] != team and r["away_team"] != team:
+                continue
+            is_home = r["home_team"] == team
+            opp = r["away_team"] if is_home else r["home_team"]
+            hg, ag = r["home_goals"], r["away_goals"]
+            if is_forfeit(hg) or is_forfeit(ag):
+                res   = "W" if (is_home and is_forfeit(ag)) or (not is_home and is_forfeit(hg)) else "L"
+                score = "F"
+            else:
+                hg_i, ag_i = int(hg), int(ag)
+                gf, ga = (hg_i, ag_i) if is_home else (ag_i, hg_i)
+                res   = "W" if gf > ga else ("L" if gf < ga else "T")
+                score = f"{gf}–{ga}"
+            recent.append({"date": r["date"], "opponent": opp,
+                           "venue": "H" if is_home else "A",
+                           "score": score, "result": res})
+            if len(recent) == 3:
+                break
+
+        cards[team] = {"slug": slug_map.get(team, ""), "recent": recent}
+
+    return cards
+
+
+def get_flight_sim_data(team_info, standings, rows):
+    """Return JSON-serializable data for the client-side JS simulation engine."""
+    age_group = team_info["age_group"]
+    division = team_info["division"]
+    geography = team_info["geography"]
+
+    flight_rows = [
+        r for r in rows
+        if r["age_group"] == age_group
+        and r["division"] == division
+        and r["geography"] == geography
+    ]
+
+    current_stats = {
+        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"]}
+        for row in standings
+    }
+
+    remaining = []
+    for r in flight_rows:
+        if (r["home_team"].strip().upper() == "TBD" or r["away_team"].strip().upper() == "TBD"):
+            continue
+        if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"]):
+            remaining.append({
+                "id": f"{r['date']}|{r['home_team']}|{r['away_team']}",
+                "home": r["home_team"],
+                "away": r["away_team"],
+                "date": r["date"],
+                "involves_team": team_info["team"] in (r["home_team"], r["away_team"]),
+            })
+
+    # Fallback: if no scheduled games were scraped, infer remaining round-robin matchups
+    schedule_inferred = False
+    if not remaining:
+        played_pairs: dict = {}
+        for r in flight_rows:
+            if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]):
+                key = tuple(sorted([r["home_team"], r["away_team"]]))
+                played_pairs[key] = played_pairs.get(key, 0) + 1
+
+        all_teams = list(current_stats.keys())
+        for i, home in enumerate(all_teams):
+            for j, away in enumerate(all_teams):
+                if i >= j:
+                    continue
+                key = tuple(sorted([home, away]))
+                times_played = played_pairs.get(key, 0)
+                # Assume double round-robin (2 meetings); add unplayed fixtures
+                for _ in range(max(0, 2 - times_played)):
+                    remaining.append({
+                        "id": f"inferred|{home}|{away}",
+                        "home": home,
+                        "away": away,
+                        "date": "TBD",
+                        "involves_team": team_info["team"] in (home, away),
+                    })
+        if remaining:
+            schedule_inferred = True
+
+    latest_elos = get_latest_elo_map()
+    current_elos = {
+        team: latest_elos.get((team, age_group), DEFAULT_ELO)
+        for team in current_stats
+    }
+
+    teams = [row["team"] for row in standings]
+    n = len(teams)
+    return {
+        "selected_team": team_info["team"],
+        "teams": teams,
+        "current_stats": current_stats,
+        "current_elos": current_elos,
+        "remaining_games": sorted(remaining, key=lambda g: g["date"]),
+        "promotion_cut": 2,
+        "relegation_cut": 2 if n >= 6 else (1 if n >= 4 else 0),
+        "total_teams": n,
+        "schedule_inferred": schedule_inferred,
     }
 
 
@@ -557,6 +700,8 @@ def get_team_page_context(team_slug):
     )
     elo_history = get_team_elo_history(team_info)
     simulation = simulate_team_outlook(team_info, standings, rows)
+    sim_data = get_flight_sim_data(team_info, standings, rows)
+    flight_team_cards = get_flight_team_cards(team_info, standings, rows)
 
     w = sum(1 for g in games if g["result"] == "W")
     l = sum(1 for g in games if g["result"] in ("L", "F"))
@@ -583,6 +728,8 @@ def get_team_page_context(team_slug):
         ],
         "elo_seasons": seasons_seen,
         "simulation": simulation,
+        "sim_data": sim_data,
+        "flight_team_cards": flight_team_cards,
         "record": {"w": w, "l": l, "t": t},
         "current_elo": current_elo,
     }

@@ -44,7 +44,7 @@ RESULT_FIELDS = [
     "date", "home_team", "home_goals", "away_goals", "away_team", "notes",
 ]
 
-INTER_REQUEST_DELAY = 8
+INTER_REQUEST_DELAY = 2
 
 
 def raw_path(lnd):

@@ -89,7 +89,7 @@ def make_driver():
     return uc.Chrome(options=options, headless=False, version_main=146)
 
 
-def fetch_page(driver, url, initial_wait=2, max_attempts=20):
+def fetch_page(driver, url, initial_wait=1, max_attempts=20):
     """
     Navigate to URL, wait for Cloudflare to clear, return HTML.
     Reuses an existing driver session so subsequent pages load faster.
@@ -97,7 +97,7 @@ def fetch_page(driver, url, initial_wait=2, max_attempts=20):
     """
     driver.get(url)
     for i in range(max_attempts):
-        time.sleep(initial_wait if i == 0 else 2)
+        time.sleep(initial_wait if i == 0 else 1)
         title = driver.title
         if "just a moment" not in title.lower():
             break
@@ -197,6 +197,27 @@ def parse_game_cell(cell_text):
     return None
 
 
+def parse_scheduled_game(first_line):
+    """
+    Parse a clean 'Team vs Team' line (no venue info).
+    Called with only the first line of a future-game cell.
+    """
+    text = re.sub(r"\s+", " ", first_line).strip().rstrip(" #")
+    vs_match = re.search(r"^(.+?)\s+vs\s+(.+)$", text, re.IGNORECASE)
+    if vs_match:
+        ht = vs_match.group(1).strip()
+        at = vs_match.group(2).strip()
+        if ht and at and "indicates" not in ht.lower():
+            return {
+                "home_team": ht,
+                "home_goals": "",
+                "away_goals": "",
+                "away_team": at,
+                "notes": "scheduled",
+            }
+    return None
+
+
 def parse_division_page(html, season_code, lnd):
     """
     Parse a division page, return list of game result dicts.
@@ -241,6 +262,13 @@ def parse_division_page(html, season_code, lnd):
             if "indicates that this result" in raw:
                 continue
             parsed = parse_game_cell(raw)
+            # For future games the cell has separate elements: ["Team A", "vs", "Team B", venue...]
+            # Join only the first 3 non-empty lines to get "Team A vs Team B"
+            if not parsed:
+                lines = [l.strip() for l in cell.get_text(separator="\n").split("\n") if l.strip()]
+                matchup = " ".join(lines[:3]) if len(lines) >= 3 else " ".join(lines)
+                if matchup:
+                    parsed = parse_scheduled_game(matchup)
             if parsed:
                 results.append(
                     {

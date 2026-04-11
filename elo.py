@@ -118,6 +118,9 @@ def rolling_elo(rows):
 
         if date == "TBD":
             continue
+        # Skip unplayed scheduled games (empty goals)
+        if hg == "" or ag == "":
+            continue
 
         hkey = (ht, age_group)
         akey = (at, age_group)
