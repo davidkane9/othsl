@@ -1056,7 +1056,7 @@ function showPopup(e, teamName) {
       const div = document.createElement("div");
       div.className = "pop-game";
       const c = g.result === "W" ? "var(--win)" : g.result === "L" ? "var(--loss)" : "var(--draw)";
-      div.innerHTML = `<span class="pop-opp">${g.venue} ${g.opponent}</span>
+      div.innerHTML = `<span class="pop-opp">${g.opponent}</span>
         <span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
       popGames.appendChild(div);
     });
