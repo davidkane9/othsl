@@ -340,7 +340,10 @@
   .flight-name {
     font-size: 1rem;
     color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
   }
+  a.flight-name:hover { color: var(--accent); text-decoration: underline; }
 
   .flight-sub {
     margin-top: 4px;
@@ -560,7 +563,7 @@
               {% for flight in flight_cards %}
               <tr>
                 <td>
-                  <div class="flight-name">{{ flight.label }}</div>
+                  <a href="flight/{{ flight.slug }}/" class="flight-name page-link">{{ flight.label }}</a>
                   <div class="flight-sub">{{ flight.team_count }} teams · {{ flight.game_count }} recorded games</div>
                 </td>
                 <td>{{ flight.age_group }}</td>

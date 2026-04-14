@@ -749,35 +749,7 @@ const WORKER_SRC = `
       };
     }
     self.postMessage({ type: 'team_stats', teamStats });
-
-    // ── Leverage pass: 300 sims per unresolved game ──────────────
-    const baseline = expectedPos(counts);
-    const LSIMS = 300;
-
-    for (const game of remainingGames) {
-      if (overrides[game.id] !== undefined) continue;
-
-      const homeOv = { ...overrides, [game.id]: 'home' };
-      const awayOv = { ...overrides, [game.id]: 'away' };
-      const hc = new Array(teams.length + 1).fill(0);
-      const ac = new Array(teams.length + 1).fill(0);
-
-      for (let i = 0; i < LSIMS; i++) {
-        hc[simOnce(teams, currentStats, currentElos, remainingGames, homeOv).indexOf(selectedTeam) + 1]++;
-        ac[simOnce(teams, currentStats, currentElos, remainingGames, awayOv).indexOf(selectedTeam) + 1]++;
-      }
-
-      const hp = expectedPos(hc), ap = expectedPos(ac);
-      const THR = 0.15; // minimum position-change to count as good/bad
-      self.postMessage({
-        type: 'leverage',
-        gameId: game.id,
-        home: hp < baseline - THR ? 'good' : hp > baseline + THR ? 'bad' : 'neutral',
-        away: ap < baseline - THR ? 'good' : ap > baseline + THR ? 'bad' : 'neutral',
-      });
-    }
-
-    self.postMessage({ type: 'leverage_done' });
+    self.postMessage({ type: 'done' });
   };
 `;
 
@@ -857,28 +829,9 @@ function importanceLabel(cls) {
 }
 
 // ── What-if grid ─────────────────────────────────────────────────
-const overrides  = {};
-const leverageMap = {};
-let   teamStats  = {};
+const overrides = {};
+let   teamStats = {};
 
-function outcomeImpact(game) {
-  if (game.involves_team) {
-    const weAreHome = game.home === selected_team;
-    return { home: weAreHome ? 'good' : 'bad', draw: 'neutral', away: weAreHome ? 'bad' : 'good' };
-  }
-  if (leverageMap[game.id]) {
-    return { home: leverageMap[game.id].home, draw: 'neutral', away: leverageMap[game.id].away };
-  }
-  const sp = teams.indexOf(selected_team);
-  const hp = teams.indexOf(game.home);
-  const ap = teams.indexOf(game.away);
-  function delta(winnerPos, loserPos) {
-    if (loserPos < sp && winnerPos >= sp) return 'good';
-    if (winnerPos < sp && loserPos >= sp) return 'bad';
-    return 'neutral';
-  }
-  return { home: delta(hp, ap), draw: 'neutral', away: delta(ap, hp) };
-}
 
 function renderGrid() {
   const el = document.getElementById("game-list");
@@ -924,26 +877,21 @@ function renderGrid() {
       const teamOv = ov === 'home' ? (isHome ? 'W' : 'L')
                    : ov === 'draw' ? 'D'
                    : ov === 'away' ? (isHome ? 'L' : 'W') : null;
-      const impact  = outcomeImpact(entry);
       const winVal  = isHome ? 'home' : 'away';
       const lossVal = isHome ? 'away' : 'home';
 
-      function bc(val, tRes) {
-        let c = 'o-btn';
-        if (teamOv === tRes) { c += ` sel-${tRes}`; }
-        else {
-          const imp = impact[val];
-          if (imp === 'good') c += ' hint-good';
-          if (imp === 'bad')  c += ' hint-bad';
-        }
-        return c;
+      function bc(tRes) {
+        if (teamOv === tRes) return `o-btn sel-${tRes}`;
+        if (tRes === 'W') return 'o-btn hint-good';
+        if (tRes === 'L') return 'o-btn hint-bad';
+        return 'o-btn';
       }
 
       html += `<td class="game-cell" data-gid="${entry.id}" data-home="${isHome ? 1 : 0}">`;
       html += `<div class="cell-opp">${opp}</div><div class="cell-btns">`;
-      html += `<button class="${bc(winVal,'W')}"  data-val="${winVal}">W</button>`;
-      html += `<button class="${bc('draw','D')}"  data-val="draw">D</button>`;
-      html += `<button class="${bc(lossVal,'L')}" data-val="${lossVal}">L</button>`;
+      html += `<button class="${bc('W')}" data-val="${winVal}">W</button>`;
+      html += `<button class="${bc('D')}" data-val="draw">D</button>`;
+      html += `<button class="${bc('L')}" data-val="${lossVal}">L</button>`;
       html += '</div></td>';
     }
 
@@ -1017,7 +965,6 @@ function updateUI(completed, counts) {
 
 function startSim() {
   if (worker) worker.terminate();
-  Object.keys(leverageMap).forEach(k => delete leverageMap[k]);
   elStatus.textContent = "Running simulation…";
   elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
 
@@ -1041,16 +988,12 @@ function startSim() {
     if (msg.type === 'progress') {
       updateUI(msg.completed, msg.counts);
       if (msg.done) {
-        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. Calculating leverage…`;
+        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
       }
     } else if (msg.type === 'team_stats') {
       teamStats = msg.teamStats;
-      renderGrid(); // populate Promo%/Rel%/Pos columns
-    } else if (msg.type === 'leverage') {
-      leverageMap[msg.gameId] = { home: msg.home, away: msg.away };
-      renderGrid(); // re-color buttons with leverage data
-    } else if (msg.type === 'leverage_done') {
-      elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+      renderGrid();
+    } else if (msg.type === 'done') {
       if (worker) { worker.terminate(); worker = null; }
     }
   };

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ label }} | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --surface: rgba(255,252,247,0.6);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --draw: #7d6d50;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+    --border: rgba(38,61,41,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .back-link { font-size: .85rem; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+
+  .page-header { margin: 18px 0 32px; }
+  .page-header h1 { margin: 0 0 4px; font-size: 1.9rem; }
+  .page-header .sub { color: var(--muted); font-size: .95rem; }
+
+  .section { margin-bottom: 32px; }
+  .section-title { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
+  .section-title h2 { margin: 0; font-size: 1.2rem; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Standings table */
+  .standings-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .standings-table th {
+    text-align: left; padding: 5px 10px; font-size: .78rem; color: var(--muted);
+    border-bottom: 2px solid var(--line); font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .standings-table th.num { text-align: right; }
+  .standings-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .standings-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .standings-table tr:last-child td { border-bottom: none; }
+  .standings-table .pos { width: 28px; color: var(--muted); font-size: .8rem; }
+  .standings-table .promo-row td:first-child { border-left: 3px solid var(--win); }
+  .standings-table .relg-row td:first-child { border-left: 3px solid var(--loss); }
+  .gd-pos { color: var(--win); }
+  .gd-neg { color: var(--loss); }
+
+  /* Simulation header */
+  .sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sim-status { color: var(--muted); font-size: .88rem; }
+  .sim-counter { font-size: .88rem; font-variant-numeric: tabular-nums; }
+  .reset-btn {
+    padding: 5px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; font: inherit; font-size: .82rem; cursor: pointer; color: var(--muted);
+  }
+  .reset-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+
+  /* What-if table */
+  .whatif-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .whatif-table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  .whatif-table thead th {
+    background: var(--surface); padding: 6px 8px; text-align: center; white-space: nowrap;
+    border-bottom: 2px solid var(--line); font-weight: 600; font-size: .78rem; color: var(--muted);
+  }
+  .whatif-table thead th.col-team { text-align: left; }
+  .whatif-table td { padding: 5px 6px; text-align: center; border-bottom: 1px solid rgba(38,61,41,.07); vertical-align: middle; }
+  .whatif-table td.col-team { text-align: left; font-weight: 600; white-space: nowrap; padding-right: 14px; font-size: .82rem; }
+  .whatif-table tr:last-child td { border-bottom: none; }
+  .no-game { color: var(--muted); font-size: .78rem; }
+  .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+  .cell-btns { display: flex; gap: 2px; justify-content: center; }
+  .o-btn {
+    padding: 2px 6px; font-size: .73rem; border: 1px solid var(--line); border-radius: 4px;
+    cursor: pointer; background: transparent; color: var(--muted); transition: all .1s;
+  }
+  .o-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+  .o-btn.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .o-btn.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .o-btn.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
+  .o-btn.hint-good { border-color: rgba(35,119,68,.45); color: var(--win); }
+  .o-btn.hint-bad  { border-color: rgba(166,63,53,.45); color: var(--loss); }
+  .col-stat { width: 60px; font-size: .8rem; font-weight: 500; }
+  .stat-promo { color: var(--win); }
+  .stat-rel   { color: var(--loss); }
+  .stat-pos   { color: var(--ink); }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back-link page-link" href="../../">← Back to homepage</a>
+
+  <div class="page-header">
+    <h1>{{ label }}</h1>
+    <div class="sub">{{ season }}</div>
+  </div>
+
+  <!-- Standings -->
+  <section class="section">
+    <div class="section-title"><h2>Standings</h2></div>
+    <div class="panel" style="padding: 0 0 2px">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th class="pos">#</th>
+            <th>Team</th>
+            <th class="num">GP</th>
+            <th class="num">W</th>
+            <th class="num">L</th>
+            <th class="num">T</th>
+            <th class="num">Pts</th>
+            <th class="num">GD</th>
+            <th class="num">PPG</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in standings %}
+          {% set pos = loop.index %}
+          {% set is_promo = pos <= 2 %}
+          {% set n = standings | length %}
+          {% set is_relg = pos > n - (2 if n >= 6 else (1 if n >= 4 else 0)) %}
+          <tr class="{{ 'promo-row' if is_promo else 'relg-row' if is_relg else '' }}">
+            <td class="pos num">{{ pos }}</td>
+            <td><a href="../../team/{{ row.slug }}/" class="page-link" style="color:inherit;text-decoration:none;font-weight:600">{{ row.team }}</a></td>
+            <td class="num">{{ row.gp }}</td>
+            <td class="num">{{ row.w }}</td>
+            <td class="num">{{ row.l }}</td>
+            <td class="num">{{ row.t }}</td>
+            <td class="num" style="font-weight:700">{{ row.pts }}</td>
+            <td class="num {{ 'gd-pos' if row.gd > 0 else 'gd-neg' if row.gd < 0 else '' }}">
+              {{ '+' + row.gd|string if row.gd > 0 else row.gd }}
+            </td>
+            <td class="num">{{ "%.2f"|format(row.pts / row.gp) if row.gp > 0 else "—" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Season Outlook -->
+  <section class="section">
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px">Season Outlook</h2>
+        <span class="sim-status" id="sim-status">Starting simulation…</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Reset all</button>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px">
+      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
+      {% if sim_data.schedule_inferred %}
+      <span style="color:#8a6020"> Schedule estimated from round-robin.</span>
+      {% endif %}
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    ELO ratings are model estimates, not official standings.
+  </footer>
+</main>
+
+<script>
+const SIM_DATA   = {{ sim_data | tojson }};
+const TOTAL_RUNS = 10000;
+
+document.querySelectorAll(".page-link").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const dest = link.getAttribute("href");
+    window.location.href = dest;
+  });
+});
+
+// ── Simulation worker ────────────────────────────────────────────
+const WORKER_SRC = `
+  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 400)); }
+
+  function simOnce(teams, baseStats, baseElos, games, overrides) {
+    const st = {}, el = {};
+    for (const t of teams) {
+      st[t] = { pts: baseStats[t].pts, gd: baseStats[t].gd, gf: baseStats[t].gf };
+      el[t] = baseElos[t] || 1500;
+    }
+    for (const g of games) {
+      const ov = overrides[g.id];
+      let act;
+      if (ov !== undefined) {
+        act = ov === 'home' ? 1 : ov === 'draw' ? 0.5 : 0;
+      } else {
+        const we = expResult(el[g.home] || 1500, el[g.away] || 1500);
+        const dp = 0.22;
+        const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
+        const ap = Math.max(0.05, 1 - dp - hp);
+        const r  = Math.random();
+        act = r < hp ? 1 : r < hp + dp ? 0.5 : 0;
+      }
+      const h = g.home, a = g.away;
+      if (act === 1)        { st[h].pts += 3; st[h].gd += 1; st[h].gf += 2; st[a].gd -= 1; st[a].gf += 1; }
+      else if (act === 0.5) { st[h].pts++; st[a].pts++; st[h].gf++; st[a].gf++; }
+      else                  { st[a].pts += 3; st[a].gd += 1; st[a].gf += 2; st[h].gd -= 1; st[h].gf += 1; }
+      const K = 32, eH = el[h] || 1500, eA = el[a] || 1500;
+      const ex = expResult(eH, eA);
+      el[h] = eH + K * (act - ex);
+      el[a] = eA + K * ((1 - act) - (1 - ex));
+    }
+    return [...teams].sort((a,b) =>
+      st[b].pts !== st[a].pts ? st[b].pts - st[a].pts :
+      st[b].gd  !== st[a].gd  ? st[b].gd  - st[a].gd  :
+      st[b].gf  - st[a].gf
+    );
+  }
+
+  self.onmessage = function(e) {
+    const { teams, currentStats, currentElos, remainingGames,
+            overrides, totalRuns, promotionCut, relegationCut } = e.data;
+    const BATCH = 200;
+    const allCounts = {};
+    for (const t of teams) allCounts[t] = new Array(teams.length + 1).fill(0);
+
+    for (let i = 0; i < totalRuns; i++) {
+      const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides);
+      for (let p = 0; p < sorted.length; p++) allCounts[sorted[p]][p + 1]++;
+      if ((i + 1) % BATCH === 0 || i + 1 === totalRuns) {
+        self.postMessage({ type: 'progress', completed: i + 1, done: i + 1 === totalRuns });
+      }
+    }
+
+    const nT = teams.length;
+    const teamStats = {};
+    for (const t of teams) {
+      const c = allCounts[t];
+      let promo = 0, relg = 0, modal = 1, modalCt = 0;
+      for (let p = 1; p <= nT; p++) {
+        const cnt = c[p];
+        if (p <= promotionCut)      promo += cnt;
+        if (p > nT - relegationCut) relg  += cnt;
+        if (cnt > modalCt) { modalCt = cnt; modal = p; }
+      }
+      teamStats[t] = {
+        promo: (100 * promo / totalRuns).toFixed(1),
+        relg:  (100 * relg  / totalRuns).toFixed(1),
+        modal
+      };
+    }
+    self.postMessage({ type: 'team_stats', teamStats });
+    self.postMessage({ type: 'done' });
+  };
+`;
+
+const { teams, current_stats, current_elos, remaining_games,
+        promotion_cut, relegation_cut, total_teams } = SIM_DATA;
+
+const elStatus  = document.getElementById("sim-status");
+const elCounter = document.getElementById("sim-counter");
+
+const overrides = {};
+let   teamStats = {};
+
+function posLabel(i) {
+  const s = ["th","st","nd","rd"];
+  const v = i % 100;
+  return i + ((v >= 11 && v <= 13) ? "th" : (s[i % 10] || "th"));
+}
+
+function fmtDate(d) {
+  const dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function renderGrid() {
+  const el = document.getElementById("game-list");
+  if (!remaining_games.length) {
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No remaining games — season complete.</p>';
+    return;
+  }
+
+  const weeks = [...new Set(remaining_games.map(g => g.date))].sort();
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
+  for (const g of remaining_games) {
+    byTW[g.home][g.date] = { ...g, role: 'home' };
+    byTW[g.away][g.date] = { ...g, role: 'away' };
+  }
+
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-team"></th>';
+  for (const w of weeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += '<th class="col-stat">Promo%</th><th class="col-stat">Rel%</th><th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
+
+  teams.forEach((t, idx) => {
+    html += `<tr data-idx="${idx}">`;
+    html += `<td class="col-team">${t}</td>`;
+
+    for (const w of weeks) {
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">—</td>'; continue; }
+
+      const isHome = entry.role === 'home';
+      const opp    = isHome ? entry.away : entry.home;
+      const ov     = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L')
+                   : ov === 'draw' ? 'D'
+                   : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal  = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+
+      function bc(tRes) {
+        if (teamOv === tRes) return `o-btn sel-${tRes}`;
+        if (tRes === 'W') return 'o-btn hint-good';
+        if (tRes === 'L') return 'o-btn hint-bad';
+        return 'o-btn';
+      }
+
+      html += `<td class="game-cell" data-gid="${entry.id}" data-home="${isHome ? 1 : 0}">`;
+      html += `<div class="cell-opp">${opp}</div><div class="cell-btns">`;
+      html += `<button class="${bc('W')}" data-val="${winVal}">W</button>`;
+      html += `<button class="${bc('D')}" data-val="draw">D</button>`;
+      html += `<button class="${bc('L')}" data-val="${lossVal}">L</button>`;
+      html += '</div></td>';
+    }
+
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-rel">${st.relg   != null ? st.relg  + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal  != null ? posLabel(st.modal) : '—'}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid = cell.dataset.gid;
+    cell.querySelectorAll('.o-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val;
+        overrides[gid] = overrides[gid] === val ? undefined : val;
+        if (overrides[gid] === undefined) delete overrides[gid];
+        renderGrid();
+        startSim();
+      });
+    });
+  });
+}
+
+document.getElementById("reset-btn").onclick = () => {
+  Object.keys(overrides).forEach(k => delete overrides[k]);
+  renderGrid();
+  startSim();
+};
+
+let worker = null;
+function startSim() {
+  if (worker) worker.terminate();
+  elStatus.textContent = "Running simulation…";
+  elCounter.innerHTML = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+
+  const blob = new Blob([WORKER_SRC], { type: "application/javascript" });
+  worker = new Worker(URL.createObjectURL(blob));
+
+  worker.postMessage({
+    teams,
+    currentStats:   current_stats,
+    currentElos:    current_elos,
+    remainingGames: remaining_games,
+    overrides:      { ...overrides },
+    totalRuns:      TOTAL_RUNS,
+    promotionCut:   promotion_cut,
+    relegationCut:  relegation_cut,
+  });
+
+  worker.onmessage = e => {
+    const msg = e.data;
+    if (msg.type === 'progress') {
+      elCounter.innerHTML = `${msg.completed.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+      if (msg.done) elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+    } else if (msg.type === 'team_stats') {
+      teamStats = msg.teamStats;
+      renderGrid();
+    } else if (msg.type === 'done') {
+      if (worker) { worker.terminate(); worker = null; }
+    }
+  };
+}
+
+renderGrid();
+startSim();
+</script>
+</body>
+</html>

@@ -76,6 +76,10 @@ def build_team_slug(team, age_group, division, geography):
     return slugify(f"{team}-{age_group}-div-{division}-{geography}")
 
 
+def flight_slug(age_group, division, geography):
+    return slugify(f"{age_group}-div-{division}-{geography}")
+
+
 def team_path(team_slug):
     return f"team/{team_slug}/"
 
@@ -322,6 +326,7 @@ def get_flight_catalog():
                 "division": division,
                 "geography": geography,
                 "label": f"{age_group} Division {division} {geography}",
+                "slug": flight_slug(age_group, division, geography),
                 "leader": leader,
                 "team_count": len(teams),
                 "game_count": played_games,
@@ -636,12 +641,13 @@ def get_flight_sim_data(team_info, standings, rows):
         if (r["home_team"].strip().upper() == "TBD" or r["away_team"].strip().upper() == "TBD"):
             continue
         if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"]):
+            sel = team_info.get("team")
             remaining.append({
                 "id": f"{r['date']}|{r['home_team']}|{r['away_team']}",
                 "home": r["home_team"],
                 "away": r["away_team"],
                 "date": r["date"],
-                "involves_team": team_info["team"] in (r["home_team"], r["away_team"]),
+                "involves_team": bool(sel and sel in (r["home_team"], r["away_team"])),
             })
 
     # Fallback: if no scheduled games were scraped, infer remaining round-robin matchups
@@ -662,12 +668,13 @@ def get_flight_sim_data(team_info, standings, rows):
                 times_played = played_pairs.get(key, 0)
                 # Assume double round-robin (2 meetings); add unplayed fixtures
                 for _ in range(max(0, 2 - times_played)):
+                    sel = team_info.get("team")
                     remaining.append({
                         "id": f"inferred|{home}|{away}",
                         "home": home,
                         "away": away,
                         "date": "TBD",
-                        "involves_team": team_info["team"] in (home, away),
+                        "involves_team": bool(sel and sel in (home, away)),
                     })
         if remaining:
             schedule_inferred = True
@@ -681,7 +688,7 @@ def get_flight_sim_data(team_info, standings, rows):
     teams = [row["team"] for row in standings]
     n = len(teams)
     return {
-        "selected_team": team_info["team"],
+        "selected_team": team_info.get("team", ""),
         "teams": teams,
         "current_stats": current_stats,
         "current_elos": current_elos,
@@ -766,6 +773,43 @@ def team_page(team_slug):
     if not context:
         abort(404)
     return render_template("team.html", season=CURRENT_SEASON, **context)
+
+
+def get_flight_page_context(age_group, division, geography):
+    rows = get_current_season_rows()
+    standings = get_standings_for_flight(rows, age_group, division, geography)
+    if not standings:
+        return None
+    # Attach team slugs so the template can link to team pages
+    for row in standings:
+        row["slug"] = build_team_slug(row["team"], age_group, division, geography)
+    team_info = {"age_group": age_group, "division": division, "geography": geography}
+    sim_data = get_flight_sim_data(team_info, standings, rows)
+    return {
+        "age_group": age_group,
+        "division": division,
+        "geography": geography,
+        "label": f"{age_group} Division {division} {geography}",
+        "standings": standings,
+        "sim_data": sim_data,
+    }
+
+
+@app.route("/flight/<flight_slug_val>/")
+def flight_page(flight_slug_val):
+    # Reverse-lookup flight from slug
+    rows = get_current_season_rows()
+    flights = {
+        (r["age_group"], r["division"], r["geography"])
+        for r in rows
+        if r["age_group"] and r["division"] and r["geography"]
+    }
+    for age_group, division, geography in flights:
+        if flight_slug(age_group, division, geography) == flight_slug_val:
+            context = get_flight_page_context(age_group, division, geography)
+            if context:
+                return render_template("flight.html", season=CURRENT_SEASON, **context)
+    abort(404)
 
 
 if __name__ == "__main__":

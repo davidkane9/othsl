@@ -10,7 +10,7 @@ Usage:
 
 import os
 from flask_frozen import Freezer
-from app import app, get_team_catalog
+from app import app, get_team_catalog, get_flight_catalog
 
 # Output directory — GitHub Pages serves from docs/ on main branch
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
@@ -26,6 +26,11 @@ freezer = Freezer(app)
 def team_page():
     for item in get_team_catalog():
         yield {"team_slug": item["slug"]}
+
+@freezer.register_generator
+def flight_page():
+    for card in get_flight_catalog():
+        yield {"flight_slug_val": card["slug"]}
 
 if __name__ == "__main__":
     print(f"Freezing site to {DOCS_DIR} ...")
