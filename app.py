@@ -44,6 +44,22 @@ def get_elo_rows():
     return load_csv(os.path.join(DATA_DIR, "elo_history.csv"))
 
 
+# Cache the ELO map once at startup — reading 65k rows per page is too slow.
+_elo_map_cache = None
+
+def get_latest_elo_map():
+    global _elo_map_cache
+    if _elo_map_cache is not None:
+        return _elo_map_cache
+    latest = {}
+    for row in get_elo_rows():
+        age_group = row["age_group"]
+        latest[(row["home_team"], age_group)] = float(row["elo_home_after"])
+        latest[(row["away_team"], age_group)] = float(row["elo_away_after"])
+    _elo_map_cache = latest
+    return latest
+
+
 def is_forfeit(value):
     return isinstance(value, str) and value.lower().startswith("forfeit")
 
@@ -252,15 +268,6 @@ def get_team_elo_history(team_info):
 
     history.sort(key=lambda point: (season_sort_key(point["season"]), point["date"]))
     return history
-
-
-def get_latest_elo_map():
-    latest = {}
-    for row in get_elo_rows():
-        age_group = row["age_group"]
-        latest[(row["home_team"], age_group)] = float(row["elo_home_after"])
-        latest[(row["away_team"], age_group)] = float(row["elo_away_after"])
-    return latest
 
 
 def get_team_catalog():
@@ -708,7 +715,7 @@ def get_team_page_context(team_slug):
     flight_team_cards = get_flight_team_cards(team_info, standings, rows)
 
     w = sum(1 for g in games if g["result"] == "W")
-    l = sum(1 for g in games if g["result"] in ("L", "F"))
+    l = sum(1 for g in games if g["result"] == "L")
     t = sum(1 for g in games if g["result"] == "T")
     current_elo = elo_history[-1]["elo"] if elo_history else None
     standing = next((i + 1 for i, row in enumerate(standings) if row["is_selected"]), None)

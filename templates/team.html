@@ -351,71 +351,59 @@
     flex-shrink: 0;
   }
 
-  /* what-if game list */
-  .whatif-panel { overflow-y: auto; }
-  .game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 0 24px;
-  }
-
-  .game-row {
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(38,61,41,.08);
-  }
-
-  .game-row:last-child { border-bottom: none; }
-
-  .game-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: .82rem;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .importance-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 4px;
-  }
-
-  .imp-own      { background: #2a7ded; }
-  .imp-high     { background: #d97706; }
-  .imp-low      { background: #9ca3af; }
-
-  .game-matchup {
-    font-size: .93rem;
-    margin-bottom: 8px;
+  /* what-if grid */
+  .whatif-panel { overflow-y: visible; }
+  .whatif-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .whatif-table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  .whatif-table thead th {
+    background: var(--surface);
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--line);
     font-weight: 600;
-  }
-
-  .toggle-group {
-    display: flex;
-    gap: 6px;
-  }
-
-  .tog-btn {
-    flex: 1;
-    padding: 6px 4px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: transparent;
-    font: inherit;
-    font-size: .8rem;
-    cursor: pointer;
+    font-size: .78rem;
     color: var(--muted);
-    transition: background .15s, color .15s, border-color .15s;
   }
-
-  .tog-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
-  .tog-btn.active-home { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight:700; }
-  .tog-btn.active-draw { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight:700; }
-  .tog-btn.active-away { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight:700; }
-  .tog-btn.hint-good { border-color: rgba(35,119,68,.4); color: var(--win); }
-  .tog-btn.hint-bad  { border-color: rgba(166,63,53,.4); color: var(--loss); }
+  .whatif-table thead th.col-team { text-align: left; }
+  .whatif-table td {
+    padding: 5px 6px;
+    text-align: center;
+    border-bottom: 1px solid rgba(38,61,41,.07);
+    vertical-align: middle;
+  }
+  .whatif-table td.col-team {
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-right: 14px;
+    font-size: .82rem;
+  }
+  .whatif-table tr.sel-row td { background: rgba(35,100,55,.05); }
+  .whatif-table tr:last-child td { border-bottom: none; }
+  .no-game { color: var(--muted); font-size: .78rem; }
+  .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+  .cell-btns { display: flex; gap: 2px; justify-content: center; }
+  .o-btn {
+    padding: 2px 6px;
+    font-size: .73rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+    transition: all .1s;
+  }
+  .o-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+  .o-btn.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .o-btn.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .o-btn.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
+  .o-btn.hint-good { border-color: rgba(35,119,68,.45); color: var(--win); }
+  .o-btn.hint-bad  { border-color: rgba(166,63,53,.45); color: var(--loss); }
+  .col-stat { width: 56px; font-size: .8rem; font-weight: 500; }
+  .stat-promo { color: var(--win); }
+  .stat-rel   { color: var(--loss); }
+  .stat-pos   { color: var(--ink); }
 
   .reset-btn {
     padding: 6px 14px;
@@ -639,19 +627,19 @@
         </div>
       </div>
 
-      <!-- what-if panel full width -->
+      <!-- what-if grid -->
       <div class="panel whatif-panel" style="max-height:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
           <h3 style="margin:0">What-If Scenarios</h3>
           <button id="reset-btn" class="reset-btn">Reset all</button>
         </div>
-        <p class="note" style="margin-bottom:16px">Toggle any remaining game's outcome and watch the simulation update live.</p>
+        <p class="note" style="margin-bottom:10px">Click W / D / L on any remaining game to lock an outcome — the simulation updates live. Changing one team's result automatically flips the opponent.</p>
         {% if sim_data.schedule_inferred %}
-        <div style="background:rgba(198,138,43,.1);border:1px solid rgba(198,138,43,.3);border-radius:10px;padding:10px 14px;font-size:.85rem;color:#8a6020;margin-bottom:12px">
-          Schedule not yet published — remaining games estimated from round-robin. Run the scraper once OTHSL publishes the schedule.
+        <div style="background:rgba(198,138,43,.1);border:1px solid rgba(198,138,43,.3);border-radius:10px;padding:10px 14px;font-size:.85rem;color:#8a6020;margin-bottom:10px">
+          Schedule not yet published — remaining games estimated from round-robin.
         </div>
         {% endif %}
-        <div id="game-list" class="game-grid"></div>
+        <div id="game-list"></div>
       </div>
     </section>
 
@@ -726,18 +714,41 @@ const WORKER_SRC = `
 
   self.onmessage = function(e) {
     const { teams, currentStats, currentElos, remainingGames,
-            overrides, selectedTeam, totalRuns } = e.data;
+            overrides, selectedTeam, totalRuns, promotionCut, relegationCut } = e.data;
     const counts = new Array(teams.length + 1).fill(0);
+    const allCounts = {};
+    for (const t of teams) allCounts[t] = new Array(teams.length + 1).fill(0);
     const BATCH = 200;
 
     // ── Main simulation ──────────────────────────────────────────
     for (let i = 0; i < totalRuns; i++) {
       const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides);
       counts[sorted.indexOf(selectedTeam) + 1]++;
+      for (let p = 0; p < sorted.length; p++) allCounts[sorted[p]][p + 1]++;
       if ((i + 1) % BATCH === 0 || i === totalRuns - 1) {
         self.postMessage({ type: 'progress', done: i + 1 === totalRuns, completed: i + 1, counts: counts.slice() });
       }
     }
+
+    // ── Per-team stats ───────────────────────────────────────────
+    const nT = teams.length;
+    const teamStats = {};
+    for (const t of teams) {
+      const c = allCounts[t];
+      let promo = 0, relg = 0, modal = 1, modalCt = 0;
+      for (let p = 1; p <= nT; p++) {
+        const cnt = c[p];
+        if (p <= promotionCut)           promo += cnt;
+        if (p > nT - relegationCut)      relg  += cnt;
+        if (cnt > modalCt) { modalCt = cnt; modal = p; }
+      }
+      teamStats[t] = {
+        promo: (100 * promo / totalRuns).toFixed(1),
+        relg:  (100 * relg  / totalRuns).toFixed(1),
+        modal
+      };
+    }
+    self.postMessage({ type: 'team_stats', teamStats });
 
     // ── Leverage pass: 300 sims per unresolved game ──────────────
     const baseline = expectedPos(counts);
@@ -774,7 +785,6 @@ const WORKER_SRC = `
 const elCounter   = document.getElementById("sim-counter");
 const elStatus    = document.getElementById("sim-status");
 const elDistBars  = document.getElementById("dist-bars");
-const elGameList  = document.getElementById("game-list");
 const elPctPromo  = document.getElementById("pct-promo");
 const elPctStay   = document.getElementById("pct-stay");
 const elPctRel    = document.getElementById("pct-relegate");
@@ -846,113 +856,129 @@ function importanceLabel(cls) {
   return "Low leverage";
 }
 
-// ── Build what-if game list ──────────────────────────────────────
-const overrides = {};
-const leverageMap = {}; // gameId -> { home: 'good'|'bad'|'neutral', away: ... }
+// ── What-if grid ─────────────────────────────────────────────────
+const overrides  = {};
+const leverageMap = {};
+let   teamStats  = {};
 
-/**
- * Returns 'good', 'bad', or 'neutral' for each outcome value ('home'/'draw'/'away')
- * from the perspective of the selected team.
- *
- * Logic:
- *  - Own game: winning = good, draw = neutral, losing = bad
- *  - Other game: if a rival ranked above us wins = bad; if a rival above us loses = good
- *    (rival = team within 3 spots of selected team in standings)
- */
 function outcomeImpact(game) {
-  // Own games: always deterministic
   if (game.involves_team) {
     const weAreHome = game.home === selected_team;
-    return {
-      home: weAreHome ? 'good' : 'bad',
-      draw: 'neutral',
-      away: weAreHome ? 'bad' : 'good',
-    };
+    return { home: weAreHome ? 'good' : 'bad', draw: 'neutral', away: weAreHome ? 'bad' : 'good' };
   }
-
-  // Use simulation-derived leverage if available (populated after main sim)
   if (leverageMap[game.id]) {
     return { home: leverageMap[game.id].home, draw: 'neutral', away: leverageMap[game.id].away };
   }
-
-  // Fallback heuristic before leverage data arrives
   const sp = teams.indexOf(selected_team);
   const hp = teams.indexOf(game.home);
   const ap = teams.indexOf(game.away);
   function delta(winnerPos, loserPos) {
-    const winAbove  = winnerPos < sp;
-    const loseAbove = loserPos  < sp;
-    if (loseAbove && !winAbove) return 'good';
-    if (winAbove  && !loseAbove) return 'bad';
+    if (loserPos < sp && winnerPos >= sp) return 'good';
+    if (winnerPos < sp && loserPos >= sp) return 'bad';
     return 'neutral';
   }
   return { home: delta(hp, ap), draw: 'neutral', away: delta(ap, hp) };
 }
 
-function renderGameList() {
-  elGameList.innerHTML = "";
+function renderGrid() {
+  const el = document.getElementById("game-list");
   if (!remaining_games.length) {
-    elGameList.innerHTML = '<p class="note">No remaining games in this flight.</p>';
+    el.innerHTML = '<p class="note" style="padding:8px 0">No remaining games in this flight.</p>';
     return;
   }
 
-  remaining_games.forEach(game => {
-    const impCls = importanceClass(game);
-    const impact  = outcomeImpact(game);
-    const row = document.createElement("div");
-    row.className = "game-row";
+  // Unique sorted weeks
+  const weeks = [...new Set(remaining_games.map(g => g.date))].sort();
 
-    const ov = overrides[game.id];
-    const meta = document.createElement("div");
-    meta.className = "game-meta";
-    meta.innerHTML = `<span>${game.date}</span>
-      <span><span class="importance-dot ${impCls}"></span>${importanceLabel(impCls)}</span>`;
+  // team → week → game entry
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
+  for (const g of remaining_games) {
+    byTW[g.home][g.date] = { ...g, role: 'home' };
+    byTW[g.away][g.date] = { ...g, role: 'away' };
+  }
 
-    const matchup = document.createElement("div");
-    matchup.className = "game-matchup";
-    matchup.textContent = `${game.home}  vs  ${game.away}`;
+  function fmtDate(d) {
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
 
-    const grp = document.createElement("div");
-    grp.className = "toggle-group";
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-team"></th>';
+  for (const w of weeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += '<th class="col-stat">Promo%</th><th class="col-stat">Rel%</th><th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
 
-    [["home", game.home + " win"], ["draw", "Draw"], ["away", game.away + " win"]].forEach(([val, label]) => {
-      const isActive = ov === val;
-      const imp = impact[val];  // 'good', 'bad', 'neutral'
-      let cls = "tog-btn";
-      if (isActive) cls += ` active-${val}`;
-      // Background tint even when not active
-      if (!isActive && imp === 'good')    cls += " hint-good";
-      if (!isActive && imp === 'bad')     cls += " hint-bad";
+  teams.forEach((t, idx) => {
+    const isSel = t === selected_team;
+    html += `<tr${isSel ? ' class="sel-row"' : ''} data-idx="${idx}">`;
+    html += `<td class="col-team">${t}</td>`;
 
-      const btn = document.createElement("button");
-      btn.className = cls;
-      btn.textContent = label;
-      btn.onclick = () => {
-        if (overrides[game.id] === val) {
-          delete overrides[game.id];
-        } else {
-          overrides[game.id] = val;
+    for (const w of weeks) {
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">—</td>'; continue; }
+
+      const isHome = entry.role === 'home';
+      const opp    = isHome ? entry.away : entry.home;
+      const ov     = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L')
+                   : ov === 'draw' ? 'D'
+                   : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const impact  = outcomeImpact(entry);
+      const winVal  = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+
+      function bc(val, tRes) {
+        let c = 'o-btn';
+        if (teamOv === tRes) { c += ` sel-${tRes}`; }
+        else {
+          const imp = impact[val];
+          if (imp === 'good') c += ' hint-good';
+          if (imp === 'bad')  c += ' hint-bad';
         }
-        renderGameList();
-        startSim();
-      };
-      grp.appendChild(btn);
-    });
+        return c;
+      }
 
-    row.appendChild(meta);
-    row.appendChild(matchup);
-    row.appendChild(grp);
-    elGameList.appendChild(row);
+      html += `<td class="game-cell" data-gid="${entry.id}" data-home="${isHome ? 1 : 0}">`;
+      html += `<div class="cell-opp">${opp}</div><div class="cell-btns">`;
+      html += `<button class="${bc(winVal,'W')}"  data-val="${winVal}">W</button>`;
+      html += `<button class="${bc('draw','D')}"  data-val="draw">D</button>`;
+      html += `<button class="${bc(lossVal,'L')}" data-val="${lossVal}">L</button>`;
+      html += '</div></td>';
+    }
+
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-rel">${st.relg   != null ? st.relg  + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal  != null ? posLabel(st.modal) : '—'}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+
+  // Click handlers
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid    = cell.dataset.gid;
+    cell.querySelectorAll('.o-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val;
+        overrides[gid] = overrides[gid] === val ? undefined : val;
+        if (overrides[gid] === undefined) delete overrides[gid];
+        renderGrid();
+        startSim();
+      });
+    });
   });
 }
 
 document.getElementById("reset-btn").onclick = () => {
   Object.keys(overrides).forEach(k => delete overrides[k]);
-  renderGameList();
+  renderGrid();
   startSim();
 };
 
-renderGameList();
+renderGrid();
 
 // ── Simulation runner ─────────────────────────────────────────────
 let worker = null;
@@ -1017,9 +1043,12 @@ function startSim() {
       if (msg.done) {
         elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. Calculating leverage…`;
       }
+    } else if (msg.type === 'team_stats') {
+      teamStats = msg.teamStats;
+      renderGrid(); // populate Promo%/Rel%/Pos columns
     } else if (msg.type === 'leverage') {
       leverageMap[msg.gameId] = { home: msg.home, away: msg.away };
-      renderGameList(); // re-color buttons with new data
+      renderGrid(); // re-color buttons with leverage data
     } else if (msg.type === 'leverage_done') {
       elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
       if (worker) { worker.terminate(); worker = null; }
