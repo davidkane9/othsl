@@ -375,6 +375,108 @@
     text-align: center;
   }
 
+  /* Feedback */
+  .feedback-section {
+    margin-top: 10px;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .feedback-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .feedback-drawer {
+    display: none;
+    margin-top: 16px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feedback-drawer.open { display: block; }
+
+  .feedback-drawer h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .feedback-drawer p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .feedback-field label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .feedback-submit:disabled {
+    background: #90a08f;
+    cursor: not-allowed;
+  }
+
+  .feedback-thanks {
+    display: none;
+    color: var(--field);
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
   @media (max-width: 960px) {
     .hero-grid,
     .selector-grid {
@@ -586,6 +688,30 @@
     <footer>
       A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
       ELO ratings are model estimates, not official standings.
+
+      <div class="feedback-section">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
     </footer>
   </main>
 
@@ -705,6 +831,47 @@ const selectorData = {{ selector_data | tojson }};
     window.setTimeout(() => {
       window.location.href = selectedOption.dataset.path;
     }, 180);
+  });
+})();
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const data = new FormData(fbForm);
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
   });
 })();
 </script>

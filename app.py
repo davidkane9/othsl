@@ -317,7 +317,11 @@ def get_flight_catalog():
         key=lambda x: (x[0][0], int(x[0][1]), x[0][2]),
     ):
         standings = get_standings_for_flight(rows, age_group, division, geography)
-        teams = sorted({team for r in flight_data for team in (r["home_team"], r["away_team"])})
+        teams = sorted({
+            team for r in flight_data for team in (r["home_team"], r["away_team"])
+            if team and team.strip().upper() != "TBD"
+            and not re.search(r'lost by forfeit', team, re.IGNORECASE)
+        })
         played_games = sum(1 for r in flight_data if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]))
         leader = standings[0]["team"] if standings else None
         cards.append(
@@ -734,6 +738,30 @@ def get_team_page_context(team_slug):
     team_info = dict(team_info)
     team_info["standing"] = standing
 
+    # Collect all played results for the flight (for matchweek history timeline)
+    ag, div, geo = team_info["age_group"], team_info["division"], team_info["geography"]
+    flight_results = []
+    for r in rows:
+        if r["age_group"] != ag or r["division"] != div or r["geography"] != geo:
+            continue
+        if not (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])):
+            continue
+        if r["date"] == "TBD":
+            continue
+        if "lost by forfeit" in r["home_team"].lower() or "lost by forfeit" in r["away_team"].lower():
+            continue
+        hg = r["home_goals"]
+        ag_val = r["away_goals"]
+        flight_results.append({
+            "date": r["date"],
+            "home": r["home_team"],
+            "away": r["away_team"],
+            "hg": int(hg) if hg.isdigit() else None,
+            "ag": int(ag_val) if ag_val.isdigit() else None,
+            "forfeit": is_forfeit(hg) or is_forfeit(ag_val),
+            "home_forfeit": is_forfeit(hg),
+        })
+
     return {
         "team_info": team_info,
         "games": games,
@@ -748,6 +776,7 @@ def get_team_page_context(team_slug):
         "simulation": simulation,
         "sim_data": sim_data,
         "flight_team_cards": flight_team_cards,
+        "flight_results": flight_results,
         "record": {"w": w, "l": l, "t": t},
         "current_elo": current_elo,
     }
@@ -785,6 +814,30 @@ def get_flight_page_context(age_group, division, geography):
         row["slug"] = build_team_slug(row["team"], age_group, division, geography)
     team_info = {"age_group": age_group, "division": division, "geography": geography}
     sim_data = get_flight_sim_data(team_info, standings, rows)
+
+    # Collect played results for the matchweek history timeline
+    flight_results = []
+    for r in rows:
+        if r["age_group"] != age_group or r["division"] != division or r["geography"] != geography:
+            continue
+        if not (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])):
+            continue
+        if r["date"] == "TBD":
+            continue
+        if "lost by forfeit" in r["home_team"].lower() or "lost by forfeit" in r["away_team"].lower():
+            continue
+        hg = r["home_goals"]
+        ag = r["away_goals"]
+        flight_results.append({
+            "date": r["date"],
+            "home": r["home_team"],
+            "away": r["away_team"],
+            "hg": int(hg) if hg.isdigit() else None,
+            "ag": int(ag) if ag.isdigit() else None,
+            "forfeit": is_forfeit(hg) or is_forfeit(ag),
+            "home_forfeit": is_forfeit(hg),
+        })
+
     return {
         "age_group": age_group,
         "division": division,
@@ -792,6 +845,7 @@ def get_flight_page_context(age_group, division, geography):
         "label": f"{age_group} Division {division} {geography}",
         "standings": standings,
         "sim_data": sim_data,
+        "flight_results": flight_results,
     }
 
 

@@ -108,8 +108,93 @@
   .stat-rel   { color: var(--loss); }
   .stat-pos   { color: var(--ink); }
 
+  /* Matchweek timeline */
+  .mw-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .mw-pill {
+    padding: 5px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    font: inherit;
+    font-size: .78rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .12s;
+    white-space: nowrap;
+  }
+  .mw-pill:hover { background: rgba(35,68,43,.07); color: var(--ink); }
+  .mw-pill.active {
+    background: var(--field);
+    border-color: var(--field);
+    color: #f9f4ea;
+    font-weight: 600;
+  }
+
   footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
   footer a { color: inherit; }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .feedback-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .feedback-drawer {
+    display: none;
+    margin: 16px auto 0;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+  }
+  .feedback-drawer.open { display: block; }
+  .feedback-drawer h4 { margin: 0 0 4px; font-size: 1rem; }
+  .feedback-drawer p { margin: 0 0 14px; color: var(--muted); font-size: 0.88rem; }
+
+  .feedback-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .feedback-field label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+  .feedback-submit:disabled { background: #90a08f; cursor: not-allowed; }
+  .feedback-thanks { display: none; color: var(--field); font-size: 0.92rem; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -123,7 +208,14 @@
 
   <!-- Standings -->
   <section class="section">
-    <div class="section-title"><h2>Standings</h2></div>
+    <div class="section-title">
+      <h2>Standings</h2>
+      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    </div>
+
+    <!-- Matchweek timeline pills -->
+    <div class="mw-strip" id="mw-strip"></div>
+
     <div class="panel" style="padding: 0 0 2px">
       <table class="standings-table">
         <thead>
@@ -139,7 +231,7 @@
             <th class="num">PPG</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="standings-tbody">
           {% for row in standings %}
           {% set pos = loop.index %}
           {% set is_promo = pos <= 2 %}
@@ -190,12 +282,136 @@
   <footer>
     A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
     ELO ratings are model estimates, not official standings.
+
+    <div style="margin-top:14px">
+      <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+      <div class="feedback-drawer" id="feedback-drawer">
+        <h4>Send feedback</h4>
+        <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+        <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+          <div class="feedback-field">
+            <label for="fb-name">Name (optional)</label>
+            <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-email">Email (optional)</label>
+            <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-message">Message</label>
+            <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+          <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+        </form>
+      </div>
+    </div>
   </footer>
 </main>
 
 <script>
-const SIM_DATA   = {{ sim_data | tojson }};
+const SIM_DATA      = {{ sim_data | tojson }};
+const FLIGHT_RESULTS = {{ flight_results | tojson }};
+const TEAM_SLUGS    = {};
+{% for row in standings %}TEAM_SLUGS[{{ row.team | tojson }}] = {{ row.slug | tojson }};
+{% endfor %}
+const N_TEAMS = {{ standings | length }};
 const TOTAL_RUNS = 10000;
+
+// ── Matchweek timeline ───────────────────────────────────────────────────
+(function() {
+  const strip  = document.getElementById("mw-strip");
+  const tbody  = document.getElementById("standings-tbody");
+  const label  = document.getElementById("mw-label");
+
+  // Collect sorted unique played dates
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) return;
+
+  let activePill = null;
+
+  function buildStandings(upToDate) {
+    const stats = {};
+    for (const r of FLIGHT_RESULTS) {
+      if (r.date > upToDate) continue;
+      for (const t of [r.home, r.away]) {
+        if (!stats[t]) stats[t] = { gp:0, w:0, l:0, t:0, pts:0, gf:0, ga:0 };
+      }
+      if (r.forfeit) {
+        if (r.home_forfeit) {
+          stats[r.away].w++; stats[r.away].pts += 3; stats[r.away].gp++;
+          stats[r.home].l++; stats[r.home].gp++;
+        } else {
+          stats[r.home].w++; stats[r.home].pts += 3; stats[r.home].gp++;
+          stats[r.away].l++; stats[r.away].gp++;
+        }
+      } else {
+        const hg = r.hg, ag = r.ag;
+        stats[r.home].gf += hg; stats[r.home].ga += ag; stats[r.home].gp++;
+        stats[r.away].gf += ag; stats[r.away].ga += hg; stats[r.away].gp++;
+        if (hg > ag) { stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++; }
+        else if (ag > hg) { stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++; }
+        else { stats[r.home].t++; stats[r.home].pts++; stats[r.away].t++; stats[r.away].pts++; }
+      }
+    }
+    return Object.entries(stats).map(([team, s]) => ({
+      team, ...s, gd: s.gf - s.ga, ppg: s.gp ? s.pts / s.gp : 0
+    })).sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  function renderTable(table) {
+    const n = table.length;
+    const relegCut = n >= 6 ? 2 : n >= 4 ? 1 : 0;
+    tbody.innerHTML = table.map((row, i) => {
+      const pos = i + 1;
+      const isPromo = pos <= 2;
+      const isRelg  = pos > n - relegCut;
+      const cls = isPromo ? 'promo-row' : isRelg ? 'relg-row' : '';
+      const gdStr = row.gd > 0 ? `+${row.gd}` : `${row.gd}`;
+      const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+      const ppgStr = row.gp ? (row.pts / row.gp).toFixed(2) : '—';
+      const slug = TEAM_SLUGS[row.team] || '';
+      const nameCell = slug
+        ? `<a href="../../team/${slug}/" class="page-link" style="color:inherit;text-decoration:none;font-weight:600">${row.team}</a>`
+        : `<span style="font-weight:600">${row.team}</span>`;
+      return `<tr class="${cls}">
+        <td class="pos num">${pos}</td>
+        <td>${nameCell}</td>
+        <td class="num">${row.gp}</td>
+        <td class="num">${row.w}</td>
+        <td class="num">${row.l}</td>
+        <td class="num">${row.t}</td>
+        <td class="num" style="font-weight:700">${row.pts}</td>
+        <td class="num ${gdCls}">${gdStr}</td>
+        <td class="num">${ppgStr}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Build pills — group by matchweek number (1-indexed by date order)
+  dates.forEach((date, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'mw-pill';
+    btn.textContent = `Week ${idx + 1}`;
+    btn.title = date;
+    btn.addEventListener('click', () => {
+      if (activePill === btn) {
+        // Toggle off → restore current (latest) standings
+        btn.classList.remove('active');
+        activePill = null;
+        label.textContent = '';
+        renderTable(buildStandings(dates[dates.length - 1]));
+        return;
+      }
+      if (activePill) activePill.classList.remove('active');
+      btn.classList.add('active');
+      activePill = btn;
+      label.textContent = date;
+      renderTable(buildStandings(date));
+    });
+    strip.appendChild(btn);
+  });
+})();
 
 document.querySelectorAll(".page-link").forEach(link => {
   link.addEventListener("click", e => {
@@ -420,6 +636,46 @@ function startSim() {
 
 renderGrid();
 startSim();
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: new FormData(fbForm),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
 </script>
 </body>
 </html>
