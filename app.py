@@ -814,6 +814,7 @@ def get_flight_page_context(age_group, division, geography):
         row["slug"] = build_team_slug(row["team"], age_group, division, geography)
     team_info = {"age_group": age_group, "division": division, "geography": geography}
     sim_data = get_flight_sim_data(team_info, standings, rows)
+    flight_team_cards = get_flight_team_cards(team_info, standings, rows)
 
     # Collect played results for the matchweek history timeline
     flight_results = []
@@ -846,6 +847,7 @@ def get_flight_page_context(age_group, division, geography):
         "standings": standings,
         "sim_data": sim_data,
         "flight_results": flight_results,
+        "flight_team_cards": flight_team_cards,
     }
 
 

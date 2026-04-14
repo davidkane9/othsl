@@ -135,6 +135,32 @@
     font-weight: 600;
   }
 
+  /* Team popup */
+  .team-popup {
+    position: fixed;
+    z-index: 999;
+    width: 260px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(27,38,29,.18);
+    padding: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .team-popup.visible { opacity: 1; transform: translateY(0); }
+  .team-popup .pop-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .team-popup .pop-record { font-size: .82rem; color: var(--muted); margin-bottom: 10px; }
+  .team-popup .pop-game { display: flex; justify-content: space-between; font-size: .82rem; padding: 4px 0; border-bottom: 1px solid rgba(38,61,41,.07); }
+  .team-popup .pop-game:last-child { border-bottom: none; }
+  .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-hint { font-size: .78rem; color: var(--muted); margin-top: 10px; text-align: center; }
+  td.team-name-cell { cursor: pointer; }
+  td.team-name-cell:hover { text-decoration: underline; color: var(--field); }
+
   footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
   footer a { color: inherit; }
 
@@ -198,6 +224,12 @@
 </style>
 </head>
 <body>
+<div class="team-popup" id="team-popup">
+  <div class="pop-name" id="pop-name"></div>
+  <div class="pop-record" id="pop-record"></div>
+  <div id="pop-games"></div>
+  <div class="pop-hint">Click to view team page</div>
+</div>
 <main>
   <a class="back-link page-link" href="../../">← Back to homepage</a>
 
@@ -239,7 +271,7 @@
           {% set is_relg = pos > n - (2 if n >= 6 else (1 if n >= 4 else 0)) %}
           <tr class="{{ 'promo-row' if is_promo else 'relg-row' if is_relg else '' }}">
             <td class="pos num">{{ pos }}</td>
-            <td><a href="../../team/{{ row.slug }}/" class="page-link" style="color:inherit;text-decoration:none;font-weight:600">{{ row.team }}</a></td>
+            <td class="team-name-cell" data-team="{{ row.team }}" data-slug="{{ row.slug }}">{{ row.team }}</td>
             <td class="num">{{ row.gp }}</td>
             <td class="num">{{ row.w }}</td>
             <td class="num">{{ row.l }}</td>
@@ -310,8 +342,12 @@
 </main>
 
 <script>
-const SIM_DATA      = {{ sim_data | tojson }};
+const SIM_DATA       = {{ sim_data | tojson }};
 const FLIGHT_RESULTS = {{ flight_results | tojson }};
+const FLIGHT_CARDS   = {{ flight_team_cards | tojson }};
+const STANDINGS_MAP  = {};
+{% for row in standings %}STANDINGS_MAP[{{ row.team | tojson }}] = { w: {{ row.w }}, l: {{ row.l }}, t: {{ row.t }}, gp: {{ row.gp }} };
+{% endfor %}
 const TEAM_SLUGS    = {};
 {% for row in standings %}TEAM_SLUGS[{{ row.team | tojson }}] = {{ row.slug | tojson }};
 {% endfor %}
@@ -371,12 +407,9 @@ const TOTAL_RUNS = 10000;
       const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
       const ppgStr = row.gp ? (row.pts / row.gp).toFixed(2) : '—';
       const slug = TEAM_SLUGS[row.team] || '';
-      const nameCell = slug
-        ? `<a href="../../team/${slug}/" class="page-link" style="color:inherit;text-decoration:none;font-weight:600">${row.team}</a>`
-        : `<span style="font-weight:600">${row.team}</span>`;
       return `<tr class="${cls}">
         <td class="pos num">${pos}</td>
-        <td>${nameCell}</td>
+        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
         <td class="num">${row.gp}</td>
         <td class="num">${row.w}</td>
         <td class="num">${row.l}</td>
@@ -386,6 +419,13 @@ const TOTAL_RUNS = 10000;
         <td class="num">${ppgStr}</td>
       </tr>`;
     }).join('');
+    tbody.querySelectorAll('td.team-name-cell').forEach(cell => {
+      cell.addEventListener('mouseenter', () => showPopup(cell, cell.dataset.team));
+      cell.addEventListener('mouseleave', hidePopup);
+      cell.addEventListener('click', () => {
+        if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
+      });
+    });
   }
 
   // Build pills — group by matchweek number (1-indexed by date order)
@@ -636,6 +676,60 @@ function startSim() {
 
 renderGrid();
 startSim();
+
+// ── Team popup ────────────────────────────────────────────────────
+const popup     = document.getElementById("team-popup");
+const popName   = document.getElementById("pop-name");
+const popRecord = document.getElementById("pop-record");
+const popGames  = document.getElementById("pop-games");
+
+function showPopup(cell, teamName) {
+  const card     = FLIGHT_CARDS[teamName] || {};
+  const standing = STANDINGS_MAP[teamName] || {};
+  popName.textContent   = teamName;
+  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+
+  popGames.innerHTML = "";
+  const recent = card.recent || [];
+  if (!recent.length) {
+    popGames.innerHTML = '<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
+  } else {
+    recent.forEach(g => {
+      const div = document.createElement("div");
+      div.className = "pop-game";
+      const c = g.result === "W" ? "var(--win)" : g.result === "L" ? "var(--loss)" : "var(--draw)";
+      div.innerHTML = `<span class="pop-opp">${g.opponent}</span>
+        <span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
+      popGames.appendChild(div);
+    });
+  }
+
+  popup.classList.add("visible");
+  const pw = popup.offsetWidth || 260;
+  const ph = popup.offsetHeight || 180;
+  const gap = 10;
+  const rect = cell.getBoundingClientRect();
+  let left = rect.right + gap;
+  let top  = rect.top + (rect.height / 2) - (ph / 2);
+  if (left + pw > window.innerWidth - 8) left = rect.left - pw - gap;
+  if (top < 8) top = 8;
+  if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+  popup.style.left = left + "px";
+  popup.style.top  = top + "px";
+}
+
+function hidePopup() { popup.classList.remove("visible"); }
+
+document.querySelectorAll("td.team-name-cell").forEach(cell => {
+  const team = cell.dataset.team;
+  const slug = cell.dataset.slug;
+  cell.addEventListener("mouseenter", () => showPopup(cell, team));
+  cell.addEventListener("mouseleave", hidePopup);
+  cell.addEventListener("click", () => {
+    if (!slug) return;
+    window.location.href = `../../team/${slug}/`;
+  });
+});
 
 // Feedback form
 (function() {
