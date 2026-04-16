@@ -90,7 +90,7 @@ Spring 2026,Over 30,2,North,2026-04-05,Groton House FC,3,0,Lexington Eagles FC,
 Spring 2026,Over 30,2,North,2026-04-12,Lexington Eagles FC,2,2,Irish Village,
 Spring 2026,Over 30,2,North,2026-04-12,Lynnfield FC,2,2,Groton House FC,
 Spring 2026,Over 30,2,North,2026-04-12,Harvard,0,0,Ferruginha FC,
-Spring 2026,Over 30,2,North,2026-04-12,Essex Football Club,,,New England Elite FC,scheduled
+Spring 2026,Over 30,2,North,2026-04-12,Essex Football Club,1,0,New England Elite FC,
 Spring 2026,Over 30,2,North,2026-04-19,Irish Village,,,Groton House FC,scheduled
 Spring 2026,Over 30,2,North,2026-04-19,Lexington Eagles FC,,,Lynnfield FC,scheduled
 Spring 2026,Over 30,2,North,2026-04-19,Essex Football Club,,,Harvard,scheduled
@@ -176,8 +176,8 @@ Spring 2026,Over 30,3,North,2026-04-05,Lynn Leones,2,forfeit,Sporting Club Malde
 Spring 2026,Over 30,3,North,2026-04-05,Sandy Pond Soccer Club,6,3,Rebels FC,
 Spring 2026,Over 30,3,North,2026-04-12,Nashua City,1,6,Concord United,
 Spring 2026,Over 30,3,North,2026-04-12,Marblehead,2,2,Lowell United,
-Spring 2026,Over 30,3,North,2026-04-12,Rebels FC,,,Lynn Leones,scheduled
-Spring 2026,Over 30,3,North,2026-04-12,Sporting Club Malden,,,Sandy Pond Soccer Club,scheduled
+Spring 2026,Over 30,3,North,2026-04-12,Rebels FC,3,2,Lynn Leones,
+Spring 2026,Over 30,3,North,2026-04-12,Sporting Club Malden,5,1,Sandy Pond Soccer Club,
 Spring 2026,Over 30,3,North,2026-04-19,Concord United,,,Lowell United,scheduled
 Spring 2026,Over 30,3,North,2026-04-19,Nashua City,,,Marblehead,scheduled
 Spring 2026,Over 30,3,North,2026-04-19,Sporting Club Malden,,,Rebels FC,scheduled
@@ -221,7 +221,7 @@ Spring 2026,Over 30,3,South,2026-04-05,Middlesex FC,4,2,Newport FC,
 Spring 2026,Over 30,3,South,2026-04-12,Providence City FC,3,3,Somerville FC,
 Spring 2026,Over 30,3,South,2026-04-12,Harvest Soccer Club,4,2,HTK FC,
 Spring 2026,Over 30,3,South,2026-04-12,Newport FC,6,1,Metrowest United FC,
-Spring 2026,Over 30,3,South,2026-04-12,Roots FC,,,Middlesex FC,scheduled
+Spring 2026,Over 30,3,South,2026-04-12,Roots FC,5,2,Middlesex FC,
 Spring 2026,Over 30,3,South,2026-04-19,Somerville FC,,,HTK FC,scheduled
 Spring 2026,Over 30,3,South,2026-04-19,Providence City FC,,,Harvest Soccer Club,scheduled
 Spring 2026,Over 30,3,South,2026-04-19,Roots FC,,,Newport FC,scheduled
@@ -1013,7 +1013,7 @@ Spring 2026,Over 48,4,North,TBD,Harvard Blues FC,,,Nashua Absolute II,scheduled
 Spring 2026,Over 48,4,South,2026-04-05,NCLS Evergreen,1,3,Norfolk FC,
 Spring 2026,Over 48,4,South,2026-04-09,BNFC O48,1,3,Neponset Old Boys,
 Spring 2026,Over 48,4,South,2026-04-12,Neponset Old Boys,3,2,NCLS Evergreen,
-Spring 2026,Over 48,4,South,2026-04-12,Peru Sports FC Masters,,,BNFC O48,scheduled
+Spring 2026,Over 48,4,South,2026-04-12,Peru Sports FC Masters,3,1,BNFC O48,
 Spring 2026,Over 48,4,South,2026-04-12,Norfolk FC,3,2,Easton Legends,
 Spring 2026,Over 48,4,South,2026-04-19,Peru Sports FC Masters,,,Neponset Old Boys,scheduled
 Spring 2026,Over 48,4,South,2026-04-19,Norfolk FC,,,BNFC O48,scheduled
