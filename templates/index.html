@@ -443,6 +443,55 @@
     margin-top: 10px;
   }
 
+  .subscribe-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(35,68,43,0.08), rgba(198,138,43,0.10));
+    border: 1px solid rgba(198,138,43,0.25);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-banner-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .subscribe-banner-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .subscribe-banner-text span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn:hover { opacity: 0.88; }
+
   @media (max-width: 960px) {
     .hero-grid,
     .selector-grid {
@@ -514,6 +563,16 @@
         </div>
       </div>
     </section>
+
+    <div class="subscribe-banner">
+      <div class="subscribe-banner-text">
+        <strong>Stay in the loop</strong>
+        <span>Get weekly updates, standings, and match recaps delivered to your inbox.</span>
+      </div>
+      <a class="subscribe-btn" href="https://substack.com/@jacobkhaykin" target="_blank" rel="noopener">
+        Subscribe ↗
+      </a>
+    </div>
 
     <section class="section">
       <div class="section-title">
