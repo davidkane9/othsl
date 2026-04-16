@@ -35,14 +35,3 @@ To build locally:
 python freeze.py
 ```
 
-## AI email digest
-
-`digest.py` generates a weekly narrative digest using Claude and sends it via Resend:
-
-```
-pip install anthropic resend
-set ANTHROPIC_API_KEY=sk-ant-...
-set RESEND_API_KEY=re_...
-python digest.py          # send email
-python digest.py --preview  # print HTML without sending
-```
