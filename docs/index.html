@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTHSL | Spring 2026</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --field-2: #6f8f63;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 36px;
+    border-radius: 30px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -50px -120px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 26px;
+    align-items: end;
+    margin-top: 16px;
+  }
+
+  .hero h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .hero p {
+    margin: 0;
+    max-width: 58ch;
+    color: rgba(247, 242, 232, 0.82);
+    line-height: 1.65;
+    font-size: 1.03rem;
+  }
+
+  .hero-meta {
+    margin-top: 18px;
+    color: rgba(247, 242, 232, 0.72);
+    font-size: 0.95rem;
+  }
+
+  .hero-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hero-card {
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .hero-card .label {
+    color: rgba(247, 242, 232, 0.64);
+  }
+
+  .hero-card .value {
+    font-size: 1.95rem;
+    line-height: 1;
+  }
+
+  .hero-card .sub {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: rgba(247, 242, 232, 0.72);
+  }
+
+  .section {
+    margin-top: 26px;
+    padding: 28px;
+    border-radius: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .section-title h2 {
+    margin: 0;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .selector-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .selector-grid {
+    grid-template-columns: 1.05fr 1fr;
+  }
+
+  .selector-panel,
+  .summary-panel {
+    padding: 22px;
+    border-radius: 22px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+  }
+
+  .selector-panel h3,
+  .summary-panel h3 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .field select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+  }
+
+  .field select:disabled {
+    background: #f1ecdf;
+    color: #8a8f84;
+  }
+
+  .selector-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .button:disabled {
+    cursor: not-allowed;
+    background: #90a08f;
+  }
+
+  .button.alt {
+    background: rgba(35, 68, 43, 0.08);
+    color: var(--field);
+  }
+
+  .summary-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .summary-stat {
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(35, 68, 43, 0.06), rgba(198, 138, 43, 0.08));
+    border: 1px solid var(--line);
+  }
+
+  .summary-stat .value {
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+
+  .age-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .age-tag {
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: rgba(35, 68, 43, 0.08);
+    color: var(--field);
+    font-size: 0.92rem;
+  }
+
+  /* Flight directory grouped grid */
+  .sched-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid #8b9b8b;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 520px;
+  }
+  .sched-header {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-weight: 700;
+    font-size: .95rem;
+    padding: 10px;
+    border-bottom: 2px solid #8b9b8b;
+    background: var(--panel-strong);
+  }
+  .sched-age-cell {
+    padding: 12px 14px;
+    border: 1px solid #c5cfc5;
+    vertical-align: top;
+  }
+  .sched-age-cell:nth-child(even) { border-left: 2px solid #8b9b8b; }
+  .sched-age-name {
+    font-weight: 700;
+    font-size: .9rem;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .sched-div-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+  .sched-link {
+    font-size: .82rem;
+    color: #8b1a1a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .sched-link:hover { text-decoration: underline; }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Feedback */
+  .feedback-section {
+    margin-top: 10px;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .feedback-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .feedback-drawer {
+    display: none;
+    margin-top: 16px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feedback-drawer.open { display: block; }
+
+  .feedback-drawer h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .feedback-drawer p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .feedback-field label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .feedback-submit:disabled {
+    background: #90a08f;
+    cursor: not-allowed;
+  }
+
+  .feedback-thanks {
+    display: none;
+    color: var(--field);
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  .subscribe-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(35,68,43,0.08), rgba(198,138,43,0.10));
+    border: 1px solid rgba(198,138,43,0.25);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-banner-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .subscribe-banner-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .subscribe-banner-text span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn:hover { opacity: 0.88; }
+
+  @media (max-width: 960px) {
+    .hero-grid,
+    .selector-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      width: min(100% - 20px, 1180px);
+      padding-top: 14px;
+    }
+
+    .hero,
+    .section {
+      padding: 20px;
+      border-radius: 22px;
+    }
+
+    .hero-cards,
+    .field-grid,
+    .summary-stats {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <span class="eyebrow">OTHSL Match Intelligence</span>
+      <div class="hero-grid">
+        <div>
+          <h1>Spring 2026</h1>
+          <p>
+            League standings, team pages, and model-driven views for the current season,
+            organized around a cleaner public homepage instead of a single default team.
+          </p>
+          <div class="hero-meta">
+            Latest update: 2026-06-28
+          </div>
+        </div>
+        <div class="hero-cards">
+          <div class="hero-card">
+            <span class="label">Teams</span>
+            <div class="value">264</div>
+            <div class="sub">Active in the Spring 2026 dataset</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Flights</span>
+            <div class="value">37</div>
+            <div class="sub">Age group, division, and geography combinations</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Games</span>
+            <div class="value">250</div>
+            <div class="sub">Completed results currently loaded</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Coverage</span>
+            <div class="value">6</div>
+            <div class="sub">Age-group ladders available to explore</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="subscribe-banner">
+      <div class="subscribe-banner-text">
+        <strong>Stay in the loop</strong>
+        <span>Get weekly updates, standings, and match recaps delivered to your inbox.</span>
+      </div>
+      <a class="subscribe-btn" href="https://substack.com/@jacobkhaykin" target="_blank" rel="noopener">
+        Subscribe ↗
+      </a>
+    </div>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Choose A Team</h2>
+          <p>Start with an age group, narrow to a flight, and open the team page you want.</p>
+        </div>
+      </div>
+
+      <div class="selector-grid">
+        <div class="selector-panel">
+          <h3>Team Selector</h3>
+          <p class="note">Narrow to a team.</p>
+
+          <form id="team-selector">
+            <div class="field-grid">
+              <!-- Historical season picker parked for now.
+              <label class="field">
+                <span class="label">Season</span>
+                <select id="season-select"></select>
+              </label>
+              -->
+
+              <label class="field" id="field-age-group">
+                <span class="label">Age Group</span>
+                <select id="age-group-select">
+                  <option value="">Choose age group</option>
+                  
+                  <option value="Over 30">Over 30</option>
+                  
+                  <option value="Over 40">Over 40</option>
+                  
+                  <option value="Over 48">Over 48</option>
+                  
+                  <option value="Over 55">Over 55</option>
+                  
+                  <option value="Over 62">Over 62</option>
+                  
+                  <option value="Over 68">Over 68</option>
+                  
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="label">Division</span>
+                <select id="division-select" disabled>
+                  <option value="">Choose division</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="label">Geography</span>
+                <select id="geography-select" disabled>
+                  <option value="">Choose geography</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="label">Team</span>
+                <select id="team-select" disabled>
+                  <option value="">Choose team</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="selector-actions">
+              <button id="open-team-button" class="button" type="submit" disabled>Open Team Page</button>
+              <button id="reset-selector-button" class="button alt" type="button">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="summary-panel">
+          <h3>Season Scope</h3>
+          <p class="note">
+            Spring 2026 currently spans 264 teams across
+            37 active flights. Use the selector to jump straight
+            to a team page, or scan the full league table below.
+          </p>
+
+          <div class="summary-stats">
+            <div class="summary-stat">
+              <span class="label">Tracked Teams</span>
+              <div class="value">264</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Completed Games</span>
+              <div class="value">250</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Flights</span>
+              <div class="value">37</div>
+            </div>
+            <div class="summary-stat">
+              <span class="label">Latest Date</span>
+              <div class="value" style="font-size:1.2rem">2026-06-28</div>
+            </div>
+          </div>
+
+          <div class="age-tags">
+            
+            <span class="age-tag">Over 30</span>
+            
+            <span class="age-tag">Over 40</span>
+            
+            <span class="age-tag">Over 48</span>
+            
+            <span class="age-tag">Over 55</span>
+            
+            <span class="age-tag">Over 62</span>
+            
+            <span class="age-tag">Over 68</span>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Flight Directory</h2>
+        </div>
+      </div>
+
+      <div class="sched-grid">
+        <div class="sched-header">Schedules and Standings</div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 30</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-30-div-1-north/" class="sched-link page-link">1n</a>
+            
+            <a href="flight/over-30-div-1-south/" class="sched-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-30-div-2-north/" class="sched-link page-link">2n</a>
+            
+            <a href="flight/over-30-div-2-south/" class="sched-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-30-div-3-north/" class="sched-link page-link">3n</a>
+            
+            <a href="flight/over-30-div-3-south/" class="sched-link page-link">3s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 40</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-1-north/" class="sched-link page-link">1n</a>
+            
+            <a href="flight/over-40-div-1-south/" class="sched-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-2-north/" class="sched-link page-link">2n</a>
+            
+            <a href="flight/over-40-div-2-south/" class="sched-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-3-north/" class="sched-link page-link">3n</a>
+            
+            <a href="flight/over-40-div-3-south/" class="sched-link page-link">3s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-4-north/" class="sched-link page-link">4n</a>
+            
+            <a href="flight/over-40-div-4-south/" class="sched-link page-link">4s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-5-north/" class="sched-link page-link">5n</a>
+            
+            <a href="flight/over-40-div-5-south/" class="sched-link page-link">5s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-40-div-6-central/" class="sched-link page-link">6c</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 48</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-48-div-1-north/" class="sched-link page-link">1n</a>
+            
+            <a href="flight/over-48-div-1-south/" class="sched-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-48-div-2-north/" class="sched-link page-link">2n</a>
+            
+            <a href="flight/over-48-div-2-south/" class="sched-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-48-div-3-north/" class="sched-link page-link">3n</a>
+            
+            <a href="flight/over-48-div-3-south/" class="sched-link page-link">3s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-48-div-4-north/" class="sched-link page-link">4n</a>
+            
+            <a href="flight/over-48-div-4-south/" class="sched-link page-link">4s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-48-div-5-north/" class="sched-link page-link">5n</a>
+            
+            <a href="flight/over-48-div-5-south/" class="sched-link page-link">5s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 55</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-55-div-1-north/" class="sched-link page-link">1n</a>
+            
+            <a href="flight/over-55-div-1-south/" class="sched-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-55-div-2-north/" class="sched-link page-link">2n</a>
+            
+            <a href="flight/over-55-div-2-south/" class="sched-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-55-div-3-north/" class="sched-link page-link">3n</a>
+            
+            <a href="flight/over-55-div-3-south/" class="sched-link page-link">3s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 62</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-62-div-1-central/" class="sched-link page-link">1c</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-62-div-2-central/" class="sched-link page-link">2c</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="sched-age-cell">
+          <div class="sched-age-name">Over 68</div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-68-div-1-central/" class="sched-link page-link">1c</a>
+            
+          </div>
+          
+          <div class="sched-div-row">
+            
+            <a href="flight/over-68-div-2-central/" class="sched-link page-link">2c</a>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+
+      <div class="feedback-section">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+const selectorData     = {"age_groups": ["Over 30", "Over 40", "Over 48", "Over 55", "Over 62", "Over 68"], "flights_by_age": {"Over 30": [{"division": "1", "geography": "North", "label": "Division 1 North"}, {"division": "1", "geography": "South", "label": "Division 1 South"}, {"division": "2", "geography": "North", "label": "Division 2 North"}, {"division": "2", "geography": "South", "label": "Division 2 South"}, {"division": "3", "geography": "North", "label": "Division 3 North"}, {"division": "3", "geography": "South", "label": "Division 3 South"}], "Over 40": [{"division": "1", "geography": "North", "label": "Division 1 North"}, {"division": "1", "geography": "South", "label": "Division 1 South"}, {"division": "2", "geography": "North", "label": "Division 2 North"}, {"division": "2", "geography": "South", "label": "Division 2 South"}, {"division": "3", "geography": "North", "label": "Division 3 North"}, {"division": "3", "geography": "South", "label": "Division 3 South"}, {"division": "4", "geography": "North", "label": "Division 4 North"}, {"division": "4", "geography": "South", "label": "Division 4 South"}, {"division": "5", "geography": "North", "label": "Division 5 North"}, {"division": "5", "geography": "South", "label": "Division 5 South"}, {"division": "6", "geography": "Central", "label": "Division 6 Central"}], "Over 48": [{"division": "1", "geography": "North", "label": "Division 1 North"}, {"division": "1", "geography": "South", "label": "Division 1 South"}, {"division": "2", "geography": "North", "label": "Division 2 North"}, {"division": "2", "geography": "South", "label": "Division 2 South"}, {"division": "3", "geography": "North", "label": "Division 3 North"}, {"division": "3", "geography": "South", "label": "Division 3 South"}, {"division": "4", "geography": "North", "label": "Division 4 North"}, {"division": "4", "geography": "South", "label": "Division 4 South"}, {"division": "5", "geography": "North", "label": "Division 5 North"}, {"division": "5", "geography": "South", "label": "Division 5 South"}], "Over 55": [{"division": "1", "geography": "North", "label": "Division 1 North"}, {"division": "1", "geography": "South", "label": "Division 1 South"}, {"division": "2", "geography": "North", "label": "Division 2 North"}, {"division": "2", "geography": "South", "label": "Division 2 South"}, {"division": "3", "geography": "North", "label": "Division 3 North"}, {"division": "3", "geography": "South", "label": "Division 3 South"}], "Over 62": [{"division": "1", "geography": "Central", "label": "Division 1 Central"}, {"division": "2", "geography": "Central", "label": "Division 2 Central"}], "Over 68": [{"division": "1", "geography": "Central", "label": "Division 1 Central"}, {"division": "2", "geography": "Central", "label": "Division 2 Central"}]}, "teams_by_flight": {"Over 30|1|North": [{"name": "CDF Azzurri", "path": "team/cdf-azzurri-over-30-div-1-north/", "slug": "cdf-azzurri-over-30-div-1-north"}, {"name": "Cantona", "path": "team/cantona-over-30-div-1-north/", "slug": "cantona-over-30-div-1-north"}, {"name": "Eastern FC", "path": "team/eastern-fc-over-30-div-1-north/", "slug": "eastern-fc-over-30-div-1-north"}, {"name": "Kendall Wanderers", "path": "team/kendall-wanderers-over-30-div-1-north/", "slug": "kendall-wanderers-over-30-div-1-north"}, {"name": "Loco Gunners", "path": "team/loco-gunners-over-30-div-1-north/", "slug": "loco-gunners-over-30-div-1-north"}, {"name": "Massachusetts United", "path": "team/massachusetts-united-over-30-div-1-north/", "slug": "massachusetts-united-over-30-div-1-north"}, {"name": "Meadowlark FC", "path": "team/meadowlark-fc-over-30-div-1-north/", "slug": "meadowlark-fc-over-30-div-1-north"}, {"name": "Newburyport FC", "path": "team/newburyport-fc-over-30-div-1-north/", "slug": "newburyport-fc-over-30-div-1-north"}], "Over 30|1|South": [{"name": "Boston Celtic FC", "path": "team/boston-celtic-fc-over-30-div-1-south/", "slug": "boston-celtic-fc-over-30-div-1-south"}, {"name": "Boston Nigeria Eagles FC", "path": "team/boston-nigeria-eagles-fc-over-30-div-1-south/", "slug": "boston-nigeria-eagles-fc-over-30-div-1-south"}, {"name": "Os Amigos F.C.", "path": "team/os-amigos-f-c-over-30-div-1-south/", "slug": "os-amigos-f-c-over-30-div-1-south"}, {"name": "Plymouth FC", "path": "team/plymouth-fc-over-30-div-1-south/", "slug": "plymouth-fc-over-30-div-1-south"}, {"name": "Shake-Shake FC", "path": "team/shake-shake-fc-over-30-div-1-south/", "slug": "shake-shake-fc-over-30-div-1-south"}, {"name": "Southside F.C.", "path": "team/southside-f-c-over-30-div-1-south/", "slug": "southside-f-c-over-30-div-1-south"}, {"name": "Taunton Eagles Soccer Club", "path": "team/taunton-eagles-soccer-club-over-30-div-1-south/", "slug": "taunton-eagles-soccer-club-over-30-div-1-south"}, {"name": "Torres FC", "path": "team/torres-fc-over-30-div-1-south/", "slug": "torres-fc-over-30-div-1-south"}], "Over 30|2|North": [{"name": "Essex Football Club", "path": "team/essex-football-club-over-30-div-2-north/", "slug": "essex-football-club-over-30-div-2-north"}, {"name": "Ferruginha FC", "path": "team/ferruginha-fc-over-30-div-2-north/", "slug": "ferruginha-fc-over-30-div-2-north"}, {"name": "Groton House FC", "path": "team/groton-house-fc-over-30-div-2-north/", "slug": "groton-house-fc-over-30-div-2-north"}, {"name": "Harvard", "path": "team/harvard-over-30-div-2-north/", "slug": "harvard-over-30-div-2-north"}, {"name": "Irish Village", "path": "team/irish-village-over-30-div-2-north/", "slug": "irish-village-over-30-div-2-north"}, {"name": "Lexington Eagles FC", "path": "team/lexington-eagles-fc-over-30-div-2-north/", "slug": "lexington-eagles-fc-over-30-div-2-north"}, {"name": "Lynnfield FC", "path": "team/lynnfield-fc-over-30-div-2-north/", "slug": "lynnfield-fc-over-30-div-2-north"}, {"name": "New England Elite FC", "path": "team/new-england-elite-fc-over-30-div-2-north/", "slug": "new-england-elite-fc-over-30-div-2-north"}], "Over 30|2|South": [{"name": "Classicos F.C", "path": "team/classicos-f-c-over-30-div-2-south/", "slug": "classicos-f-c-over-30-div-2-south"}, {"name": "Fernandes FC", "path": "team/fernandes-fc-over-30-div-2-south/", "slug": "fernandes-fc-over-30-div-2-south"}, {"name": "Juventus USA", "path": "team/juventus-usa-over-30-div-2-south/", "slug": "juventus-usa-over-30-div-2-south"}, {"name": "Medfield", "path": "team/medfield-over-30-div-2-south/", "slug": "medfield-over-30-div-2-south"}, {"name": "Needham United", "path": "team/needham-united-over-30-div-2-south/", "slug": "needham-united-over-30-div-2-south"}, {"name": "Old Colony Rovers", "path": "team/old-colony-rovers-over-30-div-2-south/", "slug": "old-colony-rovers-over-30-div-2-south"}, {"name": "PRAIA KAPITAL FC", "path": "team/praia-kapital-fc-over-30-div-2-south/", "slug": "praia-kapital-fc-over-30-div-2-south"}, {"name": "Rovers FC", "path": "team/rovers-fc-over-30-div-2-south/", "slug": "rovers-fc-over-30-div-2-south"}], "Over 30|3|North": [{"name": "Concord United", "path": "team/concord-united-over-30-div-3-north/", "slug": "concord-united-over-30-div-3-north"}, {"name": "Lowell United", "path": "team/lowell-united-over-30-div-3-north/", "slug": "lowell-united-over-30-div-3-north"}, {"name": "Lynn Leones", "path": "team/lynn-leones-over-30-div-3-north/", "slug": "lynn-leones-over-30-div-3-north"}, {"name": "Marblehead", "path": "team/marblehead-over-30-div-3-north/", "slug": "marblehead-over-30-div-3-north"}, {"name": "Nashua City", "path": "team/nashua-city-over-30-div-3-north/", "slug": "nashua-city-over-30-div-3-north"}, {"name": "Rebels FC", "path": "team/rebels-fc-over-30-div-3-north/", "slug": "rebels-fc-over-30-div-3-north"}, {"name": "Sandy Pond Soccer Club", "path": "team/sandy-pond-soccer-club-over-30-div-3-north/", "slug": "sandy-pond-soccer-club-over-30-div-3-north"}, {"name": "Sporting Club Malden", "path": "team/sporting-club-malden-over-30-div-3-north/", "slug": "sporting-club-malden-over-30-div-3-north"}], "Over 30|3|South": [{"name": "HTK FC", "path": "team/htk-fc-over-30-div-3-south/", "slug": "htk-fc-over-30-div-3-south"}, {"name": "Harvest Soccer Club", "path": "team/harvest-soccer-club-over-30-div-3-south/", "slug": "harvest-soccer-club-over-30-div-3-south"}, {"name": "Metrowest United FC", "path": "team/metrowest-united-fc-over-30-div-3-south/", "slug": "metrowest-united-fc-over-30-div-3-south"}, {"name": "Middlesex FC", "path": "team/middlesex-fc-over-30-div-3-south/", "slug": "middlesex-fc-over-30-div-3-south"}, {"name": "Newport FC", "path": "team/newport-fc-over-30-div-3-south/", "slug": "newport-fc-over-30-div-3-south"}, {"name": "Providence City FC", "path": "team/providence-city-fc-over-30-div-3-south/", "slug": "providence-city-fc-over-30-div-3-south"}, {"name": "Roots FC", "path": "team/roots-fc-over-30-div-3-south/", "slug": "roots-fc-over-30-div-3-south"}, {"name": "Somerville FC", "path": "team/somerville-fc-over-30-div-3-south/", "slug": "somerville-fc-over-30-div-3-south"}], "Over 40|1|North": [{"name": "BPK United", "path": "team/bpk-united-over-40-div-1-north/", "slug": "bpk-united-over-40-div-1-north"}, {"name": "Cantona North", "path": "team/cantona-north-over-40-div-1-north/", "slug": "cantona-north-over-40-div-1-north"}, {"name": "Concord United Masters", "path": "team/concord-united-masters-over-40-div-1-north/", "slug": "concord-united-masters-over-40-div-1-north"}, {"name": "Hudson United", "path": "team/hudson-united-over-40-div-1-north/", "slug": "hudson-united-over-40-div-1-north"}, {"name": "P.A.C. Lowell", "path": "team/p-a-c-lowell-over-40-div-1-north/", "slug": "p-a-c-lowell-over-40-div-1-north"}, {"name": "Peabody Sporting Club", "path": "team/peabody-sporting-club-over-40-div-1-north/", "slug": "peabody-sporting-club-over-40-div-1-north"}, {"name": "Shrewsbury", "path": "team/shrewsbury-over-40-div-1-north/", "slug": "shrewsbury-over-40-div-1-north"}, {"name": "Winchester Safira Footballers", "path": "team/winchester-safira-footballers-over-40-div-1-north/", "slug": "winchester-safira-footballers-over-40-div-1-north"}], "Over 40|1|South": [{"name": "Ashland FC", "path": "team/ashland-fc-over-40-div-1-south/", "slug": "ashland-fc-over-40-div-1-south"}, {"name": "Criciuma Boston", "path": "team/criciuma-boston-over-40-div-1-south/", "slug": "criciuma-boston-over-40-div-1-south"}, {"name": "F C Bayern", "path": "team/f-c-bayern-over-40-div-1-south/", "slug": "f-c-bayern-over-40-div-1-south"}, {"name": "FFM United", "path": "team/ffm-united-over-40-div-1-south/", "slug": "ffm-united-over-40-div-1-south"}, {"name": "Fernandes FC 40", "path": "team/fernandes-fc-40-over-40-div-1-south/", "slug": "fernandes-fc-40-over-40-div-1-south"}, {"name": "Kel Kau Masters", "path": "team/kel-kau-masters-over-40-div-1-south/", "slug": "kel-kau-masters-over-40-div-1-south"}, {"name": "Stellar FC", "path": "team/stellar-fc-over-40-div-1-south/", "slug": "stellar-fc-over-40-div-1-south"}, {"name": "United International", "path": "team/united-international-over-40-div-1-south/", "slug": "united-international-over-40-div-1-south"}], "Over 40|2|North": [{"name": "Arlington Fossils", "path": "team/arlington-fossils-over-40-div-2-north/", "slug": "arlington-fossils-over-40-div-2-north"}, {"name": "Charlestown FC", "path": "team/charlestown-fc-over-40-div-2-north/", "slug": "charlestown-fc-over-40-div-2-north"}, {"name": "DEA", "path": "team/dea-over-40-div-2-north/", "slug": "dea-over-40-div-2-north"}, {"name": "Kendall Wanderers", "path": "team/kendall-wanderers-over-40-div-2-north/", "slug": "kendall-wanderers-over-40-div-2-north"}, {"name": "Marblehead", "path": "team/marblehead-over-40-div-2-north/", "slug": "marblehead-over-40-div-2-north"}, {"name": "Melrose Wakefield Meadowlarks", "path": "team/melrose-wakefield-meadowlarks-over-40-div-2-north/", "slug": "melrose-wakefield-meadowlarks-over-40-div-2-north"}, {"name": "Os Amigos FC", "path": "team/os-amigos-fc-over-40-div-2-north/", "slug": "os-amigos-fc-over-40-div-2-north"}, {"name": "Seacoast United SC", "path": "team/seacoast-united-sc-over-40-div-2-north/", "slug": "seacoast-united-sc-over-40-div-2-north"}], "Over 40|2|South": [{"name": "Albania United Veterans", "path": "team/albania-united-veterans-over-40-div-2-south/", "slug": "albania-united-veterans-over-40-div-2-south"}, {"name": "Celtic Masters", "path": "team/celtic-masters-over-40-div-2-south/", "slug": "celtic-masters-over-40-div-2-south"}, {"name": "Crafty Veterans", "path": "team/crafty-veterans-over-40-div-2-south/", "slug": "crafty-veterans-over-40-div-2-south"}, {"name": "FUFC", "path": "team/fufc-over-40-div-2-south/", "slug": "fufc-over-40-div-2-south"}, {"name": "Framingham Persepolis", "path": "team/framingham-persepolis-over-40-div-2-south/", "slug": "framingham-persepolis-over-40-div-2-south"}, {"name": "Natick Rovers FC", "path": "team/natick-rovers-fc-over-40-div-2-south/", "slug": "natick-rovers-fc-over-40-div-2-south"}, {"name": "Newton Brigada", "path": "team/newton-brigada-over-40-div-2-south/", "slug": "newton-brigada-over-40-div-2-south"}, {"name": "Taunton Eagles Soccer Club", "path": "team/taunton-eagles-soccer-club-over-40-div-2-south/", "slug": "taunton-eagles-soccer-club-over-40-div-2-south"}], "Over 40|3|North": [{"name": "Arlington Pond Dawgz", "path": "team/arlington-pond-dawgz-over-40-div-3-north/", "slug": "arlington-pond-dawgz-over-40-div-3-north"}, {"name": "Boston White Eagles", "path": "team/boston-white-eagles-over-40-div-3-north/", "slug": "boston-white-eagles-over-40-div-3-north"}, {"name": "Lexington Bald Eagles O40", "path": "team/lexington-bald-eagles-o40-over-40-div-3-north/", "slug": "lexington-bald-eagles-o40-over-40-div-3-north"}, {"name": "Lexington Eagles", "path": "team/lexington-eagles-over-40-div-3-north/", "slug": "lexington-eagles-over-40-div-3-north"}, {"name": "Lynnfield FC", "path": "team/lynnfield-fc-over-40-div-3-north/", "slug": "lynnfield-fc-over-40-div-3-north"}, {"name": "Medford United", "path": "team/medford-united-over-40-div-3-north/", "slug": "medford-united-over-40-div-3-north"}, {"name": "Nashua Absolute", "path": "team/nashua-absolute-over-40-div-3-north/", "slug": "nashua-absolute-over-40-div-3-north"}, {"name": "Windham", "path": "team/windham-over-40-div-3-north/", "slug": "windham-over-40-div-3-north"}], "Over 40|3|South": [{"name": "Chelsea FC", "path": "team/chelsea-fc-over-40-div-3-south/", "slug": "chelsea-fc-over-40-div-3-south"}, {"name": "Great Woods FC", "path": "team/great-woods-fc-over-40-div-3-south/", "slug": "great-woods-fc-over-40-div-3-south"}, {"name": "Irish Village Green", "path": "team/irish-village-green-over-40-div-3-south/", "slug": "irish-village-green-over-40-div-3-south"}, {"name": "Mansfield United", "path": "team/mansfield-united-over-40-div-3-south/", "slug": "mansfield-united-over-40-div-3-south"}, {"name": "Medfield FC", "path": "team/medfield-fc-over-40-div-3-south/", "slug": "medfield-fc-over-40-div-3-south"}, {"name": "Milton International", "path": "team/milton-international-over-40-div-3-south/", "slug": "milton-international-over-40-div-3-south"}, {"name": "Peru Sports FC", "path": "team/peru-sports-fc-over-40-div-3-south/", "slug": "peru-sports-fc-over-40-div-3-south"}, {"name": "Vineyard FC", "path": "team/vineyard-fc-over-40-div-3-south/", "slug": "vineyard-fc-over-40-div-3-south"}], "Over 40|4|North": [{"name": "FC Littleton", "path": "team/fc-littleton-over-40-div-4-north/", "slug": "fc-littleton-over-40-div-4-north"}, {"name": "Granite Coast F.C.", "path": "team/granite-coast-f-c-over-40-div-4-north/", "slug": "granite-coast-f-c-over-40-div-4-north"}, {"name": "Hopkinton Hotspur", "path": "team/hopkinton-hotspur-over-40-div-4-north/", "slug": "hopkinton-hotspur-over-40-div-4-north"}, {"name": "Hurricane SC", "path": "team/hurricane-sc-over-40-div-4-north/", "slug": "hurricane-sc-over-40-div-4-north"}, {"name": "MVFC", "path": "team/mvfc-over-40-div-4-north/", "slug": "mvfc-over-40-div-4-north"}, {"name": "Nashoba Masters", "path": "team/nashoba-masters-over-40-div-4-north/", "slug": "nashoba-masters-over-40-div-4-north"}, {"name": "New England International", "path": "team/new-england-international-over-40-div-4-north/", "slug": "new-england-international-over-40-div-4-north"}, {"name": "Sudbury United", "path": "team/sudbury-united-over-40-div-4-north/", "slug": "sudbury-united-over-40-div-4-north"}], "Over 40|4|South": [{"name": "Cabo Verde FC", "path": "team/cabo-verde-fc-over-40-div-4-south/", "slug": "cabo-verde-fc-over-40-div-4-south"}, {"name": "FC Franklin", "path": "team/fc-franklin-over-40-div-4-south/", "slug": "fc-franklin-over-40-div-4-south"}, {"name": "FC Needham United", "path": "team/fc-needham-united-over-40-div-4-south/", "slug": "fc-needham-united-over-40-div-4-south"}, {"name": "FIMA FC", "path": "team/fima-fc-over-40-div-4-south/", "slug": "fima-fc-over-40-div-4-south"}, {"name": "Medway", "path": "team/medway-over-40-div-4-south/", "slug": "medway-over-40-div-4-south"}, {"name": "Newport FC O40", "path": "team/newport-fc-o40-over-40-div-4-south/", "slug": "newport-fc-o40-over-40-div-4-south"}, {"name": "Wayland Wahoo", "path": "team/wayland-wahoo-over-40-div-4-south/", "slug": "wayland-wahoo-over-40-div-4-south"}, {"name": "West Roxbury United", "path": "team/west-roxbury-united-over-40-div-4-south/", "slug": "west-roxbury-united-over-40-div-4-south"}], "Over 40|5|North": [{"name": "Acton-Boxboro United", "path": "team/acton-boxboro-united-over-40-div-5-north/", "slug": "acton-boxboro-united-over-40-div-5-north"}, {"name": "Bristol FC", "path": "team/bristol-fc-over-40-div-5-north/", "slug": "bristol-fc-over-40-div-5-north"}, {"name": "Dirty Groton Scoundrels", "path": "team/dirty-groton-scoundrels-over-40-div-5-north/", "slug": "dirty-groton-scoundrels-over-40-div-5-north"}, {"name": "FC Newburyport Brew", "path": "team/fc-newburyport-brew-over-40-div-5-north/", "slug": "fc-newburyport-brew-over-40-div-5-north"}, {"name": "FC Old Skool", "path": "team/fc-old-skool-over-40-div-5-north/", "slug": "fc-old-skool-over-40-div-5-north"}, {"name": "Rebels", "path": "team/rebels-over-40-div-5-north/", "slug": "rebels-over-40-div-5-north"}, {"name": "Wahooligans FC", "path": "team/wahooligans-fc-over-40-div-5-north/", "slug": "wahooligans-fc-over-40-div-5-north"}, {"name": "Wen Ham United FC", "path": "team/wen-ham-united-fc-over-40-div-5-north/", "slug": "wen-ham-united-fc-over-40-div-5-north"}], "Over 40|5|South": [{"name": "Canary Square Veterans", "path": "team/canary-square-veterans-over-40-div-5-south/", "slug": "canary-square-veterans-over-40-div-5-south"}, {"name": "FC Franklin II", "path": "team/fc-franklin-ii-over-40-div-5-south/", "slug": "fc-franklin-ii-over-40-div-5-south"}, {"name": "FC Walpole", "path": "team/fc-walpole-over-40-div-5-south/", "slug": "fc-walpole-over-40-div-5-south"}, {"name": "HTK FC", "path": "team/htk-fc-over-40-div-5-south/", "slug": "htk-fc-over-40-div-5-south"}, {"name": "Hogs FC", "path": "team/hogs-fc-over-40-div-5-south/", "slug": "hogs-fc-over-40-div-5-south"}, {"name": "Irish Village White", "path": "team/irish-village-white-over-40-div-5-south/", "slug": "irish-village-white-over-40-div-5-south"}, {"name": "Medfield", "path": "team/medfield-over-40-div-5-south/", "slug": "medfield-over-40-div-5-south"}, {"name": "Milton FC", "path": "team/milton-fc-over-40-div-5-south/", "slug": "milton-fc-over-40-div-5-south"}], "Over 40|6|Central": [{"name": "BNFC", "path": "team/bnfc-over-40-div-6-central/", "slug": "bnfc-over-40-div-6-central"}, {"name": "Carlisle FC", "path": "team/carlisle-fc-over-40-div-6-central/", "slug": "carlisle-fc-over-40-div-6-central"}, {"name": "Hampstead Hurricanes", "path": "team/hampstead-hurricanes-over-40-div-6-central/", "slug": "hampstead-hurricanes-over-40-div-6-central"}, {"name": "Harvard Blues FC", "path": "team/harvard-blues-fc-over-40-div-6-central/", "slug": "harvard-blues-fc-over-40-div-6-central"}, {"name": "Island United FC", "path": "team/island-united-fc-over-40-div-6-central/", "slug": "island-united-fc-over-40-div-6-central"}, {"name": "North Reading FC", "path": "team/north-reading-fc-over-40-div-6-central/", "slug": "north-reading-fc-over-40-div-6-central"}, {"name": "Post-game Nomads", "path": "team/post-game-nomads-over-40-div-6-central/", "slug": "post-game-nomads-over-40-div-6-central"}], "Over 48|1|North": [{"name": "Concord United", "path": "team/concord-united-over-48-div-1-north/", "slug": "concord-united-over-48-div-1-north"}, {"name": "DEA", "path": "team/dea-over-48-div-1-north/", "slug": "dea-over-48-div-1-north"}, {"name": "Danvers - True Soccer FC", "path": "team/danvers-true-soccer-fc-over-48-div-1-north/", "slug": "danvers-true-soccer-fc-over-48-div-1-north"}, {"name": "FC Boxford", "path": "team/fc-boxford-over-48-div-1-north/", "slug": "fc-boxford-over-48-div-1-north"}, {"name": "Marblehead", "path": "team/marblehead-over-48-div-1-north/", "slug": "marblehead-over-48-div-1-north"}, {"name": "Nashoba", "path": "team/nashoba-over-48-div-1-north/", "slug": "nashoba-over-48-div-1-north"}, {"name": "Stoneham Spartans Over 48", "path": "team/stoneham-spartans-over-48-over-48-div-1-north/", "slug": "stoneham-spartans-over-48-over-48-div-1-north"}, {"name": "Westford FC", "path": "team/westford-fc-over-48-div-1-north/", "slug": "westford-fc-over-48-div-1-north"}], "Over 48|1|South": [{"name": "Crafty Veterans", "path": "team/crafty-veterans-over-48-div-1-south/", "slug": "crafty-veterans-over-48-div-1-south"}, {"name": "FC Franklin O50", "path": "team/fc-franklin-o50-over-48-div-1-south/", "slug": "fc-franklin-o50-over-48-div-1-south"}, {"name": "Hopkinton Hotspur o48\u0027s", "path": "team/hopkinton-hotspur-o48-s-over-48-div-1-south/", "slug": "hopkinton-hotspur-o48-s-over-48-div-1-south"}, {"name": "Jamaica Plain FC 48", "path": "team/jamaica-plain-fc-48-over-48-div-1-south/", "slug": "jamaica-plain-fc-48-over-48-div-1-south"}, {"name": "Kel Kau", "path": "team/kel-kau-over-48-div-1-south/", "slug": "kel-kau-over-48-div-1-south"}, {"name": "Rovers FC o48", "path": "team/rovers-fc-o48-over-48-div-1-south/", "slug": "rovers-fc-o48-over-48-div-1-south"}, {"name": "Shake-Shake FC Seniors", "path": "team/shake-shake-fc-seniors-over-48-div-1-south/", "slug": "shake-shake-fc-seniors-over-48-div-1-south"}, {"name": "Sudbury AC", "path": "team/sudbury-ac-over-48-div-1-south/", "slug": "sudbury-ac-over-48-div-1-south"}], "Over 48|2|North": [{"name": "Hurricanes SC", "path": "team/hurricanes-sc-over-48-div-2-north/", "slug": "hurricanes-sc-over-48-div-2-north"}, {"name": "Lexington Eagles", "path": "team/lexington-eagles-over-48-div-2-north/", "slug": "lexington-eagles-over-48-div-2-north"}, {"name": "Medford United II", "path": "team/medford-united-ii-over-48-div-2-north/", "slug": "medford-united-ii-over-48-div-2-north"}, {"name": "NH Freedom", "path": "team/nh-freedom-over-48-div-2-north/", "slug": "nh-freedom-over-48-div-2-north"}, {"name": "North Andover FC O48", "path": "team/north-andover-fc-o48-over-48-div-2-north/", "slug": "north-andover-fc-o48-over-48-div-2-north"}, {"name": "O48", "path": "team/o48-over-48-div-2-north/", "slug": "o48-over-48-div-2-north"}, {"name": "Shrewsbury Wanderers", "path": "team/shrewsbury-wanderers-over-48-div-2-north/", "slug": "shrewsbury-wanderers-over-48-div-2-north"}, {"name": "Westford O48 PAC Lowell", "path": "team/westford-o48-pac-lowell-over-48-div-2-north/", "slug": "westford-o48-pac-lowell-over-48-div-2-north"}, {"name": "Winchester Town Fifties", "path": "team/winchester-town-fifties-over-48-div-2-north/", "slug": "winchester-town-fifties-over-48-div-2-north"}], "Over 48|2|South": [{"name": "Albanian United Veterans", "path": "team/albanian-united-veterans-over-48-div-2-south/", "slug": "albanian-united-veterans-over-48-div-2-south"}, {"name": "FIMA FC O50", "path": "team/fima-fc-o50-over-48-div-2-south/", "slug": "fima-fc-o50-over-48-div-2-south"}, {"name": "Fernandes FC O50", "path": "team/fernandes-fc-o50-over-48-div-2-south/", "slug": "fernandes-fc-o50-over-48-div-2-south"}, {"name": "Irish Village 48", "path": "team/irish-village-48-over-48-div-2-south/", "slug": "irish-village-48-over-48-div-2-south"}, {"name": "Taunton Eagles", "path": "team/taunton-eagles-over-48-div-2-south/", "slug": "taunton-eagles-over-48-div-2-south"}, {"name": "United Intl FC", "path": "team/united-intl-fc-over-48-div-2-south/", "slug": "united-intl-fc-over-48-div-2-south"}, {"name": "Wayland wahootoo", "path": "team/wayland-wahootoo-over-48-div-2-south/", "slug": "wayland-wahootoo-over-48-div-2-south"}, {"name": "Western Mass Lusitano", "path": "team/western-mass-lusitano-over-48-div-2-south/", "slug": "western-mass-lusitano-over-48-div-2-south"}], "Over 48|3|North": [{"name": "Andover Gold", "path": "team/andover-gold-over-48-div-3-north/", "slug": "andover-gold-over-48-div-3-north"}, {"name": "Cantona over 48", "path": "team/cantona-over-48-over-48-div-3-north/", "slug": "cantona-over-48-over-48-div-3-north"}, {"name": "FC Older School", "path": "team/fc-older-school-over-48-div-3-north/", "slug": "fc-older-school-over-48-div-3-north"}, {"name": "Lexington Golden Eagles", "path": "team/lexington-golden-eagles-over-48-div-3-north/", "slug": "lexington-golden-eagles-over-48-div-3-north"}, {"name": "Lynnfield FC Raiders", "path": "team/lynnfield-fc-raiders-over-48-div-3-north/", "slug": "lynnfield-fc-raiders-over-48-div-3-north"}, {"name": "Medford Atomic", "path": "team/medford-atomic-over-48-div-3-north/", "slug": "medford-atomic-over-48-div-3-north"}, {"name": "Melrose United", "path": "team/melrose-united-over-48-div-3-north/", "slug": "melrose-united-over-48-div-3-north"}, {"name": "Windham 50s", "path": "team/windham-50s-over-48-div-3-north/", "slug": "windham-50s-over-48-div-3-north"}], "Over 48|3|South": [{"name": "Celtic Veterans", "path": "team/celtic-veterans-over-48-div-3-south/", "slug": "celtic-veterans-over-48-div-3-south"}, {"name": "Dover Sherborn Hop Hunters", "path": "team/dover-sherborn-hop-hunters-over-48-div-3-south/", "slug": "dover-sherborn-hop-hunters-over-48-div-3-south"}, {"name": "FC Walpole O48", "path": "team/fc-walpole-o48-over-48-div-3-south/", "slug": "fc-walpole-o48-over-48-div-3-south"}, {"name": "Framingham Persepolis 48", "path": "team/framingham-persepolis-48-over-48-div-3-south/", "slug": "framingham-persepolis-48-over-48-div-3-south"}, {"name": "Kendall Wanderers", "path": "team/kendall-wanderers-over-48-div-3-south/", "slug": "kendall-wanderers-over-48-div-3-south"}, {"name": "Lexington Allin Eagles", "path": "team/lexington-allin-eagles-over-48-div-3-south/", "slug": "lexington-allin-eagles-over-48-div-3-south"}, {"name": "Newton Brigada II", "path": "team/newton-brigada-ii-over-48-div-3-south/", "slug": "newton-brigada-ii-over-48-div-3-south"}, {"name": "West Roxbury United", "path": "team/west-roxbury-united-over-48-div-3-south/", "slug": "west-roxbury-united-over-48-div-3-south"}], "Over 48|4|North": [{"name": "Arlington Pond Dawgz", "path": "team/arlington-pond-dawgz-over-48-div-4-north/", "slug": "arlington-pond-dawgz-over-48-div-4-north"}, {"name": "Harvard Blues FC", "path": "team/harvard-blues-fc-over-48-div-4-north/", "slug": "harvard-blues-fc-over-48-div-4-north"}, {"name": "Nashua Absolute II", "path": "team/nashua-absolute-ii-over-48-div-4-north/", "slug": "nashua-absolute-ii-over-48-div-4-north"}, {"name": "Northshore United Soccer Club", "path": "team/northshore-united-soccer-club-over-48-div-4-north/", "slug": "northshore-united-soccer-club-over-48-div-4-north"}, {"name": "Pepperell Red Bulls", "path": "team/pepperell-red-bulls-over-48-div-4-north/", "slug": "pepperell-red-bulls-over-48-div-4-north"}, {"name": "Wen Ham United", "path": "team/wen-ham-united-over-48-div-4-north/", "slug": "wen-ham-united-over-48-div-4-north"}], "Over 48|4|South": [{"name": "BNFC O48", "path": "team/bnfc-o48-over-48-div-4-south/", "slug": "bnfc-o48-over-48-div-4-south"}, {"name": "Easton Legends", "path": "team/easton-legends-over-48-div-4-south/", "slug": "easton-legends-over-48-div-4-south"}, {"name": "NCLS Evergreen", "path": "team/ncls-evergreen-over-48-div-4-south/", "slug": "ncls-evergreen-over-48-div-4-south"}, {"name": "Neponset Old Boys", "path": "team/neponset-old-boys-over-48-div-4-south/", "slug": "neponset-old-boys-over-48-div-4-south"}, {"name": "Norfolk FC", "path": "team/norfolk-fc-over-48-div-4-south/", "slug": "norfolk-fc-over-48-div-4-south"}, {"name": "Peru Sports FC Masters", "path": "team/peru-sports-fc-masters-over-48-div-4-south/", "slug": "peru-sports-fc-masters-over-48-div-4-south"}], "Over 48|5|North": [{"name": "Canary Square 50", "path": "team/canary-square-50-over-48-div-5-north/", "slug": "canary-square-50-over-48-div-5-north"}, {"name": "Charlestown FC o48", "path": "team/charlestown-fc-o48-over-48-div-5-north/", "slug": "charlestown-fc-o48-over-48-div-5-north"}, {"name": "FC Belmont", "path": "team/fc-belmont-over-48-div-5-north/", "slug": "fc-belmont-over-48-div-5-north"}, {"name": "Malden Everett Veterans", "path": "team/malden-everett-veterans-over-48-div-5-north/", "slug": "malden-everett-veterans-over-48-div-5-north"}, {"name": "Masco", "path": "team/masco-over-48-div-5-north/", "slug": "masco-over-48-div-5-north"}, {"name": "North Andover Grey Knights", "path": "team/north-andover-grey-knights-over-48-div-5-north/", "slug": "north-andover-grey-knights-over-48-div-5-north"}, {"name": "Old School Soccer Club", "path": "team/old-school-soccer-club-over-48-div-5-north/", "slug": "old-school-soccer-club-over-48-div-5-north"}], "Over 48|5|South": [{"name": "Ashland Over 48", "path": "team/ashland-over-48-over-48-div-5-south/", "slug": "ashland-over-48-over-48-div-5-south"}, {"name": "Criolo City FC", "path": "team/criolo-city-fc-over-48-div-5-south/", "slug": "criolo-city-fc-over-48-div-5-south"}, {"name": "Franklin", "path": "team/franklin-over-48-div-5-south/", "slug": "franklin-over-48-div-5-south"}, {"name": "HTK FC", "path": "team/htk-fc-over-48-div-5-south/", "slug": "htk-fc-over-48-div-5-south"}, {"name": "Needham FC", "path": "team/needham-fc-over-48-div-5-south/", "slug": "needham-fc-over-48-div-5-south"}, {"name": "Raynham Crue", "path": "team/raynham-crue-over-48-div-5-south/", "slug": "raynham-crue-over-48-div-5-south"}], "Over 55|1|North": [{"name": "Concord United Veterans", "path": "team/concord-united-veterans-over-55-div-1-north/", "slug": "concord-united-veterans-over-55-div-1-north"}, {"name": "DEA", "path": "team/dea-over-55-div-1-north/", "slug": "dea-over-55-div-1-north"}, {"name": "Danvers Evolution FC", "path": "team/danvers-evolution-fc-over-55-div-1-north/", "slug": "danvers-evolution-fc-over-55-div-1-north"}, {"name": "Lexington Regal Eagles", "path": "team/lexington-regal-eagles-over-55-div-1-north/", "slug": "lexington-regal-eagles-over-55-div-1-north"}, {"name": "NS Internationals", "path": "team/ns-internationals-over-55-div-1-north/", "slug": "ns-internationals-over-55-div-1-north"}, {"name": "Nashoba o55", "path": "team/nashoba-o55-over-55-div-1-north/", "slug": "nashoba-o55-over-55-div-1-north"}, {"name": "North Andover Warriors", "path": "team/north-andover-warriors-over-55-div-1-north/", "slug": "north-andover-warriors-over-55-div-1-north"}, {"name": "Seadogs F.C.", "path": "team/seadogs-f-c-over-55-div-1-north/", "slug": "seadogs-f-c-over-55-div-1-north"}], "Over 55|1|South": [{"name": "FUFC Gray", "path": "team/fufc-gray-over-55-div-1-south/", "slug": "fufc-gray-over-55-div-1-south"}, {"name": "Fernandes FC O55", "path": "team/fernandes-fc-o55-over-55-div-1-south/", "slug": "fernandes-fc-o55-over-55-div-1-south"}, {"name": "MADBoys", "path": "team/madboys-over-55-div-1-south/", "slug": "madboys-over-55-div-1-south"}, {"name": "Medway MOB", "path": "team/medway-mob-over-55-div-1-south/", "slug": "medway-mob-over-55-div-1-south"}, {"name": "Rovers FC O55", "path": "team/rovers-fc-o55-over-55-div-1-south/", "slug": "rovers-fc-o55-over-55-div-1-south"}, {"name": "Shake-Shake FC Veterans", "path": "team/shake-shake-fc-veterans-over-55-div-1-south/", "slug": "shake-shake-fc-veterans-over-55-div-1-south"}, {"name": "Wayland wahootee", "path": "team/wayland-wahootee-over-55-div-1-south/", "slug": "wayland-wahootee-over-55-div-1-south"}, {"name": "Weston", "path": "team/weston-over-55-div-1-south/", "slug": "weston-over-55-div-1-south"}], "Over 55|2|North": [{"name": "Lexington Eagles O55", "path": "team/lexington-eagles-o55-over-55-div-2-north/", "slug": "lexington-eagles-o55-over-55-div-2-north"}, {"name": "Lynnfield F.C. Spartans", "path": "team/lynnfield-f-c-spartans-over-55-div-2-north/", "slug": "lynnfield-f-c-spartans-over-55-div-2-north"}, {"name": "Marblehead o55", "path": "team/marblehead-o55-over-55-div-2-north/", "slug": "marblehead-o55-over-55-div-2-north"}, {"name": "Medford Atomic o55", "path": "team/medford-atomic-o55-over-55-div-2-north/", "slug": "medford-atomic-o55-over-55-div-2-north"}, {"name": "Nashua IFC", "path": "team/nashua-ifc-over-55-div-2-north/", "slug": "nashua-ifc-over-55-div-2-north"}, {"name": "Peabody Gold", "path": "team/peabody-gold-over-55-div-2-north/", "slug": "peabody-gold-over-55-div-2-north"}, {"name": "Pepperell Celtic", "path": "team/pepperell-celtic-over-55-div-2-north/", "slug": "pepperell-celtic-over-55-div-2-north"}, {"name": "Windham O55", "path": "team/windham-o55-over-55-div-2-north/", "slug": "windham-o55-over-55-div-2-north"}], "Over 55|2|South": [{"name": "AFC Medfield", "path": "team/afc-medfield-over-55-div-2-south/", "slug": "afc-medfield-over-55-div-2-south"}, {"name": "Ashland", "path": "team/ashland-over-55-div-2-south/", "slug": "ashland-over-55-div-2-south"}, {"name": "FIMA O55", "path": "team/fima-o55-over-55-div-2-south/", "slug": "fima-o55-over-55-div-2-south"}, {"name": "Framingham United", "path": "team/framingham-united-over-55-div-2-south/", "slug": "framingham-united-over-55-div-2-south"}, {"name": "Irish Village", "path": "team/irish-village-over-55-div-2-south/", "slug": "irish-village-over-55-div-2-south"}, {"name": "Jamaica Plain FC 55", "path": "team/jamaica-plain-fc-55-over-55-div-2-south/", "slug": "jamaica-plain-fc-55-over-55-div-2-south"}, {"name": "Sudbury Thistle AC", "path": "team/sudbury-thistle-ac-over-55-div-2-south/", "slug": "sudbury-thistle-ac-over-55-div-2-south"}, {"name": "West Roxbury United 55", "path": "team/west-roxbury-united-55-over-55-div-2-south/", "slug": "west-roxbury-united-55-over-55-div-2-south"}], "Over 55|3|North": [{"name": "Derry Eagles", "path": "team/derry-eagles-over-55-div-3-north/", "slug": "derry-eagles-over-55-div-3-north"}, {"name": "Hurricanes SC", "path": "team/hurricanes-sc-over-55-div-3-north/", "slug": "hurricanes-sc-over-55-div-3-north"}, {"name": "MGG", "path": "team/mgg-over-55-div-3-north/", "slug": "mgg-over-55-div-3-north"}, {"name": "Melrose Good Guys", "path": "team/melrose-good-guys-over-55-div-3-north/", "slug": "melrose-good-guys-over-55-div-3-north"}, {"name": "North Reading", "path": "team/north-reading-over-55-div-3-north/", "slug": "north-reading-over-55-div-3-north"}, {"name": "Westford", "path": "team/westford-over-55-div-3-north/", "slug": "westford-over-55-div-3-north"}], "Over 55|3|South": [{"name": "Arlington Pond Dawgz", "path": "team/arlington-pond-dawgz-over-55-div-3-south/", "slug": "arlington-pond-dawgz-over-55-div-3-south"}, {"name": "F.C. Westwood", "path": "team/f-c-westwood-over-55-div-3-south/", "slug": "f-c-westwood-over-55-div-3-south"}, {"name": "FC Franklin Seniors", "path": "team/fc-franklin-seniors-over-55-div-3-south/", "slug": "fc-franklin-seniors-over-55-div-3-south"}, {"name": "Fernandes O55++", "path": "team/fernandes-o55-over-55-div-3-south/", "slug": "fernandes-o55-over-55-div-3-south"}, {"name": "Warthog Legends", "path": "team/warthog-legends-over-55-div-3-south/", "slug": "warthog-legends-over-55-div-3-south"}, {"name": "Western Mass Lusitanos", "path": "team/western-mass-lusitanos-over-55-div-3-south/", "slug": "western-mass-lusitanos-over-55-div-3-south"}], "Over 62|1|Central": [{"name": "Concord United Dragons", "path": "team/concord-united-dragons-over-62-div-1-central/", "slug": "concord-united-dragons-over-62-div-1-central"}, {"name": "Danvers EFC", "path": "team/danvers-efc-over-62-div-1-central/", "slug": "danvers-efc-over-62-div-1-central"}, {"name": "Lexington Eagles United O62", "path": "team/lexington-eagles-united-o62-over-62-div-1-central/", "slug": "lexington-eagles-united-o62-over-62-div-1-central"}, {"name": "Medfield Rhinos", "path": "team/medfield-rhinos-over-62-div-1-central/", "slug": "medfield-rhinos-over-62-div-1-central"}, {"name": "Raynham", "path": "team/raynham-over-62-div-1-central/", "slug": "raynham-over-62-div-1-central"}, {"name": "Seadogs EFC", "path": "team/seadogs-efc-over-62-div-1-central/", "slug": "seadogs-efc-over-62-div-1-central"}, {"name": "Wayland Wahoots", "path": "team/wayland-wahoots-over-62-div-1-central/", "slug": "wayland-wahoots-over-62-div-1-central"}], "Over 62|2|Central": [{"name": "Arlington PondDawgz 62", "path": "team/arlington-ponddawgz-62-over-62-div-2-central/", "slug": "arlington-ponddawgz-62-over-62-div-2-central"}, {"name": "Boston Villa FC", "path": "team/boston-villa-fc-over-62-div-2-central/", "slug": "boston-villa-fc-over-62-div-2-central"}, {"name": "Hopkinton OF", "path": "team/hopkinton-of-over-62-div-2-central/", "slug": "hopkinton-of-over-62-div-2-central"}, {"name": "Lynnfield F.C. Olympians", "path": "team/lynnfield-f-c-olympians-over-62-div-2-central/", "slug": "lynnfield-f-c-olympians-over-62-div-2-central"}, {"name": "Medway", "path": "team/medway-over-62-div-2-central/", "slug": "medway-over-62-div-2-central"}, {"name": "Nashoba Apple Corps", "path": "team/nashoba-apple-corps-over-62-div-2-central/", "slug": "nashoba-apple-corps-over-62-div-2-central"}, {"name": "Peabody Gold 63", "path": "team/peabody-gold-63-over-62-div-2-central/", "slug": "peabody-gold-63-over-62-div-2-central"}, {"name": "Shake-Shake FC 62", "path": "team/shake-shake-fc-62-over-62-div-2-central/", "slug": "shake-shake-fc-62-over-62-div-2-central"}, {"name": "Warthog Wonders", "path": "team/warthog-wonders-over-62-div-2-central/", "slug": "warthog-wonders-over-62-div-2-central"}], "Over 68|1|Central": [{"name": "Everett Phoenix", "path": "team/everett-phoenix-over-68-div-1-central/", "slug": "everett-phoenix-over-68-div-1-central"}, {"name": "Harvard O-68", "path": "team/harvard-o-68-over-68-div-1-central/", "slug": "harvard-o-68-over-68-div-1-central"}, {"name": "LFC Travelers", "path": "team/lfc-travelers-over-68-div-1-central/", "slug": "lfc-travelers-over-68-div-1-central"}, {"name": "Lexington o68", "path": "team/lexington-o68-over-68-div-1-central/", "slug": "lexington-o68-over-68-div-1-central"}, {"name": "Lynnfield F.C. Pioneers", "path": "team/lynnfield-f-c-pioneers-over-68-div-1-central/", "slug": "lynnfield-f-c-pioneers-over-68-div-1-central"}, {"name": "New England United FC", "path": "team/new-england-united-fc-over-68-div-1-central/", "slug": "new-england-united-fc-over-68-div-1-central"}, {"name": "Sudbury FC Platinum", "path": "team/sudbury-fc-platinum-over-68-div-1-central/", "slug": "sudbury-fc-platinum-over-68-div-1-central"}, {"name": "The Warthogs", "path": "team/the-warthogs-over-68-div-1-central/", "slug": "the-warthogs-over-68-div-1-central"}], "Over 68|2|Central": [{"name": "Beverly", "path": "team/beverly-over-68-div-2-central/", "slug": "beverly-over-68-div-2-central"}, {"name": "Burlington 0-68", "path": "team/burlington-0-68-over-68-div-2-central/", "slug": "burlington-0-68-over-68-div-2-central"}, {"name": "Exeter Seadogs", "path": "team/exeter-seadogs-over-68-div-2-central/", "slug": "exeter-seadogs-over-68-div-2-central"}, {"name": "GRandOVER 68", "path": "team/grandover-68-over-68-div-2-central/", "slug": "grandover-68-over-68-div-2-central"}, {"name": "Londonderry FC", "path": "team/londonderry-fc-over-68-div-2-central/", "slug": "londonderry-fc-over-68-div-2-central"}, {"name": "Needham Relics", "path": "team/needham-relics-over-68-div-2-central/", "slug": "needham-relics-over-68-div-2-central"}, {"name": "Wanderers", "path": "team/wanderers-over-68-div-2-central/", "slug": "wanderers-over-68-div-2-central"}, {"name": "Wayland Spirit", "path": "team/wayland-spirit-over-68-div-2-central/", "slug": "wayland-spirit-over-68-div-2-central"}]}};
+// Historical selector/navigation parked for now.
+// const histSelector     = {};
+// const CURRENT_SS       = "spring-2026";
+
+(function() {
+  const ageSelect      = document.getElementById("age-group-select");
+  const divisionSelect = document.getElementById("division-select");
+  const geographySelect= document.getElementById("geography-select");
+  const teamSelect     = document.getElementById("team-select");
+  const openButton     = document.getElementById("open-team-button");
+  const resetButton    = document.getElementById("reset-selector-button");
+  const form           = document.getElementById("team-selector");
+
+  function setOptions(select, options, placeholder) {
+    select.innerHTML = "";
+    const ph = document.createElement("option");
+    ph.value = ""; ph.textContent = placeholder;
+    select.appendChild(ph);
+    options.forEach(opt => {
+      const el = document.createElement("option");
+      if (typeof opt === "string") { el.value = opt; el.textContent = opt; }
+      else { el.value = opt.value; el.textContent = opt.label; if (opt.path) el.dataset.path = opt.path; }
+      select.appendChild(el);
+    });
+  }
+
+  function resetTeams()    { setOptions(teamSelect, [], "Choose team"); teamSelect.disabled = true; openButton.disabled = true; }
+  function resetGeo()      { setOptions(geographySelect, [], "Choose geography"); geographySelect.disabled = true; resetTeams(); }
+  function resetDivisions(){ setOptions(divisionSelect, [], "Choose division"); divisionSelect.disabled = true; resetGeo(); }
+
+  // Historical selector helpers parked for now.
+  // function isCurrentSeason() { return seasonSelect.value === CURRENT_SS; }
+  // function histAgeGroups(ss) { ... }
+  // function histFlightsByAge(ss, age) { ... }
+  // function histTeamsByFlight(ss, age, div, geo) { ... }
+
+  ageSelect.addEventListener("change", () => {
+    const age = ageSelect.value;
+    resetDivisions();
+    if (!age) return;
+    const flights = selectorData.flights_by_age[age] || [];
+    const divOpts = Array.from(new Map(flights.map(f => [f.division, { value: f.division, label: `Division ${f.division}` }])).values());
+    setOptions(divisionSelect, divOpts, "Choose division");
+    divisionSelect.disabled = false;
+  });
+
+  divisionSelect.addEventListener("change", () => {
+    const age = ageSelect.value, div = divisionSelect.value;
+    resetGeo();
+    if (!age || !div) return;
+    const geoOpts = (selectorData.flights_by_age[age] || []).filter(f => f.division === div).map(f => ({ value: f.geography, label: f.geography }));
+    setOptions(geographySelect, geoOpts, "Choose geography");
+    geographySelect.disabled = false;
+  });
+
+  geographySelect.addEventListener("change", () => {
+    const age = ageSelect.value, div = divisionSelect.value, geo = geographySelect.value;
+    resetTeams();
+    if (!age || !div || !geo) return;
+    const key = `${age}|${div}|${geo}`;
+    const teamOpts = (selectorData.teams_by_flight[key] || []).map(t => ({ value: t.slug, label: t.name, path: t.path }));
+    setOptions(teamSelect, teamOpts, "Choose team");
+    teamSelect.disabled = false;
+  });
+
+  teamSelect.addEventListener("change", () => {
+    const sel = teamSelect.options[teamSelect.selectedIndex];
+    openButton.disabled = !sel || !sel.dataset.path;
+  });
+
+  resetButton.addEventListener("click", () => {
+    ageSelect.value = "";
+    resetDivisions();
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const sel = teamSelect.options[teamSelect.selectedIndex];
+    if (!sel || !sel.dataset.path) return;
+    document.body.classList.add("is-leaving");
+    window.setTimeout(() => { window.location.href = sel.dataset.path; }, 180);
+  });
+})();
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const data = new FormData(fbForm);
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+</script>
+</body>
+</html>

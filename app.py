@@ -35,6 +35,40 @@ def slugify(value):
     return value.strip("-") or "team"
 
 
+def clean_team_name(team):
+    team = (team or "").strip()
+    team = re.sub(r"\s*#\s*review referee\s*$", "", team, flags=re.IGNORECASE).strip()
+    return team
+
+
+def is_real_team_name(team):
+    team = clean_team_name(team)
+    if not team:
+        return False
+    if team.upper() == "TBD":
+        return False
+    if team.upper() == "FC":
+        return False
+    if re.search(r"lost by forfeit", team, re.IGNORECASE):
+        return False
+    return True
+
+
+# --- HISTORICAL NAVIGATION (commented out, not yet live) ---
+# def season_to_slug(season): return season.lower().replace(" ", "-")
+# def slug_to_season(slug):
+#     parts = slug.split("-")
+#     return parts[0].capitalize() + " " + parts[1] if len(parts)==2 else slug
+# def get_all_seasons():
+#     rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
+#     return sorted({r["season"] for r in rows if r["season"]}, key=season_sort_key)
+# def get_rows_for_season(season):
+#     if season == CURRENT_SEASON: return get_current_season_rows()
+#     rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
+#     return [r for r in rows if r["season"] == season]
+# --- END HISTORICAL NAVIGATION ---
+
+
 def get_current_season_rows():
     rows = load_csv(os.path.join(DATA_DIR, "current_results.csv"))
     return [r for r in rows if r["season"] == CURRENT_SEASON]
@@ -54,8 +88,10 @@ def get_latest_elo_map():
     latest = {}
     for row in get_elo_rows():
         age_group = row["age_group"]
-        latest[(row["home_team"], age_group)] = float(row["elo_home_after"])
-        latest[(row["away_team"], age_group)] = float(row["elo_away_after"])
+        if is_real_team_name(row["home_team"]):
+            latest[(clean_team_name(row["home_team"]), age_group)] = float(row["elo_home_after"])
+        if is_real_team_name(row["away_team"]):
+            latest[(clean_team_name(row["away_team"]), age_group)] = float(row["elo_away_after"])
     _elo_map_cache = latest
     return latest
 
@@ -110,13 +146,11 @@ def get_standings_for_flight(rows, age_group, division, geography, selected_team
         ):
             continue
 
-        ht, at = r["home_team"], r["away_team"]
-        hg, ag = r["home_goals"], r["away_goals"]
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
+            continue
 
-        if "lost by forfeit" in ht.lower() or "lost by forfeit" in at.lower():
-            continue
-        if ht.strip().upper() == "TBD" or at.strip().upper() == "TBD":
-            continue
+        ht, at = clean_team_name(r["home_team"]), clean_team_name(r["away_team"])
+        hg, ag = r["home_goals"], r["away_goals"]
 
         for team in (ht, at):
             if team not in stats:
@@ -196,8 +230,13 @@ def get_team_results(rows, team_info):
         ):
             continue
 
-        is_home = r["home_team"] == team_info["team"]
-        is_away = r["away_team"] == team_info["team"]
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
+            continue
+
+        home_team = clean_team_name(r["home_team"])
+        away_team = clean_team_name(r["away_team"])
+        is_home = home_team == team_info["team"]
+        is_away = away_team == team_info["team"]
         if not is_home and not is_away:
             continue
 
@@ -223,7 +262,7 @@ def get_team_results(rows, team_info):
             else:
                 result = "T"
 
-        opponent = r["away_team"] if is_home else r["home_team"]
+        opponent = away_team if is_home else home_team
         venue = "H" if is_home else "A"
 
         if is_forfeit(hg) or is_forfeit(ag):
@@ -252,9 +291,9 @@ def get_team_elo_history(team_info):
     history = []
     for r in get_elo_rows():
         elo_after = None
-        if r["home_team"] == team_info["team"]:
+        if clean_team_name(r["home_team"]) == team_info["team"]:
             elo_after = float(r["elo_home_after"])
-        elif r["away_team"] == team_info["team"]:
+        elif clean_team_name(r["away_team"]) == team_info["team"]:
             elo_after = float(r["elo_away_after"])
 
         if elo_after is None:
@@ -280,11 +319,10 @@ def get_team_catalog():
 
     for r in rows:
         flight = (r["age_group"], r["division"], r["geography"])
-        for team in (r["home_team"], r["away_team"]):
-            if not team or team.strip().upper() == "TBD":
+        for raw_team in (r["home_team"], r["away_team"]):
+            if not is_real_team_name(raw_team):
                 continue
-            if re.search(r'lost by forfeit', team, re.IGNORECASE):
-                continue
+            team = clean_team_name(raw_team)
             key = (*flight, team)
             if key in catalog:
                 continue
@@ -318,11 +356,18 @@ def get_flight_catalog():
     ):
         standings = get_standings_for_flight(rows, age_group, division, geography)
         teams = sorted({
-            team for r in flight_data for team in (r["home_team"], r["away_team"])
-            if team and team.strip().upper() != "TBD"
-            and not re.search(r'lost by forfeit', team, re.IGNORECASE)
+            clean_team_name(team)
+            for r in flight_data
+            for team in (r["home_team"], r["away_team"])
+            if is_real_team_name(team)
         })
-        played_games = sum(1 for r in flight_data if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]))
+        played_games = sum(
+            1
+            for r in flight_data
+            if is_real_team_name(r["home_team"])
+            and is_real_team_name(r["away_team"])
+            and (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]))
+        )
         leader = standings[0]["team"] if standings else None
         cards.append(
             {
@@ -340,13 +385,56 @@ def get_flight_catalog():
     return cards
 
 
+def get_flight_catalog_grouped():
+    """Return flight catalog grouped by age_group for the compact directory grid."""
+    cards = get_flight_catalog()
+    geo_abbr = {"North": "n", "South": "s", "Central": "c", "East": "e", "West": "w"}
+
+    ag_map = defaultdict(list)
+    for card in cards:
+        ag_map[card["age_group"]].append(card)
+
+    result = []
+    for age_group in sorted(ag_map.keys()):
+        flights = ag_map[age_group]
+        div_map = defaultdict(list)
+        for f in flights:
+            div_map[f["division"]].append(f)
+
+        divisions = []
+        for div_num in sorted(div_map.keys(), key=lambda x: int(x)):
+            div_flights = sorted(div_map[div_num], key=lambda x: x["geography"])
+            divisions.append({
+                "div_num": div_num,
+                "flights": [
+                    {
+                        "geo": f["geography"],
+                        "geo_abbr": geo_abbr.get(f["geography"], f["geography"][0].lower()),
+                        "slug": f["slug"],
+                    }
+                    for f in div_flights
+                ],
+            })
+
+        result.append({"age_group": age_group, "divisions": divisions})
+
+    return result
+
+
 def get_league_overview():
     rows = get_current_season_rows()
-    teams = sorted({team for r in rows for team in (r["home_team"], r["away_team"])})
+    teams = sorted({
+        clean_team_name(team)
+        for r in rows
+        for team in (r["home_team"], r["away_team"])
+        if is_real_team_name(team)
+    })
     flights = sorted({(r["age_group"], r["division"], r["geography"]) for r in rows})
     completed = sum(
         1
         for r in rows
+        if is_real_team_name(r["home_team"])
+        and is_real_team_name(r["away_team"])
         if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])
     )
     latest_dates = sorted({r["date"] for r in rows if r["date"] != "TBD"})
@@ -373,6 +461,11 @@ def get_key_games():
                 latest_played_date = max(latest_played_date, row["date"]) if latest_played_date else row["date"]
 
     for row in rows:
+        if not is_real_team_name(row["home_team"]) or not is_real_team_name(row["away_team"]):
+            continue
+
+        home_team = clean_team_name(row["home_team"])
+        away_team = clean_team_name(row["away_team"])
         flight_key = (row["age_group"], row["division"], row["geography"])
         if flight_key not in standings_cache:
             standings_cache[flight_key] = get_standings_for_flight(rows, *flight_key)
@@ -385,8 +478,8 @@ def get_key_games():
         if not row_is_future and not row_is_recent:
             continue
 
-        home_pos = position_lookup.get(row["home_team"], len(standings))
-        away_pos = position_lookup.get(row["away_team"], len(standings))
+        home_pos = position_lookup.get(home_team, len(standings))
+        away_pos = position_lookup.get(away_team, len(standings))
         importance = (len(standings) - home_pos + 1) + (len(standings) - away_pos + 1)
         mode = "upcoming" if row_is_future else "recent"
         score = "vs"
@@ -400,9 +493,9 @@ def get_key_games():
                 "mode": mode,
                 "date": row["date"],
                 "flight": f"{row['age_group']} Division {row['division']} {row['geography']}",
-                "matchup": f"{row['home_team']} vs {row['away_team']}",
+                "matchup": f"{home_team} vs {away_team}",
                 "score": score,
-                "context": f"{row['home_team']} ({home_pos}) vs {row['away_team']} ({away_pos})",
+                "context": f"{home_team} ({home_pos}) vs {away_team} ({away_pos})",
                 "importance": importance,
             }
         )
@@ -411,6 +504,11 @@ def get_key_games():
     filtered = [item for item in all_candidates if item["mode"] == preferred_mode]
     filtered.sort(key=lambda item: (-item["importance"], item["date"], item["matchup"]))
     return preferred_mode, filtered[:8]
+
+
+# --- HISTORICAL SELECTOR DATA (commented out) ---
+# def get_historical_selector_data(n_seasons=8): ...
+# --- END ---
 
 
 def get_selector_data():
@@ -462,7 +560,7 @@ def simulate_team_outlook(team_info, standings, rows):
     future_games = [
         r for r in flight_rows
         if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"])
-        and r["home_team"].strip().upper() != "TBD" and r["away_team"].strip().upper() != "TBD"
+        and is_real_team_name(r["home_team"]) and is_real_team_name(r["away_team"])
     ]
 
     teams = [row["team"] for row in standings]
@@ -496,8 +594,10 @@ def simulate_team_outlook(team_info, standings, rows):
     for _ in range(SIMULATION_RUNS):
         sim_stats = {team: dict(stats) for team, stats in current_stats.items()}
         for game in future_games:
-            home = game["home_team"]
-            away = game["away_team"]
+            home = clean_team_name(game["home_team"])
+            away = clean_team_name(game["away_team"])
+            if home not in sim_stats or away not in sim_stats:
+                continue
             home_elo = latest_elos.get((home, team_info["age_group"]), DEFAULT_ELO)
             away_elo = latest_elos.get((away, team_info["age_group"]), DEFAULT_ELO)
             win_expectation = expected_result(home_elo, away_elo)
@@ -598,10 +698,14 @@ def get_flight_team_cards(team_info, standings, rows):
         team = row["team"]
         recent = []
         for r in played:
-            if r["home_team"] != team and r["away_team"] != team:
+            if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
                 continue
-            is_home = r["home_team"] == team
-            opp = r["away_team"] if is_home else r["home_team"]
+            home_team = clean_team_name(r["home_team"])
+            away_team = clean_team_name(r["away_team"])
+            if home_team != team and away_team != team:
+                continue
+            is_home = home_team == team
+            opp = away_team if is_home else home_team
             hg, ag = r["home_goals"], r["away_goals"]
             if is_forfeit(hg) or is_forfeit(ag):
                 res   = "W" if (is_home and is_forfeit(ag)) or (not is_home and is_forfeit(hg)) else "L"
@@ -642,16 +746,18 @@ def get_flight_sim_data(team_info, standings, rows):
 
     remaining = []
     for r in flight_rows:
-        if (r["home_team"].strip().upper() == "TBD" or r["away_team"].strip().upper() == "TBD"):
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
             continue
         if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"]):
             sel = team_info.get("team")
+            home = clean_team_name(r["home_team"])
+            away = clean_team_name(r["away_team"])
             remaining.append({
-                "id": f"{r['date']}|{r['home_team']}|{r['away_team']}",
-                "home": r["home_team"],
-                "away": r["away_team"],
+                "id": f"{r['date']}|{home}|{away}",
+                "home": home,
+                "away": away,
                 "date": r["date"],
-                "involves_team": bool(sel and sel in (r["home_team"], r["away_team"])),
+                "involves_team": bool(sel and sel in (home, away)),
             })
 
     # Fallback: if no scheduled games were scraped, infer remaining round-robin matchups
@@ -659,8 +765,10 @@ def get_flight_sim_data(team_info, standings, rows):
     if not remaining:
         played_pairs: dict = {}
         for r in flight_rows:
+            if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
+                continue
             if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]):
-                key = tuple(sorted([r["home_team"], r["away_team"]]))
+                key = tuple(sorted([clean_team_name(r["home_team"]), clean_team_name(r["away_team"])]))
                 played_pairs[key] = played_pairs.get(key, 0) + 1
 
         all_teams = list(current_stats.keys())
@@ -704,14 +812,21 @@ def get_flight_sim_data(team_info, standings, rows):
     }
 
 
+# --- HISTORICAL TEAM LOOKUP (commented out) ---
+# def build_team_name_slug(team_name): ...
+# --- END ---
+
+
 def get_team_page_context(team_slug):
+    rows = get_current_season_rows()
+
     team_catalog = get_team_catalog()
+    team_info = None
     team_lookup = {item["slug"]: item for item in team_catalog}
     team_info = team_lookup.get(team_slug)
+
     if not team_info:
         return None
-
-    rows = get_current_season_rows()
     games = get_team_results(rows, team_info)
     standings = get_standings_for_flight(
         rows,
@@ -738,8 +853,14 @@ def get_team_page_context(team_slug):
     team_info = dict(team_info)
     team_info["standing"] = standing
 
-    # Collect all played results for the flight (for matchweek history timeline)
+    # Determine top/bottom flight within this age group
     ag, div, geo = team_info["age_group"], team_info["division"], team_info["geography"]
+    age_divs = {int(r["division"]) for r in rows if r["age_group"] == ag and r["division"].isdigit()}
+    max_div = max(age_divs) if age_divs else int(div)
+    is_top_flight = int(div) == 1
+    is_bottom_flight = int(div) == max_div
+
+    # Collect all played results for the flight (for matchweek history timeline)
     flight_results = []
     for r in rows:
         if r["age_group"] != ag or r["division"] != div or r["geography"] != geo:
@@ -748,14 +869,14 @@ def get_team_page_context(team_slug):
             continue
         if r["date"] == "TBD":
             continue
-        if "lost by forfeit" in r["home_team"].lower() or "lost by forfeit" in r["away_team"].lower():
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
             continue
         hg = r["home_goals"]
         ag_val = r["away_goals"]
         flight_results.append({
             "date": r["date"],
-            "home": r["home_team"],
-            "away": r["away_team"],
+            "home": clean_team_name(r["home_team"]),
+            "away": clean_team_name(r["away_team"]),
             "hg": int(hg) if hg.isdigit() else None,
             "ag": int(ag_val) if ag_val.isdigit() else None,
             "forfeit": is_forfeit(hg) or is_forfeit(ag_val),
@@ -777,6 +898,8 @@ def get_team_page_context(team_slug):
         "sim_data": sim_data,
         "flight_team_cards": flight_team_cards,
         "flight_results": flight_results,
+        "is_top_flight": is_top_flight,
+        "is_bottom_flight": is_bottom_flight,
         "record": {"w": w, "l": l, "t": t},
         "current_elo": current_elo,
     }
@@ -790,7 +913,12 @@ def index():
         season=CURRENT_SEASON,
         league_overview=get_league_overview(),
         selector_data=get_selector_data(),
+        # Historical selector/navigation is intentionally parked for now.
+        # historical_selector=(hist_sel := get_historical_selector_data()),
+        # all_seasons=([CURRENT_SEASON] + [s for s in reversed(get_all_seasons()) if s != CURRENT_SEASON and season_to_slug(s) in hist_sel]),
+        # current_season_slug=season_to_slug(CURRENT_SEASON),
         flight_cards=get_flight_catalog(),
+        flight_groups=get_flight_catalog_grouped(),
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
@@ -815,6 +943,10 @@ def get_flight_page_context(age_group, division, geography):
     team_info = {"age_group": age_group, "division": division, "geography": geography}
     sim_data = get_flight_sim_data(team_info, standings, rows)
     flight_team_cards = get_flight_team_cards(team_info, standings, rows)
+    age_divs = {int(r["division"]) for r in rows if r["age_group"] == age_group and r["division"].isdigit()}
+    max_div = max(age_divs) if age_divs else int(division)
+    is_top_flight = int(division) == 1
+    is_bottom_flight = int(division) == max_div
 
     # Collect played results for the matchweek history timeline
     flight_results = []
@@ -825,20 +957,31 @@ def get_flight_page_context(age_group, division, geography):
             continue
         if r["date"] == "TBD":
             continue
-        if "lost by forfeit" in r["home_team"].lower() or "lost by forfeit" in r["away_team"].lower():
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
             continue
         hg = r["home_goals"]
         ag = r["away_goals"]
         flight_results.append({
             "date": r["date"],
-            "home": r["home_team"],
-            "away": r["away_team"],
+            "home": clean_team_name(r["home_team"]),
+            "away": clean_team_name(r["away_team"]),
             "hg": int(hg) if hg.isdigit() else None,
             "ag": int(ag) if ag.isdigit() else None,
             "forfeit": is_forfeit(hg) or is_forfeit(ag),
             "home_forfeit": is_forfeit(hg),
         })
 
+    # Historical flight season navigation is intentionally parked for now.
+    # all_seasons_raw = get_all_seasons()
+    # this_flight_slug = flight_slug(age_group, division, geography)
+    # all_rows_check = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
+    # seasons_with_data = {
+    #     season_to_slug(r["season"])
+    #     for r in all_rows_check
+    #     if r["age_group"] == age_group and r["division"] == division and r["geography"] == geography
+    # }
+    # seasons_with_data.add(season_to_slug(CURRENT_SEASON))
+    # available_seasons = [s for s in reversed(all_seasons_raw) if season_to_slug(s) in seasons_with_data]
     return {
         "age_group": age_group,
         "division": division,
@@ -848,12 +991,16 @@ def get_flight_page_context(age_group, division, geography):
         "sim_data": sim_data,
         "flight_results": flight_results,
         "flight_team_cards": flight_team_cards,
+        "is_top_flight": is_top_flight,
+        "is_bottom_flight": is_bottom_flight,
+        # "all_seasons": available_seasons,
+        # "season_slug": season_to_slug(season),
+        # "flight_slug_val": this_flight_slug,
+        # "is_current_season": season == CURRENT_SEASON,
     }
 
 
-@app.route("/flight/<flight_slug_val>/")
-def flight_page(flight_slug_val):
-    # Reverse-lookup flight from slug
+def _resolve_flight_page(flight_slug_val):
     rows = get_current_season_rows()
     flights = {
         (r["age_group"], r["division"], r["geography"])
@@ -865,7 +1012,41 @@ def flight_page(flight_slug_val):
             context = get_flight_page_context(age_group, division, geography)
             if context:
                 return render_template("flight.html", season=CURRENT_SEASON, **context)
+    return None
+
+
+@app.route("/flight/<flight_slug_val>/")
+def flight_page(flight_slug_val):
+    result = _resolve_flight_page(flight_slug_val)
+    if result:
+        return result
     abort(404)
+
+
+# --- HISTORICAL PAGE ROUTES (commented out) ---
+# @app.route("/season/<season_slug>/flight/<flight_slug_val>/")
+# def flight_page_historical(season_slug, flight_slug_val):
+#     season = slug_to_season(season_slug)
+#     rows = get_rows_for_season(season)
+#     if not rows:
+#         abort(404)
+#     result = _resolve_flight_page(flight_slug_val, rows, season)
+#     if result:
+#         return result
+#     abort(404)
+#
+#
+# @app.route("/season/<season_slug>/team/<team_slug>/")
+# def team_page_historical(season_slug, team_slug):
+#     season = slug_to_season(season_slug)
+#     rows = get_rows_for_season(season)
+#     if not rows:
+#         abort(404)
+#     context = get_team_page_context(team_slug, rows=rows, season=season)
+#     if not context:
+#         abort(404)
+#     return render_template("team.html", season=season, **context)
+# --- END HISTORICAL PAGE ROUTES ---
 
 
 if __name__ == "__main__":

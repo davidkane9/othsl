@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over 48 Division 1 South | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --surface: rgba(255,252,247,0.6);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --draw: #7d6d50;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+    --border: rgba(38,61,41,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .back-link { font-size: .85rem; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+
+  .page-header { margin: 18px 0 32px; }
+  .page-header h1 { margin: 0 0 4px; font-size: 1.9rem; }
+  .page-header .sub { color: var(--muted); font-size: .95rem; }
+
+  .section { margin-bottom: 32px; }
+  .section-title { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
+  .section-title h2 { margin: 0; font-size: 1.2rem; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Standings table */
+  .standings-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .standings-table th {
+    text-align: left; padding: 5px 10px; font-size: .78rem; color: var(--muted);
+    border-bottom: 2px solid var(--line); font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .standings-table th.num { text-align: right; }
+  .standings-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .standings-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .standings-table tr:last-child td { border-bottom: none; }
+  .standings-table .pos { width: 28px; color: var(--muted); font-size: .8rem; }
+  .standings-table .promo-row td:first-child { border-left: 3px solid var(--win); }
+  .standings-table .relg-row td:first-child { border-left: 3px solid var(--loss); }
+  .gd-pos { color: var(--win); }
+  .gd-neg { color: var(--loss); }
+
+  /* Simulation header */
+  .sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sim-status { color: var(--muted); font-size: .88rem; }
+  .sim-counter { font-size: .88rem; font-variant-numeric: tabular-nums; }
+  .reset-btn {
+    padding: 5px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; font: inherit; font-size: .82rem; cursor: pointer; color: var(--muted);
+  }
+  .reset-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+
+  /* What-if table */
+  .whatif-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .whatif-table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  .whatif-table thead th {
+    background: var(--surface); padding: 6px 8px; text-align: center; white-space: nowrap;
+    border-bottom: 2px solid var(--line); font-weight: 600; font-size: .78rem; color: var(--muted);
+  }
+  .whatif-table thead th.col-team { text-align: left; white-space: nowrap; }
+  .whatif-table td { padding: 5px 6px; text-align: center; border-bottom: 1px solid rgba(38,61,41,.07); vertical-align: middle; }
+  .whatif-table td.col-team { text-align: left; font-weight: 600; white-space: nowrap; padding-right: 10px; font-size: .82rem; }
+  .whatif-table th.col-team { white-space: nowrap; }
+  .past-cell { text-align: center; background: rgba(0,0,0,.015); }
+  .past-cell .cell-opp { font-size: .68rem; color: var(--muted); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56px; }
+  .past-cell .cell-result { font-size: .72rem; white-space: nowrap; font-weight: 700; }
+  .whatif-table tr:last-child td { border-bottom: none; }
+  .no-game { color: var(--muted); font-size: .78rem; }
+  .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+  .cell-btns { display: flex; gap: 2px; justify-content: center; }
+  .ov-select {
+    font: inherit; font-size: .73rem; padding: 2px 4px; border: 1px solid var(--line);
+    border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer;
+    width: 100%; max-width: 52px;
+  }
+  .ov-select.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .ov-select.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .ov-select.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
+  .col-stat { width: 60px; font-size: .8rem; font-weight: 500; }
+  .stat-promo { color: var(--win); }
+  .stat-rel   { color: var(--loss); }
+  .stat-pos   { color: var(--ink); }
+
+  /* Matchweek timeline */
+  .mw-selects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .mw-sel {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font: inherit;
+    font-size: .82rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .mw-sel:focus { outline: none; border-color: var(--field); }
+
+  /* Team popup */
+  .team-popup {
+    position: fixed;
+    z-index: 999;
+    width: 260px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(27,38,29,.18);
+    padding: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .team-popup.visible { opacity: 1; transform: translateY(0); }
+  .team-popup .pop-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .team-popup .pop-record { font-size: .82rem; color: var(--muted); margin-bottom: 10px; }
+  .team-popup .pop-game { display: flex; justify-content: space-between; font-size: .82rem; padding: 4px 0; border-bottom: 1px solid rgba(38,61,41,.07); }
+  .team-popup .pop-game:last-child { border-bottom: none; }
+  .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-hint { font-size: .78rem; color: var(--muted); margin-top: 10px; text-align: center; }
+  td.team-name-cell { cursor: pointer; }
+  td.team-name-cell:hover { text-decoration: underline; color: var(--field); }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .feedback-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .feedback-drawer {
+    display: none;
+    margin: 16px auto 0;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+  }
+  .feedback-drawer.open { display: block; }
+  .feedback-drawer h4 { margin: 0 0 4px; font-size: 1rem; }
+  .feedback-drawer p { margin: 0 0 14px; color: var(--muted); font-size: 0.88rem; }
+
+  .feedback-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .feedback-field label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+  .feedback-submit:disabled { background: #90a08f; cursor: not-allowed; }
+  .feedback-thanks { display: none; color: var(--field); font-size: 0.92rem; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="team-popup" id="team-popup">
+  <div class="pop-name" id="pop-name"></div>
+  <div class="pop-record" id="pop-record"></div>
+  <div id="pop-games"></div>
+  <div class="pop-hint">Click to view team page</div>
+</div>
+<main>
+  <a class="back-link page-link" href="../../">← Back to homepage</a>
+
+  <div class="page-header">
+    <h1>Over 48 Division 1 South</h1>
+    <div class="sub">Spring 2026</div>
+    <!-- Historical season navigation parked for now.
+    <select id="season-nav"></select>
+    -->
+  </div>
+
+  <!-- Standings -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Standings</h2>
+      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    </div>
+
+    <!-- Matchweek timeline -->
+    <div class="mw-selects" id="mw-controls">
+      <select id="mw-year" class="mw-sel"></select>
+      <select id="mw-season" class="mw-sel"></select>
+      <select id="mw-week" class="mw-sel"></select>
+      <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
+    </div>
+
+    <div class="panel" style="padding: 0 0 2px">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th class="pos">#</th>
+            <th>Team</th>
+            <th class="num">GP</th>
+            <th class="num">W</th>
+            <th class="num">L</th>
+            <th class="num">T</th>
+            <th class="num">Pts</th>
+            <th class="num">GD</th>
+            <th class="num">PPG</th>
+          </tr>
+        </thead>
+        <tbody id="standings-tbody">
+          
+          
+          
+          
+          
+          <tr class="promo-row">
+            <td class="pos num">1</td>
+            <td class="team-name-cell" data-team="Kel Kau" data-slug="kel-kau-over-48-div-1-south">Kel Kau</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">3</td>
+            <td class="num gd-pos">
+              +7
+            </td>
+            <td class="num">3.00</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="promo-row">
+            <td class="pos num">2</td>
+            <td class="team-name-cell" data-team="Shake-Shake FC Seniors" data-slug="shake-shake-fc-seniors-over-48-div-1-south">Shake-Shake FC Seniors</td>
+            <td class="num">2</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">6</td>
+            <td class="num gd-pos">
+              +5
+            </td>
+            <td class="num">3.00</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">3</td>
+            <td class="team-name-cell" data-team="Crafty Veterans" data-slug="crafty-veterans-over-48-div-1-south">Crafty Veterans</td>
+            <td class="num">2</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">6</td>
+            <td class="num gd-pos">
+              +4
+            </td>
+            <td class="num">3.00</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">4</td>
+            <td class="team-name-cell" data-team="Rovers FC o48" data-slug="rovers-fc-o48-over-48-div-1-south">Rovers FC o48</td>
+            <td class="num">2</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">3</td>
+            <td class="num ">
+              0
+            </td>
+            <td class="num">1.50</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">5</td>
+            <td class="team-name-cell" data-team="Jamaica Plain FC 48" data-slug="jamaica-plain-fc-48-over-48-div-1-south">Jamaica Plain FC 48</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td class="num" style="font-weight:700">1</td>
+            <td class="num gd-neg">
+              -2
+            </td>
+            <td class="num">0.50</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">6</td>
+            <td class="team-name-cell" data-team="Hopkinton Hotspur o48&#39;s" data-slug="hopkinton-hotspur-o48-s-over-48-div-1-south">Hopkinton Hotspur o48&#39;s</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td class="num" style="font-weight:700">1</td>
+            <td class="num gd-neg">
+              -3
+            </td>
+            <td class="num">0.50</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="relg-row">
+            <td class="pos num">7</td>
+            <td class="team-name-cell" data-team="FC Franklin O50" data-slug="fc-franklin-o50-over-48-div-1-south">FC Franklin O50</td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">0</td>
+            <td class="num gd-neg">
+              -3
+            </td>
+            <td class="num">0.00</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="relg-row">
+            <td class="pos num">8</td>
+            <td class="team-name-cell" data-team="Sudbury AC" data-slug="sudbury-ac-over-48-div-1-south">Sudbury AC</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">0</td>
+            <td class="num gd-neg">
+              -8
+            </td>
+            <td class="num">0.00</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Season Outlook -->
+  <section class="section">
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px">Season Outlook</h2>
+        <span class="sim-status" id="sim-status">Starting simulation…</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Reset all</button>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px">
+      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
+      
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    ELO ratings are model estimates, not official standings.
+
+    <div style="margin-top:14px">
+      <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+      <div class="feedback-drawer" id="feedback-drawer">
+        <h4>Send feedback</h4>
+        <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+        <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+          <div class="feedback-field">
+            <label for="fb-name">Name (optional)</label>
+            <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-email">Email (optional)</label>
+            <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-message">Message</label>
+            <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+          <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+        </form>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+const SIM_DATA        = {"current_elos": {"Crafty Veterans": 1583.6, "FC Franklin O50": 1491.0, "Hopkinton Hotspur o48\u0027s": 1527.1, "Jamaica Plain FC 48": 1497.4, "Kel Kau": 1549.9, "Rovers FC o48": 1524.9, "Shake-Shake FC Seniors": 1601.1, "Sudbury AC": 1509.3}, "current_stats": {"Crafty Veterans": {"gd": 4, "gf": 5, "pts": 6}, "FC Franklin O50": {"gd": -3, "gf": 0, "pts": 0}, "Hopkinton Hotspur o48\u0027s": {"gd": -3, "gf": 4, "pts": 1}, "Jamaica Plain FC 48": {"gd": -2, "gf": 4, "pts": 1}, "Kel Kau": {"gd": 7, "gf": 7, "pts": 3}, "Rovers FC o48": {"gd": 0, "gf": 5, "pts": 3}, "Shake-Shake FC Seniors": {"gd": 5, "gf": 7, "pts": 6}, "Sudbury AC": {"gd": -8, "gf": 1, "pts": 0}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "FC Franklin O50", "date": "2026-04-19", "home": "Sudbury AC", "id": "2026-04-19|Sudbury AC|FC Franklin O50", "involves_team": false}, {"away": "Crafty Veterans", "date": "2026-04-19", "home": "Kel Kau", "id": "2026-04-19|Kel Kau|Crafty Veterans", "involves_team": false}, {"away": "Rovers FC o48", "date": "2026-04-19", "home": "Jamaica Plain FC 48", "id": "2026-04-19|Jamaica Plain FC 48|Rovers FC o48", "involves_team": false}, {"away": "Hopkinton Hotspur o48\u0027s", "date": "2026-04-19", "home": "Shake-Shake FC Seniors", "id": "2026-04-19|Shake-Shake FC Seniors|Hopkinton Hotspur o48\u0027s", "involves_team": false}, {"away": "Shake-Shake FC Seniors", "date": "2026-04-26", "home": "Crafty Veterans", "id": "2026-04-26|Crafty Veterans|Shake-Shake FC Seniors", "involves_team": false}, {"away": "Jamaica Plain FC 48", "date": "2026-04-26", "home": "FC Franklin O50", "id": "2026-04-26|FC Franklin O50|Jamaica Plain FC 48", "involves_team": false}, {"away": "Kel Kau", "date": "2026-04-26", "home": "Hopkinton Hotspur o48\u0027s", "id": "2026-04-26|Hopkinton Hotspur o48\u0027s|Kel Kau", "involves_team": false}, {"away": "Sudbury AC", "date": "2026-04-26", "home": "Rovers FC o48", "id": "2026-04-26|Rovers FC o48|Sudbury AC", "involves_team": false}, {"away": "FC Franklin O50", "date": "2026-05-03", "home": "Hopkinton Hotspur o48\u0027s", "id": "2026-05-03|Hopkinton Hotspur o48\u0027s|FC Franklin O50", "involves_team": false}, {"away": "Kel Kau", "date": "2026-05-03", "home": "Jamaica Plain FC 48", "id": "2026-05-03|Jamaica Plain FC 48|Kel Kau", "involves_team": false}, {"away": "Sudbury AC", "date": "2026-05-03", "home": "Shake-Shake FC Seniors", "id": "2026-05-03|Shake-Shake FC Seniors|Sudbury AC", "involves_team": false}, {"away": "Crafty Veterans", "date": "2026-05-03", "home": "Rovers FC o48", "id": "2026-05-03|Rovers FC o48|Crafty Veterans", "involves_team": false}, {"away": "Jamaica Plain FC 48", "date": "2026-05-10", "home": "Sudbury AC", "id": "2026-05-10|Sudbury AC|Jamaica Plain FC 48", "involves_team": false}, {"away": "Hopkinton Hotspur o48\u0027s", "date": "2026-05-10", "home": "Crafty Veterans", "id": "2026-05-10|Crafty Veterans|Hopkinton Hotspur o48\u0027s", "involves_team": false}, {"away": "Rovers FC o48", "date": "2026-05-10", "home": "FC Franklin O50", "id": "2026-05-10|FC Franklin O50|Rovers FC o48", "involves_team": false}, {"away": "Shake-Shake FC Seniors", "date": "2026-05-10", "home": "Kel Kau", "id": "2026-05-10|Kel Kau|Shake-Shake FC Seniors", "involves_team": false}, {"away": "Hopkinton Hotspur o48\u0027s", "date": "2026-05-17", "home": "Sudbury AC", "id": "2026-05-17|Sudbury AC|Hopkinton Hotspur o48\u0027s", "involves_team": false}, {"away": "Rovers FC o48", "date": "2026-05-17", "home": "Kel Kau", "id": "2026-05-17|Kel Kau|Rovers FC o48", "involves_team": false}, {"away": "Crafty Veterans", "date": "2026-05-17", "home": "Jamaica Plain FC 48", "id": "2026-05-17|Jamaica Plain FC 48|Crafty Veterans", "involves_team": false}, {"away": "FC Franklin O50", "date": "2026-05-17", "home": "Shake-Shake FC Seniors", "id": "2026-05-17|Shake-Shake FC Seniors|FC Franklin O50", "involves_team": false}, {"away": "Sudbury AC", "date": "2026-05-31", "home": "FC Franklin O50", "id": "2026-05-31|FC Franklin O50|Sudbury AC", "involves_team": false}, {"away": "Kel Kau", "date": "2026-05-31", "home": "Crafty Veterans", "id": "2026-05-31|Crafty Veterans|Kel Kau", "involves_team": false}, {"away": "Jamaica Plain FC 48", "date": "2026-05-31", "home": "Rovers FC o48", "id": "2026-05-31|Rovers FC o48|Jamaica Plain FC 48", "involves_team": false}, {"away": "Shake-Shake FC Seniors", "date": "2026-05-31", "home": "Hopkinton Hotspur o48\u0027s", "id": "2026-05-31|Hopkinton Hotspur o48\u0027s|Shake-Shake FC Seniors", "involves_team": false}, {"away": "Sudbury AC", "date": "2026-06-07", "home": "Crafty Veterans", "id": "2026-06-07|Crafty Veterans|Sudbury AC", "involves_team": false}, {"away": "FC Franklin O50", "date": "2026-06-07", "home": "Kel Kau", "id": "2026-06-07|Kel Kau|FC Franklin O50", "involves_team": false}, {"away": "Hopkinton Hotspur o48\u0027s", "date": "2026-06-07", "home": "Jamaica Plain FC 48", "id": "2026-06-07|Jamaica Plain FC 48|Hopkinton Hotspur o48\u0027s", "involves_team": false}, {"away": "Shake-Shake FC Seniors", "date": "2026-06-07", "home": "Rovers FC o48", "id": "2026-06-07|Rovers FC o48|Shake-Shake FC Seniors", "involves_team": false}, {"away": "Kel Kau", "date": "2026-06-14", "home": "Sudbury AC", "id": "2026-06-14|Sudbury AC|Kel Kau", "involves_team": false}, {"away": "Crafty Veterans", "date": "2026-06-14", "home": "FC Franklin O50", "id": "2026-06-14|FC Franklin O50|Crafty Veterans", "involves_team": false}, {"away": "Rovers FC o48", "date": "2026-06-14", "home": "Hopkinton Hotspur o48\u0027s", "id": "2026-06-14|Hopkinton Hotspur o48\u0027s|Rovers FC o48", "involves_team": false}, {"away": "Jamaica Plain FC 48", "date": "2026-06-14", "home": "Shake-Shake FC Seniors", "id": "2026-06-14|Shake-Shake FC Seniors|Jamaica Plain FC 48", "involves_team": false}, {"away": "Kel Kau", "date": "TBD", "home": "FC Franklin O50", "id": "TBD|FC Franklin O50|Kel Kau", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Kel Kau", "Shake-Shake FC Seniors", "Crafty Veterans", "Rovers FC o48", "Jamaica Plain FC 48", "Hopkinton Hotspur o48\u0027s", "FC Franklin O50", "Sudbury AC"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 2, "away": "Crafty Veterans", "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 3, "away": "Jamaica Plain FC 48", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Hopkinton Hotspur o48\u0027s", "home_forfeit": false}, {"ag": 1, "away": "Rovers FC o48", "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Shake-Shake FC Seniors", "home_forfeit": false}, {"ag": 0, "away": "Sudbury AC", "date": "2026-04-12", "forfeit": false, "hg": 7, "home": "Kel Kau", "home_forfeit": false}, {"ag": 0, "away": "FC Franklin O50", "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Crafty Veterans", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton Hotspur o48\u0027s", "date": "2026-04-12", "forfeit": false, "hg": 4, "home": "Rovers FC o48", "home_forfeit": false}, {"ag": 3, "away": "Shake-Shake FC Seniors", "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Jamaica Plain FC 48", "home_forfeit": false}];
+const FLIGHT_CARDS    = {"Crafty Veterans": {"recent": [{"date": "2026-04-12", "opponent": "FC Franklin O50", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-05", "opponent": "Sudbury AC", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "crafty-veterans-over-48-div-1-south"}, "FC Franklin O50": {"recent": [{"date": "2026-04-12", "opponent": "Crafty Veterans", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "fc-franklin-o50-over-48-div-1-south"}, "Hopkinton Hotspur o48\u0027s": {"recent": [{"date": "2026-04-12", "opponent": "Rovers FC o48", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-05", "opponent": "Jamaica Plain FC 48", "result": "T", "score": "3\u20133", "venue": "H"}], "slug": "hopkinton-hotspur-o48-s-over-48-div-1-south"}, "Jamaica Plain FC 48": {"recent": [{"date": "2026-04-12", "opponent": "Shake-Shake FC Seniors", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-05", "opponent": "Hopkinton Hotspur o48\u0027s", "result": "T", "score": "3\u20133", "venue": "A"}], "slug": "jamaica-plain-fc-48-over-48-div-1-south"}, "Kel Kau": {"recent": [{"date": "2026-04-12", "opponent": "Sudbury AC", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": "kel-kau-over-48-div-1-south"}, "Rovers FC o48": {"recent": [{"date": "2026-04-12", "opponent": "Hopkinton Hotspur o48\u0027s", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-05", "opponent": "Shake-Shake FC Seniors", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": "rovers-fc-o48-over-48-div-1-south"}, "Shake-Shake FC Seniors": {"recent": [{"date": "2026-04-12", "opponent": "Jamaica Plain FC 48", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-05", "opponent": "Rovers FC o48", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "shake-shake-fc-seniors-over-48-div-1-south"}, "Sudbury AC": {"recent": [{"date": "2026-04-12", "opponent": "Kel Kau", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2026-04-05", "opponent": "Crafty Veterans", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "sudbury-ac-over-48-div-1-south"}};
+const IS_TOP_FLIGHT   = true;
+const IS_BOTTOM_FLIGHT = false;
+const STANDINGS_MAP  = {};
+STANDINGS_MAP["Kel Kau"] = { w: 1, l: 0, t: 0, gp: 1 };
+STANDINGS_MAP["Shake-Shake FC Seniors"] = { w: 2, l: 0, t: 0, gp: 2 };
+STANDINGS_MAP["Crafty Veterans"] = { w: 2, l: 0, t: 0, gp: 2 };
+STANDINGS_MAP["Rovers FC o48"] = { w: 1, l: 1, t: 0, gp: 2 };
+STANDINGS_MAP["Jamaica Plain FC 48"] = { w: 0, l: 1, t: 1, gp: 2 };
+STANDINGS_MAP["Hopkinton Hotspur o48\u0027s"] = { w: 0, l: 1, t: 1, gp: 2 };
+STANDINGS_MAP["FC Franklin O50"] = { w: 0, l: 1, t: 0, gp: 1 };
+STANDINGS_MAP["Sudbury AC"] = { w: 0, l: 2, t: 0, gp: 2 };
+
+const TEAM_SLUGS    = {};
+TEAM_SLUGS["Kel Kau"] = "kel-kau-over-48-div-1-south";
+TEAM_SLUGS["Shake-Shake FC Seniors"] = "shake-shake-fc-seniors-over-48-div-1-south";
+TEAM_SLUGS["Crafty Veterans"] = "crafty-veterans-over-48-div-1-south";
+TEAM_SLUGS["Rovers FC o48"] = "rovers-fc-o48-over-48-div-1-south";
+TEAM_SLUGS["Jamaica Plain FC 48"] = "jamaica-plain-fc-48-over-48-div-1-south";
+TEAM_SLUGS["Hopkinton Hotspur o48\u0027s"] = "hopkinton-hotspur-o48-s-over-48-div-1-south";
+TEAM_SLUGS["FC Franklin O50"] = "fc-franklin-o50-over-48-div-1-south";
+TEAM_SLUGS["Sudbury AC"] = "sudbury-ac-over-48-div-1-south";
+
+const N_TEAMS = 8;
+const TOTAL_RUNS = 10000;
+
+// ── Matchweek history timeline (Year / Season / Week dropdowns) ──────────
+(function() {
+  const tbody     = document.getElementById("standings-tbody");
+  const label     = document.getElementById("mw-label");
+  const selYear   = document.getElementById("mw-year");
+  const selSeason = document.getElementById("mw-season");
+  const selWeek   = document.getElementById("mw-week");
+  const btnReset  = document.getElementById("mw-reset");
+
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) return;
+
+  function getSeason(d) {
+    const mo = parseInt(d.slice(5, 7));
+    return (mo >= 3 && mo <= 7) ? 'Spring' : 'Fall';
+  }
+  const groups = {};
+  for (const d of dates) {
+    const yr = d.slice(0, 4), sn = getSeason(d);
+    if (!groups[yr]) groups[yr] = {};
+    if (!groups[yr][sn]) groups[yr][sn] = [];
+    groups[yr][sn].push(d);
+  }
+  const years = Object.keys(groups).sort();
+
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    selYear.appendChild(opt);
+  });
+  function populateSeasons(year) {
+    selSeason.innerHTML = '';
+    const sns = Object.keys(groups[year] || {}).sort();
+    sns.forEach(s => { const opt = document.createElement('option'); opt.value=s; opt.textContent=s; selSeason.appendChild(opt); });
+    return sns;
+  }
+  function populateWeeks(year, season) {
+    selWeek.innerHTML = '';
+    const ph = document.createElement('option');
+    ph.value = ''; ph.textContent = 'Full season';
+    selWeek.appendChild(ph);
+    const wdates = (groups[year]||{})[season]||[];
+    wdates.forEach((d,i) => { const opt=document.createElement('option'); opt.value=d; opt.textContent=`Week ${i+1}`; selWeek.appendChild(opt); });
+    return wdates;
+  }
+
+  function buildStandings(upToDate) {
+    const stats = {};
+    for (const r of FLIGHT_RESULTS) {
+      if (r.date > upToDate) continue;
+      for (const t of [r.home, r.away]) {
+        if (!stats[t]) stats[t] = { gp:0, w:0, l:0, t:0, pts:0, gf:0, ga:0 };
+      }
+      if (r.forfeit) {
+        if (r.home_forfeit) {
+          stats[r.away].w++; stats[r.away].pts += 3; stats[r.away].gp++;
+          stats[r.home].l++; stats[r.home].gp++;
+        } else {
+          stats[r.home].w++; stats[r.home].pts += 3; stats[r.home].gp++;
+          stats[r.away].l++; stats[r.away].gp++;
+        }
+      } else {
+        const hg = r.hg, ag = r.ag;
+        stats[r.home].gf += hg; stats[r.home].ga += ag; stats[r.home].gp++;
+        stats[r.away].gf += ag; stats[r.away].ga += hg; stats[r.away].gp++;
+        if (hg > ag) { stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++; }
+        else if (ag > hg) { stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++; }
+        else { stats[r.home].t++; stats[r.home].pts++; stats[r.away].t++; stats[r.away].pts++; }
+      }
+    }
+    return Object.entries(stats).map(([team, s]) => ({
+      team, ...s, gd: s.gf - s.ga, ppg: s.gp ? s.pts / s.gp : 0
+    })).sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  function renderTable(table) {
+    const n = table.length;
+    const relegCut = n >= 6 ? 2 : n >= 4 ? 1 : 0;
+    tbody.innerHTML = table.map((row, i) => {
+      const pos = i + 1;
+      const isPromo = pos <= 2;
+      const isRelg  = pos > n - relegCut;
+      const cls = isPromo ? 'promo-row' : isRelg ? 'relg-row' : '';
+      const gdStr = row.gd > 0 ? `+${row.gd}` : `${row.gd}`;
+      const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+      const ppgStr = row.gp ? (row.pts / row.gp).toFixed(2) : '—';
+      const slug = TEAM_SLUGS[row.team] || '';
+      return `<tr class="${cls}">
+        <td class="pos num">${pos}</td>
+        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
+        <td class="num">${row.gp}</td>
+        <td class="num">${row.w}</td>
+        <td class="num">${row.l}</td>
+        <td class="num">${row.t}</td>
+        <td class="num" style="font-weight:700">${row.pts}</td>
+        <td class="num ${gdCls}">${gdStr}</td>
+        <td class="num">${ppgStr}</td>
+      </tr>`;
+    }).join('');
+    tbody.querySelectorAll('td.team-name-cell').forEach(cell => {
+      cell.addEventListener('mouseenter', () => showPopup(cell, cell.dataset.team));
+      cell.addEventListener('mouseleave', hidePopup);
+      cell.addEventListener('click', () => {
+        if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
+      });
+    });
+  }
+
+  function applyDate(date) {
+    label.textContent = `as of ${date}`;
+    btnReset.style.display = '';
+    renderTable(buildStandings(date));
+  }
+
+  // Defaults: latest year + season, no week filter (Full season)
+  const latestYear = years[years.length - 1];
+  selYear.value = latestYear;
+  const initSns = populateSeasons(latestYear);
+  selSeason.value = initSns[initSns.length - 1] || '';
+  populateWeeks(latestYear, selSeason.value);
+  // selWeek starts at "Full season" (value = ""), no applyDate called
+
+  selYear.addEventListener('change', () => {
+    const sns = populateSeasons(selYear.value);
+    selSeason.value = sns[sns.length-1]||'';
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
+  });
+  selSeason.addEventListener('change', () => {
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
+  });
+  selWeek.addEventListener('change', () => {
+    if (selWeek.value) applyDate(selWeek.value);
+    else location.reload();
+  });
+  btnReset.addEventListener('click', () => { location.reload(); });
+})();
+
+// Historical season navigation parked for now.
+// (function() {
+//   const sel = document.getElementById("season-nav");
+//   if (!sel) return;
+//   const CURRENT_SEASON_SLUG = "spring-2026";
+//   const IS_CURRENT = true;
+//   const FLIGHT_SLUG = "";
+//   const LATEST_SEASON_SLUG = "spring-2026";
+//   sel.addEventListener("change", () => {
+//     const s = sel.value;
+//     const url = (s === LATEST_SEASON_SLUG)
+//       ? `../../flight/${FLIGHT_SLUG}/`
+//       : `../../season/${s}/flight/${FLIGHT_SLUG}/`;
+//     window.location.href = url;
+//   });
+// })();
+
+document.querySelectorAll(".page-link").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const dest = link.getAttribute("href");
+    window.location.href = dest;
+  });
+});
+
+// ── Simulation worker ────────────────────────────────────────────
+const WORKER_SRC = `
+  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 400)); }
+
+  function simOnce(teams, baseStats, baseElos, games, overrides) {
+    const st = {}, el = {};
+    for (const t of teams) {
+      st[t] = { pts: baseStats[t].pts, gd: baseStats[t].gd, gf: baseStats[t].gf };
+      el[t] = baseElos[t] || 1500;
+    }
+    for (const g of games) {
+      const ov = overrides[g.id];
+      let act;
+      if (ov !== undefined) {
+        act = ov === 'home' ? 1 : ov === 'draw' ? 0.5 : 0;
+      } else {
+        const we = expResult(el[g.home] || 1500, el[g.away] || 1500);
+        const dp = 0.22;
+        const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
+        const ap = Math.max(0.05, 1 - dp - hp);
+        const r  = Math.random();
+        act = r < hp ? 1 : r < hp + dp ? 0.5 : 0;
+      }
+      const h = g.home, a = g.away;
+      if (act === 1)        { st[h].pts += 3; st[h].gd += 1; st[h].gf += 2; st[a].gd -= 1; st[a].gf += 1; }
+      else if (act === 0.5) { st[h].pts++; st[a].pts++; st[h].gf++; st[a].gf++; }
+      else                  { st[a].pts += 3; st[a].gd += 1; st[a].gf += 2; st[h].gd -= 1; st[h].gf += 1; }
+      const K = 32, eH = el[h] || 1500, eA = el[a] || 1500;
+      const ex = expResult(eH, eA);
+      el[h] = eH + K * (act - ex);
+      el[a] = eA + K * ((1 - act) - (1 - ex));
+    }
+    return [...teams].sort((a,b) =>
+      st[b].pts !== st[a].pts ? st[b].pts - st[a].pts :
+      st[b].gd  !== st[a].gd  ? st[b].gd  - st[a].gd  :
+      st[b].gf  - st[a].gf
+    );
+  }
+
+  self.onmessage = function(e) {
+    const { teams, currentStats, currentElos, remainingGames,
+            overrides, totalRuns, promotionCut, relegationCut } = e.data;
+    const BATCH = 200;
+    const allCounts = {};
+    for (const t of teams) allCounts[t] = new Array(teams.length + 1).fill(0);
+
+    for (let i = 0; i < totalRuns; i++) {
+      const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides);
+      for (let p = 0; p < sorted.length; p++) allCounts[sorted[p]][p + 1]++;
+      if ((i + 1) % BATCH === 0 || i + 1 === totalRuns) {
+        self.postMessage({ type: 'progress', completed: i + 1, done: i + 1 === totalRuns });
+      }
+    }
+
+    const nT = teams.length;
+    const teamStats = {};
+    for (const t of teams) {
+      const c = allCounts[t];
+      let promo = 0, relg = 0, modal = 1, modalCt = 0;
+      for (let p = 1; p <= nT; p++) {
+        const cnt = c[p];
+        if (p <= promotionCut)      promo += cnt;
+        if (p > nT - relegationCut) relg  += cnt;
+        if (cnt > modalCt) { modalCt = cnt; modal = p; }
+      }
+      teamStats[t] = {
+        promo: Math.round(100 * promo / totalRuns),
+        relg:  Math.round(100 * relg  / totalRuns),
+        modal
+      };
+    }
+    self.postMessage({ type: 'team_stats', teamStats });
+    self.postMessage({ type: 'done' });
+  };
+`;
+
+const { teams, current_stats, current_elos, remaining_games,
+        promotion_cut, relegation_cut, total_teams } = SIM_DATA;
+
+const elStatus  = document.getElementById("sim-status");
+const elCounter = document.getElementById("sim-counter");
+
+const overrides = {};
+let   teamStats = {};
+
+function posLabel(i) {
+  const s = ["th","st","nd","rd"];
+  const v = i % 100;
+  return i + ((v >= 11 && v <= 13) ? "th" : (s[i % 10] || "th"));
+}
+
+function fmtDate(d) {
+  const dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function abbrevTeam(name) {
+  let s = name.replace(/\s+(Over\s*)?O?\d{2,3}\+?$/i, '').trim();
+  s = s.replace(/\s+(FC|SC|AC|United|Utd|City|Athletic|Rovers|Wanderers|Town|AFC)$/i, '').trim();
+  if (s.length > 13) {
+    const words = s.split(/\s+/);
+    if (words.length > 2) s = words.slice(0, 2).join(' ');
+  }
+  return s || name;
+}
+
+function renderGrid() {
+  const el = document.getElementById("game-list");
+
+  // Completed game lookup: date → team → {result, opponent, score}
+  const compByDT = {};
+  for (const r of FLIGHT_RESULTS) {
+    if (!compByDT[r.date]) compByDT[r.date] = {};
+    let homeRes, awayRes, homeScore, awayScore;
+    if (r.forfeit) {
+      homeRes = r.home_forfeit ? 'L' : 'W'; awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes   = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes   = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}–${r.ag}`; awayScore = `${r.ag}–${r.hg}`;
+    } else continue;
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
+  }
+
+  const compDates   = Object.keys(compByDT).sort();
+  const futureDates = [...new Set(remaining_games.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD      = remaining_games.some(g => g.date === 'TBD');
+  const allWeeks    = [...new Set([...compDates, ...futureDates])].sort();
+  if (hasTBD) allWeeks.push('TBD');
+
+  if (!allWeeks.length) {
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    return;
+  }
+
+  // No max-width needed — abbreviated names are short enough to show fully
+
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
+  for (const g of remaining_games) {
+    byTW[g.home][g.date] = { ...g, role: 'home' };
+    byTW[g.away][g.date] = { ...g, role: 'away' };
+  }
+
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel    = !IS_BOTTOM_FLIGHT;
+
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-team"></th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
+
+  teams.forEach((t, idx) => {
+    html += `<tr data-idx="${idx}">`;
+    html += `<td class="col-team" title="${t}">${abbrevTeam(t)}</td>`;
+
+    for (const w of allWeeks) {
+      const comp = compByDT[w]?.[t];
+      if (comp) {
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell">`;
+        html += `<div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div>`;
+        html += `</td>`;
+        continue;
+      }
+
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">—</td>'; continue; }
+
+      const isHome  = entry.role === 'home';
+      const opp     = isHome ? entry.away : entry.home;
+      const ov      = overrides[entry.id];
+      const teamOv  = ov === 'home' ? (isHome ? 'W' : 'L')
+                    : ov === 'draw' ? 'D'
+                    : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal  = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
+      html += `<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
+      html += `<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
+      html += `</select></td>`;
+    }
+
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '—'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '—'}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid   = cell.dataset.gid;
+    const winV  = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    const sel   = cell.querySelector('.ov-select');
+    sel.addEventListener('change', () => {
+      const v = sel.value;
+      if (v === '?') {
+        delete overrides[gid];
+      } else {
+        overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      }
+      renderGrid();
+      startSim();
+    });
+  });
+}
+
+document.getElementById("reset-btn").onclick = () => {
+  Object.keys(overrides).forEach(k => delete overrides[k]);
+  renderGrid();
+  startSim();
+};
+
+let worker = null;
+function startSim() {
+  if (worker) worker.terminate();
+  elStatus.textContent = "Running simulation…";
+  elCounter.innerHTML = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+
+  const blob = new Blob([WORKER_SRC], { type: "application/javascript" });
+  worker = new Worker(URL.createObjectURL(blob));
+
+  worker.postMessage({
+    teams,
+    currentStats:   current_stats,
+    currentElos:    current_elos,
+    remainingGames: remaining_games,
+    overrides:      { ...overrides },
+    totalRuns:      TOTAL_RUNS,
+    promotionCut:   promotion_cut,
+    relegationCut:  relegation_cut,
+  });
+
+  worker.onmessage = e => {
+    const msg = e.data;
+    if (msg.type === 'progress') {
+      elCounter.innerHTML = `${msg.completed.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+      if (msg.done) elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+    } else if (msg.type === 'team_stats') {
+      teamStats = msg.teamStats;
+      renderGrid();
+    } else if (msg.type === 'done') {
+      if (worker) { worker.terminate(); worker = null; }
+    }
+  };
+}
+
+renderGrid();
+startSim();
+
+// ── Team popup ────────────────────────────────────────────────────
+const popup     = document.getElementById("team-popup");
+const popName   = document.getElementById("pop-name");
+const popRecord = document.getElementById("pop-record");
+const popGames  = document.getElementById("pop-games");
+
+function showPopup(cell, teamName) {
+  const card     = FLIGHT_CARDS[teamName] || {};
+  const standing = STANDINGS_MAP[teamName] || {};
+  popName.textContent   = teamName;
+  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+
+  popGames.innerHTML = "";
+  const recent = card.recent || [];
+  if (!recent.length) {
+    popGames.innerHTML = '<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
+  } else {
+    recent.forEach(g => {
+      const div = document.createElement("div");
+      div.className = "pop-game";
+      const c = g.result === "W" ? "var(--win)" : g.result === "L" ? "var(--loss)" : "var(--draw)";
+      div.innerHTML = `<span class="pop-opp">${g.opponent}</span>
+        <span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
+      popGames.appendChild(div);
+    });
+  }
+
+  popup.classList.add("visible");
+  const pw = popup.offsetWidth || 260;
+  const ph = popup.offsetHeight || 180;
+  const gap = 10;
+  const rect = cell.getBoundingClientRect();
+  let left = rect.right + gap;
+  let top  = rect.top + (rect.height / 2) - (ph / 2);
+  if (left + pw > window.innerWidth - 8) left = rect.left - pw - gap;
+  if (top < 8) top = 8;
+  if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+  popup.style.left = left + "px";
+  popup.style.top  = top + "px";
+}
+
+function hidePopup() { popup.classList.remove("visible"); }
+
+document.querySelectorAll("td.team-name-cell").forEach(cell => {
+  const team = cell.dataset.team;
+  const slug = cell.dataset.slug;
+  cell.addEventListener("mouseenter", () => showPopup(cell, team));
+  cell.addEventListener("mouseleave", hidePopup);
+  cell.addEventListener("click", () => {
+    if (!slug) return;
+    window.location.href = `../../team/${slug}/`;
+  });
+});
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: new FormData(fbForm),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+</script>
+</body>
+</html>

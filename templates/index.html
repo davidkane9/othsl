@@ -299,39 +299,48 @@
     font-size: 0.92rem;
   }
 
-  .flight-grid {
+  /* Flight directory grouped grid */
+  .sched-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    border: 2px solid #8b9b8b;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 520px;
   }
-
-  .flight-card {
-    display: block;
-    padding: 14px 16px;
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: var(--panel-strong);
-    text-decoration: none;
-    color: var(--ink);
-    transition: border-color 0.15s, background 0.15s;
-  }
-
-  .flight-card:hover {
-    border-color: var(--accent);
-    background: #fffdf5;
-  }
-
-  .flight-card-name {
-    font-size: 0.92rem;
+  .sched-header {
+    grid-column: 1 / -1;
+    text-align: center;
     font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 5px;
+    font-size: .95rem;
+    padding: 10px;
+    border-bottom: 2px solid #8b9b8b;
+    background: var(--panel-strong);
   }
-
-  .flight-card-sub {
-    font-size: 0.8rem;
-    color: var(--muted);
+  .sched-age-cell {
+    padding: 12px 14px;
+    border: 1px solid #c5cfc5;
+    vertical-align: top;
   }
+  .sched-age-cell:nth-child(even) { border-left: 2px solid #8b9b8b; }
+  .sched-age-name {
+    font-weight: 700;
+    font-size: .9rem;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .sched-div-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+  .sched-link {
+    font-size: .82rem;
+    color: #8b1a1a;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .sched-link:hover { text-decoration: underline; }
 
   footer {
     margin-top: 22px;
@@ -585,11 +594,18 @@
       <div class="selector-grid">
         <div class="selector-panel">
           <h3>Team Selector</h3>
-          <p class="note">The selector builds only valid combinations from the current season data.</p>
+          <p class="note">Narrow to a team.</p>
 
           <form id="team-selector">
             <div class="field-grid">
+              <!-- Historical season picker parked for now.
               <label class="field">
+                <span class="label">Season</span>
+                <select id="season-select"></select>
+              </label>
+              -->
+
+              <label class="field" id="field-age-group">
                 <span class="label">Age Group</span>
                 <select id="age-group-select">
                   <option value="">Choose age group</option>
@@ -668,16 +684,22 @@
       <div class="section-title">
         <div>
           <h2>Flight Directory</h2>
-          <p>Browse every current flight.</p>
         </div>
       </div>
 
-      <div class="flight-grid">
-        {% for flight in flight_cards %}
-        <a href="flight/{{ flight.slug }}/" class="flight-card page-link">
-          <div class="flight-card-name">{{ flight.label }}</div>
-          <div class="flight-card-sub">{{ flight.team_count }} teams · {{ flight.game_count }} recorded games</div>
-        </a>
+      <div class="sched-grid">
+        <div class="sched-header">Schedules and Standings</div>
+        {% for ag in flight_groups %}
+        <div class="sched-age-cell">
+          <div class="sched-age-name">{{ ag.age_group }}</div>
+          {% for div_row in ag.divisions %}
+          <div class="sched-div-row">
+            {% for f in div_row.flights %}
+            <a href="flight/{{ f.slug }}/" class="sched-link page-link">{{ div_row.div_num }}{{ f.geo_abbr }}</a>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
         {% endfor %}
       </div>
     </section>
@@ -713,106 +735,75 @@
   </main>
 
 <script>
-const selectorData = {{ selector_data | tojson }};
+const selectorData     = {{ selector_data | tojson }};
+// Historical selector/navigation parked for now.
+// const histSelector     = {};
+// const CURRENT_SS       = "spring-2026";
 
 (function() {
-  const ageSelect = document.getElementById("age-group-select");
+  const ageSelect      = document.getElementById("age-group-select");
   const divisionSelect = document.getElementById("division-select");
-  const geographySelect = document.getElementById("geography-select");
-  const teamSelect = document.getElementById("team-select");
-  const openButton = document.getElementById("open-team-button");
-  const resetButton = document.getElementById("reset-selector-button");
-  const form = document.getElementById("team-selector");
+  const geographySelect= document.getElementById("geography-select");
+  const teamSelect     = document.getElementById("team-select");
+  const openButton     = document.getElementById("open-team-button");
+  const resetButton    = document.getElementById("reset-selector-button");
+  const form           = document.getElementById("team-selector");
 
   function setOptions(select, options, placeholder) {
     select.innerHTML = "";
-    const placeholderOption = document.createElement("option");
-    placeholderOption.value = "";
-    placeholderOption.textContent = placeholder;
-    select.appendChild(placeholderOption);
-
-    options.forEach((option) => {
-      const element = document.createElement("option");
-      if (typeof option === "string") {
-        element.value = option;
-        element.textContent = option;
-      } else {
-        element.value = option.value;
-        element.textContent = option.label;
-        if (option.path) {
-          element.dataset.path = option.path;
-        }
-      }
-      select.appendChild(element);
+    const ph = document.createElement("option");
+    ph.value = ""; ph.textContent = placeholder;
+    select.appendChild(ph);
+    options.forEach(opt => {
+      const el = document.createElement("option");
+      if (typeof opt === "string") { el.value = opt; el.textContent = opt; }
+      else { el.value = opt.value; el.textContent = opt.label; if (opt.path) el.dataset.path = opt.path; }
+      select.appendChild(el);
     });
   }
 
-  function resetTeams() {
-    setOptions(teamSelect, [], "Choose team");
-    teamSelect.disabled = true;
-    openButton.disabled = true;
-  }
+  function resetTeams()    { setOptions(teamSelect, [], "Choose team"); teamSelect.disabled = true; openButton.disabled = true; }
+  function resetGeo()      { setOptions(geographySelect, [], "Choose geography"); geographySelect.disabled = true; resetTeams(); }
+  function resetDivisions(){ setOptions(divisionSelect, [], "Choose division"); divisionSelect.disabled = true; resetGeo(); }
 
-  function resetGeography() {
-    setOptions(geographySelect, [], "Choose geography");
-    geographySelect.disabled = true;
-    resetTeams();
-  }
-
-  function resetDivisions() {
-    setOptions(divisionSelect, [], "Choose division");
-    divisionSelect.disabled = true;
-    resetGeography();
-  }
+  // Historical selector helpers parked for now.
+  // function isCurrentSeason() { return seasonSelect.value === CURRENT_SS; }
+  // function histAgeGroups(ss) { ... }
+  // function histFlightsByAge(ss, age) { ... }
+  // function histTeamsByFlight(ss, age, div, geo) { ... }
 
   ageSelect.addEventListener("change", () => {
     const age = ageSelect.value;
     resetDivisions();
     if (!age) return;
-
     const flights = selectorData.flights_by_age[age] || [];
-    const divisionOptions = flights.map((flight) => ({
-      value: flight.division,
-      label: `Division ${flight.division}`,
-    }));
-    const uniqueDivisions = Array.from(new Map(divisionOptions.map((item) => [item.value, item])).values());
-    setOptions(divisionSelect, uniqueDivisions, "Choose division");
+    const divOpts = Array.from(new Map(flights.map(f => [f.division, { value: f.division, label: `Division ${f.division}` }])).values());
+    setOptions(divisionSelect, divOpts, "Choose division");
     divisionSelect.disabled = false;
   });
 
   divisionSelect.addEventListener("change", () => {
-    const age = ageSelect.value;
-    const division = divisionSelect.value;
-    resetGeography();
-    if (!age || !division) return;
-
-    const flights = (selectorData.flights_by_age[age] || []).filter((flight) => flight.division === division);
-    const geographyOptions = flights.map((flight) => ({
-      value: flight.geography,
-      label: flight.geography,
-    }));
-    setOptions(geographySelect, geographyOptions, "Choose geography");
+    const age = ageSelect.value, div = divisionSelect.value;
+    resetGeo();
+    if (!age || !div) return;
+    const geoOpts = (selectorData.flights_by_age[age] || []).filter(f => f.division === div).map(f => ({ value: f.geography, label: f.geography }));
+    setOptions(geographySelect, geoOpts, "Choose geography");
     geographySelect.disabled = false;
   });
 
   geographySelect.addEventListener("change", () => {
-    const key = [ageSelect.value, divisionSelect.value, geographySelect.value].join("|");
+    const age = ageSelect.value, div = divisionSelect.value, geo = geographySelect.value;
     resetTeams();
-    if (!ageSelect.value || !divisionSelect.value || !geographySelect.value) return;
-
-    const teams = selectorData.teams_by_flight[key] || [];
-    const teamOptions = teams.map((team) => ({
-      value: team.slug,
-      label: team.name,
-      path: team.path,
-    }));
-    setOptions(teamSelect, teamOptions, "Choose team");
+    if (!age || !div || !geo) return;
+    const key = `${age}|${div}|${geo}`;
+    const teamOpts = (selectorData.teams_by_flight[key] || []).map(t => ({ value: t.slug, label: t.name, path: t.path }));
+    setOptions(teamSelect, teamOpts, "Choose team");
     teamSelect.disabled = false;
   });
 
   teamSelect.addEventListener("change", () => {
-    const selectedOption = teamSelect.options[teamSelect.selectedIndex];
-    openButton.disabled = !selectedOption || !selectedOption.dataset.path;
+    const sel = teamSelect.options[teamSelect.selectedIndex];
+    openButton.disabled = !sel || !sel.dataset.path;
   });
 
   resetButton.addEventListener("click", () => {
@@ -820,14 +811,12 @@ const selectorData = {{ selector_data | tojson }};
     resetDivisions();
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", event => {
     event.preventDefault();
-    const selectedOption = teamSelect.options[teamSelect.selectedIndex];
-    if (!selectedOption || !selectedOption.dataset.path) return;
+    const sel = teamSelect.options[teamSelect.selectedIndex];
+    if (!sel || !sel.dataset.path) return;
     document.body.classList.add("is-leaving");
-    window.setTimeout(() => {
-      window.location.href = selectedOption.dataset.path;
-    }, 180);
+    window.setTimeout(() => { window.location.href = sel.dataset.path; }, 180);
   });
 })();
 

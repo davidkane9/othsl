@@ -86,54 +86,49 @@
     background: var(--surface); padding: 6px 8px; text-align: center; white-space: nowrap;
     border-bottom: 2px solid var(--line); font-weight: 600; font-size: .78rem; color: var(--muted);
   }
-  .whatif-table thead th.col-team { text-align: left; }
+  .whatif-table thead th.col-team { text-align: left; white-space: nowrap; }
   .whatif-table td { padding: 5px 6px; text-align: center; border-bottom: 1px solid rgba(38,61,41,.07); vertical-align: middle; }
-  .whatif-table td.col-team { text-align: left; font-weight: 600; white-space: nowrap; padding-right: 14px; font-size: .82rem; }
+  .whatif-table td.col-team { text-align: left; font-weight: 600; white-space: nowrap; padding-right: 10px; font-size: .82rem; }
+  .whatif-table th.col-team { white-space: nowrap; }
+  .past-cell { text-align: center; background: rgba(0,0,0,.015); }
+  .past-cell .cell-opp { font-size: .68rem; color: var(--muted); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56px; }
+  .past-cell .cell-result { font-size: .72rem; white-space: nowrap; font-weight: 700; }
   .whatif-table tr:last-child td { border-bottom: none; }
   .no-game { color: var(--muted); font-size: .78rem; }
   .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
   .cell-btns { display: flex; gap: 2px; justify-content: center; }
-  .o-btn {
-    padding: 2px 6px; font-size: .73rem; border: 1px solid var(--line); border-radius: 4px;
-    cursor: pointer; background: transparent; color: var(--muted); transition: all .1s;
+  .ov-select {
+    font: inherit; font-size: .73rem; padding: 2px 4px; border: 1px solid var(--line);
+    border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer;
+    width: 100%; max-width: 52px;
   }
-  .o-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
-  .o-btn.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
-  .o-btn.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
-  .o-btn.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
-  .o-btn.hint-good { border-color: rgba(35,119,68,.45); color: var(--win); }
-  .o-btn.hint-bad  { border-color: rgba(166,63,53,.45); color: var(--loss); }
+  .ov-select.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .ov-select.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .ov-select.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
   .col-stat { width: 60px; font-size: .8rem; font-weight: 500; }
   .stat-promo { color: var(--win); }
   .stat-rel   { color: var(--loss); }
   .stat-pos   { color: var(--ink); }
 
   /* Matchweek timeline */
-  .mw-strip {
+  .mw-selects {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
+    align-items: center;
     margin-bottom: 14px;
   }
-  .mw-pill {
-    padding: 5px 13px;
-    border-radius: 999px;
+  .mw-sel {
+    padding: 5px 10px;
+    border-radius: 8px;
     border: 1px solid var(--line);
-    background: transparent;
+    background: var(--panel);
     font: inherit;
-    font-size: .78rem;
-    color: var(--muted);
+    font-size: .82rem;
+    color: var(--ink);
     cursor: pointer;
-    transition: all .12s;
-    white-space: nowrap;
   }
-  .mw-pill:hover { background: rgba(35,68,43,.07); color: var(--ink); }
-  .mw-pill.active {
-    background: var(--field);
-    border-color: var(--field);
-    color: #f9f4ea;
-    font-weight: 600;
-  }
+  .mw-sel:focus { outline: none; border-color: var(--field); }
 
   /* Team popup */
   .team-popup {
@@ -236,6 +231,9 @@
   <div class="page-header">
     <h1>{{ label }}</h1>
     <div class="sub">{{ season }}</div>
+    <!-- Historical season navigation parked for now.
+    <select id="season-nav"></select>
+    -->
   </div>
 
   <!-- Standings -->
@@ -245,8 +243,13 @@
       <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
     </div>
 
-    <!-- Matchweek timeline pills -->
-    <div class="mw-strip" id="mw-strip"></div>
+    <!-- Matchweek timeline -->
+    <div class="mw-selects" id="mw-controls">
+      <select id="mw-year" class="mw-sel"></select>
+      <select id="mw-season" class="mw-sel"></select>
+      <select id="mw-week" class="mw-sel"></select>
+      <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
+    </div>
 
     <div class="panel" style="padding: 0 0 2px">
       <table class="standings-table">
@@ -342,9 +345,11 @@
 </main>
 
 <script>
-const SIM_DATA       = {{ sim_data | tojson }};
-const FLIGHT_RESULTS = {{ flight_results | tojson }};
-const FLIGHT_CARDS   = {{ flight_team_cards | tojson }};
+const SIM_DATA        = {{ sim_data | tojson }};
+const FLIGHT_RESULTS  = {{ flight_results | tojson }};
+const FLIGHT_CARDS    = {{ flight_team_cards | tojson }};
+const IS_TOP_FLIGHT   = {{ is_top_flight | tojson }};
+const IS_BOTTOM_FLIGHT = {{ is_bottom_flight | tojson }};
 const STANDINGS_MAP  = {};
 {% for row in standings %}STANDINGS_MAP[{{ row.team | tojson }}] = { w: {{ row.w }}, l: {{ row.l }}, t: {{ row.t }}, gp: {{ row.gp }} };
 {% endfor %}
@@ -354,17 +359,51 @@ const TEAM_SLUGS    = {};
 const N_TEAMS = {{ standings | length }};
 const TOTAL_RUNS = 10000;
 
-// ── Matchweek timeline ───────────────────────────────────────────────────
+// ── Matchweek history timeline (Year / Season / Week dropdowns) ──────────
 (function() {
-  const strip  = document.getElementById("mw-strip");
-  const tbody  = document.getElementById("standings-tbody");
-  const label  = document.getElementById("mw-label");
+  const tbody     = document.getElementById("standings-tbody");
+  const label     = document.getElementById("mw-label");
+  const selYear   = document.getElementById("mw-year");
+  const selSeason = document.getElementById("mw-season");
+  const selWeek   = document.getElementById("mw-week");
+  const btnReset  = document.getElementById("mw-reset");
 
-  // Collect sorted unique played dates
   const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
   if (!dates.length) return;
 
-  let activePill = null;
+  function getSeason(d) {
+    const mo = parseInt(d.slice(5, 7));
+    return (mo >= 3 && mo <= 7) ? 'Spring' : 'Fall';
+  }
+  const groups = {};
+  for (const d of dates) {
+    const yr = d.slice(0, 4), sn = getSeason(d);
+    if (!groups[yr]) groups[yr] = {};
+    if (!groups[yr][sn]) groups[yr][sn] = [];
+    groups[yr][sn].push(d);
+  }
+  const years = Object.keys(groups).sort();
+
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    selYear.appendChild(opt);
+  });
+  function populateSeasons(year) {
+    selSeason.innerHTML = '';
+    const sns = Object.keys(groups[year] || {}).sort();
+    sns.forEach(s => { const opt = document.createElement('option'); opt.value=s; opt.textContent=s; selSeason.appendChild(opt); });
+    return sns;
+  }
+  function populateWeeks(year, season) {
+    selWeek.innerHTML = '';
+    const ph = document.createElement('option');
+    ph.value = ''; ph.textContent = 'Full season';
+    selWeek.appendChild(ph);
+    const wdates = (groups[year]||{})[season]||[];
+    wdates.forEach((d,i) => { const opt=document.createElement('option'); opt.value=d; opt.textContent=`Week ${i+1}`; selWeek.appendChild(opt); });
+    return wdates;
+  }
 
   function buildStandings(upToDate) {
     const stats = {};
@@ -428,30 +467,53 @@ const TOTAL_RUNS = 10000;
     });
   }
 
-  // Build pills — group by matchweek number (1-indexed by date order)
-  dates.forEach((date, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'mw-pill';
-    btn.textContent = `Week ${idx + 1}`;
-    btn.title = date;
-    btn.addEventListener('click', () => {
-      if (activePill === btn) {
-        // Toggle off → restore current (latest) standings
-        btn.classList.remove('active');
-        activePill = null;
-        label.textContent = '';
-        renderTable(buildStandings(dates[dates.length - 1]));
-        return;
-      }
-      if (activePill) activePill.classList.remove('active');
-      btn.classList.add('active');
-      activePill = btn;
-      label.textContent = date;
-      renderTable(buildStandings(date));
-    });
-    strip.appendChild(btn);
+  function applyDate(date) {
+    label.textContent = `as of ${date}`;
+    btnReset.style.display = '';
+    renderTable(buildStandings(date));
+  }
+
+  // Defaults: latest year + season, no week filter (Full season)
+  const latestYear = years[years.length - 1];
+  selYear.value = latestYear;
+  const initSns = populateSeasons(latestYear);
+  selSeason.value = initSns[initSns.length - 1] || '';
+  populateWeeks(latestYear, selSeason.value);
+  // selWeek starts at "Full season" (value = ""), no applyDate called
+
+  selYear.addEventListener('change', () => {
+    const sns = populateSeasons(selYear.value);
+    selSeason.value = sns[sns.length-1]||'';
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
   });
+  selSeason.addEventListener('change', () => {
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
+  });
+  selWeek.addEventListener('change', () => {
+    if (selWeek.value) applyDate(selWeek.value);
+    else location.reload();
+  });
+  btnReset.addEventListener('click', () => { location.reload(); });
 })();
+
+// Historical season navigation parked for now.
+// (function() {
+//   const sel = document.getElementById("season-nav");
+//   if (!sel) return;
+//   const CURRENT_SEASON_SLUG = "spring-2026";
+//   const IS_CURRENT = true;
+//   const FLIGHT_SLUG = "";
+//   const LATEST_SEASON_SLUG = "spring-2026";
+//   sel.addEventListener("change", () => {
+//     const s = sel.value;
+//     const url = (s === LATEST_SEASON_SLUG)
+//       ? `../../flight/${FLIGHT_SLUG}/`
+//       : `../../season/${s}/flight/${FLIGHT_SLUG}/`;
+//     window.location.href = url;
+//   });
+// })();
 
 document.querySelectorAll(".page-link").forEach(link => {
   link.addEventListener("click", e => {
@@ -527,8 +589,8 @@ const WORKER_SRC = `
         if (cnt > modalCt) { modalCt = cnt; modal = p; }
       }
       teamStats[t] = {
-        promo: (100 * promo / totalRuns).toFixed(1),
-        relg:  (100 * relg  / totalRuns).toFixed(1),
+        promo: Math.round(100 * promo / totalRuns),
+        relg:  Math.round(100 * relg  / totalRuns),
         modal
       };
     }
@@ -557,14 +619,49 @@ function fmtDate(d) {
   return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+function abbrevTeam(name) {
+  let s = name.replace(/\s+(Over\s*)?O?\d{2,3}\+?$/i, '').trim();
+  s = s.replace(/\s+(FC|SC|AC|United|Utd|City|Athletic|Rovers|Wanderers|Town|AFC)$/i, '').trim();
+  if (s.length > 13) {
+    const words = s.split(/\s+/);
+    if (words.length > 2) s = words.slice(0, 2).join(' ');
+  }
+  return s || name;
+}
+
 function renderGrid() {
   const el = document.getElementById("game-list");
-  if (!remaining_games.length) {
-    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No remaining games — season complete.</p>';
+
+  // Completed game lookup: date → team → {result, opponent, score}
+  const compByDT = {};
+  for (const r of FLIGHT_RESULTS) {
+    if (!compByDT[r.date]) compByDT[r.date] = {};
+    let homeRes, awayRes, homeScore, awayScore;
+    if (r.forfeit) {
+      homeRes = r.home_forfeit ? 'L' : 'W'; awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes   = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes   = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}–${r.ag}`; awayScore = `${r.ag}–${r.hg}`;
+    } else continue;
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
+  }
+
+  const compDates   = Object.keys(compByDT).sort();
+  const futureDates = [...new Set(remaining_games.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD      = remaining_games.some(g => g.date === 'TBD');
+  const allWeeks    = [...new Set([...compDates, ...futureDates])].sort();
+  if (hasTBD) allWeeks.push('TBD');
+
+  if (!allWeeks.length) {
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
     return;
   }
 
-  const weeks = [...new Set(remaining_games.map(g => g.date))].sort();
+  // No max-width needed — abbreviated names are short enough to show fully
+
   const byTW = {};
   for (const t of teams) byTW[t] = {};
   for (const g of remaining_games) {
@@ -572,48 +669,59 @@ function renderGrid() {
     byTW[g.away][g.date] = { ...g, role: 'away' };
   }
 
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel    = !IS_BOTTOM_FLIGHT;
+
   let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
   html += '<th class="col-team"></th>';
-  for (const w of weeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
-  html += '<th class="col-stat">Promo%</th><th class="col-stat">Rel%</th><th class="col-stat">Pos</th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
   html += '</tr></thead><tbody>';
 
   teams.forEach((t, idx) => {
     html += `<tr data-idx="${idx}">`;
-    html += `<td class="col-team">${t}</td>`;
+    html += `<td class="col-team" title="${t}">${abbrevTeam(t)}</td>`;
 
-    for (const w of weeks) {
+    for (const w of allWeeks) {
+      const comp = compByDT[w]?.[t];
+      if (comp) {
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell">`;
+        html += `<div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div>`;
+        html += `</td>`;
+        continue;
+      }
+
       const entry = byTW[t][w];
       if (!entry) { html += '<td class="no-game">—</td>'; continue; }
 
-      const isHome = entry.role === 'home';
-      const opp    = isHome ? entry.away : entry.home;
-      const ov     = overrides[entry.id];
-      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L')
-                   : ov === 'draw' ? 'D'
-                   : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const isHome  = entry.role === 'home';
+      const opp     = isHome ? entry.away : entry.home;
+      const ov      = overrides[entry.id];
+      const teamOv  = ov === 'home' ? (isHome ? 'W' : 'L')
+                    : ov === 'draw' ? 'D'
+                    : ov === 'away' ? (isHome ? 'L' : 'W') : null;
       const winVal  = isHome ? 'home' : 'away';
       const lossVal = isHome ? 'away' : 'home';
 
-      function bc(tRes) {
-        if (teamOv === tRes) return `o-btn sel-${tRes}`;
-        if (tRes === 'W') return 'o-btn hint-good';
-        if (tRes === 'L') return 'o-btn hint-bad';
-        return 'o-btn';
-      }
-
-      html += `<td class="game-cell" data-gid="${entry.id}" data-home="${isHome ? 1 : 0}">`;
-      html += `<div class="cell-opp">${opp}</div><div class="cell-btns">`;
-      html += `<button class="${bc('W')}" data-val="${winVal}">W</button>`;
-      html += `<button class="${bc('D')}" data-val="draw">D</button>`;
-      html += `<button class="${bc('L')}" data-val="${lossVal}">L</button>`;
-      html += '</div></td>';
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
+      html += `<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
+      html += `<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
+      html += `</select></td>`;
     }
 
     const st = teamStats[t] || {};
     html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '—'}</td>`;
-    html += `<td class="col-stat stat-rel">${st.relg   != null ? st.relg  + '%' : '—'}</td>`;
-    html += `<td class="col-stat stat-pos">${st.modal  != null ? posLabel(st.modal) : '—'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '—'}</td>`;
     html += '</tr>';
   });
 
@@ -621,15 +729,19 @@ function renderGrid() {
   el.innerHTML = html;
 
   el.querySelectorAll('.game-cell').forEach(cell => {
-    const gid = cell.dataset.gid;
-    cell.querySelectorAll('.o-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const val = btn.dataset.val;
-        overrides[gid] = overrides[gid] === val ? undefined : val;
-        if (overrides[gid] === undefined) delete overrides[gid];
-        renderGrid();
-        startSim();
-      });
+    const gid   = cell.dataset.gid;
+    const winV  = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    const sel   = cell.querySelector('.ov-select');
+    sel.addEventListener('change', () => {
+      const v = sel.value;
+      if (v === '?') {
+        delete overrides[gid];
+      } else {
+        overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      }
+      renderGrid();
+      startSim();
     });
   });
 }
