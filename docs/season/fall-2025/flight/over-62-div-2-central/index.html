@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over 62 Division 2 Central | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --surface: rgba(255,252,247,0.6);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --draw: #7d6d50;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+    --border: rgba(38,61,41,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .back-link { font-size: .85rem; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--ink); text-decoration: underline; }
+
+  .page-header { margin: 18px 0 32px; }
+  .page-header h1 { margin: 0 0 4px; font-size: 1.9rem; }
+  .page-header .sub { color: var(--muted); font-size: .95rem; }
+
+  .section { margin-bottom: 32px; }
+  .section-title { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 14px; }
+  .section-title h2 { margin: 0; font-size: 1.2rem; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+
+  /* Standings table */
+  .standings-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+  .standings-table th {
+    text-align: left; padding: 5px 10px; font-size: .78rem; color: var(--muted);
+    border-bottom: 2px solid var(--line); font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
+  }
+  .standings-table th.num { text-align: right; }
+  .standings-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .standings-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .standings-table tr:last-child td { border-bottom: none; }
+  .standings-table .pos { width: 28px; color: var(--muted); font-size: .8rem; }
+  .standings-table .promo-row td:first-child { border-left: 3px solid var(--win); }
+  .standings-table .relg-row td:first-child { border-left: 3px solid var(--loss); }
+  .gd-pos { color: var(--win); }
+  .gd-neg { color: var(--loss); }
+
+  /* Simulation header */
+  .sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .sim-status { color: var(--muted); font-size: .88rem; }
+  .sim-counter { font-size: .88rem; font-variant-numeric: tabular-nums; }
+  .reset-btn {
+    padding: 5px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; font: inherit; font-size: .82rem; cursor: pointer; color: var(--muted);
+  }
+  .reset-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+
+  /* What-if table */
+  .whatif-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .whatif-table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  .whatif-table thead th {
+    background: var(--surface); padding: 6px 8px; text-align: center; white-space: nowrap;
+    border-bottom: 2px solid var(--line); font-weight: 600; font-size: .78rem; color: var(--muted);
+  }
+  .whatif-table thead th.col-team { text-align: left; white-space: nowrap; }
+  .whatif-table td { padding: 5px 6px; text-align: center; border-bottom: 1px solid rgba(38,61,41,.07); vertical-align: middle; }
+  .whatif-table td.col-team { text-align: left; font-weight: 600; white-space: nowrap; padding-right: 10px; font-size: .82rem; }
+  .whatif-table th.col-team { white-space: nowrap; }
+  .past-cell { text-align: center; background: rgba(0,0,0,.015); }
+  .past-cell .cell-opp { font-size: .68rem; color: var(--muted); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56px; }
+  .past-cell .cell-result { font-size: .72rem; white-space: nowrap; font-weight: 700; }
+  .whatif-table tr:last-child td { border-bottom: none; }
+  .no-game { color: var(--muted); font-size: .78rem; }
+  .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+  .cell-btns { display: flex; gap: 2px; justify-content: center; }
+  .ov-select {
+    font: inherit; font-size: .73rem; padding: 2px 4px; border: 1px solid var(--line);
+    border-radius: 4px; background: transparent; color: var(--muted); cursor: pointer;
+    width: 100%; max-width: 52px;
+  }
+  .ov-select.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .ov-select.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .ov-select.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
+  .col-stat { width: 60px; font-size: .8rem; font-weight: 500; }
+  .stat-promo { color: var(--win); }
+  .stat-rel   { color: var(--loss); }
+  .stat-pos   { color: var(--ink); }
+
+  /* Matchweek timeline */
+  .mw-selects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .mw-sel {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font: inherit;
+    font-size: .82rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .mw-sel:focus { outline: none; border-color: var(--field); }
+
+  /* Team popup */
+  .team-popup {
+    position: fixed;
+    z-index: 999;
+    width: 260px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(27,38,29,.18);
+    padding: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .team-popup.visible { opacity: 1; transform: translateY(0); }
+  .team-popup .pop-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .team-popup .pop-record { font-size: .82rem; color: var(--muted); margin-bottom: 10px; }
+  .team-popup .pop-game { display: flex; justify-content: space-between; font-size: .82rem; padding: 4px 0; border-bottom: 1px solid rgba(38,61,41,.07); }
+  .team-popup .pop-game:last-child { border-bottom: none; }
+  .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-hint { font-size: .78rem; color: var(--muted); margin-top: 10px; text-align: center; }
+  td.team-name-cell { cursor: pointer; }
+  td.team-name-cell:hover { text-decoration: underline; color: var(--field); }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .feedback-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .feedback-drawer {
+    display: none;
+    margin: 16px auto 0;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+  }
+  .feedback-drawer.open { display: block; }
+  .feedback-drawer h4 { margin: 0 0 4px; font-size: 1rem; }
+  .feedback-drawer p { margin: 0 0 14px; color: var(--muted); font-size: 0.88rem; }
+
+  .feedback-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .feedback-field label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+  .feedback-submit:disabled { background: #90a08f; cursor: not-allowed; }
+  .feedback-thanks { display: none; color: var(--field); font-size: 0.92rem; margin-top: 10px; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<div class="team-popup" id="team-popup">
+  <div class="pop-name" id="pop-name"></div>
+  <div class="pop-record" id="pop-record"></div>
+  <div id="pop-games"></div>
+  <div class="pop-hint">Click to view team page</div>
+</div>
+<main>
+  <a class="back-link page-link" href="../../">← Back to homepage</a>
+
+  <div class="page-header">
+    <h1>Over 62 Division 2 Central</h1>
+    <div class="sub">Fall 2025</div>
+    <!-- Historical season navigation parked for now.
+    <select id="season-nav"></select>
+    -->
+  </div>
+
+  <!-- Standings -->
+  <section class="section">
+    <div class="section-title">
+      <h2>Standings</h2>
+      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    </div>
+
+    <!-- Matchweek timeline -->
+    <div class="mw-selects" id="mw-controls">
+      <select id="mw-week" class="mw-sel"></select>
+      <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
+    </div>
+
+    <div class="panel" style="padding: 0 0 2px">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th class="pos">#</th>
+            <th>Team</th>
+            <th class="num">GP</th>
+            <th class="num">W</th>
+            <th class="num">L</th>
+            <th class="num">T</th>
+            <th class="num">Pts</th>
+            <th class="num">GD</th>
+            <th class="num">PPG</th>
+          </tr>
+        </thead>
+        <tbody id="standings-tbody">
+          
+          
+          
+          
+          
+          <tr class="promo-row">
+            <td class="pos num">1</td>
+            <td class="team-name-cell" data-team="Danvers EFC" data-slug="danvers-efc-over-62-div-2-central">Danvers EFC</td>
+            <td class="num">12</td>
+            <td class="num">8</td>
+            <td class="num">1</td>
+            <td class="num">3</td>
+            <td class="num" style="font-weight:700">27</td>
+            <td class="num gd-pos">
+              +18
+            </td>
+            <td class="num">2.25</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="promo-row">
+            <td class="pos num">2</td>
+            <td class="team-name-cell" data-team="Boston Villa FC" data-slug="boston-villa-fc-over-62-div-2-central">Boston Villa FC</td>
+            <td class="num">12</td>
+            <td class="num">8</td>
+            <td class="num">4</td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:700">24</td>
+            <td class="num gd-pos">
+              +14
+            </td>
+            <td class="num">2.00</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">3</td>
+            <td class="team-name-cell" data-team="Wayland Wahoots" data-slug="wayland-wahoots-over-62-div-2-central">Wayland Wahoots</td>
+            <td class="num">11</td>
+            <td class="num">6</td>
+            <td class="num">4</td>
+            <td class="num">1</td>
+            <td class="num" style="font-weight:700">19</td>
+            <td class="num gd-pos">
+              +10
+            </td>
+            <td class="num">1.73</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">4</td>
+            <td class="team-name-cell" data-team="Nashoba Apple Corps" data-slug="nashoba-apple-corps-over-62-div-2-central">Nashoba Apple Corps</td>
+            <td class="num">11</td>
+            <td class="num">5</td>
+            <td class="num">4</td>
+            <td class="num">2</td>
+            <td class="num" style="font-weight:700">17</td>
+            <td class="num gd-neg">
+              -4
+            </td>
+            <td class="num">1.55</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">5</td>
+            <td class="team-name-cell" data-team="Lynnfield F.C. Olympians" data-slug="lynnfield-f-c-olympians-over-62-div-2-central">Lynnfield F.C. Olympians</td>
+            <td class="num">10</td>
+            <td class="num">4</td>
+            <td class="num">3</td>
+            <td class="num">3</td>
+            <td class="num" style="font-weight:700">15</td>
+            <td class="num gd-pos">
+              +4
+            </td>
+            <td class="num">1.50</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="">
+            <td class="pos num">6</td>
+            <td class="team-name-cell" data-team="Peabody Gold 63" data-slug="peabody-gold-63-over-62-div-2-central">Peabody Gold 63</td>
+            <td class="num">10</td>
+            <td class="num">2</td>
+            <td class="num">6</td>
+            <td class="num">2</td>
+            <td class="num" style="font-weight:700">8</td>
+            <td class="num gd-neg">
+              -10
+            </td>
+            <td class="num">0.80</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="relg-row">
+            <td class="pos num">7</td>
+            <td class="team-name-cell" data-team="Warthog Wonders" data-slug="warthog-wonders-over-62-div-2-central">Warthog Wonders</td>
+            <td class="num">10</td>
+            <td class="num">2</td>
+            <td class="num">6</td>
+            <td class="num">2</td>
+            <td class="num" style="font-weight:700">8</td>
+            <td class="num gd-neg">
+              -17
+            </td>
+            <td class="num">0.80</td>
+          </tr>
+          
+          
+          
+          
+          
+          <tr class="relg-row">
+            <td class="pos num">8</td>
+            <td class="team-name-cell" data-team="Hopkinton OF" data-slug="hopkinton-of-over-62-div-2-central">Hopkinton OF</td>
+            <td class="num">10</td>
+            <td class="num">1</td>
+            <td class="num">8</td>
+            <td class="num">1</td>
+            <td class="num" style="font-weight:700">4</td>
+            <td class="num gd-neg">
+              -15
+            </td>
+            <td class="num">0.40</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Playoffs -->
+  
+
+  <!-- Season Outlook / What If -->
+  <section class="section">
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px" id="sim-title">Season Outlook</h2>
+        <span class="sim-status" id="sim-status">Starting simulation…</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
+      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>. <span style="color:#8a6020">Schedule estimated from round-robin.</span>
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    ELO ratings are model estimates, not official standings.
+
+    <div style="margin-top:14px">
+      <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+      <div class="feedback-drawer" id="feedback-drawer">
+        <h4>Send feedback</h4>
+        <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+        <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+          <div class="feedback-field">
+            <label for="fb-name">Name (optional)</label>
+            <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-email">Email (optional)</label>
+            <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+          </div>
+          <div class="feedback-field">
+            <label for="fb-message">Message</label>
+            <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+          <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+        </form>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<script>
+const SIM_DATA         = {"current_elos": {"Boston Villa FC": 1476.0, "Danvers EFC": 1497.0, "Hopkinton OF": 1436.4, "Lynnfield F.C. Olympians": 1517.7, "Nashoba Apple Corps": 1471.5, "Peabody Gold 63": 1440.6, "Warthog Wonders": 1434.1, "Wayland Wahoots": 1420.5}, "current_stats": {"Boston Villa FC": {"gd": 14, "gf": 35, "pts": 24}, "Danvers EFC": {"gd": 18, "gf": 27, "pts": 27}, "Hopkinton OF": {"gd": -15, "gf": 9, "pts": 4}, "Lynnfield F.C. Olympians": {"gd": 4, "gf": 17, "pts": 15}, "Nashoba Apple Corps": {"gd": -4, "gf": 25, "pts": 17}, "Peabody Gold 63": {"gd": -10, "gf": 18, "pts": 8}, "Warthog Wonders": {"gd": -17, "gf": 9, "pts": 8}, "Wayland Wahoots": {"gd": 10, "gf": 24, "pts": 19}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Wayland Wahoots", "date": "TBD", "home": "Danvers EFC", "id": "inferred|Danvers EFC|Wayland Wahoots", "involves_team": false}, {"away": "Warthog Wonders", "date": "TBD", "home": "Danvers EFC", "id": "inferred|Danvers EFC|Warthog Wonders", "involves_team": false}, {"away": "Hopkinton OF", "date": "TBD", "home": "Danvers EFC", "id": "inferred|Danvers EFC|Hopkinton OF", "involves_team": false}, {"away": "Nashoba Apple Corps", "date": "TBD", "home": "Boston Villa FC", "id": "inferred|Boston Villa FC|Nashoba Apple Corps", "involves_team": false}, {"away": "Warthog Wonders", "date": "TBD", "home": "Boston Villa FC", "id": "inferred|Boston Villa FC|Warthog Wonders", "involves_team": false}, {"away": "Hopkinton OF", "date": "TBD", "home": "Boston Villa FC", "id": "inferred|Boston Villa FC|Hopkinton OF", "involves_team": false}, {"away": "Lynnfield F.C. Olympians", "date": "TBD", "home": "Wayland Wahoots", "id": "inferred|Wayland Wahoots|Lynnfield F.C. Olympians", "involves_team": false}, {"away": "Peabody Gold 63", "date": "TBD", "home": "Wayland Wahoots", "id": "inferred|Wayland Wahoots|Peabody Gold 63", "involves_team": false}, {"away": "Lynnfield F.C. Olympians", "date": "TBD", "home": "Nashoba Apple Corps", "id": "inferred|Nashoba Apple Corps|Lynnfield F.C. Olympians", "involves_team": false}, {"away": "Peabody Gold 63", "date": "TBD", "home": "Nashoba Apple Corps", "id": "inferred|Nashoba Apple Corps|Peabody Gold 63", "involves_team": false}, {"away": "Warthog Wonders", "date": "TBD", "home": "Lynnfield F.C. Olympians", "id": "inferred|Lynnfield F.C. Olympians|Warthog Wonders", "involves_team": false}, {"away": "Hopkinton OF", "date": "TBD", "home": "Lynnfield F.C. Olympians", "id": "inferred|Lynnfield F.C. Olympians|Hopkinton OF", "involves_team": false}, {"away": "Warthog Wonders", "date": "TBD", "home": "Peabody Gold 63", "id": "inferred|Peabody Gold 63|Warthog Wonders", "involves_team": false}, {"away": "Hopkinton OF", "date": "TBD", "home": "Peabody Gold 63", "id": "inferred|Peabody Gold 63|Hopkinton OF", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Danvers EFC", "Boston Villa FC", "Wayland Wahoots", "Nashoba Apple Corps", "Lynnfield F.C. Olympians", "Peabody Gold 63", "Warthog Wonders", "Hopkinton OF"], "total_teams": 8};
+const FLIGHT_RESULTS   = [{"ag": 5, "away": "Wayland Wahoots", "date": "2025-09-07", "forfeit": false, "hg": 3, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton OF", "date": "2025-09-07", "forfeit": false, "hg": 2, "home": "Warthog Wonders", "home_forfeit": false}, {"ag": 0, "away": "Lynnfield F.C. Olympians", "date": "2025-09-07", "forfeit": false, "hg": 0, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold 63", "date": "2025-09-07", "forfeit": false, "hg": 2, "home": "Boston Villa FC", "home_forfeit": false}, {"ag": 4, "away": "Nashoba Apple Corps", "date": "2025-09-14", "forfeit": false, "hg": 1, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Warthog Wonders", "date": "2025-09-14", "forfeit": false, "hg": 3, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 3, "away": "Danvers EFC", "date": "2025-09-14", "forfeit": false, "hg": 1, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 4, "away": "Boston Villa FC", "date": "2025-09-14", "forfeit": false, "hg": 2, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 1, "away": "Warthog Wonders", "date": "2025-09-21", "forfeit": false, "hg": 3, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 5, "away": "Wayland Wahoots", "date": "2025-09-21", "forfeit": false, "hg": 1, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold 63", "date": "2025-09-21", "forfeit": false, "hg": 4, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 1, "away": "Danvers EFC", "date": "2025-09-21", "forfeit": false, "hg": 3, "home": "Boston Villa FC", "home_forfeit": false}, {"ag": 1, "away": "Boston Villa FC", "date": "2025-09-28", "forfeit": false, "hg": 3, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield F.C. Olympians", "date": "2025-09-28", "forfeit": false, "hg": 2, "home": "Warthog Wonders", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton OF", "date": "2025-09-28", "forfeit": false, "hg": 2, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 3, "away": "Nashoba Apple Corps", "date": "2025-09-28", "forfeit": false, "hg": 3, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 0, "away": "Warthog Wonders", "date": "2025-10-05", "forfeit": false, "hg": 1, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 0, "away": "Hopkinton OF", "date": "2025-10-05", "forfeit": false, "hg": 3, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 0, "away": "Nashoba Apple Corps", "date": "2025-10-05", "forfeit": false, "hg": 9, "home": "Boston Villa FC", "home_forfeit": false}, {"ag": 3, "away": "Wayland Wahoots", "date": "2025-10-05", "forfeit": false, "hg": 2, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield F.C. Olympians", "date": "2025-10-12", "forfeit": false, "hg": 5, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 2, "away": "Danvers EFC", "date": "2025-10-12", "forfeit": false, "hg": 1, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 4, "away": "Peabody Gold 63", "date": "2025-10-12", "forfeit": false, "hg": 2, "home": "Warthog Wonders", "home_forfeit": false}, {"ag": 4, "away": "Boston Villa FC", "date": "2025-10-12", "forfeit": false, "hg": 0, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 5, "away": "Danvers EFC", "date": "2025-10-19", "forfeit": false, "hg": 2, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold 63", "date": "2025-10-19", "forfeit": false, "hg": 5, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wahoots", "date": "2025-10-19", "forfeit": false, "hg": 1, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 0, "away": "Warthog Wonders", "date": "2025-10-19", "forfeit": false, "hg": 7, "home": "Boston Villa FC", "home_forfeit": false}, {"ag": 1, "away": "Nashoba Apple Corps", "date": "2025-10-26", "forfeit": false, "hg": 1, "home": "Warthog Wonders", "home_forfeit": false}, {"ag": 0, "away": "Hopkinton OF", "date": "2025-10-26", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 3, "away": "Lynnfield F.C. Olympians", "date": "2025-10-26", "forfeit": false, "hg": 1, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 0, "away": "Boston Villa FC", "date": "2025-10-26", "forfeit": false, "hg": 6, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 2, "away": "Nashoba Apple Corps", "date": "2025-11-02", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 1, "away": "Warthog Wonders", "date": "2025-11-02", "forfeit": false, "hg": 0, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Danvers EFC", "date": "2025-11-02", "forfeit": false, "hg": 0, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 2, "away": "Boston Villa FC", "date": "2025-11-02", "forfeit": false, "hg": 5, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 0, "away": "Hopkinton OF", "date": "2025-11-09", "forfeit": false, "hg": 2, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 4, "away": "Wayland Wahoots", "date": "2025-11-09", "forfeit": false, "hg": 0, "home": "Warthog Wonders", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold 63", "date": "2025-11-09", "forfeit": false, "hg": 1, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 0, "away": "Lynnfield F.C. Olympians", "date": "2025-11-09", "forfeit": false, "hg": 1, "home": "Boston Villa FC", "home_forfeit": false}, {"ag": 0, "away": "Nashoba Apple Corps", "date": "2025-11-16", "forfeit": false, "hg": 2, "home": "Danvers EFC", "home_forfeit": false}, {"ag": 2, "away": "Boston Villa FC", "date": "2025-11-16", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false}, {"ag": 0, "away": "Boston Villa FC", "date": "2025-11-23", "forfeit": false, "hg": 4, "home": "Danvers EFC", "home_forfeit": false}];
+const FLIGHT_CARDS     = {"Boston Villa FC": {"recent": [{"date": "2025-11-23", "opponent": "Danvers EFC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2025-11-16", "opponent": "Wayland Wahoots", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2025-11-09", "opponent": "Lynnfield F.C. Olympians", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": "boston-villa-fc-over-62-div-2-central"}, "Danvers EFC": {"recent": [{"date": "2025-11-23", "opponent": "Boston Villa FC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2025-11-16", "opponent": "Nashoba Apple Corps", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2025-11-09", "opponent": "Peabody Gold 63", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": ""}, "Hopkinton OF": {"recent": [{"date": "2025-11-09", "opponent": "Nashoba Apple Corps", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2025-11-02", "opponent": "Warthog Wonders", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2025-10-26", "opponent": "Wayland Wahoots", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": "hopkinton-of-over-62-div-2-central"}, "Lynnfield F.C. Olympians": {"recent": [{"date": "2025-11-09", "opponent": "Boston Villa FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2025-11-02", "opponent": "Danvers EFC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2025-10-26", "opponent": "Peabody Gold 63", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": "lynnfield-f-c-olympians-over-62-div-2-central"}, "Nashoba Apple Corps": {"recent": [{"date": "2025-11-16", "opponent": "Danvers EFC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2025-11-09", "opponent": "Hopkinton OF", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2025-11-02", "opponent": "Wayland Wahoots", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "nashoba-apple-corps-over-62-div-2-central"}, "Peabody Gold 63": {"recent": [{"date": "2025-11-09", "opponent": "Danvers EFC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2025-11-02", "opponent": "Boston Villa FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2025-10-26", "opponent": "Lynnfield F.C. Olympians", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": "peabody-gold-63-over-62-div-2-central"}, "Warthog Wonders": {"recent": [{"date": "2025-11-09", "opponent": "Wayland Wahoots", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2025-11-02", "opponent": "Hopkinton OF", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2025-10-26", "opponent": "Nashoba Apple Corps", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": "warthog-wonders-over-62-div-2-central"}, "Wayland Wahoots": {"recent": [{"date": "2025-11-16", "opponent": "Boston Villa FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2025-11-09", "opponent": "Warthog Wonders", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2025-11-02", "opponent": "Nashoba Apple Corps", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}};
+const IS_TOP_FLIGHT    = false;
+const IS_BOTTOM_FLIGHT = true;
+const SCHEDULE_INFERRED = true;
+const STANDINGS_MAP = {};
+STANDINGS_MAP["Danvers EFC"] = { w:8, l:1, t:3, gp:12 };
+STANDINGS_MAP["Boston Villa FC"] = { w:8, l:4, t:0, gp:12 };
+STANDINGS_MAP["Wayland Wahoots"] = { w:6, l:4, t:1, gp:11 };
+STANDINGS_MAP["Nashoba Apple Corps"] = { w:5, l:4, t:2, gp:11 };
+STANDINGS_MAP["Lynnfield F.C. Olympians"] = { w:4, l:3, t:3, gp:10 };
+STANDINGS_MAP["Peabody Gold 63"] = { w:2, l:6, t:2, gp:10 };
+STANDINGS_MAP["Warthog Wonders"] = { w:2, l:6, t:2, gp:10 };
+STANDINGS_MAP["Hopkinton OF"] = { w:1, l:8, t:1, gp:10 };
+
+const TEAM_SLUGS = {};
+TEAM_SLUGS["Danvers EFC"] = "danvers-efc-over-62-div-2-central";
+TEAM_SLUGS["Boston Villa FC"] = "boston-villa-fc-over-62-div-2-central";
+TEAM_SLUGS["Wayland Wahoots"] = "wayland-wahoots-over-62-div-2-central";
+TEAM_SLUGS["Nashoba Apple Corps"] = "nashoba-apple-corps-over-62-div-2-central";
+TEAM_SLUGS["Lynnfield F.C. Olympians"] = "lynnfield-f-c-olympians-over-62-div-2-central";
+TEAM_SLUGS["Peabody Gold 63"] = "peabody-gold-63-over-62-div-2-central";
+TEAM_SLUGS["Warthog Wonders"] = "warthog-wonders-over-62-div-2-central";
+TEAM_SLUGS["Hopkinton OF"] = "hopkinton-of-over-62-div-2-central";
+
+const N_TEAMS    = 8;
+const TOTAL_RUNS = 10000;
+
+// ── Core data ─────────────────────────────────────────────────────────────
+const { teams, current_stats, current_elos, remaining_games,
+        promotion_cut, relegation_cut } = SIM_DATA;
+
+const elStatus  = document.getElementById("sim-status");
+const elCounter = document.getElementById("sim-counter");
+
+// ── Team IDs ───────────────────────────────────────────────────────────────
+// Each team gets a short label (first meaningful word) used in the what-if grid.
+const TEAM_IDS = (function() {
+  const SKIP = new Set(['fc','sc','ac','afc','the','af','cf','north','south','east','west','central','northeast','northwest','southeast','southwest','united','utd','city','athletic','rovers','wanderers','masters','veterans','sports','club','football','soccer']);
+  const used = new Set(), ids = {};
+  function firstWord(name) {
+    const words = name
+      .replace(/\s*(Over\s*)?\d{2,3}\+?$/i, '')
+      .trim()
+      .split(/\s+/)
+      .filter(w => w.length > 0 && !SKIP.has(w.toLowerCase()));
+    return words.length ? words[0] : name.split(/\s+/)[0];
+  }
+  for (const t of teams) {
+    const base = firstWord(t);
+    if (!used.has(base)) { ids[t]=base; used.add(base); continue; }
+    // Try second word
+    const words = t.replace(/\s*(Over\s*)?\d{2,3}\+?$/i,'').trim().split(/\s+/).filter(w=>!SKIP.has(w.toLowerCase()));
+    let found = false;
+    for (let i=1; i<words.length; i++) {
+      if (!used.has(words[i])) { ids[t]=words[i]; used.add(words[i]); found=true; break; }
+    }
+    if (!found) {
+      let i=2; while (used.has(base+i)) i++;
+      ids[t]=base+i; used.add(base+i);
+    }
+  }
+  return ids;
+})();
+
+// ── Historical results lookup ──────────────────────────────────────────────
+// Maps game_id -> actual outcome so we can pre-fill the what-if when scrubbing back.
+const HISTORICAL_RESULT = {};
+for (const r of FLIGHT_RESULTS) {
+  const id = `${r.date}|${r.home}|${r.away}`;
+  HISTORICAL_RESULT[id] = r.forfeit
+    ? (r.home_forfeit ? 'away' : 'home')
+    : r.hg > r.ag ? 'home'
+    : r.hg < r.ag ? 'away'
+    : 'draw';
+}
+
+// ── Combined schedule (played + remaining) ─────────────────────────────────
+// Needed to reconstruct "remaining games" from any historical viewpoint.
+const COMBINED_GAMES = (function() {
+  const seen = new Set(), all = [];
+  for (const g of remaining_games) { seen.add(g.id); all.push({id:g.id,home:g.home,away:g.away,date:g.date}); }
+  for (const r of FLIGHT_RESULTS) {
+    const id = `${r.date}|${r.home}|${r.away}`;
+    if (!seen.has(id)) all.push({id,home:r.home,away:r.away,date:r.date});
+  }
+  return all.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+})();
+
+// ── View state ─────────────────────────────────────────────────────────────
+let viewDate  = null;   // null = live current view
+const overrides = {};   // game_id -> 'home'|'away'|'draw'
+let   teamStats = {};
+
+// Base stats and future games derived from viewDate
+function getBaseStats() {
+  if (!viewDate) return current_stats;
+  const stats = {};
+  for (const t of teams) stats[t] = { pts:0, gd:0, gf:0 };
+  for (const r of FLIGHT_RESULTS) {
+    if (r.date > viewDate) continue;
+    for (const t of [r.home, r.away]) if (!stats[t]) stats[t]={pts:0,gd:0,gf:0};
+    if (r.forfeit) {
+      if (r.home_forfeit) {
+        stats[r.away].pts+=3; stats[r.away].gd++;  stats[r.away].gf+=2;
+        stats[r.home].gd--;  stats[r.home].gf++;
+      } else {
+        stats[r.home].pts+=3; stats[r.home].gd++;  stats[r.home].gf+=2;
+        stats[r.away].gd--;  stats[r.away].gf++;
+      }
+    } else if (r.hg !== null && r.ag !== null) {
+      stats[r.home].gf+=r.hg; stats[r.home].gd+=(r.hg-r.ag);
+      stats[r.away].gf+=r.ag; stats[r.away].gd+=(r.ag-r.hg);
+      if      (r.hg>r.ag) stats[r.home].pts+=3;
+      else if (r.ag>r.hg) stats[r.away].pts+=3;
+      else { stats[r.home].pts++; stats[r.away].pts++; }
+    }
+  }
+  return stats;
+}
+
+function getFutureGames() {
+  if (!viewDate) return remaining_games;
+  return COMBINED_GAMES.filter(g => g.date==='TBD' || g.date>viewDate);
+}
+
+// Set viewDate and pre-fill overrides with actual results for games after that date.
+// This way the sim shows the real outcome by default; user can change to explore what-ifs.
+function setViewDate(date) {
+  viewDate = date;
+  Object.keys(overrides).forEach(k=>delete overrides[k]);
+  if (date) {
+    for (const g of COMBINED_GAMES) {
+      if ((g.date==='TBD'||g.date>date) && HISTORICAL_RESULT[g.id]!==undefined) {
+        overrides[g.id] = HISTORICAL_RESULT[g.id];
+      }
+    }
+  }
+  updateSimHeader();
+  renderGrid();
+  startSim();
+}
+
+function updateSimHeader() {
+  const title = document.getElementById('sim-title');
+  const desc  = document.getElementById('sim-desc');
+  if (viewDate) {
+    if (title) title.textContent = 'What If?';
+    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> — games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
+  } else {
+    if (title) title.textContent = 'Season Outlook';
+    if (desc)  desc.innerHTML = `Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
+  }
+}
+
+// ── Matchweek timeline (single week dropdown) ─────────────────────────────
+(function() {
+  const tbody    = document.getElementById("standings-tbody");
+  const mwLabel  = document.getElementById("mw-label");
+  const selWeek  = document.getElementById("mw-week");
+  const btnReset = document.getElementById("mw-reset");
+
+  const dates = [...new Set(FLIGHT_RESULTS.map(r=>r.date))].sort();
+  if (!dates.length) { document.getElementById('mw-controls').style.display='none'; return; }
+
+  const multiYear = new Set(dates.map(d=>d.slice(0,4))).size > 1;
+
+  const ph = document.createElement('option');
+  ph.value = ''; ph.textContent = 'Full season'; selWeek.appendChild(ph);
+  dates.forEach((d, i) => {
+    const o = document.createElement('option');
+    o.value = d;
+    o.textContent = multiYear ? `Wk ${i+1} · ${d.slice(5)} ${d.slice(0,4)}` : `Wk ${i+1} · ${d.slice(5)}`;
+    selWeek.appendChild(o);
+  });
+
+  function buildStandingsFromResults(upToDate) {
+    const stats={};
+    for (const r of FLIGHT_RESULTS) {
+      if (r.date>upToDate) continue;
+      for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
+      if (r.forfeit) {
+        if (r.home_forfeit){ stats[r.away].w++;stats[r.away].pts+=3;stats[r.away].gp++;stats[r.home].l++;stats[r.home].gp++; }
+        else               { stats[r.home].w++;stats[r.home].pts+=3;stats[r.home].gp++;stats[r.away].l++;stats[r.away].gp++; }
+      } else {
+        stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
+        stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;
+        if(r.hg>r.ag){stats[r.home].w++;stats[r.home].pts+=3;stats[r.away].l++;}
+        else if(r.ag>r.hg){stats[r.away].w++;stats[r.away].pts+=3;stats[r.home].l++;}
+        else{stats[r.home].t++;stats[r.home].pts++;stats[r.away].t++;stats[r.away].pts++;}
+      }
+    }
+    return Object.entries(stats).map(([team,s])=>({team,...s,gd:s.gf-s.ga,ppg:s.gp?s.pts/s.gp:0}))
+      .sort((a,b)=>b.ppg-a.ppg||b.gd-a.gd||b.gf-a.gf||a.team.localeCompare(b.team));
+  }
+
+  function renderStandingsTable(table) {
+    const n=table.length, relegCut=n>=6?2:n>=4?1:0;
+    tbody.innerHTML=table.map((row,i)=>{
+      const pos=i+1, cls=pos<=2?'promo-row':pos>n-relegCut?'relg-row':'';
+      const gdStr=row.gd>0?`+${row.gd}`:String(row.gd);
+      const gdCls=row.gd>0?'gd-pos':row.gd<0?'gd-neg':'';
+      const slug=TEAM_SLUGS[row.team]||'';
+      return `<tr class="${cls}">
+        <td class="pos num">${pos}</td>
+        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
+        <td class="num">${row.gp}</td><td class="num">${row.w}</td><td class="num">${row.l}</td>
+        <td class="num">${row.t}</td><td class="num" style="font-weight:700">${row.pts}</td>
+        <td class="num ${gdCls}">${gdStr}</td>
+        <td class="num">${row.gp?(row.pts/row.gp).toFixed(2):'—'}</td>
+      </tr>`;
+    }).join('');
+    tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
+      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+      cell.addEventListener('mouseleave',hidePopup);
+      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+    });
+  }
+
+  selWeek.addEventListener('change', () => {
+    const date = selWeek.value;
+    if (date) {
+      mwLabel.textContent = `as of ${date}`; btnReset.style.display = '';
+      renderStandingsTable(buildStandingsFromResults(date));
+      setViewDate(date);
+    } else {
+      location.reload();
+    }
+  });
+  btnReset.addEventListener('click', () => location.reload());
+})();
+
+document.querySelectorAll(".page-link").forEach(link=>{
+  link.addEventListener("click",e=>{ e.preventDefault(); window.location.href=link.getAttribute("href"); });
+});
+
+// ── Simulation worker ─────────────────────────────────────────────────────
+const WORKER_SRC = `
+  function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/400));}
+  function simOnce(teams,baseStats,baseElos,games,overrides){
+    const st={},el={};
+    for(const t of teams){st[t]={pts:baseStats[t].pts,gd:baseStats[t].gd,gf:baseStats[t].gf};el[t]=baseElos[t]||1500;}
+    for(const g of games){
+      const ov=overrides[g.id];
+      let act;
+      if(ov!==undefined){act=ov==='home'?1:ov==='draw'?0.5:0;}
+      else{
+        const we=expResult(el[g.home]||1500,el[g.away]||1500),dp=0.22;
+        const hp=Math.max(0.05,Math.min(0.90,we-dp/2)),ap=Math.max(0.05,1-dp-hp);
+        const r=Math.random(); act=r<hp?1:r<hp+dp?0.5:0;
+      }
+      const h=g.home,a=g.away;
+      if(act===1)       {st[h].pts+=3;st[h].gd++;st[h].gf+=2;st[a].gd--;st[a].gf++;}
+      else if(act===0.5){st[h].pts++;st[a].pts++;st[h].gf++;st[a].gf++;}
+      else              {st[a].pts+=3;st[a].gd++;st[a].gf+=2;st[h].gd--;st[h].gf++;}
+      const K=32,eH=el[h]||1500,eA=el[a]||1500,ex=expResult(eH,eA);
+      el[h]=eH+K*(act-ex); el[a]=eA+K*((1-act)-(1-ex));
+    }
+    return [...teams].sort((a,b)=>st[b].pts!==st[a].pts?st[b].pts-st[a].pts:st[b].gd!==st[a].gd?st[b].gd-st[a].gd:st[b].gf-st[a].gf);
+  }
+  self.onmessage=function(e){
+    const{teams,currentStats,currentElos,remainingGames,overrides,totalRuns,promotionCut,relegationCut}=e.data;
+    const allCounts={};
+    for(const t of teams)allCounts[t]=new Array(teams.length+1).fill(0);
+    for(let i=0;i<totalRuns;i++){
+      const sorted=simOnce(teams,currentStats,currentElos,remainingGames,overrides);
+      for(let p=0;p<sorted.length;p++)allCounts[sorted[p]][p+1]++;
+      if((i+1)%200===0||(i+1)===totalRuns)self.postMessage({type:'progress',completed:i+1,done:i+1===totalRuns});
+    }
+    const nT=teams.length,teamStats={};
+    for(const t of teams){
+      const c=allCounts[t];let promo=0,relg=0,modal=1,modalCt=0;
+      for(let p=1;p<=nT;p++){const cnt=c[p];if(p<=promotionCut)promo+=cnt;if(p>nT-relegationCut)relg+=cnt;if(cnt>modalCt){modalCt=cnt;modal=p;}}
+      teamStats[t]={promo:Math.round(100*promo/totalRuns),relg:Math.round(100*relg/totalRuns),modal};
+    }
+    self.postMessage({type:'team_stats',teamStats});
+    self.postMessage({type:'done'});
+  };
+`;
+
+let worker = null;
+function startSim() {
+  if (worker) worker.terminate();
+  elStatus.textContent = "Running simulation…";
+  elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+
+  const blob = new Blob([WORKER_SRC], {type:"application/javascript"});
+  worker = new Worker(URL.createObjectURL(blob));
+
+  worker.postMessage({
+    teams,
+    currentStats:   getBaseStats(),       // ← uses viewDate
+    currentElos:    current_elos,
+    remainingGames: getFutureGames(),      // ← uses viewDate
+    overrides:      {...overrides},
+    totalRuns:      TOTAL_RUNS,
+    promotionCut:   promotion_cut,
+    relegationCut:  relegation_cut,
+  });
+  worker.onmessage = e => {
+    const msg=e.data;
+    if(msg.type==='progress'){
+      elCounter.innerHTML=`${msg.completed.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+      if(msg.done) elStatus.textContent=`${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+    } else if(msg.type==='team_stats'){
+      teamStats=msg.teamStats; renderGrid();
+    } else if(msg.type==='done'){
+      if(worker){worker.terminate();worker=null;}
+    }
+  };
+}
+
+document.getElementById("reset-btn").onclick = () => {
+  Object.keys(overrides).forEach(k=>delete overrides[k]);
+  renderGrid(); startSim();
+};
+
+// ── What-if grid ──────────────────────────────────────────────────────────
+function posLabel(i) {
+  const s=["th","st","nd","rd"],v=i%100;
+  return i+((v>=11&&v<=13)?"th":(s[i%10]||"th"));
+}
+function fmtDate(d) {
+  if (d==='TBD') return 'TBD';
+  return new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function renderGrid() {
+  const el = document.getElementById("game-list");
+
+  // "Past" cells = games in FLIGHT_RESULTS that are on/before viewDate (or all of them if no viewDate)
+  const compByDT = {};
+  for (const r of FLIGHT_RESULTS) {
+    if (viewDate && r.date > viewDate) continue;
+    if (!compByDT[r.date]) compByDT[r.date]={};
+    let homeRes, awayRes, homeScore, awayScore;
+    if (r.forfeit) {
+      homeRes=r.home_forfeit?'L':'W'; awayRes=r.home_forfeit?'W':'L'; homeScore=awayScore='F';
+    } else if (r.hg!==null&&r.ag!==null) {
+      homeRes=r.hg>r.ag?'W':r.hg<r.ag?'L':'D'; awayRes=r.ag>r.hg?'W':r.ag<r.hg?'L':'D';
+      homeScore=`${r.hg}–${r.ag}`; awayScore=`${r.ag}–${r.hg}`;
+    } else continue;
+    compByDT[r.date][r.home]={result:homeRes,opponent:r.away,score:homeScore};
+    compByDT[r.date][r.away]={result:awayRes,opponent:r.home,score:awayScore};
+  }
+
+  // "Future" cells = getFutureGames() — includes historical games after viewDate with actual pre-fills
+  const futureGames = getFutureGames();
+  const futureDates = [...new Set(futureGames.filter(g=>g.date!=='TBD').map(g=>g.date))].sort();
+  const hasTBD = futureGames.some(g=>g.date==='TBD');
+  const compDates = Object.keys(compByDT).sort();
+  const allWeeks = [...new Set([...compDates,...futureDates])].sort();
+  if (hasTBD) allWeeks.push('TBD');
+
+  if (!allWeeks.length) {
+    el.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    return;
+  }
+
+  const byTW={};
+  for (const t of teams) byTW[t]={};
+  for (const g of futureGames) {
+    if (byTW[g.home]) byTW[g.home][g.date]={...g,role:'home'};
+    if (byTW[g.away]) byTW[g.away][g.date]={...g,role:'away'};
+  }
+
+  const promoLabel = IS_TOP_FLIGHT?'Playoff%':'Promo%';
+  const showRel    = !IS_BOTTOM_FLIGHT;
+
+  let html='<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html+='<th class="col-team">ID</th>';
+  for (const w of allWeeks) html+=`<th class="col-week">${fmtDate(w)}</th>`;
+  html+=`<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html+='<th class="col-stat">Rel%</th>';
+  html+='<th class="col-stat">Pos</th>';
+  html+='</tr></thead><tbody>';
+
+  teams.forEach((t,idx)=>{
+    const tid = TEAM_IDS[t] || t.slice(0,4);
+    html+=`<tr data-idx="${idx}">`;
+    html+=`<td class="col-team" title="${t}">${tid}</td>`;
+
+    for (const w of allWeeks) {
+      const comp=compByDT[w]?.[t];
+      if (comp) {
+        const c=comp.result==='W'?'var(--win)':comp.result==='L'?'var(--loss)':'var(--draw)';
+        const oppId=TEAM_IDS[comp.opponent]||comp.opponent.slice(0,4);
+        html+=`<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${oppId}</div>`;
+        html+=`<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
+        continue;
+      }
+      const entry=byTW[t][w];
+      if (!entry){html+='<td class="no-game">—</td>';continue;}
+      const isHome=entry.role==='home';
+      const opp=isHome?entry.away:entry.home;
+      const oppId=TEAM_IDS[opp]||opp.slice(0,4);
+      const ov=overrides[entry.id];
+      const teamOv=ov==='home'?(isHome?'W':'L'):ov==='draw'?'D':ov==='away'?(isHome?'L':'W'):null;
+      const winVal=isHome?'home':'away', lossVal=isHome?'away':'home';
+      const selCls=teamOv?` sel-${teamOv}`:'';
+      html+=`<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html+=`<div class="cell-opp" title="${opp}">${oppId}</div>`;
+      html+=`<select class="ov-select${selCls}">`;
+      html+=`<option value="?">?</option>`;
+      html+=`<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
+      html+=`<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
+      html+=`<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
+      html+=`</select></td>`;
+    }
+
+    const st=teamStats[t]||{};
+    html+=`<td class="col-stat stat-promo">${st.promo!=null?st.promo+'%':'—'}</td>`;
+    if(showRel) html+=`<td class="col-stat stat-rel">${st.relg!=null?st.relg+'%':'—'}</td>`;
+    html+=`<td class="col-stat stat-pos">${st.modal!=null?posLabel(st.modal):'—'}</td>`;
+    html+='</tr>';
+  });
+
+  html+='</tbody></table></div>';
+  el.innerHTML=html;
+
+  el.querySelectorAll('.game-cell').forEach(cell=>{
+    const gid=cell.dataset.gid,winV=cell.dataset.win,lossV=cell.dataset.loss;
+    cell.querySelector('.ov-select').addEventListener('change',function(){
+      const v=this.value;
+      if(v==='?') delete overrides[gid];
+      else overrides[gid]=v==='W'?winV:v==='L'?lossV:'draw';
+      renderGrid(); startSim();
+    });
+  });
+}
+
+renderGrid();
+startSim();
+
+// ── Team popup ────────────────────────────────────────────────────────────
+const popup=document.getElementById("team-popup");
+const popName=document.getElementById("pop-name");
+const popRecord=document.getElementById("pop-record");
+const popGames=document.getElementById("pop-games");
+
+function showPopup(cell, teamName) {
+  const card=FLIGHT_CARDS[teamName]||{}, standing=STANDINGS_MAP[teamName]||{};
+  popName.textContent=teamName;
+  popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
+  popGames.innerHTML='';
+  const recent=card.recent||[];
+  if(!recent.length){
+    popGames.innerHTML='<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
+  } else {
+    recent.forEach(g=>{
+      const div=document.createElement("div"); div.className="pop-game";
+      const c=g.result==="W"?"var(--win)":g.result==="L"?"var(--loss)":"var(--draw)";
+      div.innerHTML=`<span class="pop-opp">${g.opponent}</span><span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
+      popGames.appendChild(div);
+    });
+  }
+  popup.classList.add("visible");
+  const pw=popup.offsetWidth||260,ph=popup.offsetHeight||180,gap=10;
+  const rect=cell.getBoundingClientRect();
+  let left=rect.right+gap, top=rect.top+(rect.height/2)-(ph/2);
+  if(left+pw>window.innerWidth-8) left=rect.left-pw-gap;
+  if(top<8) top=8;
+  if(top+ph>window.innerHeight-8) top=window.innerHeight-ph-8;
+  popup.style.left=left+"px"; popup.style.top=top+"px";
+}
+function hidePopup(){popup.classList.remove("visible");}
+
+document.querySelectorAll("td.team-name-cell").forEach(cell=>{
+  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+  cell.addEventListener("mouseleave",hidePopup);
+  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+});
+
+// ── Feedback form ─────────────────────────────────────────────────────────
+(function(){
+  const toggleBtn=document.getElementById("feedback-toggle-btn");
+  const drawer=document.getElementById("feedback-drawer");
+  const fbForm=document.getElementById("feedback-form");
+  const submitBtn=document.getElementById("feedback-submit-btn");
+  const thanks=document.getElementById("feedback-thanks");
+  toggleBtn.addEventListener("click",()=>{
+    drawer.classList.toggle("open");
+    toggleBtn.textContent=drawer.classList.contains("open")?"Close":"Send Feedback";
+  });
+  fbForm.addEventListener("submit",async(e)=>{
+    e.preventDefault(); submitBtn.disabled=true; submitBtn.textContent="Sending…";
+    try{
+      const res=await fetch(fbForm.action,{method:"POST",body:new FormData(fbForm),headers:{Accept:"application/json"}});
+      if(res.ok){fbForm.reset();thanks.style.display="block";submitBtn.style.display="none";}
+      else{submitBtn.disabled=false;submitBtn.textContent="Send";alert("Something went wrong.");}
+    }catch{submitBtn.disabled=false;submitBtn.textContent="Send";alert("Network error.");}
+  });
+})();
+</script>
+</body>
+</html>

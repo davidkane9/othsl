@@ -990,30 +990,16 @@ def get_team_page_context(team_slug):
     }
 
 
-@app.route("/")
-def index():
-    season_slug_param = request.args.get("season")
+def _render_index(season, home_path, season_nav_prefix):
     all_seasons = get_all_seasons()
-
-    if season_slug_param:
-        season = slug_to_season(season_slug_param)
-        if season not in all_seasons:
-            season = CURRENT_SEASON
-    else:
-        season = CURRENT_SEASON
-
     season_slug = season_to_slug(season)
     is_current = (season == CURRENT_SEASON)
     rows = get_rows_for_season(season)
-
     key_games_mode, key_games = (get_key_games() if is_current else (None, []))
-    flight_url_prefix = "flight/" if is_current else f"season/{season_slug}/flight/"
-
     seasons_for_select = [
         {"name": s, "slug": season_to_slug(s)}
         for s in reversed(all_seasons)
     ]
-
     return render_template(
         "index.html",
         season=season,
@@ -1023,10 +1009,35 @@ def index():
         current_season_slug=season_to_slug(CURRENT_SEASON),
         league_overview=get_league_overview(rows),
         flight_groups=get_flight_catalog_grouped(rows),
-        flight_url_prefix=flight_url_prefix,
+        flight_url_prefix="flight/" if is_current else "flight/",
+        home_path=home_path,
+        season_nav_prefix=season_nav_prefix,
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
+
+
+@app.route("/")
+def index():
+    # Support ?season= for local dev; static site uses /season/<slug>/ pages.
+    season_slug_param = request.args.get("season")
+    all_seasons = get_all_seasons()
+    if season_slug_param:
+        season = slug_to_season(season_slug_param)
+        if season not in all_seasons:
+            season = CURRENT_SEASON
+    else:
+        season = CURRENT_SEASON
+    return _render_index(season, home_path="./", season_nav_prefix="season/")
+
+
+@app.route("/season/<season_slug>/")
+def index_historical(season_slug):
+    all_seasons = get_all_seasons()
+    season = slug_to_season(season_slug)
+    if season not in all_seasons or season == CURRENT_SEASON:
+        abort(404)
+    return _render_index(season, home_path="../../", season_nav_prefix="../")
 
 
 @app.route("/team/<team_slug>/")

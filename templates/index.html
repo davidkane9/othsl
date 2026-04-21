@@ -555,7 +555,7 @@
       {% if not is_current_season %}
       <div class="historical-notice">
         Viewing historical data for <strong>{{ season }}</strong>.
-        <a href="/">Switch to {{ current_season_slug | replace("-", " ") | title }}</a>
+        <a href="{{ home_path }}">Switch to current season</a>
       </div>
       {% endif %}
 
@@ -607,6 +607,8 @@
 
 <script>
 const CURRENT_SEASON_SLUG = "{{ current_season_slug }}";
+const HOME_PATH = "{{ home_path }}";
+const SEASON_NAV_PREFIX = "{{ season_nav_prefix }}";
 
 (function () {
   var sel = document.getElementById("season-select-main");
@@ -614,7 +616,9 @@ const CURRENT_SEASON_SLUG = "{{ current_season_slug }}";
     var slug = this.value;
     document.body.classList.add("is-leaving");
     window.setTimeout(function () {
-      window.location.href = slug === CURRENT_SEASON_SLUG ? "/" : "/?season=" + slug;
+      window.location.href = slug === CURRENT_SEASON_SLUG
+        ? HOME_PATH
+        : SEASON_NAV_PREFIX + slug + "/";
     }, 180);
   });
 })();
