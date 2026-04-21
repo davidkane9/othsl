@@ -167,12 +167,12 @@
     display: flex;
     justify-content: space-between;
     gap: 18px;
-    align-items: end;
-    margin-bottom: 18px;
+    align-items: center;
+    margin-bottom: 22px;
   }
 
   .section-title h2 {
-    margin: 0;
+    margin: 0 0 4px;
     font-size: 1.55rem;
     letter-spacing: -0.03em;
   }
@@ -184,163 +184,106 @@
     line-height: 1.55;
   }
 
-  .selector-grid {
-    display: grid;
-    gap: 16px;
-  }
-
-  .selector-grid {
-    grid-template-columns: 1.05fr 1fr;
-  }
-
-  .selector-panel,
-  .summary-panel {
-    padding: 22px;
-    border-radius: 22px;
-    background: var(--panel-strong);
-    border: 1px solid var(--line);
-  }
-
-  .selector-panel h3,
-  .summary-panel h3 {
-    margin: 0 0 10px;
-    font-size: 1.1rem;
-  }
-
-  .field-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 18px;
-  }
-
-  .field {
+  /* Season selector */
+  .season-select-wrap {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
+    flex-shrink: 0;
   }
 
-  .field select {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 16px;
+  .season-select-wrap .label {
+    margin-bottom: 0;
+    color: var(--muted);
+  }
+
+  .season-select {
+    padding: 10px 14px;
+    border-radius: 14px;
     border: 1px solid var(--line);
-    background: #fffdf7;
-    color: var(--ink);
-    font: inherit;
-  }
-
-  .field select:disabled {
-    background: #f1ecdf;
-    color: #8a8f84;
-  }
-
-  .selector-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 16px;
-  }
-
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 18px;
-    border: 0;
-    border-radius: 999px;
-    background: var(--field);
-    color: #f9f4ea;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .button:disabled {
-    cursor: not-allowed;
-    background: #90a08f;
-  }
-
-  .button.alt {
-    background: rgba(35, 68, 43, 0.08);
-    color: var(--field);
-  }
-
-  .summary-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 16px;
-  }
-
-  .summary-stat {
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(35, 68, 43, 0.06), rgba(198, 138, 43, 0.08));
-    border: 1px solid var(--line);
-  }
-
-  .summary-stat .value {
-    font-size: 1.7rem;
-    line-height: 1;
-  }
-
-  .age-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-  }
-
-  .age-tag {
-    padding: 9px 13px;
-    border-radius: 999px;
-    background: rgba(35, 68, 43, 0.08);
-    color: var(--field);
-    font-size: 0.92rem;
-  }
-
-  /* Flight directory grouped grid */
-  .sched-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border: 2px solid #8b9b8b;
-    border-radius: 6px;
-    overflow: hidden;
-    max-width: 520px;
-  }
-  .sched-header {
-    grid-column: 1 / -1;
-    text-align: center;
-    font-weight: 700;
-    font-size: .95rem;
-    padding: 10px;
-    border-bottom: 2px solid #8b9b8b;
     background: var(--panel-strong);
-  }
-  .sched-age-cell {
-    padding: 12px 14px;
-    border: 1px solid #c5cfc5;
-    vertical-align: top;
-  }
-  .sched-age-cell:nth-child(even) { border-left: 2px solid #8b9b8b; }
-  .sched-age-name {
-    font-weight: 700;
-    font-size: .9rem;
-    margin-bottom: 6px;
     color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    min-width: 160px;
   }
-  .sched-div-row {
+
+  .season-select:focus {
+    outline: 2px solid var(--field);
+    outline-offset: 2px;
+  }
+
+  /* Full-width flight directory table */
+  .flight-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    border: 1.5px solid rgba(38, 61, 41, 0.22);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .flight-col {
+    border-right: 1.5px solid rgba(38, 61, 41, 0.18);
+  }
+
+  .flight-col:last-child {
+    border-right: none;
+  }
+
+  .flight-col-header {
+    padding: 11px 14px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    border-bottom: 1.5px solid rgba(38, 61, 41, 0.22);
+    background: rgba(35, 68, 43, 0.07);
+    color: var(--field);
+  }
+
+  .flight-div-row {
     display: flex;
     gap: 6px;
-    margin-bottom: 2px;
+    padding: 7px 14px;
+    border-bottom: 1px solid rgba(38, 61, 41, 0.1);
+    flex-wrap: wrap;
   }
-  .sched-link {
-    font-size: .82rem;
+
+  .flight-div-row:last-child {
+    border-bottom: none;
+  }
+
+  .flight-link {
+    font-size: 0.84rem;
     color: #8b1a1a;
     text-decoration: none;
     font-weight: 600;
+    padding: 2px 1px;
   }
-  .sched-link:hover { text-decoration: underline; }
+
+  .flight-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Historical season notice */
+  .historical-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(198, 138, 43, 0.1);
+    border: 1px solid rgba(198, 138, 43, 0.28);
+    color: var(--ink);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .historical-notice a {
+    color: var(--field);
+    font-weight: 700;
+    text-decoration: underline;
+  }
 
   footer {
     margin-top: 22px;
@@ -502,8 +445,7 @@
   .subscribe-btn:hover { opacity: 0.88; }
 
   @media (max-width: 960px) {
-    .hero-grid,
-    .selector-grid {
+    .hero-grid {
       grid-template-columns: 1fr;
     }
   }
@@ -520,15 +462,17 @@
       border-radius: 22px;
     }
 
-    .hero-cards,
-    .field-grid,
-    .summary-stats {
+    .hero-cards {
       grid-template-columns: 1fr;
     }
 
     .section-title {
       flex-direction: column;
       align-items: start;
+    }
+
+    .flight-table {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>
@@ -548,18 +492,18 @@
         <div>
           <h1>{{ season }}</h1>
           <p>
-            League standings, team pages, and model-driven views for the current season,
-            organized around a cleaner public homepage instead of a single default team.
+            League standings, team pages, and model-driven views for every season,
+            organized by flight.
           </p>
           <div class="hero-meta">
-            Latest update{% if league_overview.latest_date %}: {{ league_overview.latest_date }}{% endif %}
+            {% if is_current_season and league_overview.latest_date %}Latest update: {{ league_overview.latest_date }}{% elif not is_current_season %}Historical season — select a flight below to browse standings{% endif %}
           </div>
         </div>
         <div class="hero-cards">
           <div class="hero-card">
             <span class="label">Teams</span>
             <div class="value">{{ league_overview.team_count }}</div>
-            <div class="sub">Active in the Spring 2026 dataset</div>
+            <div class="sub">Active in the {{ season }} dataset</div>
           </div>
           <div class="hero-card">
             <span class="label">Flights</span>
@@ -569,17 +513,18 @@
           <div class="hero-card">
             <span class="label">Games</span>
             <div class="value">{{ league_overview.completed_count }}</div>
-            <div class="sub">Completed results currently loaded</div>
+            <div class="sub">Completed results in the dataset</div>
           </div>
           <div class="hero-card">
             <span class="label">Coverage</span>
-            <div class="value">{{ selector_data.age_groups|length }}</div>
+            <div class="value">{{ league_overview.age_groups|length }}</div>
             <div class="sub">Age-group ladders available to explore</div>
           </div>
         </div>
       </div>
     </section>
 
+    {% if is_current_season %}
     <div class="subscribe-banner">
       <div class="subscribe-banner-text">
         <strong>Stay in the loop</strong>
@@ -589,120 +534,39 @@
         Subscribe ↗
       </a>
     </div>
-
-    <section class="section">
-      <div class="section-title">
-        <div>
-          <h2>Choose A Team</h2>
-          <p>Start with an age group, narrow to a flight, and open the team page you want.</p>
-        </div>
-      </div>
-
-      <div class="selector-grid">
-        <div class="selector-panel">
-          <h3>Team Selector</h3>
-          <p class="note">Narrow to a team.</p>
-
-          <form id="team-selector">
-            <div class="field-grid">
-              <!-- Historical season picker parked for now.
-              <label class="field">
-                <span class="label">Season</span>
-                <select id="season-select"></select>
-              </label>
-              -->
-
-              <label class="field" id="field-age-group">
-                <span class="label">Age Group</span>
-                <select id="age-group-select">
-                  <option value="">Choose age group</option>
-                  {% for age_group in selector_data.age_groups %}
-                  <option value="{{ age_group }}">{{ age_group }}</option>
-                  {% endfor %}
-                </select>
-              </label>
-
-              <label class="field">
-                <span class="label">Division</span>
-                <select id="division-select" disabled>
-                  <option value="">Choose division</option>
-                </select>
-              </label>
-
-              <label class="field">
-                <span class="label">Geography</span>
-                <select id="geography-select" disabled>
-                  <option value="">Choose geography</option>
-                </select>
-              </label>
-
-              <label class="field">
-                <span class="label">Team</span>
-                <select id="team-select" disabled>
-                  <option value="">Choose team</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="selector-actions">
-              <button id="open-team-button" class="button" type="submit" disabled>Open Team Page</button>
-              <button id="reset-selector-button" class="button alt" type="button">Reset</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="summary-panel">
-          <h3>Season Scope</h3>
-          <p class="note">
-            Spring 2026 currently spans {{ league_overview.team_count }} teams across
-            {{ league_overview.flight_count }} active flights. Use the selector to jump straight
-            to a team page, or scan the full league table below.
-          </p>
-
-          <div class="summary-stats">
-            <div class="summary-stat">
-              <span class="label">Tracked Teams</span>
-              <div class="value">{{ league_overview.team_count }}</div>
-            </div>
-            <div class="summary-stat">
-              <span class="label">Completed Games</span>
-              <div class="value">{{ league_overview.completed_count }}</div>
-            </div>
-            <div class="summary-stat">
-              <span class="label">Flights</span>
-              <div class="value">{{ league_overview.flight_count }}</div>
-            </div>
-            <div class="summary-stat">
-              <span class="label">Latest Date</span>
-              <div class="value" style="font-size:1.2rem">{{ league_overview.latest_date or "N/A" }}</div>
-            </div>
-          </div>
-
-          <div class="age-tags">
-            {% for label in league_overview.age_groups %}
-            <span class="age-tag">{{ label }}</span>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </section>
+    {% endif %}
 
     <section class="section">
       <div class="section-title">
         <div>
           <h2>Flight Directory</h2>
+          <p class="note">Click a flight to view standings and results.</p>
+        </div>
+        <div class="season-select-wrap">
+          <span class="label">Season</span>
+          <select id="season-select-main" class="season-select">
+            {% for s in all_seasons %}
+            <option value="{{ s.slug }}" {% if s.slug == season_slug %}selected{% endif %}>{{ s.name }}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
 
-      <div class="sched-grid">
-        <div class="sched-header">Schedules and Standings</div>
+      {% if not is_current_season %}
+      <div class="historical-notice">
+        Viewing historical data for <strong>{{ season }}</strong>.
+        <a href="/">Switch to {{ current_season_slug | replace("-", " ") | title }}</a>
+      </div>
+      {% endif %}
+
+      <div class="flight-table">
         {% for ag in flight_groups %}
-        <div class="sched-age-cell">
-          <div class="sched-age-name">{{ ag.age_group }}</div>
+        <div class="flight-col">
+          <div class="flight-col-header">{{ ag.age_group }}</div>
           {% for div_row in ag.divisions %}
-          <div class="sched-div-row">
+          <div class="flight-div-row">
             {% for f in div_row.flights %}
-            <a href="flight/{{ f.slug }}/" class="sched-link page-link">{{ div_row.div_num }}{{ f.geo_abbr }}</a>
+            <a href="{{ flight_url_prefix }}{{ f.slug }}/" class="flight-link page-link">{{ div_row.div_num }}{{ f.geo_abbr }}</a>
             {% endfor %}
           </div>
           {% endfor %}
@@ -742,90 +606,28 @@
   </main>
 
 <script>
-const selectorData     = {{ selector_data | tojson }};
-// Historical selector/navigation parked for now.
-// const histSelector     = {};
-// const CURRENT_SS       = "spring-2026";
+const CURRENT_SEASON_SLUG = "{{ current_season_slug }}";
 
-(function() {
-  const ageSelect      = document.getElementById("age-group-select");
-  const divisionSelect = document.getElementById("division-select");
-  const geographySelect= document.getElementById("geography-select");
-  const teamSelect     = document.getElementById("team-select");
-  const openButton     = document.getElementById("open-team-button");
-  const resetButton    = document.getElementById("reset-selector-button");
-  const form           = document.getElementById("team-selector");
-
-  function setOptions(select, options, placeholder) {
-    select.innerHTML = "";
-    const ph = document.createElement("option");
-    ph.value = ""; ph.textContent = placeholder;
-    select.appendChild(ph);
-    options.forEach(opt => {
-      const el = document.createElement("option");
-      if (typeof opt === "string") { el.value = opt; el.textContent = opt; }
-      else { el.value = opt.value; el.textContent = opt.label; if (opt.path) el.dataset.path = opt.path; }
-      select.appendChild(el);
-    });
-  }
-
-  function resetTeams()    { setOptions(teamSelect, [], "Choose team"); teamSelect.disabled = true; openButton.disabled = true; }
-  function resetGeo()      { setOptions(geographySelect, [], "Choose geography"); geographySelect.disabled = true; resetTeams(); }
-  function resetDivisions(){ setOptions(divisionSelect, [], "Choose division"); divisionSelect.disabled = true; resetGeo(); }
-
-  // Historical selector helpers parked for now.
-  // function isCurrentSeason() { return seasonSelect.value === CURRENT_SS; }
-  // function histAgeGroups(ss) { ... }
-  // function histFlightsByAge(ss, age) { ... }
-  // function histTeamsByFlight(ss, age, div, geo) { ... }
-
-  ageSelect.addEventListener("change", () => {
-    const age = ageSelect.value;
-    resetDivisions();
-    if (!age) return;
-    const flights = selectorData.flights_by_age[age] || [];
-    const divOpts = Array.from(new Map(flights.map(f => [f.division, { value: f.division, label: `Division ${f.division}` }])).values());
-    setOptions(divisionSelect, divOpts, "Choose division");
-    divisionSelect.disabled = false;
-  });
-
-  divisionSelect.addEventListener("change", () => {
-    const age = ageSelect.value, div = divisionSelect.value;
-    resetGeo();
-    if (!age || !div) return;
-    const geoOpts = (selectorData.flights_by_age[age] || []).filter(f => f.division === div).map(f => ({ value: f.geography, label: f.geography }));
-    setOptions(geographySelect, geoOpts, "Choose geography");
-    geographySelect.disabled = false;
-  });
-
-  geographySelect.addEventListener("change", () => {
-    const age = ageSelect.value, div = divisionSelect.value, geo = geographySelect.value;
-    resetTeams();
-    if (!age || !div || !geo) return;
-    const key = `${age}|${div}|${geo}`;
-    const teamOpts = (selectorData.teams_by_flight[key] || []).map(t => ({ value: t.slug, label: t.name, path: t.path }));
-    setOptions(teamSelect, teamOpts, "Choose team");
-    teamSelect.disabled = false;
-  });
-
-  teamSelect.addEventListener("change", () => {
-    const sel = teamSelect.options[teamSelect.selectedIndex];
-    openButton.disabled = !sel || !sel.dataset.path;
-  });
-
-  resetButton.addEventListener("click", () => {
-    ageSelect.value = "";
-    resetDivisions();
-  });
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const sel = teamSelect.options[teamSelect.selectedIndex];
-    if (!sel || !sel.dataset.path) return;
+(function () {
+  var sel = document.getElementById("season-select-main");
+  sel.addEventListener("change", function () {
+    var slug = this.value;
     document.body.classList.add("is-leaving");
-    window.setTimeout(() => { window.location.href = sel.dataset.path; }, 180);
+    window.setTimeout(function () {
+      window.location.href = slug === CURRENT_SEASON_SLUG ? "/" : "/?season=" + slug;
+    }, 180);
   });
 })();
+
+// Page-link transitions
+document.addEventListener("click", function (e) {
+  var link = e.target.closest(".page-link");
+  if (!link) return;
+  e.preventDefault();
+  var href = link.getAttribute("href");
+  document.body.classList.add("is-leaving");
+  window.setTimeout(function () { window.location.href = href; }, 180);
+});
 
 // Feedback form
 (function() {

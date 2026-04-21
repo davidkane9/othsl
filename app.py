@@ -12,7 +12,7 @@ import os
 import re
 import random
 from collections import defaultdict
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, request
 
 app = Flask(__name__)
 
@@ -38,6 +38,7 @@ def slugify(value):
 def clean_team_name(team):
     team = (team or "").strip()
     team = re.sub(r"\s*#\s*review referee\s*$", "", team, flags=re.IGNORECASE).strip()
+    team = re.sub(r"\s*(?:#\s*)?crossover\s*$", "", team, flags=re.IGNORECASE).strip()
     return team
 
 
@@ -54,19 +55,29 @@ def is_real_team_name(team):
     return True
 
 
-# --- HISTORICAL NAVIGATION (commented out, not yet live) ---
-# def season_to_slug(season): return season.lower().replace(" ", "-")
-# def slug_to_season(slug):
-#     parts = slug.split("-")
-#     return parts[0].capitalize() + " " + parts[1] if len(parts)==2 else slug
-# def get_all_seasons():
-#     rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
-#     return sorted({r["season"] for r in rows if r["season"]}, key=season_sort_key)
-# def get_rows_for_season(season):
-#     if season == CURRENT_SEASON: return get_current_season_rows()
-#     rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
-#     return [r for r in rows if r["season"] == season]
-# --- END HISTORICAL NAVIGATION ---
+def season_to_slug(season):
+    return season.lower().replace(" ", "-")
+
+
+def slug_to_season(slug):
+    parts = slug.split("-")
+    return parts[0].capitalize() + " " + parts[1] if len(parts) == 2 else slug
+
+
+def get_all_seasons():
+    rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
+    seasons = sorted({r["season"] for r in rows if r["season"]}, key=season_sort_key)
+    if CURRENT_SEASON not in seasons:
+        seasons.append(CURRENT_SEASON)
+        seasons.sort(key=season_sort_key)
+    return seasons
+
+
+def get_rows_for_season(season):
+    if season == CURRENT_SEASON:
+        return get_current_season_rows()
+    rows = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
+    return [r for r in rows if r["season"] == season]
 
 
 def get_current_season_rows():
@@ -135,7 +146,70 @@ def expected_result(elo_a, elo_b):
     return 1.0 / (1.0 + 10 ** ((elo_b - elo_a) / 400))
 
 
-def get_standings_for_flight(rows, age_group, division, geography, selected_team=None):
+def identify_playoff_visitors(rows, age_group, division, geography):
+    """Return set of cleaned team names that appear to be playoff visitors in this flight.
+
+    A playoff visitor is a team with very few games (≤ 3) in a flight where regular-season
+    teams play 8+ games. OTHSL runs cross-geography playoff rounds at season end, and
+    those visiting teams contaminate the regular-season standings.
+    """
+    flight_rows = [
+        r for r in rows
+        if r["age_group"] == age_group
+        and r["division"] == division
+        and r["geography"] == geography
+        and is_real_team_name(r["home_team"])
+        and is_real_team_name(r["away_team"])
+    ]
+    counts = defaultdict(int)
+    for r in flight_rows:
+        counts[clean_team_name(r["home_team"])] += 1
+        counts[clean_team_name(r["away_team"])] += 1
+
+    if not counts:
+        return set()
+    max_count = max(counts.values())
+    if max_count < 8:
+        return set()
+    return {team for team, count in counts.items() if count <= 2}
+
+
+def get_playoff_games_for_flight(rows, age_group, division, geography, playoff_visitors):
+    """Return played games involving at least one playoff visitor, sorted by date."""
+    if not playoff_visitors:
+        return []
+    games = []
+    for r in rows:
+        if (
+            r["age_group"] != age_group
+            or r["division"] != division
+            or r["geography"] != geography
+        ):
+            continue
+        if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
+            continue
+        ht = clean_team_name(r["home_team"])
+        at = clean_team_name(r["away_team"])
+        if ht not in playoff_visitors and at not in playoff_visitors:
+            continue
+        if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"]):
+            continue
+        hg, ag_val = r["home_goals"], r["away_goals"]
+        if is_forfeit(hg) or is_forfeit(ag_val):
+            score = "F"
+        else:
+            score = f"{hg}–{ag_val}"
+        games.append({
+            "date": r["date"],
+            "home": ht,
+            "away": at,
+            "score": score,
+        })
+    games.sort(key=lambda g: g["date"])
+    return games
+
+
+def get_standings_for_flight(rows, age_group, division, geography, selected_team=None, playoff_visitors=None):
     stats = {}
 
     for r in rows:
@@ -150,6 +224,10 @@ def get_standings_for_flight(rows, age_group, division, geography, selected_team
             continue
 
         ht, at = clean_team_name(r["home_team"]), clean_team_name(r["away_team"])
+
+        if playoff_visitors and (ht in playoff_visitors or at in playoff_visitors):
+            continue
+
         hg, ag = r["home_goals"], r["away_goals"]
 
         for team in (ht, at):
@@ -343,8 +421,9 @@ def get_team_catalog():
     )
 
 
-def get_flight_catalog():
-    rows = get_current_season_rows()
+def get_flight_catalog(rows=None):
+    if rows is None:
+        rows = get_current_season_rows()
     flight_rows = defaultdict(list)
     for r in rows:
         flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
@@ -385,9 +464,9 @@ def get_flight_catalog():
     return cards
 
 
-def get_flight_catalog_grouped():
+def get_flight_catalog_grouped(rows=None):
     """Return flight catalog grouped by age_group for the compact directory grid."""
-    cards = get_flight_catalog()
+    cards = get_flight_catalog(rows)
     geo_abbr = {"North": "n", "South": "s", "Central": "c", "East": "e", "West": "w"}
 
     ag_map = defaultdict(list)
@@ -421,8 +500,9 @@ def get_flight_catalog_grouped():
     return result
 
 
-def get_league_overview():
-    rows = get_current_season_rows()
+def get_league_overview(rows=None):
+    if rows is None:
+        rows = get_current_season_rows()
     teams = sorted({
         clean_team_name(team)
         for r in rows
@@ -504,11 +584,6 @@ def get_key_games():
     filtered = [item for item in all_candidates if item["mode"] == preferred_mode]
     filtered.sort(key=lambda item: (-item["importance"], item["date"], item["matchup"]))
     return preferred_mode, filtered[:8]
-
-
-# --- HISTORICAL SELECTOR DATA (commented out) ---
-# def get_historical_selector_data(n_seasons=8): ...
-# --- END ---
 
 
 def get_selector_data():
@@ -665,7 +740,7 @@ def simulate_team_outlook(team_info, standings, rows):
     }
 
 
-def get_flight_team_cards(team_info, standings, rows):
+def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
     """For each team in the flight return their slug + last 3 played games."""
     age_group = team_info["age_group"]
     division  = team_info["division"]
@@ -688,7 +763,17 @@ def get_flight_team_cards(team_info, standings, rows):
     }
 
     played = sorted(
-        [r for r in flight_rows if has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])],
+        [
+            r for r in flight_rows
+            if (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]))
+            and (
+                not playoff_visitors
+                or (
+                    clean_team_name(r["home_team"]) not in playoff_visitors
+                    and clean_team_name(r["away_team"]) not in playoff_visitors
+                )
+            )
+        ],
         key=lambda r: r["date"],
         reverse=True,
     )
@@ -907,18 +992,38 @@ def get_team_page_context(team_slug):
 
 @app.route("/")
 def index():
-    key_games_mode, key_games = get_key_games()
+    season_slug_param = request.args.get("season")
+    all_seasons = get_all_seasons()
+
+    if season_slug_param:
+        season = slug_to_season(season_slug_param)
+        if season not in all_seasons:
+            season = CURRENT_SEASON
+    else:
+        season = CURRENT_SEASON
+
+    season_slug = season_to_slug(season)
+    is_current = (season == CURRENT_SEASON)
+    rows = get_rows_for_season(season)
+
+    key_games_mode, key_games = (get_key_games() if is_current else (None, []))
+    flight_url_prefix = "flight/" if is_current else f"season/{season_slug}/flight/"
+
+    seasons_for_select = [
+        {"name": s, "slug": season_to_slug(s)}
+        for s in reversed(all_seasons)
+    ]
+
     return render_template(
         "index.html",
-        season=CURRENT_SEASON,
-        league_overview=get_league_overview(),
-        selector_data=get_selector_data(),
-        # Historical selector/navigation is intentionally parked for now.
-        # historical_selector=(hist_sel := get_historical_selector_data()),
-        # all_seasons=([CURRENT_SEASON] + [s for s in reversed(get_all_seasons()) if s != CURRENT_SEASON and season_to_slug(s) in hist_sel]),
-        # current_season_slug=season_to_slug(CURRENT_SEASON),
-        flight_cards=get_flight_catalog(),
-        flight_groups=get_flight_catalog_grouped(),
+        season=season,
+        season_slug=season_slug,
+        is_current_season=is_current,
+        all_seasons=seasons_for_select,
+        current_season_slug=season_to_slug(CURRENT_SEASON),
+        league_overview=get_league_overview(rows),
+        flight_groups=get_flight_catalog_grouped(rows),
+        flight_url_prefix=flight_url_prefix,
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
@@ -932,9 +1037,14 @@ def team_page(team_slug):
     return render_template("team.html", season=CURRENT_SEASON, **context)
 
 
-def get_flight_page_context(age_group, division, geography):
-    rows = get_current_season_rows()
-    standings = get_standings_for_flight(rows, age_group, division, geography)
+def get_flight_page_context(age_group, division, geography, rows=None):
+    if rows is None:
+        rows = get_current_season_rows()
+
+    playoff_visitors = identify_playoff_visitors(rows, age_group, division, geography)
+    standings = get_standings_for_flight(
+        rows, age_group, division, geography, playoff_visitors=playoff_visitors
+    )
     if not standings:
         return None
     # Attach team slugs so the template can link to team pages
@@ -942,13 +1052,14 @@ def get_flight_page_context(age_group, division, geography):
         row["slug"] = build_team_slug(row["team"], age_group, division, geography)
     team_info = {"age_group": age_group, "division": division, "geography": geography}
     sim_data = get_flight_sim_data(team_info, standings, rows)
-    flight_team_cards = get_flight_team_cards(team_info, standings, rows)
+    flight_team_cards = get_flight_team_cards(team_info, standings, rows, playoff_visitors=playoff_visitors)
+    playoff_games = get_playoff_games_for_flight(rows, age_group, division, geography, playoff_visitors)
     age_divs = {int(r["division"]) for r in rows if r["age_group"] == age_group and r["division"].isdigit()}
     max_div = max(age_divs) if age_divs else int(division)
     is_top_flight = int(division) == 1
     is_bottom_flight = int(division) == max_div
 
-    # Collect played results for the matchweek history timeline
+    # Collect played results for the matchweek history timeline (exclude playoff games)
     flight_results = []
     for r in rows:
         if r["age_group"] != age_group or r["division"] != division or r["geography"] != geography:
@@ -959,29 +1070,22 @@ def get_flight_page_context(age_group, division, geography):
             continue
         if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
             continue
+        ht = clean_team_name(r["home_team"])
+        at = clean_team_name(r["away_team"])
+        if playoff_visitors and (ht in playoff_visitors or at in playoff_visitors):
+            continue
         hg = r["home_goals"]
         ag = r["away_goals"]
         flight_results.append({
             "date": r["date"],
-            "home": clean_team_name(r["home_team"]),
-            "away": clean_team_name(r["away_team"]),
+            "home": ht,
+            "away": at,
             "hg": int(hg) if hg.isdigit() else None,
             "ag": int(ag) if ag.isdigit() else None,
             "forfeit": is_forfeit(hg) or is_forfeit(ag),
             "home_forfeit": is_forfeit(hg),
         })
 
-    # Historical flight season navigation is intentionally parked for now.
-    # all_seasons_raw = get_all_seasons()
-    # this_flight_slug = flight_slug(age_group, division, geography)
-    # all_rows_check = load_csv(os.path.join(DATA_DIR, "all_results.csv"))
-    # seasons_with_data = {
-    #     season_to_slug(r["season"])
-    #     for r in all_rows_check
-    #     if r["age_group"] == age_group and r["division"] == division and r["geography"] == geography
-    # }
-    # seasons_with_data.add(season_to_slug(CURRENT_SEASON))
-    # available_seasons = [s for s in reversed(all_seasons_raw) if season_to_slug(s) in seasons_with_data]
     return {
         "age_group": age_group,
         "division": division,
@@ -991,17 +1095,17 @@ def get_flight_page_context(age_group, division, geography):
         "sim_data": sim_data,
         "flight_results": flight_results,
         "flight_team_cards": flight_team_cards,
+        "playoff_games": playoff_games,
         "is_top_flight": is_top_flight,
         "is_bottom_flight": is_bottom_flight,
-        # "all_seasons": available_seasons,
-        # "season_slug": season_to_slug(season),
-        # "flight_slug_val": this_flight_slug,
-        # "is_current_season": season == CURRENT_SEASON,
     }
 
 
-def _resolve_flight_page(flight_slug_val):
-    rows = get_current_season_rows()
+def _resolve_flight_page(flight_slug_val, rows=None, season=None):
+    if rows is None:
+        rows = get_current_season_rows()
+    if season is None:
+        season = CURRENT_SEASON
     flights = {
         (r["age_group"], r["division"], r["geography"])
         for r in rows
@@ -1009,9 +1113,9 @@ def _resolve_flight_page(flight_slug_val):
     }
     for age_group, division, geography in flights:
         if flight_slug(age_group, division, geography) == flight_slug_val:
-            context = get_flight_page_context(age_group, division, geography)
+            context = get_flight_page_context(age_group, division, geography, rows=rows)
             if context:
-                return render_template("flight.html", season=CURRENT_SEASON, **context)
+                return render_template("flight.html", season=season, **context)
     return None
 
 
@@ -1023,30 +1127,19 @@ def flight_page(flight_slug_val):
     abort(404)
 
 
-# --- HISTORICAL PAGE ROUTES (commented out) ---
-# @app.route("/season/<season_slug>/flight/<flight_slug_val>/")
-# def flight_page_historical(season_slug, flight_slug_val):
-#     season = slug_to_season(season_slug)
-#     rows = get_rows_for_season(season)
-#     if not rows:
-#         abort(404)
-#     result = _resolve_flight_page(flight_slug_val, rows, season)
-#     if result:
-#         return result
-#     abort(404)
-#
-#
-# @app.route("/season/<season_slug>/team/<team_slug>/")
-# def team_page_historical(season_slug, team_slug):
-#     season = slug_to_season(season_slug)
-#     rows = get_rows_for_season(season)
-#     if not rows:
-#         abort(404)
-#     context = get_team_page_context(team_slug, rows=rows, season=season)
-#     if not context:
-#         abort(404)
-#     return render_template("team.html", season=season, **context)
-# --- END HISTORICAL PAGE ROUTES ---
+@app.route("/season/<season_slug>/flight/<flight_slug_val>/")
+def flight_page_historical(season_slug, flight_slug_val):
+    season = slug_to_season(season_slug)
+    all_seasons = get_all_seasons()
+    if season not in all_seasons:
+        abort(404)
+    rows = get_rows_for_season(season)
+    if not rows:
+        abort(404)
+    result = _resolve_flight_page(flight_slug_val, rows=rows, season=season)
+    if result:
+        return result
+    abort(404)
 
 
 if __name__ == "__main__":
