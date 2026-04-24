@@ -267,7 +267,6 @@ Spring 2026,Over 40,1,North,2026-04-19,Concord United Masters,1,5,P.A.C. Lowell 
 Spring 2026,Over 40,1,North,2026-04-19,BPK United,2,1,Hudson United,
 Spring 2026,Over 40,1,North,2026-04-19,Peabody Sporting Club,4,2,Cantona North,
 Spring 2026,Over 40,1,North,2026-04-19,Winchester Safira Footballers,4,0,Shrewsbury,
-Spring 2026,Over 40,1,North,2026-04-26,Hudson United,,,Winchester Safira Footballers,scheduled
 Spring 2026,Over 40,1,North,2026-04-26,P.A.C. Lowell,,,Peabody Sporting Club,scheduled
 Spring 2026,Over 40,1,North,2026-04-26,Shrewsbury,,,BPK United,scheduled
 Spring 2026,Over 40,1,North,2026-04-26,Cantona North,,,Concord United Masters,scheduled
@@ -292,6 +291,7 @@ Spring 2026,Over 40,1,North,2026-06-07,Hudson United,,,Concord United Masters,sc
 Spring 2026,Over 40,1,North,2026-06-07,BPK United,,,P.A.C. Lowell,scheduled
 Spring 2026,Over 40,1,North,2026-06-07,Peabody Sporting Club,,,Shrewsbury,scheduled
 Spring 2026,Over 40,1,North,2026-06-07,Cantona North,,,Winchester Safira Footballers,scheduled
+Spring 2026,Over 40,1,North,2026-06-11,Shrewsbury,,,Peabody Sporting Club,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,Concord United Masters,,,BPK United,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,P.A.C. Lowell,,,Hudson United,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,Shrewsbury,,,Cantona North,scheduled
@@ -299,7 +299,7 @@ Spring 2026,Over 40,1,North,2026-06-14,Winchester Safira Footballers,,,Peabody S
 Spring 2026,Over 40,1,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 40,1,North,TBD,Shrewsbury,,,Peabody Sporting Club,scheduled
+Spring 2026,Over 40,1,North,TBD,Hudson United,,,Winchester Safira Footballers,scheduled
 Spring 2026,Over 40,1,South,2026-04-05,Criciuma Boston,0,1,United International,
 Spring 2026,Over 40,1,South,2026-04-05,Stellar FC,2,forfeitNP,Kel Kau Masters,forfeit
 Spring 2026,Over 40,1,South,2026-04-05,FFM United,1,2,F C Bayern,
@@ -858,7 +858,7 @@ Spring 2026,Over 48,2,South,2026-04-19,Fernandes FC O50,8,1,Albanian United Vete
 Spring 2026,Over 48,2,South,2026-04-19,Western Mass Lusitano,0,5,Wayland wahootoo # review referee,
 Spring 2026,Over 48,2,South,2026-04-19,United Intl FC,3,2,Irish Village 48,
 Spring 2026,Over 48,2,South,2026-04-19,FIMA FC O50,1,7,Taunton Eagles,
-Spring 2026,Over 48,2,South,2026-04-26,Wayland wahootoo,,,FIMA FC O50,scheduled
+Spring 2026,Over 48,2,South,2026-04-26,Wayland wahootoo,2,forfeitNP,FIMA FC O50,forfeit
 Spring 2026,Over 48,2,South,2026-04-26,Albanian United Veterans,,,United Intl FC,scheduled
 Spring 2026,Over 48,2,South,2026-04-26,Taunton Eagles,,,Western Mass Lusitano,scheduled
 Spring 2026,Over 48,2,South,2026-04-26,Irish Village 48,,,Fernandes FC O50,scheduled
