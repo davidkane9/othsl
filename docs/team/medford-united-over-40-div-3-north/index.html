@@ -617,12 +617,12 @@
 
       <div class="chips">
         
-        <span class="chip">ELO 1505</span>
+        <span class="chip">ELO 1525</span>
         
         
-        <span class="chip">Current place: 5</span>
+        <span class="chip">Current place: 2</span>
         
-        <span class="chip">Record 1-1-1</span>
+        <span class="chip">Record 2-1-1</span>
       </div>
 
       <div class="metrics">
@@ -632,7 +632,7 @@
         </div>
         <div class="metric">
           <span class="label">Wins</span>
-          <div class="value">1</div>
+          <div class="value">2</div>
         </div>
         <div class="metric">
           <span class="label">Losses</span>
@@ -675,27 +675,35 @@
             <tbody id="standings-tbody">
               
               <tr>
-                <td class="team-name-cell" data-team="Arlington Pond Dawgz">Arlington Pond Dawgz</td>
-                <td>3</td>
+                <td class="team-name-cell" data-team="Lexington Eagles">Lexington Eagles</td>
+                <td>4</td>
+                <td>9</td>
+                <td>+6</td>
+                <td>2.25</td>
+              </tr>
+              
+              <tr class="highlight">
+                <td class="team-name-cell" data-team="Medford United">Medford United</td>
+                <td>4</td>
                 <td>7</td>
                 <td>+4</td>
-                <td>2.33</td>
+                <td>1.75</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Arlington Pond Dawgz">Arlington Pond Dawgz</td>
+                <td>4</td>
+                <td>7</td>
+                <td>+2</td>
+                <td>1.75</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Lynnfield FC">Lynnfield FC</td>
-                <td>3</td>
+                <td>4</td>
                 <td>7</td>
-                <td>+2</td>
-                <td>2.33</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Lexington Eagles">Lexington Eagles</td>
-                <td>3</td>
-                <td>6</td>
-                <td>+3</td>
-                <td>2.00</td>
+                <td>-1</td>
+                <td>1.75</td>
               </tr>
               
               <tr>
@@ -706,20 +714,20 @@
                 <td>1.67</td>
               </tr>
               
-              <tr class="highlight">
-                <td class="team-name-cell" data-team="Medford United">Medford United</td>
-                <td>3</td>
+              <tr>
+                <td class="team-name-cell" data-team="Lexington Bald Eagles O40">Lexington Bald Eagles O40</td>
                 <td>4</td>
-                <td>+2</td>
-                <td>1.33</td>
+                <td>3</td>
+                <td>-4</td>
+                <td>0.75</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Boston White Eagles">Boston White Eagles</td>
-                <td>2</td>
+                <td>3</td>
                 <td>1</td>
-                <td>-3</td>
-                <td>0.50</td>
+                <td>-4</td>
+                <td>0.33</td>
               </tr>
               
               <tr>
@@ -727,14 +735,6 @@
                 <td>2</td>
                 <td>0</td>
                 <td>-4</td>
-                <td>0.00</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Lexington Bald Eagles O40">Lexington Bald Eagles O40</td>
-                <td>3</td>
-                <td>0</td>
-                <td>-5</td>
                 <td>0.00</td>
               </tr>
               
@@ -829,8 +829,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Arlington Pond Dawgz": 1607.7, "Boston White Eagles": 1470.1, "Lexington Bald Eagles O40": 1458.2, "Lexington Eagles": 1520.0, "Lynnfield FC": 1523.9, "Medford United": 1504.6, "Nashua Absolute": 1546.4, "Windham": 1547.8}, "current_stats": {"Arlington Pond Dawgz": {"gd": 4, "gf": 9, "pts": 7}, "Boston White Eagles": {"gd": -3, "gf": 4, "pts": 1}, "Lexington Bald Eagles O40": {"gd": -5, "gf": 2, "pts": 0}, "Lexington Eagles": {"gd": 3, "gf": 11, "pts": 6}, "Lynnfield FC": {"gd": 2, "gf": 7, "pts": 7}, "Medford United": {"gd": 2, "gf": 8, "pts": 4}, "Nashua Absolute": {"gd": -4, "gf": 5, "pts": 0}, "Windham": {"gd": 1, "gf": 7, "pts": 5}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Lynnfield FC", "date": "2026-04-26", "home": "Lexington Eagles", "id": "2026-04-26|Lexington Eagles|Lynnfield FC", "involves_team": false}, {"away": "Windham", "date": "2026-04-26", "home": "Nashua Absolute", "id": "2026-04-26|Nashua Absolute|Windham", "involves_team": false}, {"away": "Boston White Eagles", "date": "2026-04-26", "home": "Lexington Bald Eagles O40", "id": "2026-04-26|Lexington Bald Eagles O40|Boston White Eagles", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-04-26", "home": "Medford United", "id": "2026-04-26|Medford United|Arlington Pond Dawgz", "involves_team": true}, {"away": "Nashua Absolute", "date": "2026-05-03", "home": "Lexington Bald Eagles O40", "id": "2026-05-03|Lexington Bald Eagles O40|Nashua Absolute", "involves_team": false}, {"away": "Boston White Eagles", "date": "2026-05-03", "home": "Windham", "id": "2026-05-03|Windham|Boston White Eagles", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-05-03", "home": "Lynnfield FC", "id": "2026-05-03|Lynnfield FC|Arlington Pond Dawgz", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-05-03", "home": "Medford United", "id": "2026-05-03|Medford United|Lexington Eagles", "involves_team": true}, {"away": "Windham", "date": "2026-05-10", "home": "Arlington Pond Dawgz", "id": "2026-05-10|Arlington Pond Dawgz|Windham", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-05-10", "home": "Lexington Eagles", "id": "2026-05-10|Lexington Eagles|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Medford United", "date": "2026-05-10", "home": "Nashua Absolute", "id": "2026-05-10|Nashua Absolute|Medford United", "involves_team": true}, {"away": "Lynnfield FC", "date": "2026-05-10", "home": "Boston White Eagles", "id": "2026-05-10|Boston White Eagles|Lynnfield FC", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-05-17", "home": "Arlington Pond Dawgz", "id": "2026-05-17|Arlington Pond Dawgz|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Medford United", "date": "2026-05-17", "home": "Boston White Eagles", "id": "2026-05-17|Boston White Eagles|Medford United", "involves_team": true}, {"away": "Lexington Eagles", "date": "2026-05-17", "home": "Windham", "id": "2026-05-17|Windham|Lexington Eagles", "involves_team": false}, {"away": "Nashua Absolute", "date": "2026-05-17", "home": "Lynnfield FC", "id": "2026-05-17|Lynnfield FC|Nashua Absolute", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-05-31", "home": "Nashua Absolute", "id": "2026-05-31|Nashua Absolute|Arlington Pond Dawgz", "involves_team": false}, {"away": "Boston White Eagles", "date": "2026-05-31", "home": "Lexington Eagles", "id": "2026-05-31|Lexington Eagles|Boston White Eagles", "involves_team": false}, {"away": "Windham", "date": "2026-05-31", "home": "Medford United", "id": "2026-05-31|Medford United|Windham", "involves_team": true}, {"away": "Lynnfield FC", "date": "2026-05-31", "home": "Lexington Bald Eagles O40", "id": "2026-05-31|Lexington Bald Eagles O40|Lynnfield FC", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-06-07", "home": "Lexington Eagles", "id": "2026-06-07|Lexington Eagles|Arlington Pond Dawgz", "involves_team": false}, {"away": "Nashua Absolute", "date": "2026-06-07", "home": "Boston White Eagles", "id": "2026-06-07|Boston White Eagles|Nashua Absolute", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-06-07", "home": "Windham", "id": "2026-06-07|Windham|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Lynnfield FC", "date": "2026-06-07", "home": "Medford United", "id": "2026-06-07|Medford United|Lynnfield FC", "involves_team": true}, {"away": "Boston White Eagles", "date": "2026-06-14", "home": "Arlington Pond Dawgz", "id": "2026-06-14|Arlington Pond Dawgz|Boston White Eagles", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-06-14", "home": "Nashua Absolute", "id": "2026-06-14|Nashua Absolute|Lexington Eagles", "involves_team": false}, {"away": "Medford United", "date": "2026-06-14", "home": "Lexington Bald Eagles O40", "id": "2026-06-14|Lexington Bald Eagles O40|Medford United", "involves_team": true}, {"away": "Windham", "date": "2026-06-14", "home": "Lynnfield FC", "id": "2026-06-14|Lynnfield FC|Windham", "involves_team": false}, {"away": "Boston White Eagles", "date": "TBD", "home": "Nashua Absolute", "id": "TBD|Nashua Absolute|Boston White Eagles", "involves_team": false}], "schedule_inferred": false, "selected_team": "Medford United", "teams": ["Arlington Pond Dawgz", "Lynnfield FC", "Lexington Eagles", "Windham", "Medford United", "Boston White Eagles", "Nashua Absolute", "Lexington Bald Eagles O40"], "total_teams": 8};
-const FLIGHT_RESULTS  = [{"ag": 1, "away": "Lexington Eagles", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 2, "away": "Windham", "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Lexington Bald Eagles O40", "home_forfeit": false}, {"ag": 2, "away": "Medford United", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Lynnfield FC", "home_forfeit": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Boston White Eagles", "home_forfeit": false}, {"ag": 3, "away": "Nashua Absolute", "date": "2026-04-12", "forfeit": false, "hg": 5, "home": "Lexington Eagles", "home_forfeit": false}, {"ag": 0, "away": "Lexington Bald Eagles O40", "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Medford United", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield FC", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Nashua Absolute", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 5, "away": "Lexington Eagles", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Boston White Eagles", "home_forfeit": false}, {"ag": 3, "away": "Medford United", "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Windham", "home_forfeit": false}, {"ag": 1, "away": "Lexington Bald Eagles O40", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false}];
+const SIM_DATA        = {"current_elos": {"Arlington Pond Dawgz": 1587.1, "Boston White Eagles": 1453.5, "Lexington Bald Eagles O40": 1474.7, "Lexington Eagles": 1536.2, "Lynnfield FC": 1507.7, "Medford United": 1525.2, "Nashua Absolute": 1546.4, "Windham": 1547.8}, "current_stats": {"Arlington Pond Dawgz": {"gd": 2, "gf": 9, "pts": 7}, "Boston White Eagles": {"gd": -4, "gf": 5, "pts": 1}, "Lexington Bald Eagles O40": {"gd": -4, "gf": 4, "pts": 3}, "Lexington Eagles": {"gd": 6, "gf": 14, "pts": 9}, "Lynnfield FC": {"gd": -1, "gf": 7, "pts": 7}, "Medford United": {"gd": 4, "gf": 10, "pts": 7}, "Nashua Absolute": {"gd": -4, "gf": 5, "pts": 0}, "Windham": {"gd": 1, "gf": 7, "pts": 5}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Windham", "date": "2026-04-26", "home": "Nashua Absolute", "id": "2026-04-26|Nashua Absolute|Windham", "involves_team": false}, {"away": "Nashua Absolute", "date": "2026-05-03", "home": "Lexington Bald Eagles O40", "id": "2026-05-03|Lexington Bald Eagles O40|Nashua Absolute", "involves_team": false}, {"away": "Boston White Eagles", "date": "2026-05-03", "home": "Windham", "id": "2026-05-03|Windham|Boston White Eagles", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-05-03", "home": "Lynnfield FC", "id": "2026-05-03|Lynnfield FC|Arlington Pond Dawgz", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-05-03", "home": "Medford United", "id": "2026-05-03|Medford United|Lexington Eagles", "involves_team": true}, {"away": "Windham", "date": "2026-05-10", "home": "Arlington Pond Dawgz", "id": "2026-05-10|Arlington Pond Dawgz|Windham", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-05-10", "home": "Lexington Eagles", "id": "2026-05-10|Lexington Eagles|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Medford United", "date": "2026-05-10", "home": "Nashua Absolute", "id": "2026-05-10|Nashua Absolute|Medford United", "involves_team": true}, {"away": "Lynnfield FC", "date": "2026-05-10", "home": "Boston White Eagles", "id": "2026-05-10|Boston White Eagles|Lynnfield FC", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-05-17", "home": "Arlington Pond Dawgz", "id": "2026-05-17|Arlington Pond Dawgz|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Medford United", "date": "2026-05-17", "home": "Boston White Eagles", "id": "2026-05-17|Boston White Eagles|Medford United", "involves_team": true}, {"away": "Lexington Eagles", "date": "2026-05-17", "home": "Windham", "id": "2026-05-17|Windham|Lexington Eagles", "involves_team": false}, {"away": "Nashua Absolute", "date": "2026-05-17", "home": "Lynnfield FC", "id": "2026-05-17|Lynnfield FC|Nashua Absolute", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-05-31", "home": "Nashua Absolute", "id": "2026-05-31|Nashua Absolute|Arlington Pond Dawgz", "involves_team": false}, {"away": "Boston White Eagles", "date": "2026-05-31", "home": "Lexington Eagles", "id": "2026-05-31|Lexington Eagles|Boston White Eagles", "involves_team": false}, {"away": "Windham", "date": "2026-05-31", "home": "Medford United", "id": "2026-05-31|Medford United|Windham", "involves_team": true}, {"away": "Lynnfield FC", "date": "2026-05-31", "home": "Lexington Bald Eagles O40", "id": "2026-05-31|Lexington Bald Eagles O40|Lynnfield FC", "involves_team": false}, {"away": "Arlington Pond Dawgz", "date": "2026-06-07", "home": "Lexington Eagles", "id": "2026-06-07|Lexington Eagles|Arlington Pond Dawgz", "involves_team": false}, {"away": "Nashua Absolute", "date": "2026-06-07", "home": "Boston White Eagles", "id": "2026-06-07|Boston White Eagles|Nashua Absolute", "involves_team": false}, {"away": "Lexington Bald Eagles O40", "date": "2026-06-07", "home": "Windham", "id": "2026-06-07|Windham|Lexington Bald Eagles O40", "involves_team": false}, {"away": "Lynnfield FC", "date": "2026-06-07", "home": "Medford United", "id": "2026-06-07|Medford United|Lynnfield FC", "involves_team": true}, {"away": "Boston White Eagles", "date": "2026-06-14", "home": "Arlington Pond Dawgz", "id": "2026-06-14|Arlington Pond Dawgz|Boston White Eagles", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-06-14", "home": "Nashua Absolute", "id": "2026-06-14|Nashua Absolute|Lexington Eagles", "involves_team": false}, {"away": "Medford United", "date": "2026-06-14", "home": "Lexington Bald Eagles O40", "id": "2026-06-14|Lexington Bald Eagles O40|Medford United", "involves_team": true}, {"away": "Windham", "date": "2026-06-14", "home": "Lynnfield FC", "id": "2026-06-14|Lynnfield FC|Windham", "involves_team": false}, {"away": "Boston White Eagles", "date": "TBD", "home": "Nashua Absolute", "id": "TBD|Nashua Absolute|Boston White Eagles", "involves_team": false}], "schedule_inferred": false, "selected_team": "Medford United", "teams": ["Lexington Eagles", "Medford United", "Arlington Pond Dawgz", "Lynnfield FC", "Windham", "Lexington Bald Eagles O40", "Boston White Eagles", "Nashua Absolute"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 1, "away": "Lexington Eagles", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 2, "away": "Windham", "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Lexington Bald Eagles O40", "home_forfeit": false}, {"ag": 2, "away": "Medford United", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Lynnfield FC", "home_forfeit": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Boston White Eagles", "home_forfeit": false}, {"ag": 3, "away": "Nashua Absolute", "date": "2026-04-12", "forfeit": false, "hg": 5, "home": "Lexington Eagles", "home_forfeit": false}, {"ag": 0, "away": "Lexington Bald Eagles O40", "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Medford United", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield FC", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Nashua Absolute", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 5, "away": "Lexington Eagles", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Boston White Eagles", "home_forfeit": false}, {"ag": 3, "away": "Medford United", "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Windham", "home_forfeit": false}, {"ag": 1, "away": "Lexington Bald Eagles O40", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false}, {"ag": 0, "away": "Lynnfield FC", "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Lexington Eagles", "home_forfeit": false}, {"ag": 1, "away": "Boston White Eagles", "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Lexington Bald Eagles O40", "home_forfeit": false}, {"ag": 0, "away": "Arlington Pond Dawgz", "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Medford United", "home_forfeit": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = false;
@@ -1417,24 +1417,24 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Arlington Pond Dawgz": {"recent": [{"date": "2026-04-19", "opponent": "Nashua Absolute", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "opponent": "Boston White Eagles", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "opponent": "Lexington Eagles", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": "arlington-pond-dawgz-over-40-div-3-north"}, "Boston White Eagles": {"recent": [{"date": "2026-04-19", "opponent": "Lexington Eagles", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-12", "opponent": "Arlington Pond Dawgz", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": "boston-white-eagles-over-40-div-3-north"}, "Lexington Bald Eagles O40": {"recent": [{"date": "2026-04-19", "opponent": "Lynnfield FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "Medford United", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-05", "opponent": "Windham", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "lexington-bald-eagles-o40-over-40-div-3-north"}, "Lexington Eagles": {"recent": [{"date": "2026-04-19", "opponent": "Boston White Eagles", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "Nashua Absolute", "result": "W", "score": "5\u20133", "venue": "H"}, {"date": "2026-04-05", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": "lexington-eagles-over-40-div-3-north"}, "Lynnfield FC": {"recent": [{"date": "2026-04-19", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "opponent": "Windham", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "opponent": "Medford United", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": "lynnfield-fc-over-40-div-3-north"}, "Medford United": {"recent": [{"date": "2026-04-19", "opponent": "Windham", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-12", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-05", "opponent": "Lynnfield FC", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": "medford-united-over-40-div-3-north"}, "Nashua Absolute": {"recent": [{"date": "2026-04-19", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Lexington Eagles", "result": "L", "score": "3\u20135", "venue": "A"}], "slug": "nashua-absolute-over-40-div-3-north"}, "Windham": {"recent": [{"date": "2026-04-19", "opponent": "Medford United", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-12", "opponent": "Lynnfield FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "windham-over-40-div-3-north"}};
+const FLIGHT_CARDS = {"Arlington Pond Dawgz": {"recent": [{"date": "2026-04-26", "opponent": "Medford United", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-19", "opponent": "Nashua Absolute", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "opponent": "Boston White Eagles", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "arlington-pond-dawgz-over-40-div-3-north"}, "Boston White Eagles": {"recent": [{"date": "2026-04-26", "opponent": "Lexington Bald Eagles O40", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-19", "opponent": "Lexington Eagles", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-12", "opponent": "Arlington Pond Dawgz", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": "boston-white-eagles-over-40-div-3-north"}, "Lexington Bald Eagles O40": {"recent": [{"date": "2026-04-26", "opponent": "Boston White Eagles", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-19", "opponent": "Lynnfield FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "Medford United", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "lexington-bald-eagles-o40-over-40-div-3-north"}, "Lexington Eagles": {"recent": [{"date": "2026-04-26", "opponent": "Lynnfield FC", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "opponent": "Boston White Eagles", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "Nashua Absolute", "result": "W", "score": "5\u20133", "venue": "H"}], "slug": "lexington-eagles-over-40-div-3-north"}, "Lynnfield FC": {"recent": [{"date": "2026-04-26", "opponent": "Lexington Eagles", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "opponent": "Windham", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "lynnfield-fc-over-40-div-3-north"}, "Medford United": {"recent": [{"date": "2026-04-26", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-19", "opponent": "Windham", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-12", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "medford-united-over-40-div-3-north"}, "Nashua Absolute": {"recent": [{"date": "2026-04-19", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Lexington Eagles", "result": "L", "score": "3\u20135", "venue": "A"}], "slug": "nashua-absolute-over-40-div-3-north"}, "Windham": {"recent": [{"date": "2026-04-19", "opponent": "Medford United", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-12", "opponent": "Lynnfield FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "opponent": "Lexington Bald Eagles O40", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "windham-over-40-div-3-north"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Arlington Pond Dawgz"] = { w: 2, l: 0, t: 1, gp: 3 };
+STANDINGS_MAP["Lexington Eagles"] = { w: 3, l: 1, t: 0, gp: 4 };
 
-STANDINGS_MAP["Lynnfield FC"] = { w: 2, l: 0, t: 1, gp: 3 };
+STANDINGS_MAP["Medford United"] = { w: 2, l: 1, t: 1, gp: 4 };
 
-STANDINGS_MAP["Lexington Eagles"] = { w: 2, l: 1, t: 0, gp: 3 };
+STANDINGS_MAP["Arlington Pond Dawgz"] = { w: 2, l: 1, t: 1, gp: 4 };
+
+STANDINGS_MAP["Lynnfield FC"] = { w: 2, l: 1, t: 1, gp: 4 };
 
 STANDINGS_MAP["Windham"] = { w: 1, l: 0, t: 2, gp: 3 };
 
-STANDINGS_MAP["Medford United"] = { w: 1, l: 1, t: 1, gp: 3 };
+STANDINGS_MAP["Lexington Bald Eagles O40"] = { w: 1, l: 3, t: 0, gp: 4 };
 
-STANDINGS_MAP["Boston White Eagles"] = { w: 0, l: 1, t: 1, gp: 2 };
+STANDINGS_MAP["Boston White Eagles"] = { w: 0, l: 2, t: 1, gp: 3 };
 
 STANDINGS_MAP["Nashua Absolute"] = { w: 0, l: 2, t: 0, gp: 2 };
-
-STANDINGS_MAP["Lexington Bald Eagles O40"] = { w: 0, l: 3, t: 0, gp: 3 };
 
 
 const popup     = document.getElementById("team-popup");

@@ -37,6 +37,11 @@ def flight_page():
         yield {"flight_slug_val": card["slug"]}
 
 @freezer.register_generator
+def calibration_page():
+    yield {}
+
+
+@freezer.register_generator
 def index_historical():
     for season in get_all_seasons():
         if season == CURRENT_SEASON:

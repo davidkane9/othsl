@@ -444,36 +444,75 @@
 
   .subscribe-btn:hover { opacity: 0.88; }
 
+  /* ── Nav ─────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 24px; height: 52px;
+    width: min(1180px, calc(100% - 32px));
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  /* ── Top teams leaderboard ────────────────────────────────── */
+  .leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .lb-title {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: rgba(247,242,232,.55);
+    margin-bottom: 4px;
+  }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 20px 1fr 42px;
+    align-items: center;
+    gap: 7px;
+    cursor: default;
+  }
+  .lb-rank { font-size: .7rem; color: rgba(247,242,232,.4); text-align: right; }
+  .lb-bar-wrap { position: relative; height: 22px; border-radius: 5px; overflow: hidden; background: rgba(255,255,255,.06); }
+  .lb-bar {
+    position: absolute; inset: 0 auto 0 0;
+    border-radius: 5px;
+    width: 0;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .lb-name {
+    position: absolute; left: 7px; top: 50%; transform: translateY(-50%);
+    font-size: .75rem; font-weight: 600; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 12px);
+  }
+  .lb-ppg { font-size: .75rem; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.85); text-align: right; }
+
   @media (max-width: 960px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-    }
+    .hero-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 640px) {
-    .page {
-      width: min(100% - 20px, 1180px);
-      padding-top: 14px;
-    }
-
-    .hero,
-    .section {
-      padding: 20px;
-      border-radius: 22px;
-    }
-
-    .hero-cards {
-      grid-template-columns: 1fr;
-    }
-
-    .section-title {
-      flex-direction: column;
-      align-items: start;
-    }
-
-    .flight-table {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+    .hero, .section { padding: 20px; border-radius: 22px; }
+    .section-title { flex-direction: column; align-items: start; }
+    .flight-table { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
@@ -485,7 +524,16 @@
 </script>
 </head>
 <body>
-  <main class="page">
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="./" class="active">Home</a></li>
+      <li><a href="./calibration/">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="page">
     <section class="hero">
       <span class="eyebrow">OTHSL Match Intelligence</span>
       <div class="hero-grid">
@@ -499,28 +547,149 @@
             Latest update: 2026-06-28
           </div>
         </div>
-        <div class="hero-cards">
-          <div class="hero-card">
-            <span class="label">Teams</span>
-            <div class="value">264</div>
-            <div class="sub">Active in the Spring 2026 dataset</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Flights</span>
-            <div class="value">37</div>
-            <div class="sub">Age group, division, and geography combinations</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Games</span>
-            <div class="value">382</div>
-            <div class="sub">Completed results in the dataset</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Coverage</span>
-            <div class="value">6</div>
-            <div class="sub">Age-group ladders available to explore</div>
+        
+        <div style="padding-top:4px">
+          <div class="lb-title">Top performers · Spring 2026</div>
+          <div class="leaderboard" id="leaderboard">
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-5-south" data-flight="Over 48 Div 5 South" data-record="4W 0L 0T · +28" title="Ashland Over 48 · Over 48 Div 5 South · 3.0 PPG">
+              <span class="lb-rank">1</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(74,222,128,.85)"></div>
+                <span class="lb-name" style="color:rgba(20,50,20,.95)">Ashland Over 48</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-62-div-1-central" data-flight="Over 62 Div 1 Central" data-record="4W 0L 0T · +22" title="Concord United Dragons · Over 62 Div 1 Central · 3.0 PPG">
+              <span class="lb-rank">2</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(52,196,110,.85)"></div>
+                <span class="lb-name" style="color:rgba(20,50,20,.95)">Concord United Dragons</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-2-south" data-flight="Over 48 Div 2 South" data-record="4W 0L 0T · +20" title="Fernandes FC O50 · Over 48 Div 2 South · 3.0 PPG">
+              <span class="lb-rank">3</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(34,170,96,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Fernandes FC O50</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-1-north" data-flight="Over 48 Div 1 North" data-record="4W 0L 0T · +17" title="Stoneham Spartans Over 48 · Over 48 Div 1 North · 3.0 PPG">
+              <span class="lb-rank">4</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(22,145,80,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Stoneham Spartans Over 48</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-2-north" data-flight="Over 48 Div 2 North" data-record="4W 0L 0T · +17" title="Shrewsbury Wanderers · Over 48 Div 2 North · 3.0 PPG">
+              <span class="lb-rank">5</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(16,120,66,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Shrewsbury Wanderers</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-55-div-3-north" data-flight="Over 55 Div 3 North" data-record="4W 0L 0T · +17" title="Melrose Good Guys · Over 55 Div 3 North · 3.0 PPG">
+              <span class="lb-rank">6</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(10,100,54,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Melrose Good Guys</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-68-div-2-central" data-flight="Over 68 Div 2 Central" data-record="4W 0L 0T · +17" title="Wanderers · Over 68 Div 2 Central · 3.0 PPG">
+              <span class="lb-rank">7</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(6,82,44,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Wanderers</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-68-div-1-central" data-flight="Over 68 Div 1 Central" data-record="4W 0L 0T · +13" title="New England United FC · Over 68 Div 1 Central · 3.0 PPG">
+              <span class="lb-rank">8</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(3,66,36,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">New England United FC</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-40-div-4-north" data-flight="Over 40 Div 4 North" data-record="4W 0L 0T · +12" title="Hopkinton Hotspur · Over 40 Div 4 North · 3.0 PPG">
+              <span class="lb-rank">9</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(1,52,28,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Hopkinton Hotspur</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-1-north" data-flight="Over 48 Div 1 North" data-record="4W 0L 0T · +10" title="Concord United · Over 48 Div 1 North · 3.0 PPG">
+              <span class="lb-rank">10</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(0,40,22,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Concord United</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-55-div-1-south" data-flight="Over 55 Div 1 South" data-record="4W 0L 0T · +10" title="MADBoys · Over 55 Div 1 South · 3.0 PPG">
+              <span class="lb-rank">11</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(34,211,238,.8)"></div>
+                <span class="lb-name" style="color:rgba(20,40,44,.95)">MADBoys</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-5-south" data-flight="Over 48 Div 5 South" data-record="4W 0L 0T · +9" title="Needham FC · Over 48 Div 5 South · 3.0 PPG">
+              <span class="lb-rank">12</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(22,180,208,.8)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Needham FC</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-40-div-2-south" data-flight="Over 40 Div 2 South" data-record="4W 0L 0T · +8" title="Framingham Persepolis · Over 40 Div 2 South · 3.0 PPG">
+              <span class="lb-rank">13</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(251,146,60,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">Framingham Persepolis</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-48-div-2-north" data-flight="Over 48 Div 2 North" data-record="4W 0L 0T · +8" title="NH Freedom · Over 48 Div 2 North · 3.0 PPG">
+              <span class="lb-rank">14</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(167,139,250,.85)"></div>
+                <span class="lb-name" style="color:rgba(247,242,232,.95)">NH Freedom</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
+            <div class="lb-row" data-ppg="3.0" data-slug="over-40-div-4-south" data-flight="Over 40 Div 4 South" data-record="4W 0L 0T · +6" title="Cabo Verde FC · Over 40 Div 4 South · 3.0 PPG">
+              <span class="lb-rank">15</span>
+              <div class="lb-bar-wrap">
+                <div class="lb-bar" data-pct="100" style="background:rgba(251,191,36,.85)"></div>
+                <span class="lb-name" style="color:rgba(20,40,20,.95)">Cabo Verde FC</span>
+              </div>
+              <span class="lb-ppg">3.00</span>
+            </div>
+            
           </div>
         </div>
+        
       </div>
     </section>
 
@@ -893,6 +1062,7 @@
 
 <script>
 const CURRENT_SEASON_SLUG = "spring-2026";
+const FLIGHT_URL_PREFIX = "flight/";
 const HOME_PATH = "./";
 const SEASON_NAV_PREFIX = "season/";
 
@@ -906,6 +1076,34 @@ const SEASON_NAV_PREFIX = "season/";
         ? HOME_PATH
         : SEASON_NAV_PREFIX + slug + "/";
     }, 180);
+  });
+})();
+
+// ── Leaderboard bar animation + navigation ───────────────────────
+(function() {
+  const rows = document.querySelectorAll('.lb-row');
+  if (!rows.length) return;
+  // Animate bars after a short delay
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      rows.forEach(row => {
+        const bar = row.querySelector('.lb-bar');
+        if (bar) bar.style.width = bar.dataset.pct + '%';
+      });
+    }, 120);
+  });
+  // Click → flight page
+  rows.forEach(row => {
+    const slug = row.dataset.slug;
+    if (!slug) return;
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+      document.body.classList.add('is-leaving');
+      setTimeout(() => { window.location.href = FLIGHT_URL_PREFIX + slug + '/'; }, 180);
+    });
+    // Hover tooltip via title is fine; optionally highlight
+    row.addEventListener('mouseenter', () => row.querySelector('.lb-bar-wrap').style.outline = '1px solid rgba(255,255,255,.18)');
+    row.addEventListener('mouseleave', () => row.querySelector('.lb-bar-wrap').style.outline = '');
   });
 })();
 

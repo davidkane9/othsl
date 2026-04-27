@@ -444,36 +444,75 @@
 
   .subscribe-btn:hover { opacity: 0.88; }
 
+  /* ── Nav ─────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 24px; height: 52px;
+    width: min(1180px, calc(100% - 32px));
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  /* ── Top teams leaderboard ────────────────────────────────── */
+  .leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .lb-title {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: rgba(247,242,232,.55);
+    margin-bottom: 4px;
+  }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 20px 1fr 42px;
+    align-items: center;
+    gap: 7px;
+    cursor: default;
+  }
+  .lb-rank { font-size: .7rem; color: rgba(247,242,232,.4); text-align: right; }
+  .lb-bar-wrap { position: relative; height: 22px; border-radius: 5px; overflow: hidden; background: rgba(255,255,255,.06); }
+  .lb-bar {
+    position: absolute; inset: 0 auto 0 0;
+    border-radius: 5px;
+    width: 0;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .lb-name {
+    position: absolute; left: 7px; top: 50%; transform: translateY(-50%);
+    font-size: .75rem; font-weight: 600; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 12px);
+  }
+  .lb-ppg { font-size: .75rem; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.85); text-align: right; }
+
   @media (max-width: 960px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-    }
+    .hero-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 640px) {
-    .page {
-      width: min(100% - 20px, 1180px);
-      padding-top: 14px;
-    }
-
-    .hero,
-    .section {
-      padding: 20px;
-      border-radius: 22px;
-    }
-
-    .hero-cards {
-      grid-template-columns: 1fr;
-    }
-
-    .section-title {
-      flex-direction: column;
-      align-items: start;
-    }
-
-    .flight-table {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+    .hero, .section { padding: 20px; border-radius: 22px; }
+    .section-title { flex-direction: column; align-items: start; }
+    .flight-table { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
@@ -485,7 +524,16 @@
 </script>
 </head>
 <body>
-  <main class="page">
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../" class="active">Home</a></li>
+      <li><a href="../../calibration/">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="page">
     <section class="hero">
       <span class="eyebrow">OTHSL Match Intelligence</span>
       <div class="hero-grid">
@@ -499,28 +547,30 @@
             Historical season — select a flight below to browse standings
           </div>
         </div>
+        
         <div class="hero-cards">
           <div class="hero-card">
             <span class="label">Teams</span>
             <div class="value">244</div>
-            <div class="sub">Active in the Spring 2012 dataset</div>
+            <div class="sub">Active this season</div>
           </div>
           <div class="hero-card">
             <span class="label">Flights</span>
             <div class="value">43</div>
-            <div class="sub">Age group, division, and geography combinations</div>
+            <div class="sub">Age group × division × geography</div>
           </div>
           <div class="hero-card">
             <span class="label">Games</span>
             <div class="value">1388</div>
-            <div class="sub">Completed results in the dataset</div>
+            <div class="sub">Completed results</div>
           </div>
           <div class="hero-card">
-            <span class="label">Coverage</span>
+            <span class="label">Age Groups</span>
             <div class="value">4</div>
-            <div class="sub">Age-group ladders available to explore</div>
+            <div class="sub">Ladders to explore</div>
           </div>
         </div>
+        
       </div>
     </section>
 
@@ -882,6 +932,7 @@
 
 <script>
 const CURRENT_SEASON_SLUG = "spring-2026";
+const FLIGHT_URL_PREFIX = "flight/";
 const HOME_PATH = "../../";
 const SEASON_NAV_PREFIX = "../";
 
@@ -895,6 +946,34 @@ const SEASON_NAV_PREFIX = "../";
         ? HOME_PATH
         : SEASON_NAV_PREFIX + slug + "/";
     }, 180);
+  });
+})();
+
+// ── Leaderboard bar animation + navigation ───────────────────────
+(function() {
+  const rows = document.querySelectorAll('.lb-row');
+  if (!rows.length) return;
+  // Animate bars after a short delay
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      rows.forEach(row => {
+        const bar = row.querySelector('.lb-bar');
+        if (bar) bar.style.width = bar.dataset.pct + '%';
+      });
+    }, 120);
+  });
+  // Click → flight page
+  rows.forEach(row => {
+    const slug = row.dataset.slug;
+    if (!slug) return;
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', () => {
+      document.body.classList.add('is-leaving');
+      setTimeout(() => { window.location.href = FLIGHT_URL_PREFIX + slug + '/'; }, 180);
+    });
+    // Hover tooltip via title is fine; optionally highlight
+    row.addEventListener('mouseenter', () => row.querySelector('.lb-bar-wrap').style.outline = '1px solid rgba(255,255,255,.18)');
+    row.addEventListener('mouseleave', () => row.querySelector('.lb-bar-wrap').style.outline = '');
   });
 })();
 

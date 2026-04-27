@@ -675,6 +675,14 @@
             <tbody id="standings-tbody">
               
               <tr>
+                <td class="team-name-cell" data-team="BPK United">BPK United</td>
+                <td>3</td>
+                <td>9</td>
+                <td>+7</td>
+                <td>3.00</td>
+              </tr>
+              
+              <tr>
                 <td class="team-name-cell" data-team="Winchester Safira Footballers">Winchester Safira Footballers</td>
                 <td>3</td>
                 <td>9</td>
@@ -684,50 +692,42 @@
               
               <tr>
                 <td class="team-name-cell" data-team="P.A.C. Lowell">P.A.C. Lowell</td>
-                <td>2</td>
+                <td>3</td>
                 <td>6</td>
-                <td>+7</td>
-                <td>3.00</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="BPK United">BPK United</td>
-                <td>2</td>
-                <td>6</td>
-                <td>+6</td>
-                <td>3.00</td>
+                <td>+4</td>
+                <td>2.00</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Peabody Sporting Club">Peabody Sporting Club</td>
-                <td>2</td>
                 <td>3</td>
-                <td>+1</td>
-                <td>1.50</td>
+                <td>6</td>
+                <td>+4</td>
+                <td>2.00</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Concord United Masters">Concord United Masters</td>
-                <td>3</td>
-                <td>3</td>
-                <td>-4</td>
-                <td>1.00</td>
+                <td>4</td>
+                <td>6</td>
+                <td>-2</td>
+                <td>1.50</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Shrewsbury">Shrewsbury</td>
-                <td>2</td>
+                <td>3</td>
                 <td>1</td>
-                <td>-4</td>
-                <td>0.50</td>
+                <td>-5</td>
+                <td>0.33</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Cantona North">Cantona North</td>
-                <td>3</td>
+                <td>4</td>
                 <td>1</td>
-                <td>-4</td>
-                <td>0.33</td>
+                <td>-6</td>
+                <td>0.25</td>
               </tr>
               
               <tr class="highlight">
@@ -829,8 +829,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"BPK United": 1545.8, "Cantona North": 1499.7, "Concord United Masters": 1512.1, "Hudson United": 1455.8, "P.A.C. Lowell": 1539.3, "Peabody Sporting Club": 1587.9, "Shrewsbury": 1542.4, "Winchester Safira Footballers": 1654.8}, "current_stats": {"BPK United": {"gd": 6, "gf": 8, "pts": 6}, "Cantona North": {"gd": -4, "gf": 3, "pts": 1}, "Concord United Masters": {"gd": -4, "gf": 8, "pts": 3}, "Hudson United": {"gd": -9, "gf": 2, "pts": 0}, "P.A.C. Lowell": {"gd": 7, "gf": 8, "pts": 6}, "Peabody Sporting Club": {"gd": 1, "gf": 5, "pts": 3}, "Shrewsbury": {"gd": -4, "gf": 0, "pts": 1}, "Winchester Safira Footballers": {"gd": 7, "gf": 9, "pts": 9}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Winchester Safira Footballers", "date": "2026-04-26", "home": "Hudson United", "id": "2026-04-26|Hudson United|Winchester Safira Footballers", "involves_team": true}, {"away": "Peabody Sporting Club", "date": "2026-04-26", "home": "P.A.C. Lowell", "id": "2026-04-26|P.A.C. Lowell|Peabody Sporting Club", "involves_team": false}, {"away": "BPK United", "date": "2026-04-26", "home": "Shrewsbury", "id": "2026-04-26|Shrewsbury|BPK United", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-04-26", "home": "Cantona North", "id": "2026-04-26|Cantona North|Concord United Masters", "involves_team": false}, {"away": "P.A.C. Lowell", "date": "2026-05-03", "home": "Shrewsbury", "id": "2026-05-03|Shrewsbury|P.A.C. Lowell", "involves_team": false}, {"away": "BPK United", "date": "2026-05-03", "home": "Peabody Sporting Club", "id": "2026-05-03|Peabody Sporting Club|BPK United", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-05-03", "home": "Winchester Safira Footballers", "id": "2026-05-03|Winchester Safira Footballers|Concord United Masters", "involves_team": false}, {"away": "Hudson United", "date": "2026-05-03", "home": "Cantona North", "id": "2026-05-03|Cantona North|Hudson United", "involves_team": true}, {"away": "Peabody Sporting Club", "date": "2026-05-10", "home": "Concord United Masters", "id": "2026-05-10|Concord United Masters|Peabody Sporting Club", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-05-10", "home": "Hudson United", "id": "2026-05-10|Hudson United|Shrewsbury", "involves_team": true}, {"away": "Cantona North", "date": "2026-05-10", "home": "P.A.C. Lowell", "id": "2026-05-10|P.A.C. Lowell|Cantona North", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-05-10", "home": "BPK United", "id": "2026-05-10|BPK United|Winchester Safira Footballers", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-05-17", "home": "Concord United Masters", "id": "2026-05-17|Concord United Masters|Shrewsbury", "involves_team": false}, {"away": "Cantona North", "date": "2026-05-17", "home": "BPK United", "id": "2026-05-17|BPK United|Cantona North", "involves_team": false}, {"away": "Hudson United", "date": "2026-05-17", "home": "Peabody Sporting Club", "id": "2026-05-17|Peabody Sporting Club|Hudson United", "involves_team": true}, {"away": "P.A.C. Lowell", "date": "2026-05-17", "home": "Winchester Safira Footballers", "id": "2026-05-17|Winchester Safira Footballers|P.A.C. Lowell", "involves_team": false}, {"away": "BPK United", "date": "2026-05-28", "home": "P.A.C. Lowell", "id": "2026-05-28|P.A.C. Lowell|BPK United", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-05-31", "home": "P.A.C. Lowell", "id": "2026-05-31|P.A.C. Lowell|Concord United Masters", "involves_team": false}, {"away": "BPK United", "date": "2026-05-31", "home": "Hudson United", "id": "2026-05-31|Hudson United|BPK United", "involves_team": true}, {"away": "Peabody Sporting Club", "date": "2026-05-31", "home": "Cantona North", "id": "2026-05-31|Cantona North|Peabody Sporting Club", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-05-31", "home": "Shrewsbury", "id": "2026-05-31|Shrewsbury|Winchester Safira Footballers", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-06-07", "home": "Hudson United", "id": "2026-06-07|Hudson United|Concord United Masters", "involves_team": true}, {"away": "P.A.C. Lowell", "date": "2026-06-07", "home": "BPK United", "id": "2026-06-07|BPK United|P.A.C. Lowell", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-06-07", "home": "Peabody Sporting Club", "id": "2026-06-07|Peabody Sporting Club|Shrewsbury", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-06-07", "home": "Cantona North", "id": "2026-06-07|Cantona North|Winchester Safira Footballers", "involves_team": false}, {"away": "BPK United", "date": "2026-06-14", "home": "Concord United Masters", "id": "2026-06-14|Concord United Masters|BPK United", "involves_team": false}, {"away": "Hudson United", "date": "2026-06-14", "home": "P.A.C. Lowell", "id": "2026-06-14|P.A.C. Lowell|Hudson United", "involves_team": true}, {"away": "Cantona North", "date": "2026-06-14", "home": "Shrewsbury", "id": "2026-06-14|Shrewsbury|Cantona North", "involves_team": false}, {"away": "Peabody Sporting Club", "date": "2026-06-14", "home": "Winchester Safira Footballers", "id": "2026-06-14|Winchester Safira Footballers|Peabody Sporting Club", "involves_team": false}, {"away": "Peabody Sporting Club", "date": "TBD", "home": "Shrewsbury", "id": "TBD|Shrewsbury|Peabody Sporting Club", "involves_team": false}], "schedule_inferred": false, "selected_team": "Hudson United", "teams": ["Winchester Safira Footballers", "P.A.C. Lowell", "BPK United", "Peabody Sporting Club", "Concord United Masters", "Shrewsbury", "Cantona North", "Hudson United"], "total_teams": 8};
-const FLIGHT_RESULTS  = [{"ag": 1, "away": "Hudson United", "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "Concord United Masters", "home_forfeit": false}, {"ag": 1, "away": "Cantona North", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Winchester Safira Footballers", "home_forfeit": false}, {"ag": 1, "away": "Concord United Masters", "date": "2026-04-12", "forfeit": false, "hg": 6, "home": "BPK United", "home_forfeit": false}, {"ag": 3, "away": "P.A.C. Lowell", "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Hudson United", "home_forfeit": false}, {"ag": 0, "away": "Shrewsbury", "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Cantona North", "home_forfeit": false}, {"ag": 2, "away": "Winchester Safira Footballers", "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Peabody Sporting Club", "home_forfeit": false}, {"ag": 5, "away": "P.A.C. Lowell", "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Concord United Masters", "home_forfeit": false}, {"ag": 1, "away": "Hudson United", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "BPK United", "home_forfeit": false}, {"ag": 2, "away": "Cantona North", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Peabody Sporting Club", "home_forfeit": false}, {"ag": 0, "away": "Shrewsbury", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Winchester Safira Footballers", "home_forfeit": false}];
+const SIM_DATA        = {"current_elos": {"BPK United": 1561.6, "Cantona North": 1484.3, "Concord United Masters": 1527.5, "Hudson United": 1455.8, "P.A.C. Lowell": 1527.3, "Peabody Sporting Club": 1506.8, "Shrewsbury": 1526.5, "Winchester Safira Footballers": 1654.8}, "current_stats": {"BPK United": {"gd": 7, "gf": 12, "pts": 9}, "Cantona North": {"gd": -6, "gf": 5, "pts": 1}, "Concord United Masters": {"gd": -2, "gf": 12, "pts": 6}, "Hudson United": {"gd": -9, "gf": 2, "pts": 0}, "P.A.C. Lowell": {"gd": 4, "gf": 9, "pts": 6}, "Peabody Sporting Club": {"gd": 4, "gf": 9, "pts": 6}, "Shrewsbury": {"gd": -5, "gf": 3, "pts": 1}, "Winchester Safira Footballers": {"gd": 7, "gf": 9, "pts": 9}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "P.A.C. Lowell", "date": "2026-05-03", "home": "Shrewsbury", "id": "2026-05-03|Shrewsbury|P.A.C. Lowell", "involves_team": false}, {"away": "BPK United", "date": "2026-05-03", "home": "Peabody Sporting Club", "id": "2026-05-03|Peabody Sporting Club|BPK United", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-05-03", "home": "Winchester Safira Footballers", "id": "2026-05-03|Winchester Safira Footballers|Concord United Masters", "involves_team": false}, {"away": "Hudson United", "date": "2026-05-03", "home": "Cantona North", "id": "2026-05-03|Cantona North|Hudson United", "involves_team": true}, {"away": "Peabody Sporting Club", "date": "2026-05-10", "home": "Concord United Masters", "id": "2026-05-10|Concord United Masters|Peabody Sporting Club", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-05-10", "home": "Hudson United", "id": "2026-05-10|Hudson United|Shrewsbury", "involves_team": true}, {"away": "Cantona North", "date": "2026-05-10", "home": "P.A.C. Lowell", "id": "2026-05-10|P.A.C. Lowell|Cantona North", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-05-10", "home": "BPK United", "id": "2026-05-10|BPK United|Winchester Safira Footballers", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-05-17", "home": "Concord United Masters", "id": "2026-05-17|Concord United Masters|Shrewsbury", "involves_team": false}, {"away": "Cantona North", "date": "2026-05-17", "home": "BPK United", "id": "2026-05-17|BPK United|Cantona North", "involves_team": false}, {"away": "Hudson United", "date": "2026-05-17", "home": "Peabody Sporting Club", "id": "2026-05-17|Peabody Sporting Club|Hudson United", "involves_team": true}, {"away": "P.A.C. Lowell", "date": "2026-05-17", "home": "Winchester Safira Footballers", "id": "2026-05-17|Winchester Safira Footballers|P.A.C. Lowell", "involves_team": false}, {"away": "BPK United", "date": "2026-05-28", "home": "P.A.C. Lowell", "id": "2026-05-28|P.A.C. Lowell|BPK United", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-05-31", "home": "P.A.C. Lowell", "id": "2026-05-31|P.A.C. Lowell|Concord United Masters", "involves_team": false}, {"away": "BPK United", "date": "2026-05-31", "home": "Hudson United", "id": "2026-05-31|Hudson United|BPK United", "involves_team": true}, {"away": "Peabody Sporting Club", "date": "2026-05-31", "home": "Cantona North", "id": "2026-05-31|Cantona North|Peabody Sporting Club", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-05-31", "home": "Shrewsbury", "id": "2026-05-31|Shrewsbury|Winchester Safira Footballers", "involves_team": false}, {"away": "Concord United Masters", "date": "2026-06-07", "home": "Hudson United", "id": "2026-06-07|Hudson United|Concord United Masters", "involves_team": true}, {"away": "P.A.C. Lowell", "date": "2026-06-07", "home": "BPK United", "id": "2026-06-07|BPK United|P.A.C. Lowell", "involves_team": false}, {"away": "Shrewsbury", "date": "2026-06-07", "home": "Peabody Sporting Club", "id": "2026-06-07|Peabody Sporting Club|Shrewsbury", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "2026-06-07", "home": "Cantona North", "id": "2026-06-07|Cantona North|Winchester Safira Footballers", "involves_team": false}, {"away": "Peabody Sporting Club", "date": "2026-06-11", "home": "Shrewsbury", "id": "2026-06-11|Shrewsbury|Peabody Sporting Club", "involves_team": false}, {"away": "BPK United", "date": "2026-06-14", "home": "Concord United Masters", "id": "2026-06-14|Concord United Masters|BPK United", "involves_team": false}, {"away": "Hudson United", "date": "2026-06-14", "home": "P.A.C. Lowell", "id": "2026-06-14|P.A.C. Lowell|Hudson United", "involves_team": true}, {"away": "Cantona North", "date": "2026-06-14", "home": "Shrewsbury", "id": "2026-06-14|Shrewsbury|Cantona North", "involves_team": false}, {"away": "Peabody Sporting Club", "date": "2026-06-14", "home": "Winchester Safira Footballers", "id": "2026-06-14|Winchester Safira Footballers|Peabody Sporting Club", "involves_team": false}, {"away": "Winchester Safira Footballers", "date": "TBD", "home": "Hudson United", "id": "TBD|Hudson United|Winchester Safira Footballers", "involves_team": true}], "schedule_inferred": false, "selected_team": "Hudson United", "teams": ["BPK United", "Winchester Safira Footballers", "P.A.C. Lowell", "Peabody Sporting Club", "Concord United Masters", "Shrewsbury", "Cantona North", "Hudson United"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 1, "away": "Hudson United", "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "Concord United Masters", "home_forfeit": false}, {"ag": 1, "away": "Cantona North", "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Winchester Safira Footballers", "home_forfeit": false}, {"ag": 1, "away": "Concord United Masters", "date": "2026-04-12", "forfeit": false, "hg": 6, "home": "BPK United", "home_forfeit": false}, {"ag": 3, "away": "P.A.C. Lowell", "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Hudson United", "home_forfeit": false}, {"ag": 0, "away": "Shrewsbury", "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Cantona North", "home_forfeit": false}, {"ag": 2, "away": "Winchester Safira Footballers", "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Peabody Sporting Club", "home_forfeit": false}, {"ag": 5, "away": "P.A.C. Lowell", "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Concord United Masters", "home_forfeit": false}, {"ag": 1, "away": "Hudson United", "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "BPK United", "home_forfeit": false}, {"ag": 2, "away": "Cantona North", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Peabody Sporting Club", "home_forfeit": false}, {"ag": 0, "away": "Shrewsbury", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Winchester Safira Footballers", "home_forfeit": false}, {"ag": 4, "away": "Peabody Sporting Club", "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "P.A.C. Lowell", "home_forfeit": false}, {"ag": 4, "away": "BPK United", "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Shrewsbury", "home_forfeit": false}, {"ag": 4, "away": "Concord United Masters", "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Cantona North", "home_forfeit": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = true;
 const IS_BOTTOM_FLIGHT = false;
@@ -1417,22 +1417,22 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"BPK United": {"recent": [{"date": "2026-04-19", "opponent": "Hudson United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "opponent": "Concord United Masters", "result": "W", "score": "6\u20131", "venue": "H"}], "slug": "bpk-united-over-40-div-1-north"}, "Cantona North": {"recent": [{"date": "2026-04-19", "opponent": "Peabody Sporting Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Shrewsbury", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-05", "opponent": "Winchester Safira Footballers", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": "cantona-north-over-40-div-1-north"}, "Concord United Masters": {"recent": [{"date": "2026-04-19", "opponent": "P.A.C. Lowell", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "opponent": "BPK United", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-04-05", "opponent": "Hudson United", "result": "W", "score": "6\u20131", "venue": "H"}], "slug": "concord-united-masters-over-40-div-1-north"}, "Hudson United": {"recent": [{"date": "2026-04-19", "opponent": "BPK United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "P.A.C. Lowell", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-05", "opponent": "Concord United Masters", "result": "L", "score": "1\u20136", "venue": "A"}], "slug": "hudson-united-over-40-div-1-north"}, "P.A.C. Lowell": {"recent": [{"date": "2026-04-19", "opponent": "Concord United Masters", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-12", "opponent": "Hudson United", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "p-a-c-lowell-over-40-div-1-north"}, "Peabody Sporting Club": {"recent": [{"date": "2026-04-19", "opponent": "Cantona North", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "opponent": "Winchester Safira Footballers", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "peabody-sporting-club-over-40-div-1-north"}, "Shrewsbury": {"recent": [{"date": "2026-04-19", "opponent": "Winchester Safira Footballers", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Cantona North", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": "shrewsbury-over-40-div-1-north"}, "Winchester Safira Footballers": {"recent": [{"date": "2026-04-19", "opponent": "Shrewsbury", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-12", "opponent": "Peabody Sporting Club", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "opponent": "Cantona North", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": "winchester-safira-footballers-over-40-div-1-north"}};
+const FLIGHT_CARDS = {"BPK United": {"recent": [{"date": "2026-04-26", "opponent": "Shrewsbury", "result": "W", "score": "4\u20133", "venue": "A"}, {"date": "2026-04-19", "opponent": "Hudson United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "opponent": "Concord United Masters", "result": "W", "score": "6\u20131", "venue": "H"}], "slug": "bpk-united-over-40-div-1-north"}, "Cantona North": {"recent": [{"date": "2026-04-26", "opponent": "Concord United Masters", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-19", "opponent": "Peabody Sporting Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Shrewsbury", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": "cantona-north-over-40-div-1-north"}, "Concord United Masters": {"recent": [{"date": "2026-04-26", "opponent": "Cantona North", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-19", "opponent": "P.A.C. Lowell", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "opponent": "BPK United", "result": "L", "score": "1\u20136", "venue": "A"}], "slug": "concord-united-masters-over-40-div-1-north"}, "Hudson United": {"recent": [{"date": "2026-04-19", "opponent": "BPK United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "opponent": "P.A.C. Lowell", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-05", "opponent": "Concord United Masters", "result": "L", "score": "1\u20136", "venue": "A"}], "slug": "hudson-united-over-40-div-1-north"}, "P.A.C. Lowell": {"recent": [{"date": "2026-04-26", "opponent": "Peabody Sporting Club", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-19", "opponent": "Concord United Masters", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-12", "opponent": "Hudson United", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "p-a-c-lowell-over-40-div-1-north"}, "Peabody Sporting Club": {"recent": [{"date": "2026-04-26", "opponent": "P.A.C. Lowell", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-19", "opponent": "Cantona North", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "opponent": "Winchester Safira Footballers", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "peabody-sporting-club-over-40-div-1-north"}, "Shrewsbury": {"recent": [{"date": "2026-04-26", "opponent": "BPK United", "result": "L", "score": "3\u20134", "venue": "H"}, {"date": "2026-04-19", "opponent": "Winchester Safira Footballers", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-12", "opponent": "Cantona North", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": "shrewsbury-over-40-div-1-north"}, "Winchester Safira Footballers": {"recent": [{"date": "2026-04-19", "opponent": "Shrewsbury", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-12", "opponent": "Peabody Sporting Club", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "opponent": "Cantona North", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": "winchester-safira-footballers-over-40-div-1-north"}};
 const STANDINGS_MAP = {};
+
+STANDINGS_MAP["BPK United"] = { w: 3, l: 0, t: 0, gp: 3 };
 
 STANDINGS_MAP["Winchester Safira Footballers"] = { w: 3, l: 0, t: 0, gp: 3 };
 
-STANDINGS_MAP["P.A.C. Lowell"] = { w: 2, l: 0, t: 0, gp: 2 };
+STANDINGS_MAP["P.A.C. Lowell"] = { w: 2, l: 1, t: 0, gp: 3 };
 
-STANDINGS_MAP["BPK United"] = { w: 2, l: 0, t: 0, gp: 2 };
+STANDINGS_MAP["Peabody Sporting Club"] = { w: 2, l: 1, t: 0, gp: 3 };
 
-STANDINGS_MAP["Peabody Sporting Club"] = { w: 1, l: 1, t: 0, gp: 2 };
+STANDINGS_MAP["Concord United Masters"] = { w: 2, l: 2, t: 0, gp: 4 };
 
-STANDINGS_MAP["Concord United Masters"] = { w: 1, l: 2, t: 0, gp: 3 };
+STANDINGS_MAP["Shrewsbury"] = { w: 0, l: 2, t: 1, gp: 3 };
 
-STANDINGS_MAP["Shrewsbury"] = { w: 0, l: 1, t: 1, gp: 2 };
-
-STANDINGS_MAP["Cantona North"] = { w: 0, l: 2, t: 1, gp: 3 };
+STANDINGS_MAP["Cantona North"] = { w: 0, l: 3, t: 1, gp: 4 };
 
 STANDINGS_MAP["Hudson United"] = { w: 0, l: 3, t: 0, gp: 3 };
 

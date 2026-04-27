@@ -990,6 +990,91 @@ def get_team_page_context(team_slug):
     }
 
 
+def get_top_teams(rows=None):
+    """Top 15 teams by PPG across the current season, min 3 games played."""
+    if rows is None:
+        rows = get_current_season_rows()
+    results = []
+    flight_rows = defaultdict(list)
+    for r in rows:
+        flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
+    for (ag, div, geo) in sorted(flight_rows.keys(), key=lambda x: (x[0], int(x[1]), x[2])):
+        pv = identify_playoff_visitors(rows, ag, div, geo)
+        standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
+        slug = flight_slug(ag, div, geo)
+        label = f"{ag} Div {div} {geo}"
+        for row in standings:
+            if row["gp"] >= 3:
+                results.append({
+                    "team": row["team"],
+                    "ppg": round(row["pts"] / row["gp"], 2),
+                    "pts": row["pts"],
+                    "gp": row["gp"],
+                    "w": row["w"],
+                    "l": row["l"],
+                    "t": row["t"],
+                    "gd": row["gd"],
+                    "age_group": ag,
+                    "flight_label": label,
+                    "flight_slug": slug,
+                })
+    results.sort(key=lambda x: (-x["ppg"], -x["pts"], -x["gd"]))
+    return results[:15]
+
+
+def get_calibration_data():
+    """Compute ELO calibration stats from full elo_history.csv."""
+    from elo import expected as elo_expected
+    history = load_csv(os.path.join(DATA_DIR, "elo_history.csv"))
+    N = 20  # 5%-wide buckets
+    bucket_pred  = defaultdict(float)
+    bucket_act   = defaultdict(float)
+    bucket_n     = defaultdict(int)
+    brier = 0.0
+    total = 0
+    correct = 0
+    for row in history:
+        hg = row.get("home_goals", "")
+        ag = row.get("away_goals", "")
+        if not (hg.isdigit() and ag.isdigit()):
+            continue
+        try:
+            eh = float(row["elo_home_before"])
+            ea = float(row["elo_away_before"])
+            hg, ag = int(hg), int(ag)
+        except (ValueError, KeyError):
+            continue
+        exp = elo_expected(eh, ea)
+        actual = 1.0 if hg > ag else 0.0 if hg < ag else 0.5
+        idx = min(int(exp * N), N - 1)
+        bucket_pred[idx] += exp
+        bucket_act[idx]  += actual
+        bucket_n[idx]    += 1
+        brier += (exp - actual) ** 2
+        total += 1
+        if eh != ea:
+            fav_won = (exp > 0.5 and actual == 1.0) or (exp < 0.5 and actual == 0.0)
+            if fav_won:
+                correct += 1
+    points = []
+    for i in range(N):
+        n = bucket_n[i]
+        if n >= 20:
+            points.append({
+                "pred": round(bucket_pred[i] / n, 3),
+                "actual": round(bucket_act[i] / n, 3),
+                "n": n,
+            })
+    # Also count draws for accuracy denominator (exclude equal ELOs)
+    non_equal = sum(bucket_n[i] for i in range(N))
+    return {
+        "points": points,
+        "brier": round(brier / total, 4) if total else 0,
+        "total": total,
+        "favorite_win_pct": round(100 * correct / non_equal, 1) if non_equal else 0,
+    }
+
+
 def _render_index(season, home_path, season_nav_prefix):
     all_seasons = get_all_seasons()
     season_slug = season_to_slug(season)
@@ -1012,6 +1097,8 @@ def _render_index(season, home_path, season_nav_prefix):
         flight_url_prefix="flight/" if is_current else "flight/",
         home_path=home_path,
         season_nav_prefix=season_nav_prefix,
+        calibration_path=home_path + "calibration/",
+        top_teams=get_top_teams(rows) if is_current else [],
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
@@ -1151,6 +1238,15 @@ def flight_page_historical(season_slug, flight_slug_val):
     if result:
         return result
     abort(404)
+
+
+@app.route("/calibration/")
+def calibration_page():
+    return render_template(
+        "calibration.html",
+        cal=get_calibration_data(),
+        home_path="../",
+    )
 
 
 if __name__ == "__main__":
