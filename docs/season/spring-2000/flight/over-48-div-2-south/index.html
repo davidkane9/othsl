@@ -404,6 +404,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Dover-Sherborn Silverbacks": 1388.2, "Harvard Elders": 1477.3, "Needham Seniors": 1535.9, "South Shore Seniors": 1617.3}, "current_stats": {"Dover-Sherborn Silverbacks": {"gd": -17, "gf": 13, "pts": 13}, "Harvard Elders": {"gd": 47, "gf": 50, "pts": 30}, "Needham Seniors": {"gd": -25, "gf": 12, "pts": 4}, "South Shore Seniors": {"gd": -5, "gf": 18, "pts": 11}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Harvard Elders", "Dover-Sherborn Silverbacks", "South Shore Seniors", "Needham Seniors"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Harvard Elders", "date": "2000-04-09", "forfeit": false, "hg": 0, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 0, "away": "Needham Seniors", "date": "2000-04-16", "forfeit": false, "hg": 5, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 0, "away": "Dover-Sherborn Silverbacks", "date": "2000-04-16", "forfeit": false, "hg": 5, "home": "Harvard Elders", "home_forfeit": false}, {"ag": 0, "away": "Needham Seniors", "date": "2000-04-23", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 0, "away": "South Shore Seniors", "date": "2000-04-23", "forfeit": false, "hg": 6, "home": "Harvard Elders", "home_forfeit": false}, {"ag": 1, "away": "Needham Seniors", "date": "2000-04-30", "forfeit": false, "hg": 6, "home": "Harvard Elders", "home_forfeit": false}, {"ag": 0, "away": "South Shore Seniors", "date": "2000-04-30", "forfeit": false, "hg": 0, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 3, "away": "South Shore Seniors", "date": "2000-05-07", "forfeit": false, "hg": 3, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 6, "away": "Harvard Elders", "date": "2000-05-07", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 4, "away": "Dover-Sherborn Silverbacks", "date": "2000-05-14", "forfeit": false, "hg": 3, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 2, "away": "Harvard Elders", "date": "2000-05-14", "forfeit": false, "hg": 0, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 5, "away": "Harvard Elders", "date": "2000-05-21", "forfeit": false, "hg": 1, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 1, "away": "Dover-Sherborn Silverbacks", "date": "2000-05-21", "forfeit": false, "hg": 3, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 3, "away": "Needham Seniors", "date": "2000-05-28", "forfeit": false, "hg": 2, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 0, "away": "Dover-Sherborn Silverbacks", "date": "2000-05-29", "forfeit": false, "hg": 7, "home": "Harvard Elders", "home_forfeit": false}, {"ag": 1, "away": "Needham Seniors", "date": "2000-06-04", "forfeit": false, "hg": 3, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 0, "away": "South Shore Seniors", "date": "2000-06-04", "forfeit": false, "hg": 5, "home": "Harvard Elders", "home_forfeit": false}, {"ag": 2, "away": "Dover-Sherborn Silverbacks", "date": "2000-06-11", "forfeit": false, "hg": 5, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 6, "away": "Harvard Elders", "date": "2000-06-11", "forfeit": false, "hg": 0, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 0, "away": "South Shore Seniors", "date": "2000-06-11", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Dover-Sherborn Silverbacks": {"recent": [{"date": "2000-06-11", "opponent": "South Shore Seniors", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2000-06-11", "opponent": "South Shore Seniors", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2000-06-04", "opponent": "Needham Seniors", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}, "Harvard Elders": {"recent": [{"date": "2000-06-11", "opponent": "Needham Seniors", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2000-06-04", "opponent": "South Shore Seniors", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2000-05-29", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": ""}, "Needham Seniors": {"recent": [{"date": "2000-06-11", "opponent": "Harvard Elders", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2000-06-04", "opponent": "Dover-Sherborn Silverbacks", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2000-05-28", "opponent": "South Shore Seniors", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}, "South Shore Seniors": {"recent": [{"date": "2000-06-11", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2000-06-11", "opponent": "Dover-Sherborn Silverbacks", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2000-06-04", "opponent": "Harvard Elders", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": ""}};
@@ -610,9 +611,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -865,9 +870,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

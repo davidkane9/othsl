@@ -445,6 +445,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Canton United II": 1365.3, "Dover-Sherborn Silverbacks": 1388.2, "FC Franklin O50": 1475.8, "Franklin Seniors": 1426.8}, "current_stats": {"Canton United II": {"gd": -2, "gf": 9, "pts": 13}, "Dover-Sherborn Silverbacks": {"gd": -4, "gf": 6, "pts": 9}, "FC Franklin O50": {"gd": 0, "gf": 13, "pts": 13}, "Franklin Seniors": {"gd": 6, "gf": 14, "pts": 17}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Franklin Seniors", "FC Franklin O50", "Canton United II", "Dover-Sherborn Silverbacks"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Canton United II", "date": "2016-08-28", "forfeit": false, "hg": 0, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "FC Franklin O50", "date": "2016-09-11", "forfeit": false, "hg": 2, "home": "Canton United II", "home_forfeit": false}, {"ag": 0, "away": "Dover-Sherborn Silverbacks", "date": "2016-09-11", "forfeit": false, "hg": 0, "home": "Franklin Seniors", "home_forfeit": false}, {"ag": 2, "away": "Dover-Sherborn Silverbacks", "date": "2016-09-18", "forfeit": false, "hg": 1, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": 0, "away": "Canton United II", "date": "2016-09-18", "forfeit": false, "hg": 2, "home": "Franklin Seniors", "home_forfeit": false}, {"ag": 1, "away": "FC Franklin O50", "date": "2016-09-25", "forfeit": false, "hg": 0, "home": "Canton United II", "home_forfeit": false}, {"ag": 1, "away": "Franklin Seniors", "date": "2016-09-25", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "Franklin Seniors", "date": "2016-10-02", "forfeit": false, "hg": 1, "home": "Canton United II", "home_forfeit": false}, {"ag": 2, "away": "Dover-Sherborn Silverbacks", "date": "2016-10-02", "forfeit": false, "hg": 3, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": 2, "away": "Franklin Seniors", "date": "2016-10-05", "forfeit": false, "hg": 1, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": null, "away": "Dover-Sherborn Silverbacks", "date": "2016-10-09", "forfeit": true, "hg": 2, "home": "Canton United II", "home_forfeit": false}, {"ag": 1, "away": "Franklin Seniors", "date": "2016-10-09", "forfeit": false, "hg": 1, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": 1, "away": "Franklin Seniors", "date": "2016-10-16", "forfeit": false, "hg": 0, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "Canton United II", "date": "2016-10-16", "forfeit": false, "hg": 1, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": 2, "away": "Franklin Seniors", "date": "2016-10-23", "forfeit": false, "hg": 3, "home": "Canton United II", "home_forfeit": false}, {"ag": 1, "away": "FC Franklin O50", "date": "2016-10-23", "forfeit": false, "hg": 0, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 2, "away": "Canton United II", "date": "2016-10-30", "forfeit": false, "hg": 2, "home": "FC Franklin O50", "home_forfeit": false}, {"ag": 0, "away": "Dover-Sherborn Silverbacks", "date": "2016-10-30", "forfeit": false, "hg": 3, "home": "Franklin Seniors", "home_forfeit": false}, {"ag": 0, "away": "Canton United II", "date": "2016-11-06", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "Franklin Seniors", "date": "2016-11-06", "forfeit": false, "hg": 1, "home": "FC Franklin O50", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Canton United II": {"recent": [{"date": "2016-11-06", "opponent": "Dover-Sherborn Silverbacks", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2016-10-30", "opponent": "FC Franklin O50", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2016-10-23", "opponent": "Franklin Seniors", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}, "Dover-Sherborn Silverbacks": {"recent": [{"date": "2016-11-06", "opponent": "Canton United II", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2016-10-30", "opponent": "Franklin Seniors", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2016-10-23", "opponent": "FC Franklin O50", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": ""}, "FC Franklin O50": {"recent": [{"date": "2016-11-06", "opponent": "Franklin Seniors", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2016-10-30", "opponent": "Canton United II", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2016-10-23", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": ""}, "Franklin Seniors": {"recent": [{"date": "2016-11-06", "opponent": "FC Franklin O50", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2016-10-30", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2016-10-23", "opponent": "Canton United II", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}};
@@ -651,9 +652,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -906,9 +911,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

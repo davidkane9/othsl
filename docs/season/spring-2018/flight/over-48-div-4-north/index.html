@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"North Reading": 1393.9, "North Shore Raiders": 1499.2, "Pepperell Red Bulls": 1490.3, "Rovers Re-United": 1423.4, "Wenham Generals": 1414.9}, "current_stats": {"North Reading": {"gd": -28, "gf": 2, "pts": 0}, "North Shore Raiders": {"gd": 3, "gf": 13, "pts": 12}, "Pepperell Red Bulls": {"gd": 15, "gf": 22, "pts": 19}, "Rovers Re-United": {"gd": 14, "gf": 25, "pts": 17}, "Wenham Generals": {"gd": -4, "gf": 14, "pts": 9}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Pepperell Red Bulls", "Rovers Re-United", "North Shore Raiders", "Wenham Generals", "North Reading"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "North Shore Raiders", "date": "2018-04-08", "forfeit": false, "hg": 2, "home": "Wenham Generals", "home_forfeit": false}, {"ag": 4, "away": "Rovers Re-United", "date": "2018-04-15", "forfeit": false, "hg": 0, "home": "North Reading", "home_forfeit": false}, {"ag": 0, "away": "Pepperell Red Bulls", "date": "2018-04-15", "forfeit": false, "hg": 0, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 0, "away": "North Reading", "date": "2018-04-22", "forfeit": false, "hg": 4, "home": "Wenham Generals", "home_forfeit": false}, {"ag": 0, "away": "Pepperell Red Bulls", "date": "2018-04-22", "forfeit": false, "hg": 2, "home": "Rovers Re-United", "home_forfeit": false}, {"ag": 0, "away": "Wenham Generals", "date": "2018-04-29", "forfeit": false, "hg": 2, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 2, "away": "North Reading", "date": "2018-05-06", "forfeit": false, "hg": 3, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 6, "away": "Rovers Re-United", "date": "2018-05-06", "forfeit": false, "hg": 2, "home": "Wenham Generals", "home_forfeit": false}, {"ag": 5, "away": "Pepperell Red Bulls", "date": "2018-05-13", "forfeit": false, "hg": 0, "home": "North Reading", "home_forfeit": false}, {"ag": 0, "away": "Wenham Generals", "date": "2018-05-13", "forfeit": false, "hg": 1, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 0, "away": "North Reading", "date": "2018-05-20", "forfeit": false, "hg": 5, "home": "Rovers Re-United", "home_forfeit": false}, {"ag": 2, "away": "North Shore Raiders", "date": "2018-05-20", "forfeit": false, "hg": 4, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 2, "away": "Wenham Generals", "date": "2018-06-03", "forfeit": false, "hg": 0, "home": "North Reading", "home_forfeit": false}, {"ag": 2, "away": "Rovers Re-United", "date": "2018-06-03", "forfeit": false, "hg": 4, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 1, "away": "North Shore Raiders", "date": "2018-06-07", "forfeit": false, "hg": 1, "home": "Rovers Re-United", "home_forfeit": false}, {"ag": 4, "away": "Pepperell Red Bulls", "date": "2018-06-10", "forfeit": false, "hg": 1, "home": "Wenham Generals", "home_forfeit": false}, {"ag": 1, "away": "Rovers Re-United", "date": "2018-06-10", "forfeit": false, "hg": 1, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 0, "away": "North Reading", "date": "2018-06-15", "forfeit": false, "hg": 3, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 4, "away": "North Shore Raiders", "date": "2018-06-17", "forfeit": false, "hg": 0, "home": "North Reading", "home_forfeit": false}, {"ag": 3, "away": "Wenham Generals", "date": "2018-06-17", "forfeit": false, "hg": 4, "home": "Rovers Re-United", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"North Reading": {"recent": [{"date": "2018-06-17", "opponent": "North Shore Raiders", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2018-06-15", "opponent": "Pepperell Red Bulls", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2018-06-03", "opponent": "Wenham Generals", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "North Shore Raiders": {"recent": [{"date": "2018-06-17", "opponent": "North Reading", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2018-06-10", "opponent": "Rovers Re-United", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2018-06-07", "opponent": "Rovers Re-United", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": ""}, "Pepperell Red Bulls": {"recent": [{"date": "2018-06-15", "opponent": "North Reading", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2018-06-10", "opponent": "Wenham Generals", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2018-06-03", "opponent": "Rovers Re-United", "result": "W", "score": "4\u20132", "venue": "H"}], "slug": "pepperell-red-bulls-over-48-div-4-north"}, "Rovers Re-United": {"recent": [{"date": "2018-06-17", "opponent": "Wenham Generals", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2018-06-10", "opponent": "North Shore Raiders", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2018-06-07", "opponent": "North Shore Raiders", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": ""}, "Wenham Generals": {"recent": [{"date": "2018-06-17", "opponent": "Rovers Re-United", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2018-06-10", "opponent": "Pepperell Red Bulls", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2018-06-03", "opponent": "North Reading", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": ""}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

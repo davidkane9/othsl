@@ -484,6 +484,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Boa Vista FC": 1654.0, "Kendall Wanderers B": 1558.9, "Lowell United": 1527.8, "S.S.C. Napoli": 1498.7, "Westford F.C.": 1482.7}, "current_stats": {"Boa Vista FC": {"gd": 8, "gf": 16, "pts": 11}, "Kendall Wanderers B": {"gd": -5, "gf": 7, "pts": 4}, "Lowell United": {"gd": 4, "gf": 17, "pts": 15}, "S.S.C. Napoli": {"gd": -7, "gf": 9, "pts": 4}, "Westford F.C.": {"gd": 0, "gf": 9, "pts": 6}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "Westford F.C.", "date": "TBD", "home": "Lowell United", "id": "inferred|Lowell United|Westford F.C.", "involves_team": false}, {"away": "Kendall Wanderers B", "date": "TBD", "home": "Lowell United", "id": "inferred|Lowell United|Kendall Wanderers B", "involves_team": false}, {"away": "Westford F.C.", "date": "TBD", "home": "Boa Vista FC", "id": "inferred|Boa Vista FC|Westford F.C.", "involves_team": false}, {"away": "S.S.C. Napoli", "date": "TBD", "home": "Boa Vista FC", "id": "inferred|Boa Vista FC|S.S.C. Napoli", "involves_team": false}, {"away": "Kendall Wanderers B", "date": "TBD", "home": "Westford F.C.", "id": "inferred|Westford F.C.|Kendall Wanderers B", "involves_team": false}, {"away": "S.S.C. Napoli", "date": "TBD", "home": "Westford F.C.", "id": "inferred|Westford F.C.|S.S.C. Napoli", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Lowell United", "Boa Vista FC", "Westford F.C.", "Kendall Wanderers B", "S.S.C. Napoli"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Lowell United", "date": "2020-09-13", "forfeit": false, "hg": 6, "home": "Boa Vista FC", "home_forfeit": false}, {"ag": 1, "away": "Kendall Wanderers B", "date": "2020-09-13", "forfeit": false, "hg": 3, "home": "S.S.C. Napoli", "home_forfeit": false}, {"ag": 3, "away": "Boa Vista FC", "date": "2020-09-20", "forfeit": false, "hg": 2, "home": "Kendall Wanderers B", "home_forfeit": false}, {"ag": 0, "away": "S.S.C. Napoli", "date": "2020-09-20", "forfeit": false, "hg": 2, "home": "Lowell United", "home_forfeit": false}, {"ag": 0, "away": "Kendall Wanderers B", "date": "2020-09-27", "forfeit": false, "hg": 1, "home": "Lowell United", "home_forfeit": false}, {"ag": 1, "away": "Boa Vista FC", "date": "2020-09-27", "forfeit": false, "hg": 1, "home": "S.S.C. Napoli", "home_forfeit": false}, {"ag": 1, "away": "Westford F.C.", "date": "2020-10-04", "forfeit": false, "hg": 3, "home": "Boa Vista FC", "home_forfeit": false}, {"ag": 3, "away": "Westford F.C.", "date": "2020-10-11", "forfeit": false, "hg": 5, "home": "Lowell United", "home_forfeit": false}, {"ag": 1, "away": "S.S.C. Napoli", "date": "2020-10-18", "forfeit": false, "hg": 3, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 0, "away": "Kendall Wanderers B", "date": "2020-10-25", "forfeit": false, "hg": 2, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 2, "away": "Boa Vista FC", "date": "2020-11-08", "forfeit": false, "hg": 3, "home": "Lowell United", "home_forfeit": false}, {"ag": 2, "away": "S.S.C. Napoli", "date": "2020-11-08", "forfeit": false, "hg": 3, "home": "Kendall Wanderers B", "home_forfeit": false}, {"ag": 1, "away": "Kendall Wanderers B", "date": "2020-11-15", "forfeit": false, "hg": 1, "home": "Boa Vista FC", "home_forfeit": false}, {"ag": 6, "away": "Lowell United", "date": "2020-11-15", "forfeit": false, "hg": 2, "home": "S.S.C. Napoli", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Boa Vista FC": {"recent": [{"date": "2020-11-15", "opponent": "Kendall Wanderers B", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2020-11-08", "opponent": "Lowell United", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2020-10-04", "opponent": "Westford F.C.", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}, "Kendall Wanderers B": {"recent": [{"date": "2020-11-15", "opponent": "Boa Vista FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2020-11-08", "opponent": "S.S.C. Napoli", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2020-10-25", "opponent": "Westford F.C.", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Lowell United": {"recent": [{"date": "2020-11-15", "opponent": "S.S.C. Napoli", "result": "W", "score": "6\u20132", "venue": "A"}, {"date": "2020-11-08", "opponent": "Boa Vista FC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2020-10-11", "opponent": "Westford F.C.", "result": "W", "score": "5\u20133", "venue": "H"}], "slug": ""}, "S.S.C. Napoli": {"recent": [{"date": "2020-11-15", "opponent": "Lowell United", "result": "L", "score": "2\u20136", "venue": "H"}, {"date": "2020-11-08", "opponent": "Kendall Wanderers B", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2020-10-18", "opponent": "Westford F.C.", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": ""}, "Westford F.C.": {"recent": [{"date": "2020-10-25", "opponent": "Kendall Wanderers B", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2020-10-18", "opponent": "S.S.C. Napoli", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2020-10-11", "opponent": "Lowell United", "result": "L", "score": "3\u20135", "venue": "A"}], "slug": ""}};
@@ -692,9 +693,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -947,9 +952,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

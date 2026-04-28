@@ -505,6 +505,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Harvard": 1387.4, "Hopkinton OF Soccer Club": 1501.1, "Lexington Bald Eagles": 1470.7, "Medford": 1401.0, "Raynham Veterans": 1423.6}, "current_stats": {"Harvard": {"gd": -15, "gf": 4, "pts": 5}, "Hopkinton OF Soccer Club": {"gd": -22, "gf": 5, "pts": 6}, "Lexington Bald Eagles": {"gd": 5, "gf": 18, "pts": 15}, "Medford": {"gd": -4, "gf": 6, "pts": 5}, "Raynham Veterans": {"gd": 36, "gf": 41, "pts": 24}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "Medford", "date": "TBD", "home": "Lexington Bald Eagles", "id": "inferred|Lexington Bald Eagles|Medford", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Raynham Veterans", "Lexington Bald Eagles", "Hopkinton OF Soccer Club", "Medford", "Harvard"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Raynham Veterans", "date": "2009-04-05", "forfeit": false, "hg": 0, "home": "Medford", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton OF Soccer Club", "date": "2009-04-05", "forfeit": false, "hg": 0, "home": "Harvard", "home_forfeit": false}, {"ag": 1, "away": "Medford", "date": "2009-04-19", "forfeit": false, "hg": 2, "home": "Hopkinton OF Soccer Club", "home_forfeit": false}, {"ag": 0, "away": "Harvard", "date": "2009-04-19", "forfeit": false, "hg": 1, "home": "Lexington Bald Eagles", "home_forfeit": false}, {"ag": 6, "away": "Raynham Veterans", "date": "2009-04-26", "forfeit": false, "hg": 0, "home": "Harvard", "home_forfeit": false}, {"ag": 4, "away": "Lexington Bald Eagles", "date": "2009-04-26", "forfeit": false, "hg": 0, "home": "Hopkinton OF Soccer Club", "home_forfeit": false}, {"ag": 2, "away": "Lexington Bald Eagles", "date": "2009-05-03", "forfeit": false, "hg": 7, "home": "Raynham Veterans", "home_forfeit": false}, {"ag": 1, "away": "Harvard", "date": "2009-05-03", "forfeit": false, "hg": 1, "home": "Medford", "home_forfeit": false}, {"ag": 6, "away": "Raynham Veterans", "date": "2009-05-10", "forfeit": false, "hg": 0, "home": "Hopkinton OF Soccer Club", "home_forfeit": false}, {"ag": 1, "away": "Medford", "date": "2009-05-10", "forfeit": false, "hg": 5, "home": "Lexington Bald Eagles", "home_forfeit": false}, {"ag": null, "away": "Medford", "date": "2009-05-17", "forfeit": true, "hg": 2, "home": "Raynham Veterans", "home_forfeit": false}, {"ag": 2, "away": "Harvard", "date": "2009-05-17", "forfeit": false, "hg": 0, "home": "Hopkinton OF Soccer Club", "home_forfeit": false}, {"ag": 0, "away": "Hopkinton OF Soccer Club", "date": "2009-05-24", "forfeit": false, "hg": 2, "home": "Medford", "home_forfeit": false}, {"ag": 2, "away": "Lexington Bald Eagles", "date": "2009-05-25", "forfeit": false, "hg": 0, "home": "Harvard", "home_forfeit": false}, {"ag": 0, "away": "Harvard", "date": "2009-05-31", "forfeit": false, "hg": 7, "home": "Raynham Veterans", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton OF Soccer Club", "date": "2009-05-31", "forfeit": false, "hg": 2, "home": "Lexington Bald Eagles", "home_forfeit": false}, {"ag": 4, "away": "Raynham Veterans", "date": "2009-06-07", "forfeit": false, "hg": 2, "home": "Lexington Bald Eagles", "home_forfeit": false}, {"ag": 1, "away": "Medford", "date": "2009-06-07", "forfeit": false, "hg": 1, "home": "Harvard", "home_forfeit": false}, {"ag": 1, "away": "Hopkinton OF Soccer Club", "date": "2009-06-14", "forfeit": false, "hg": 10, "home": "Raynham Veterans", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Harvard": {"recent": [{"date": "2009-06-07", "opponent": "Medford", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2009-05-31", "opponent": "Raynham Veterans", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2009-05-25", "opponent": "Lexington Bald Eagles", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "Hopkinton OF Soccer Club": {"recent": [{"date": "2009-06-14", "opponent": "Raynham Veterans", "result": "L", "score": "1\u201310", "venue": "A"}, {"date": "2009-05-31", "opponent": "Lexington Bald Eagles", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2009-05-24", "opponent": "Medford", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Lexington Bald Eagles": {"recent": [{"date": "2009-06-07", "opponent": "Raynham Veterans", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2009-05-31", "opponent": "Hopkinton OF Soccer Club", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2009-05-25", "opponent": "Harvard", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": ""}, "Medford": {"recent": [{"date": "2009-06-07", "opponent": "Harvard", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2009-05-24", "opponent": "Hopkinton OF Soccer Club", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2009-05-17", "opponent": "Raynham Veterans", "result": "L", "score": "F", "venue": "A"}], "slug": ""}, "Raynham Veterans": {"recent": [{"date": "2009-06-14", "opponent": "Hopkinton OF Soccer Club", "result": "W", "score": "10\u20131", "venue": "H"}, {"date": "2009-06-07", "opponent": "Lexington Bald Eagles", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2009-05-31", "opponent": "Harvard", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": ""}};
@@ -713,9 +714,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -968,9 +973,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

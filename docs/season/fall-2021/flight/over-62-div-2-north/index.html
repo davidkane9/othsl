@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Burlington 0-63": 1404.5, "GRandOVER 63": 1575.1, "LFC Pioneers": 1497.4, "Lexington Eagles United": 1505.9, "Peabody Gold 63": 1496.9}, "current_stats": {"Burlington 0-63": {"gd": -15, "gf": 13, "pts": 7}, "GRandOVER 63": {"gd": -11, "gf": 10, "pts": 9}, "LFC Pioneers": {"gd": -15, "gf": 7, "pts": 6}, "Lexington Eagles United": {"gd": 39, "gf": 42, "pts": 24}, "Peabody Gold 63": {"gd": 2, "gf": 23, "pts": 11}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Lexington Eagles United", "Peabody Gold 63", "GRandOVER 63", "Burlington 0-63", "LFC Pioneers"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 5, "away": "Peabody Gold 63", "date": "2021-08-29", "forfeit": false, "hg": 0, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": 0, "away": "LFC Pioneers", "date": "2021-08-29", "forfeit": false, "hg": 4, "home": "Lexington Eagles United", "home_forfeit": false}, {"ag": 2, "away": "GRandOVER 63", "date": "2021-09-12", "forfeit": false, "hg": 1, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 1, "away": "Burlington 0-63", "date": "2021-09-12", "forfeit": false, "hg": 1, "home": "LFC Pioneers", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold 63", "date": "2021-09-19", "forfeit": false, "hg": 1, "home": "LFC Pioneers", "home_forfeit": false}, {"ag": 0, "away": "GRandOVER 63", "date": "2021-09-19", "forfeit": false, "hg": 3, "home": "Lexington Eagles United", "home_forfeit": false}, {"ag": 9, "away": "Lexington Eagles United", "date": "2021-09-26", "forfeit": false, "hg": 1, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": 2, "away": "LFC Pioneers", "date": "2021-09-26", "forfeit": false, "hg": 1, "home": "GRandOVER 63", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold 63", "date": "2021-10-03", "forfeit": false, "hg": 3, "home": "Lexington Eagles United", "home_forfeit": false}, {"ag": 1, "away": "Burlington 0-63", "date": "2021-10-03", "forfeit": false, "hg": 2, "home": "GRandOVER 63", "home_forfeit": false}, {"ag": 7, "away": "Lexington Eagles United", "date": "2021-10-10", "forfeit": false, "hg": 1, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 0, "away": "GRandOVER 63", "date": "2021-10-10", "forfeit": false, "hg": 1, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": 0, "away": "Burlington 0-63", "date": "2021-10-17", "forfeit": false, "hg": 4, "home": "Lexington Eagles United", "home_forfeit": false}, {"ag": 1, "away": "GRandOVER 63", "date": "2021-10-17", "forfeit": false, "hg": 0, "home": "LFC Pioneers", "home_forfeit": false}, {"ag": 2, "away": "LFC Pioneers", "date": "2021-10-24", "forfeit": false, "hg": 2, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 7, "away": "Lexington Eagles United", "date": "2021-10-24", "forfeit": false, "hg": 0, "home": "GRandOVER 63", "home_forfeit": false}, {"ag": 2, "away": "Burlington 0-63", "date": "2021-10-31", "forfeit": false, "hg": 6, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 5, "away": "Lexington Eagles United", "date": "2021-10-31", "forfeit": false, "hg": 0, "home": "LFC Pioneers", "home_forfeit": false}, {"ag": 6, "away": "Peabody Gold 63", "date": "2021-11-07", "forfeit": false, "hg": 4, "home": "GRandOVER 63", "home_forfeit": false}, {"ag": 1, "away": "LFC Pioneers", "date": "2021-11-07", "forfeit": false, "hg": 7, "home": "Burlington 0-63", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Burlington 0-63": {"recent": [{"date": "2021-11-07", "opponent": "LFC Pioneers", "result": "W", "score": "7\u20131", "venue": "H"}, {"date": "2021-10-31", "opponent": "Peabody Gold 63", "result": "L", "score": "2\u20136", "venue": "A"}, {"date": "2021-10-17", "opponent": "Lexington Eagles United", "result": "L", "score": "0\u20134", "venue": "A"}], "slug": ""}, "GRandOVER 63": {"recent": [{"date": "2021-11-07", "opponent": "Peabody Gold 63", "result": "L", "score": "4\u20136", "venue": "H"}, {"date": "2021-10-24", "opponent": "Lexington Eagles United", "result": "L", "score": "0\u20137", "venue": "H"}, {"date": "2021-10-17", "opponent": "LFC Pioneers", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": ""}, "LFC Pioneers": {"recent": [{"date": "2021-11-07", "opponent": "Burlington 0-63", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2021-10-31", "opponent": "Lexington Eagles United", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2021-10-24", "opponent": "Peabody Gold 63", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": ""}, "Lexington Eagles United": {"recent": [{"date": "2021-10-31", "opponent": "LFC Pioneers", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2021-10-24", "opponent": "GRandOVER 63", "result": "W", "score": "7\u20130", "venue": "A"}, {"date": "2021-10-17", "opponent": "Burlington 0-63", "result": "W", "score": "4\u20130", "venue": "H"}], "slug": ""}, "Peabody Gold 63": {"recent": [{"date": "2021-11-07", "opponent": "GRandOVER 63", "result": "W", "score": "6\u20134", "venue": "A"}, {"date": "2021-10-31", "opponent": "Burlington 0-63", "result": "W", "score": "6\u20132", "venue": "H"}, {"date": "2021-10-24", "opponent": "LFC Pioneers", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Acton Gold": 1564.0, "Natick United": 1524.9, "Needham Thistles": 1495.5, "Sudbury": 1524.6, "Westboro Suds": 1525.1}, "current_stats": {"Acton Gold": {"gd": -3, "gf": 11, "pts": 9}, "Natick United": {"gd": 3, "gf": 19, "pts": 9}, "Needham Thistles": {"gd": -1, "gf": 14, "pts": 10}, "Sudbury": {"gd": -11, "gf": 10, "pts": 3}, "Westboro Suds": {"gd": 12, "gf": 25, "pts": 20}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Westboro Suds", "Needham Thistles", "Natick United", "Acton Gold", "Sudbury"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Sudbury", "date": "2000-08-27", "forfeit": false, "hg": 2, "home": "Acton Gold", "home_forfeit": false}, {"ag": 0, "away": "Needham Thistles", "date": "2000-08-27", "forfeit": false, "hg": 4, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 3, "away": "Acton Gold", "date": "2000-09-10", "forfeit": false, "hg": 3, "home": "Natick United", "home_forfeit": false}, {"ag": 4, "away": "Westboro Suds", "date": "2000-09-10", "forfeit": false, "hg": 3, "home": "Sudbury", "home_forfeit": false}, {"ag": 2, "away": "Natick United", "date": "2000-09-17", "forfeit": false, "hg": 2, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 1, "away": "Sudbury", "date": "2000-09-17", "forfeit": false, "hg": 1, "home": "Needham Thistles", "home_forfeit": false}, {"ag": 2, "away": "Sudbury", "date": "2000-09-24", "forfeit": false, "hg": 2, "home": "Natick United", "home_forfeit": false}, {"ag": 3, "away": "Needham Thistles", "date": "2000-09-24", "forfeit": false, "hg": 1, "home": "Acton Gold", "home_forfeit": false}, {"ag": 2, "away": "Natick United", "date": "2000-10-01", "forfeit": false, "hg": 2, "home": "Needham Thistles", "home_forfeit": false}, {"ag": 1, "away": "Acton Gold", "date": "2000-10-01", "forfeit": false, "hg": 1, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 2, "away": "Acton Gold", "date": "2000-10-08", "forfeit": false, "hg": 0, "home": "Sudbury", "home_forfeit": false}, {"ag": 2, "away": "Westboro Suds", "date": "2000-10-08", "forfeit": false, "hg": 1, "home": "Needham Thistles", "home_forfeit": false}, {"ag": 0, "away": "Natick United", "date": "2000-10-15", "forfeit": false, "hg": 0, "home": "Acton Gold", "home_forfeit": false}, {"ag": 1, "away": "Sudbury", "date": "2000-10-15", "forfeit": false, "hg": 4, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 5, "away": "Westboro Suds", "date": "2000-10-22", "forfeit": false, "hg": 4, "home": "Natick United", "home_forfeit": false}, {"ag": 2, "away": "Needham Thistles", "date": "2000-10-22", "forfeit": false, "hg": 2, "home": "Sudbury", "home_forfeit": false}, {"ag": 4, "away": "Natick United", "date": "2000-10-29", "forfeit": false, "hg": 0, "home": "Sudbury", "home_forfeit": false}, {"ag": 1, "away": "Acton Gold", "date": "2000-10-29", "forfeit": false, "hg": 3, "home": "Needham Thistles", "home_forfeit": false}, {"ag": 2, "away": "Needham Thistles", "date": "2000-11-05", "forfeit": false, "hg": 2, "home": "Natick United", "home_forfeit": false}, {"ag": 3, "away": "Westboro Suds", "date": "2000-11-05", "forfeit": false, "hg": 1, "home": "Acton Gold", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Acton Gold": {"recent": [{"date": "2000-11-05", "opponent": "Westboro Suds", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2000-10-29", "opponent": "Needham Thistles", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2000-10-15", "opponent": "Natick United", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": ""}, "Natick United": {"recent": [{"date": "2000-11-05", "opponent": "Needham Thistles", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2000-10-29", "opponent": "Sudbury", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2000-10-22", "opponent": "Westboro Suds", "result": "L", "score": "4\u20135", "venue": "H"}], "slug": ""}, "Needham Thistles": {"recent": [{"date": "2000-11-05", "opponent": "Natick United", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2000-10-29", "opponent": "Acton Gold", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2000-10-22", "opponent": "Sudbury", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": ""}, "Sudbury": {"recent": [{"date": "2000-10-29", "opponent": "Natick United", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2000-10-22", "opponent": "Needham Thistles", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2000-10-15", "opponent": "Westboro Suds", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": ""}, "Westboro Suds": {"recent": [{"date": "2000-11-05", "opponent": "Acton Gold", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2000-10-22", "opponent": "Natick United", "result": "W", "score": "5\u20134", "venue": "A"}, {"date": "2000-10-15", "opponent": "Sudbury", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

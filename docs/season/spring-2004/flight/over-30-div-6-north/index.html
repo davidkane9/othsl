@@ -498,6 +498,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Billerica Minutemen": 1433.5, "Manchester United Hurricanes": 1519.5, "North Shore United": 1549.0, "Saugus Ironworkers": 1295.9, "Saugus Renegades": 1464.6}, "current_stats": {"Billerica Minutemen": {"gd": 18, "gf": 18, "pts": 20}, "Manchester United Hurricanes": {"gd": 4, "gf": 11, "pts": 13}, "North Shore United": {"gd": -14, "gf": 8, "pts": 4}, "Saugus Ironworkers": {"gd": -24, "gf": 8, "pts": 4}, "Saugus Renegades": {"gd": 16, "gf": 19, "pts": 16}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "y-Paddy Barrys", "date": "TBD", "home": "Saugus Ironworkers", "id": "TBD|Saugus Ironworkers|y-Paddy Barrys", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Billerica Minutemen", "Saugus Renegades", "Manchester United Hurricanes", "North Shore United", "Saugus Ironworkers"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "North Shore United", "date": "2004-04-11", "forfeit": false, "hg": 3, "home": "Billerica Minutemen", "home_forfeit": false}, {"ag": 4, "away": "Billerica Minutemen", "date": "2004-04-18", "forfeit": false, "hg": 0, "home": "Saugus Ironworkers", "home_forfeit": false}, {"ag": 5, "away": "Saugus Renegades", "date": "2004-04-18", "forfeit": false, "hg": 1, "home": "North Shore United", "home_forfeit": false}, {"ag": 0, "away": "Saugus Ironworkers", "date": "2004-04-25", "forfeit": false, "hg": 2, "home": "Saugus Renegades", "home_forfeit": false}, {"ag": 0, "away": "Manchester United Hurricanes", "date": "2004-04-25", "forfeit": false, "hg": 1, "home": "Billerica Minutemen", "home_forfeit": false}, {"ag": 2, "away": "North Shore United", "date": "2004-05-02", "forfeit": false, "hg": 2, "home": "Saugus Ironworkers", "home_forfeit": false}, {"ag": 0, "away": "Saugus Renegades", "date": "2004-05-02", "forfeit": false, "hg": 1, "home": "Manchester United Hurricanes", "home_forfeit": false}, {"ag": 4, "away": "Saugus Ironworkers", "date": "2004-05-08", "forfeit": false, "hg": 3, "home": "Manchester United Hurricanes", "home_forfeit": false}, {"ag": 1, "away": "Manchester United Hurricanes", "date": "2004-05-09", "forfeit": false, "hg": 0, "home": "North Shore United", "home_forfeit": false}, {"ag": 0, "away": "Billerica Minutemen", "date": "2004-05-09", "forfeit": false, "hg": 0, "home": "Saugus Renegades", "home_forfeit": false}, {"ag": 4, "away": "Manchester United Hurricanes", "date": "2004-05-16", "forfeit": false, "hg": 0, "home": "Saugus Ironworkers", "home_forfeit": false}, {"ag": 4, "away": "Billerica Minutemen", "date": "2004-05-16", "forfeit": false, "hg": 0, "home": "North Shore United", "home_forfeit": false}, {"ag": 0, "away": "Saugus Ironworkers", "date": "2004-05-23", "forfeit": false, "hg": 5, "home": "Billerica Minutemen", "home_forfeit": false}, {"ag": 0, "away": "North Shore United", "date": "2004-05-23", "forfeit": false, "hg": 3, "home": "Saugus Renegades", "home_forfeit": false}, {"ag": 0, "away": "Billerica Minutemen", "date": "2004-05-30", "forfeit": false, "hg": 0, "home": "Manchester United Hurricanes", "home_forfeit": false}, {"ag": 7, "away": "Saugus Renegades", "date": "2004-06-02", "forfeit": false, "hg": 0, "home": "Saugus Ironworkers", "home_forfeit": false}, {"ag": 2, "away": "Saugus Ironworkers", "date": "2004-06-06", "forfeit": false, "hg": 5, "home": "North Shore United", "home_forfeit": false}, {"ag": 0, "away": "Manchester United Hurricanes", "date": "2004-06-06", "forfeit": false, "hg": 2, "home": "Saugus Renegades", "home_forfeit": false}, {"ag": 0, "away": "North Shore United", "date": "2004-06-13", "forfeit": false, "hg": 2, "home": "Manchester United Hurricanes", "home_forfeit": false}, {"ag": 0, "away": "Saugus Renegades", "date": "2004-06-13", "forfeit": false, "hg": 1, "home": "Billerica Minutemen", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Billerica Minutemen": {"recent": [{"date": "2004-06-13", "opponent": "Saugus Renegades", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2004-05-30", "opponent": "Manchester United Hurricanes", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2004-05-23", "opponent": "Saugus Ironworkers", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": ""}, "Manchester United Hurricanes": {"recent": [{"date": "2004-06-13", "opponent": "North Shore United", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2004-06-06", "opponent": "Saugus Renegades", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2004-05-30", "opponent": "Billerica Minutemen", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": ""}, "North Shore United": {"recent": [{"date": "2004-06-13", "opponent": "Manchester United Hurricanes", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2004-06-06", "opponent": "Saugus Ironworkers", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2004-05-23", "opponent": "Saugus Renegades", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}, "Saugus Ironworkers": {"recent": [{"date": "2004-06-06", "opponent": "North Shore United", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2004-06-02", "opponent": "Saugus Renegades", "result": "L", "score": "0\u20137", "venue": "H"}, {"date": "2004-05-23", "opponent": "Billerica Minutemen", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": ""}, "Saugus Renegades": {"recent": [{"date": "2004-06-13", "opponent": "Billerica Minutemen", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2004-06-06", "opponent": "Manchester United Hurricanes", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2004-06-02", "opponent": "Saugus Ironworkers", "result": "W", "score": "7\u20130", "venue": "A"}], "slug": ""}};
@@ -706,9 +707,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -961,9 +966,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

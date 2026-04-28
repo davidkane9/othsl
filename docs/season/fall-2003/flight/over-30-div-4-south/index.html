@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Abbot Celtic": 1469.9, "Boston Olympic": 1589.3, "Duxbury SC": 1421.9, "Hudson": 1456.6, "Suds": 1402.1, "Westwood": 1403.1}, "current_stats": {"Abbot Celtic": {"gd": 15, "gf": 27, "pts": 23}, "Boston Olympic": {"gd": 4, "gf": 22, "pts": 11}, "Duxbury SC": {"gd": 9, "gf": 25, "pts": 22}, "Hudson": {"gd": 3, "gf": 24, "pts": 15}, "Suds": {"gd": -20, "gf": 0, "pts": 0}, "Westwood": {"gd": -11, "gf": 14, "pts": 15}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Abbot Celtic", "Duxbury SC", "Hudson", "Westwood", "Boston Olympic", "Suds"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 3, "away": "Abbot Celtic", "date": "2003-09-07", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-09-07", "forfeit": false, "hg": 2, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 2, "away": "Westwood", "date": "2003-09-07", "forfeit": false, "hg": 1, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 3, "away": "Duxbury SC", "date": "2003-09-14", "forfeit": false, "hg": 3, "home": "Abbot Celtic", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2003-09-14", "forfeit": false, "hg": 2, "home": "Westwood", "home_forfeit": false}, {"ag": 2, "away": "Boston Olympic", "date": "2003-09-14", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 3, "away": "Abbot Celtic", "date": "2003-09-21", "forfeit": false, "hg": 2, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2003-09-21", "forfeit": false, "hg": 3, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-09-21", "forfeit": false, "hg": 2, "home": "Westwood", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-09-28", "forfeit": false, "hg": 2, "home": "Abbot Celtic", "home_forfeit": false}, {"ag": 2, "away": "Boston Olympic", "date": "2003-09-28", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Westwood", "date": "2003-09-28", "forfeit": false, "hg": 5, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 2, "away": "Abbot Celtic", "date": "2003-10-05", "forfeit": false, "hg": 1, "home": "Westwood", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2003-10-05", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 2, "away": "Duxbury SC", "date": "2003-10-05", "forfeit": false, "hg": 1, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2003-10-12", "forfeit": false, "hg": 4, "home": "Abbot Celtic", "home_forfeit": false}, {"ag": 2, "away": "Duxbury SC", "date": "2003-10-12", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 9, "away": "Boston Olympic", "date": "2003-10-12", "forfeit": false, "hg": 1, "home": "Westwood", "home_forfeit": false}, {"ag": 1, "away": "Abbot Celtic", "date": "2003-10-19", "forfeit": false, "hg": 2, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 1, "away": "Westwood", "date": "2003-10-19", "forfeit": false, "hg": 4, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-10-19", "forfeit": false, "hg": 2, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 1, "away": "Boston Olympic", "date": "2003-10-26", "forfeit": false, "hg": 5, "home": "Abbot Celtic", "home_forfeit": false}, {"ag": 4, "away": "Duxbury SC", "date": "2003-10-26", "forfeit": false, "hg": 6, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Westwood", "date": "2003-10-26", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 2, "away": "Abbot Celtic", "date": "2003-11-02", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2003-11-02", "forfeit": false, "hg": 2, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 1, "away": "Duxbury SC", "date": "2003-11-02", "forfeit": false, "hg": 3, "home": "Westwood", "home_forfeit": false}, {"ag": 0, "away": "Westwood", "date": "2003-11-09", "forfeit": false, "hg": 2, "home": "Abbot Celtic", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-11-09", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Boston Olympic", "date": "2003-11-09", "forfeit": false, "hg": 1, "home": "Duxbury SC", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Abbot Celtic": {"recent": [{"date": "2003-11-09", "opponent": "Westwood", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2003-11-02", "opponent": "Suds", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2003-10-26", "opponent": "Boston Olympic", "result": "W", "score": "5\u20131", "venue": "H"}], "slug": ""}, "Boston Olympic": {"recent": [{"date": "2003-11-09", "opponent": "Duxbury SC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2003-11-02", "opponent": "Hudson", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2003-10-26", "opponent": "Abbot Celtic", "result": "L", "score": "1\u20135", "venue": "A"}], "slug": ""}, "Duxbury SC": {"recent": [{"date": "2003-11-09", "opponent": "Boston Olympic", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2003-11-02", "opponent": "Westwood", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2003-10-26", "opponent": "Hudson", "result": "L", "score": "4\u20136", "venue": "A"}], "slug": ""}, "Hudson": {"recent": [{"date": "2003-11-09", "opponent": "Suds", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2003-11-02", "opponent": "Boston Olympic", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2003-10-26", "opponent": "Duxbury SC", "result": "W", "score": "6\u20134", "venue": "H"}], "slug": ""}, "Suds": {"recent": [{"date": "2003-11-09", "opponent": "Hudson", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2003-11-02", "opponent": "Abbot Celtic", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2003-10-26", "opponent": "Westwood", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "Westwood": {"recent": [{"date": "2003-11-09", "opponent": "Abbot Celtic", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2003-11-02", "opponent": "Duxbury SC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2003-10-26", "opponent": "Suds", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

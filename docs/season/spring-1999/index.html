@@ -91,7 +91,7 @@
     display: grid;
     grid-template-columns: 1.45fr 1fr;
     gap: 26px;
-    align-items: end;
+    align-items: start;
     margin-top: 16px;
   }
 
@@ -469,40 +469,35 @@
   .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
   .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
 
-  /* ── Top teams leaderboard ────────────────────────────────── */
-  .leaderboard {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  /* ── ELO leaderboard ─────────────────────────────────────── */
+  .leaderboard { display: flex; flex-direction: column; gap: 4px; }
   .lb-title {
-    font-size: .72rem;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    color: rgba(247,242,232,.55);
-    margin-bottom: 4px;
+    font-size: .68rem; text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(247,242,232,.45); margin-bottom: 6px; display: flex;
+    justify-content: space-between; align-items: center;
   }
+  .lb-title-right { font-size: .65rem; color: rgba(247,242,232,.3); letter-spacing: .06em; }
   .lb-row {
     display: grid;
-    grid-template-columns: 20px 1fr 42px;
+    grid-template-columns: 18px 1fr auto;
     align-items: center;
-    gap: 7px;
-    cursor: default;
+    gap: 8px;
+    padding: 3px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .12s;
   }
-  .lb-rank { font-size: .7rem; color: rgba(247,242,232,.4); text-align: right; }
-  .lb-bar-wrap { position: relative; height: 22px; border-radius: 5px; overflow: hidden; background: rgba(255,255,255,.06); }
-  .lb-bar {
-    position: absolute; inset: 0 auto 0 0;
-    border-radius: 5px;
-    width: 0;
-    transition: width .6s cubic-bezier(.4,0,.2,1);
-  }
-  .lb-name {
-    position: absolute; left: 7px; top: 50%; transform: translateY(-50%);
-    font-size: .75rem; font-weight: 600; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 12px);
-  }
-  .lb-ppg { font-size: .75rem; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.85); text-align: right; }
+  .lb-row:hover { background: rgba(255,255,255,.07); }
+  .lb-rank { font-size: .68rem; color: rgba(247,242,232,.3); text-align: right; font-variant-numeric: tabular-nums; }
+  .lb-center { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .lb-team-row { display: flex; align-items: center; gap: 6px; }
+  .lb-name { font-size: .78rem; font-weight: 600; color: rgba(247,242,232,.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lb-flight { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; }
+  .lb-bar-track { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .lb-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width .7s cubic-bezier(.4,0,.2,1); }
+  .lb-right { text-align: right; flex-shrink: 0; }
+  .lb-elo { font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.9); }
+  .lb-record { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; margin-top: 1px; }
 
   @media (max-width: 960px) {
     .hero-grid { grid-template-columns: 1fr; }
@@ -894,27 +889,20 @@ const SEASON_NAV_PREFIX = "../";
 (function() {
   const rows = document.querySelectorAll('.lb-row');
   if (!rows.length) return;
-  // Animate bars after a short delay
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      rows.forEach(row => {
-        const bar = row.querySelector('.lb-bar');
-        if (bar) bar.style.width = bar.dataset.pct + '%';
-      });
-    }, 120);
+  // Staggered bar animation
+  rows.forEach((row, i) => {
+    const fill = row.querySelector('.lb-bar-fill');
+    if (!fill) return;
+    setTimeout(() => { fill.style.width = fill.dataset.pct + '%'; }, 80 + i * 40);
   });
   // Click → flight page
   rows.forEach(row => {
     const slug = row.dataset.slug;
     if (!slug) return;
-    row.style.cursor = 'pointer';
     row.addEventListener('click', () => {
       document.body.classList.add('is-leaving');
       setTimeout(() => { window.location.href = FLIGHT_URL_PREFIX + slug + '/'; }, 180);
     });
-    // Hover tooltip via title is fine; optionally highlight
-    row.addEventListener('mouseenter', () => row.querySelector('.lb-bar-wrap').style.outline = '1px solid rgba(255,255,255,.18)');
-    row.addEventListener('mouseleave', () => row.querySelector('.lb-bar-wrap').style.outline = '');
   });
 })();
 

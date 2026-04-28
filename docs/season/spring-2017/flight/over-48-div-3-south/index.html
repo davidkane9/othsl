@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Canary Square 50": 1439.8, "Kel Kau": 1565.8, "MOB": 1469.2, "Sudbury AC": 1508.5, "Wayland FC": 1574.0, "Wayland wahootoo": 1528.5}, "current_stats": {"Canary Square 50": {"gd": -2, "gf": 17, "pts": 15}, "Kel Kau": {"gd": 17, "gf": 29, "pts": 25}, "MOB": {"gd": -18, "gf": 11, "pts": 7}, "Sudbury AC": {"gd": -7, "gf": 15, "pts": 11}, "Wayland FC": {"gd": 3, "gf": 15, "pts": 17}, "Wayland wahootoo": {"gd": 7, "gf": 18, "pts": 12}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Kel Kau", "Wayland FC", "Canary Square 50", "Wayland wahootoo", "Sudbury AC", "MOB"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 3, "away": "Wayland FC", "date": "2017-04-02", "forfeit": false, "hg": 3, "home": "Kel Kau", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2017-04-09", "forfeit": false, "hg": 3, "home": "Wayland wahootoo", "home_forfeit": false}, {"ag": 1, "away": "Canary Square 50", "date": "2017-04-09", "forfeit": false, "hg": 0, "home": "Wayland FC", "home_forfeit": false}, {"ag": 1, "away": "Kel Kau", "date": "2017-04-09", "forfeit": false, "hg": 2, "home": "MOB", "home_forfeit": false}, {"ag": null, "away": "Wayland wahootoo", "date": "2017-04-16", "forfeit": true, "hg": 2, "home": "Kel Kau", "home_forfeit": false}, {"ag": 1, "away": "MOB", "date": "2017-04-16", "forfeit": false, "hg": 3, "home": "Wayland FC", "home_forfeit": false}, {"ag": 0, "away": "MOB", "date": "2017-04-23", "forfeit": false, "hg": 3, "home": "Wayland wahootoo", "home_forfeit": false}, {"ag": 4, "away": "Kel Kau", "date": "2017-04-23", "forfeit": false, "hg": 3, "home": "Canary Square 50", "home_forfeit": false}, {"ag": 1, "away": "Wayland FC", "date": "2017-04-23", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "Wayland wahootoo", "date": "2017-04-30", "forfeit": false, "hg": 2, "home": "Wayland FC", "home_forfeit": false}, {"ag": 2, "away": "Canary Square 50", "date": "2017-04-30", "forfeit": false, "hg": 0, "home": "MOB", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2017-04-30", "forfeit": false, "hg": 3, "home": "Kel Kau", "home_forfeit": false}, {"ag": 0, "away": "Canary Square 50", "date": "2017-05-07", "forfeit": false, "hg": 3, "home": "Wayland wahootoo", "home_forfeit": false}, {"ag": 5, "away": "Sudbury AC", "date": "2017-05-07", "forfeit": false, "hg": 3, "home": "MOB", "home_forfeit": false}, {"ag": 3, "away": "Kel Kau", "date": "2017-05-07", "forfeit": false, "hg": 1, "home": "Wayland FC", "home_forfeit": false}, {"ag": 0, "away": "Wayland wahootoo", "date": "2017-05-10", "forfeit": false, "hg": 1, "home": "Canary Square 50", "home_forfeit": false}, {"ag": 1, "away": "Wayland wahootoo", "date": "2017-05-14", "forfeit": false, "hg": 2, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "Wayland FC", "date": "2017-05-14", "forfeit": false, "hg": 0, "home": "Canary Square 50", "home_forfeit": false}, {"ag": 0, "away": "MOB", "date": "2017-05-14", "forfeit": false, "hg": 2, "home": "Kel Kau", "home_forfeit": false}, {"ag": 1, "away": "Canary Square 50", "date": "2017-05-17", "forfeit": false, "hg": 2, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 2, "away": "Kel Kau", "date": "2017-05-21", "forfeit": false, "hg": 0, "home": "Wayland wahootoo", "home_forfeit": false}, {"ag": 0, "away": "Sudbury AC", "date": "2017-05-21", "forfeit": false, "hg": 3, "home": "Canary Square 50", "home_forfeit": false}, {"ag": 0, "away": "Wayland FC", "date": "2017-05-21", "forfeit": false, "hg": 1, "home": "MOB", "home_forfeit": false}, {"ag": 1, "away": "MOB", "date": "2017-05-28", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 7, "away": "Wayland wahootoo", "date": "2017-06-04", "forfeit": false, "hg": 1, "home": "MOB", "home_forfeit": false}, {"ag": 1, "away": "Canary Square 50", "date": "2017-06-04", "forfeit": false, "hg": 7, "home": "Kel Kau", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2017-06-04", "forfeit": false, "hg": 2, "home": "Wayland FC", "home_forfeit": false}, {"ag": 2, "away": "Wayland FC", "date": "2017-06-11", "forfeit": false, "hg": 0, "home": "Wayland wahootoo", "home_forfeit": false}, {"ag": 2, "away": "MOB", "date": "2017-06-11", "forfeit": false, "hg": 5, "home": "Canary Square 50", "home_forfeit": false}, {"ag": 4, "away": "Kel Kau", "date": "2017-06-11", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Canary Square 50": {"recent": [{"date": "2017-06-11", "opponent": "MOB", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2017-06-04", "opponent": "Kel Kau", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2017-05-21", "opponent": "Sudbury AC", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": ""}, "Kel Kau": {"recent": [{"date": "2017-06-11", "opponent": "Sudbury AC", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2017-06-04", "opponent": "Canary Square 50", "result": "W", "score": "7\u20131", "venue": "H"}, {"date": "2017-05-21", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": ""}, "MOB": {"recent": [{"date": "2017-06-11", "opponent": "Canary Square 50", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2017-06-04", "opponent": "Wayland wahootoo", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2017-05-28", "opponent": "Sudbury AC", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": ""}, "Sudbury AC": {"recent": [{"date": "2017-06-11", "opponent": "Kel Kau", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2017-06-04", "opponent": "Wayland FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2017-05-28", "opponent": "MOB", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": ""}, "Wayland FC": {"recent": [{"date": "2017-06-11", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2017-06-04", "opponent": "Sudbury AC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2017-05-21", "opponent": "MOB", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": ""}, "Wayland wahootoo": {"recent": [{"date": "2017-06-11", "opponent": "Wayland FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2017-06-04", "opponent": "MOB", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2017-05-21", "opponent": "Kel Kau", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

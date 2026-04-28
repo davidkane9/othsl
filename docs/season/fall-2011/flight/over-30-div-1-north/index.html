@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA Bedford": 1436.0, "Hudson": 1456.6, "Ipswich": 1517.2, "L.S.C.": 1716.8, "NH Wanderers": 1378.9, "Seacoast FC": 1453.3}, "current_stats": {"DEA Bedford": {"gd": 4, "gf": 15, "pts": 14}, "Hudson": {"gd": -10, "gf": 5, "pts": 1}, "Ipswich": {"gd": -2, "gf": 11, "pts": 12}, "L.S.C.": {"gd": 8, "gf": 21, "pts": 19}, "NH Wanderers": {"gd": 5, "gf": 16, "pts": 19}, "Seacoast FC": {"gd": -5, "gf": 14, "pts": 13}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Hudson", "date": "TBD", "home": "DEA Bedford", "id": "inferred|DEA Bedford|Hudson", "involves_team": false}, {"away": "Ipswich", "date": "TBD", "home": "Seacoast FC", "id": "inferred|Seacoast FC|Ipswich", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["L.S.C.", "NH Wanderers", "DEA Bedford", "Seacoast FC", "Ipswich", "Hudson"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": null, "away": "Hudson", "date": "2011-08-28", "forfeit": true, "hg": 2, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 0, "away": "NH Wanderers", "date": "2011-09-11", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 0, "away": "Seacoast FC", "date": "2011-09-11", "forfeit": false, "hg": 2, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2011-09-11", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 3, "away": "DEA Bedford", "date": "2011-09-15", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2011-09-18", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2011-09-18", "forfeit": false, "hg": 1, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2011-09-18", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2011-09-25", "forfeit": false, "hg": 2, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2011-09-25", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2011-09-25", "forfeit": false, "hg": 3, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 2, "away": "DEA Bedford", "date": "2011-10-02", "forfeit": false, "hg": 4, "home": "L.S.C.", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2011-10-02", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "NH Wanderers", "date": "2011-10-02", "forfeit": false, "hg": 0, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "L.S.C.", "date": "2011-10-09", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2011-10-09", "forfeit": false, "hg": 2, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 2, "away": "NH Wanderers", "date": "2011-10-09", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2011-10-16", "forfeit": false, "hg": 1, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 4, "away": "L.S.C.", "date": "2011-10-16", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": null, "away": "Hudson", "date": "2011-10-16", "forfeit": true, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2011-10-23", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 4, "away": "NH Wanderers", "date": "2011-10-23", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 5, "away": "L.S.C.", "date": "2011-10-23", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2011-11-02", "forfeit": false, "hg": 0, "home": "L.S.C.", "home_forfeit": false}, {"ag": 0, "away": "L.S.C.", "date": "2011-11-06", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": null, "away": "Hudson", "date": "2011-11-06", "forfeit": true, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "Ipswich", "date": "2011-11-06", "forfeit": false, "hg": 4, "home": "NH Wanderers", "home_forfeit": false}, {"ag": null, "away": "NH Wanderers", "date": "2011-11-12", "forfeit": true, "hg": 2, "home": "L.S.C.", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA Bedford": {"recent": [{"date": "2011-11-06", "opponent": "L.S.C.", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2011-10-23", "opponent": "Ipswich", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2011-10-16", "opponent": "NH Wanderers", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": ""}, "Hudson": {"recent": [{"date": "2011-11-06", "opponent": "Seacoast FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2011-10-23", "opponent": "L.S.C.", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2011-10-16", "opponent": "Ipswich", "result": "L", "score": "F", "venue": "A"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2011-11-06", "opponent": "NH Wanderers", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2011-11-02", "opponent": "L.S.C.", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2011-10-23", "opponent": "DEA Bedford", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": ""}, "L.S.C.": {"recent": [{"date": "2011-11-12", "opponent": "NH Wanderers", "result": "W", "score": "F", "venue": "H"}, {"date": "2011-11-06", "opponent": "DEA Bedford", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2011-11-02", "opponent": "Ipswich", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "NH Wanderers": {"recent": [{"date": "2011-11-12", "opponent": "L.S.C.", "result": "L", "score": "F", "venue": "A"}, {"date": "2011-11-06", "opponent": "Ipswich", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2011-10-23", "opponent": "Seacoast FC", "result": "W", "score": "4\u20132", "venue": "A"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2011-11-06", "opponent": "Hudson", "result": "W", "score": "F", "venue": "H"}, {"date": "2011-10-23", "opponent": "NH Wanderers", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2011-10-16", "opponent": "L.S.C.", "result": "L", "score": "1\u20134", "venue": "H"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

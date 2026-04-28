@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover Green": 1498.2, "CHARRUA FC": 1465.2, "DEA": 1457.9, "FC Boxford": 1554.7, "Nashua FC": 1594.6, "Seacoast United SC": 1505.2}, "current_stats": {"Andover Green": {"gd": -17, "gf": 13, "pts": 7}, "CHARRUA FC": {"gd": -16, "gf": 8, "pts": 9}, "DEA": {"gd": -1, "gf": 28, "pts": 15}, "FC Boxford": {"gd": 11, "gf": 28, "pts": 16}, "Nashua FC": {"gd": 24, "gf": 32, "pts": 30}, "Seacoast United SC": {"gd": -1, "gf": 15, "pts": 8}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Seacoast United SC", "date": "TBD", "home": "FC Boxford", "id": "inferred|FC Boxford|Seacoast United SC", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Nashua FC", "FC Boxford", "DEA", "CHARRUA FC", "Seacoast United SC", "Andover Green"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "DEA", "date": "2016-04-03", "forfeit": false, "hg": 6, "home": "Nashua FC", "home_forfeit": false}, {"ag": 5, "away": "FC Boxford", "date": "2016-04-10", "forfeit": false, "hg": 4, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Andover Green", "date": "2016-04-10", "forfeit": false, "hg": 3, "home": "CHARRUA FC", "home_forfeit": false}, {"ag": 4, "away": "DEA", "date": "2016-04-17", "forfeit": false, "hg": 1, "home": "Andover Green", "home_forfeit": false}, {"ag": 5, "away": "Nashua FC", "date": "2016-04-17", "forfeit": false, "hg": 1, "home": "FC Boxford", "home_forfeit": false}, {"ag": 2, "away": "CHARRUA FC", "date": "2016-04-17", "forfeit": false, "hg": 1, "home": "Seacoast United SC", "home_forfeit": false}, {"ag": 2, "away": "Nashua FC", "date": "2016-04-19", "forfeit": false, "hg": 0, "home": "Seacoast United SC", "home_forfeit": false}, {"ag": 0, "away": "CHARRUA FC", "date": "2016-04-24", "forfeit": false, "hg": 3, "home": "DEA", "home_forfeit": false}, {"ag": 0, "away": "Andover Green", "date": "2016-04-24", "forfeit": false, "hg": 6, "home": "Nashua FC", "home_forfeit": false}, {"ag": 0, "away": "Seacoast United SC", "date": "2016-04-24", "forfeit": false, "hg": 0, "home": "FC Boxford", "home_forfeit": false}, {"ag": 3, "away": "DEA", "date": "2016-05-01", "forfeit": false, "hg": 2, "home": "Seacoast United SC", "home_forfeit": false}, {"ag": 3, "away": "Nashua FC", "date": "2016-05-01", "forfeit": false, "hg": 0, "home": "CHARRUA FC", "home_forfeit": false}, {"ag": 4, "away": "FC Boxford", "date": "2016-05-01", "forfeit": false, "hg": 0, "home": "Andover Green", "home_forfeit": false}, {"ag": 4, "away": "Nashua FC", "date": "2016-05-08", "forfeit": false, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 4, "away": "FC Boxford", "date": "2016-05-08", "forfeit": false, "hg": 2, "home": "CHARRUA FC", "home_forfeit": false}, {"ag": 1, "away": "Andover Green", "date": "2016-05-08", "forfeit": false, "hg": 3, "home": "Seacoast United SC", "home_forfeit": false}, {"ag": 0, "away": "DEA", "date": "2016-05-15", "forfeit": false, "hg": 8, "home": "FC Boxford", "home_forfeit": false}, {"ag": 1, "away": "Seacoast United SC", "date": "2016-05-15", "forfeit": false, "hg": 2, "home": "Nashua FC", "home_forfeit": false}, {"ag": 0, "away": "CHARRUA FC", "date": "2016-05-15", "forfeit": false, "hg": 2, "home": "Andover Green", "home_forfeit": false}, {"ag": 2, "away": "Andover Green", "date": "2016-05-22", "forfeit": false, "hg": 4, "home": "DEA", "home_forfeit": false}, {"ag": 0, "away": "FC Boxford", "date": "2016-05-22", "forfeit": false, "hg": 2, "home": "Nashua FC", "home_forfeit": false}, {"ag": 5, "away": "Seacoast United SC", "date": "2016-05-22", "forfeit": false, "hg": 0, "home": "CHARRUA FC", "home_forfeit": false}, {"ag": 2, "away": "Seacoast United SC", "date": "2016-05-25", "forfeit": false, "hg": 2, "home": "Andover Green", "home_forfeit": false}, {"ag": null, "away": "DEA", "date": "2016-06-05", "forfeit": true, "hg": 2, "home": "CHARRUA FC", "home_forfeit": false}, {"ag": 2, "away": "Nashua FC", "date": "2016-06-05", "forfeit": false, "hg": 0, "home": "Andover Green", "home_forfeit": false}, {"ag": 1, "away": "Seacoast United SC", "date": "2016-06-12", "forfeit": false, "hg": 4, "home": "DEA", "home_forfeit": false}, {"ag": null, "away": "CHARRUA FC", "date": "2016-06-12", "forfeit": true, "hg": 2, "home": "Nashua FC", "home_forfeit": false}, {"ag": 3, "away": "Andover Green", "date": "2016-06-12", "forfeit": false, "hg": 2, "home": "FC Boxford", "home_forfeit": false}, {"ag": 1, "away": "CHARRUA FC", "date": "2016-06-19", "forfeit": false, "hg": 4, "home": "FC Boxford", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover Green": {"recent": [{"date": "2016-06-12", "opponent": "FC Boxford", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2016-06-05", "opponent": "Nashua FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2016-05-25", "opponent": "Seacoast United SC", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "CHARRUA FC": {"recent": [{"date": "2016-06-19", "opponent": "FC Boxford", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2016-06-12", "opponent": "Nashua FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2016-06-05", "opponent": "DEA", "result": "W", "score": "F", "venue": "H"}], "slug": ""}, "DEA": {"recent": [{"date": "2016-06-12", "opponent": "Seacoast United SC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2016-06-05", "opponent": "CHARRUA FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2016-05-22", "opponent": "Andover Green", "result": "W", "score": "4\u20132", "venue": "H"}], "slug": ""}, "FC Boxford": {"recent": [{"date": "2016-06-19", "opponent": "CHARRUA FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2016-06-12", "opponent": "Andover Green", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2016-05-22", "opponent": "Nashua FC", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Nashua FC": {"recent": [{"date": "2016-06-12", "opponent": "CHARRUA FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2016-06-05", "opponent": "Andover Green", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2016-05-22", "opponent": "FC Boxford", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "Seacoast United SC": {"recent": [{"date": "2016-06-12", "opponent": "DEA", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2016-05-25", "opponent": "Andover Green", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2016-05-22", "opponent": "CHARRUA FC", "result": "W", "score": "5\u20130", "venue": "A"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

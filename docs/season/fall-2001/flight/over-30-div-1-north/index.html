@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Deportivo A.C.A.": 1510.0, "Ipswich": 1517.2, "Marblehead": 1494.2, "Salem": 1533.6, "Seacoast FC": 1453.3, "Stoneham S.C.": 1590.3}, "current_stats": {"Deportivo A.C.A.": {"gd": -3, "gf": 21, "pts": 15}, "Ipswich": {"gd": -1, "gf": 22, "pts": 11}, "Marblehead": {"gd": -12, "gf": 16, "pts": 9}, "Salem": {"gd": -4, "gf": 15, "pts": 10}, "Seacoast FC": {"gd": 4, "gf": 23, "pts": 18}, "Stoneham S.C.": {"gd": 16, "gf": 31, "pts": 18}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Stoneham S.C.", "Seacoast FC", "Deportivo A.C.A.", "Ipswich", "Salem", "Marblehead"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 6, "away": "Ipswich", "date": "2001-08-26", "forfeit": false, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2001-08-26", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 1, "away": "Deportivo A.C.A.", "date": "2001-08-26", "forfeit": false, "hg": 1, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2001-09-09", "forfeit": false, "hg": 5, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Marblehead", "date": "2001-09-09", "forfeit": false, "hg": 1, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 3, "away": "Stoneham S.C.", "date": "2001-09-09", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2001-09-16", "forfeit": false, "hg": 1, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Marblehead", "date": "2001-09-16", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2001-09-16", "forfeit": false, "hg": 2, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2001-09-23", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Stoneham S.C.", "date": "2001-09-23", "forfeit": false, "hg": 3, "home": "Marblehead", "home_forfeit": false}, {"ag": 3, "away": "Deportivo A.C.A.", "date": "2001-09-23", "forfeit": false, "hg": 1, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2001-09-30", "forfeit": false, "hg": 3, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 3, "away": "Marblehead", "date": "2001-09-30", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "Salem", "date": "2001-09-30", "forfeit": false, "hg": 1, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 0, "away": "Marblehead", "date": "2001-10-07", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 0, "away": "Salem", "date": "2001-10-07", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 8, "away": "Stoneham S.C.", "date": "2001-10-07", "forfeit": false, "hg": 2, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2001-10-14", "forfeit": false, "hg": 4, "home": "Salem", "home_forfeit": false}, {"ag": 5, "away": "Deportivo A.C.A.", "date": "2001-10-14", "forfeit": false, "hg": 3, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2001-10-14", "forfeit": false, "hg": 2, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 4, "away": "Stoneham S.C.", "date": "2001-10-21", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 0, "away": "Salem", "date": "2001-10-21", "forfeit": false, "hg": 0, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Deportivo A.C.A.", "date": "2001-10-21", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2001-10-28", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 1, "away": "Marblehead", "date": "2001-10-28", "forfeit": false, "hg": 8, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 0, "away": "Salem", "date": "2001-10-28", "forfeit": false, "hg": 0, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 2, "away": "Deportivo A.C.A.", "date": "2001-11-04", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2001-11-04", "forfeit": false, "hg": 1, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Stoneham S.C.", "date": "2001-11-04", "forfeit": false, "hg": 0, "home": "Salem", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Deportivo A.C.A.": {"recent": [{"date": "2001-11-04", "opponent": "Ipswich", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2001-10-28", "opponent": "Salem", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2001-10-21", "opponent": "Seacoast FC", "result": "L", "score": "2\u20134", "venue": "A"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2001-11-04", "opponent": "Deportivo A.C.A.", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2001-10-28", "opponent": "Seacoast FC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2001-10-21", "opponent": "Stoneham S.C.", "result": "L", "score": "1\u20134", "venue": "H"}], "slug": ""}, "Marblehead": {"recent": [{"date": "2001-11-04", "opponent": "Seacoast FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2001-10-28", "opponent": "Stoneham S.C.", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2001-10-21", "opponent": "Salem", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": ""}, "Salem": {"recent": [{"date": "2001-11-04", "opponent": "Stoneham S.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2001-10-28", "opponent": "Deportivo A.C.A.", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2001-10-21", "opponent": "Marblehead", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2001-11-04", "opponent": "Marblehead", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2001-10-28", "opponent": "Ipswich", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2001-10-21", "opponent": "Deportivo A.C.A.", "result": "W", "score": "4\u20132", "venue": "H"}], "slug": ""}, "Stoneham S.C.": {"recent": [{"date": "2001-11-04", "opponent": "Salem", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2001-10-28", "opponent": "Marblehead", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2001-10-21", "opponent": "Ipswich", "result": "W", "score": "4\u20131", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

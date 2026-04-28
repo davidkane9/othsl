@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Football Club North Pirates": 1501.1, "Hurricane SC": 1504.1, "Ipswich United": 1468.7, "Marblehead": 1513.8, "Melrose Good Guys": 1528.0}, "current_stats": {"Football Club North Pirates": {"gd": -7, "gf": 9, "pts": 7}, "Hurricane SC": {"gd": 6, "gf": 13, "pts": 16}, "Ipswich United": {"gd": -4, "gf": 8, "pts": 5}, "Marblehead": {"gd": -8, "gf": 11, "pts": 10}, "Melrose Good Guys": {"gd": 13, "gf": 20, "pts": 17}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Melrose Good Guys", "Hurricane SC", "Marblehead", "Football Club North Pirates", "Ipswich United"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Marblehead", "date": "2016-08-28", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 1, "away": "Ipswich United", "date": "2016-09-11", "forfeit": false, "hg": 2, "home": "Melrose Good Guys", "home_forfeit": false}, {"ag": 4, "away": "Hurricane SC", "date": "2016-09-11", "forfeit": false, "hg": 1, "home": "Football Club North Pirates", "home_forfeit": false}, {"ag": 1, "away": "Melrose Good Guys", "date": "2016-09-18", "forfeit": false, "hg": 1, "home": "Hurricane SC", "home_forfeit": false}, {"ag": null, "away": "Football Club North Pirates", "date": "2016-09-18", "forfeit": true, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": 1, "away": "Football Club North Pirates", "date": "2016-09-25", "forfeit": false, "hg": 4, "home": "Melrose Good Guys", "home_forfeit": false}, {"ag": 1, "away": "Marblehead", "date": "2016-09-25", "forfeit": false, "hg": 2, "home": "Ipswich United", "home_forfeit": false}, {"ag": 3, "away": "Melrose Good Guys", "date": "2016-10-02", "forfeit": false, "hg": 0, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Ipswich United", "date": "2016-10-02", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": null, "away": "Ipswich United", "date": "2016-10-09", "forfeit": true, "hg": 2, "home": "Football Club North Pirates", "home_forfeit": false}, {"ag": 2, "away": "Hurricane SC", "date": "2016-10-09", "forfeit": false, "hg": 1, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Melrose Good Guys", "date": "2016-10-16", "forfeit": false, "hg": 0, "home": "Ipswich United", "home_forfeit": false}, {"ag": 0, "away": "Football Club North Pirates", "date": "2016-10-16", "forfeit": false, "hg": 1, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 0, "away": "Hurricane SC", "date": "2016-10-23", "forfeit": false, "hg": 0, "home": "Melrose Good Guys", "home_forfeit": false}, {"ag": 4, "away": "Marblehead", "date": "2016-10-23", "forfeit": false, "hg": 2, "home": "Football Club North Pirates", "home_forfeit": false}, {"ag": 2, "away": "Football Club North Pirates", "date": "2016-10-26", "forfeit": false, "hg": 2, "home": "Ipswich United", "home_forfeit": false}, {"ag": 1, "away": "Melrose Good Guys", "date": "2016-10-30", "forfeit": false, "hg": 3, "home": "Football Club North Pirates", "home_forfeit": false}, {"ag": 1, "away": "Ipswich United", "date": "2016-10-30", "forfeit": false, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": 1, "away": "Marblehead", "date": "2016-11-06", "forfeit": false, "hg": 7, "home": "Melrose Good Guys", "home_forfeit": false}, {"ag": 1, "away": "Hurricane SC", "date": "2016-11-06", "forfeit": false, "hg": 0, "home": "Ipswich United", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Football Club North Pirates": {"recent": [{"date": "2016-10-30", "opponent": "Melrose Good Guys", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2016-10-26", "opponent": "Ipswich United", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2016-10-23", "opponent": "Marblehead", "result": "L", "score": "2\u20134", "venue": "H"}], "slug": ""}, "Hurricane SC": {"recent": [{"date": "2016-11-06", "opponent": "Ipswich United", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2016-10-23", "opponent": "Melrose Good Guys", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2016-10-16", "opponent": "Football Club North Pirates", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}, "Ipswich United": {"recent": [{"date": "2016-11-06", "opponent": "Hurricane SC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2016-10-30", "opponent": "Marblehead", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2016-10-26", "opponent": "Football Club North Pirates", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "Marblehead": {"recent": [{"date": "2016-11-06", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2016-10-30", "opponent": "Ipswich United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2016-10-23", "opponent": "Football Club North Pirates", "result": "W", "score": "4\u20132", "venue": "A"}], "slug": ""}, "Melrose Good Guys": {"recent": [{"date": "2016-11-06", "opponent": "Marblehead", "result": "W", "score": "7\u20131", "venue": "H"}, {"date": "2016-10-30", "opponent": "Football Club North Pirates", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2016-10-23", "opponent": "Hurricane SC", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": ""}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

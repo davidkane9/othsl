@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA": 1496.9, "Eastern FC": 1511.1, "Hurricane SC": 1435.1, "Marblehead": 1494.2, "Tewksbury Blues": 1399.8, "Westford F.C.": 1482.7}, "current_stats": {"DEA": {"gd": -2, "gf": 10, "pts": 12}, "Eastern FC": {"gd": -3, "gf": 18, "pts": 15}, "Hurricane SC": {"gd": -4, "gf": 17, "pts": 9}, "Marblehead": {"gd": -10, "gf": 18, "pts": 3}, "Tewksbury Blues": {"gd": 8, "gf": 28, "pts": 21}, "Westford F.C.": {"gd": 11, "gf": 26, "pts": 24}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "DEA", "date": "TBD", "home": "Eastern FC", "id": "inferred|Eastern FC|DEA", "involves_team": false}, {"away": "Marblehead", "date": "TBD", "home": "Eastern FC", "id": "inferred|Eastern FC|Marblehead", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Westford F.C.", "Tewksbury Blues", "Eastern FC", "DEA", "Hurricane SC", "Marblehead"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Marblehead", "date": "2016-04-10", "forfeit": false, "hg": 3, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 2, "away": "Westford F.C.", "date": "2016-04-10", "forfeit": false, "hg": 0, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 0, "away": "DEA", "date": "2016-04-17", "forfeit": false, "hg": 1, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 3, "away": "Marblehead", "date": "2016-04-17", "forfeit": false, "hg": 5, "home": "Eastern FC", "home_forfeit": false}, {"ag": 3, "away": "Tewksbury Blues", "date": "2016-04-17", "forfeit": false, "hg": 1, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 4, "away": "Westford F.C.", "date": "2016-04-24", "forfeit": false, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": null, "away": "Hurricane SC", "date": "2016-04-24", "forfeit": true, "hg": 2, "home": "Eastern FC", "home_forfeit": false}, {"ag": 1, "away": "DEA", "date": "2016-05-01", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 3, "away": "Marblehead", "date": "2016-05-01", "forfeit": false, "hg": 5, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Eastern FC", "date": "2016-05-01", "forfeit": false, "hg": 4, "home": "Westford F.C.", "home_forfeit": false}, {"ag": null, "away": "Marblehead", "date": "2016-05-08", "forfeit": true, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Eastern FC", "date": "2016-05-08", "forfeit": false, "hg": 6, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 3, "away": "Westford F.C.", "date": "2016-05-08", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 3, "away": "DEA", "date": "2016-05-11", "forfeit": false, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": 3, "away": "Tewksbury Blues", "date": "2016-05-13", "forfeit": false, "hg": 1, "home": "Eastern FC", "home_forfeit": false}, {"ag": 0, "away": "DEA", "date": "2016-05-15", "forfeit": false, "hg": 2, "home": "Eastern FC", "home_forfeit": false}, {"ag": 3, "away": "Hurricane SC", "date": "2016-05-15", "forfeit": false, "hg": 2, "home": "Marblehead", "home_forfeit": false}, {"ag": 2, "away": "Tewksbury Blues", "date": "2016-05-15", "forfeit": false, "hg": 1, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 2, "away": "Westford F.C.", "date": "2016-05-22", "forfeit": false, "hg": 1, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Hurricane SC", "date": "2016-05-22", "forfeit": false, "hg": 4, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 2, "away": "DEA", "date": "2016-06-05", "forfeit": false, "hg": 3, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Marblehead", "date": "2016-06-05", "forfeit": false, "hg": 3, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 3, "away": "Eastern FC", "date": "2016-06-05", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 2, "away": "Hurricane SC", "date": "2016-06-06", "forfeit": false, "hg": 3, "home": "Westford F.C.", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury Blues", "date": "2016-06-09", "forfeit": false, "hg": 3, "home": "DEA", "home_forfeit": false}, {"ag": null, "away": "Hurricane SC", "date": "2016-06-12", "forfeit": true, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Tewksbury Blues", "date": "2016-06-12", "forfeit": false, "hg": 3, "home": "Marblehead", "home_forfeit": false}, {"ag": 3, "away": "Westford F.C.", "date": "2016-06-12", "forfeit": false, "hg": 4, "home": "Eastern FC", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA": {"recent": [{"date": "2016-06-12", "opponent": "Hurricane SC", "result": "W", "score": "F", "venue": "H"}, {"date": "2016-06-09", "opponent": "Tewksbury Blues", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2016-06-05", "opponent": "Tewksbury Blues", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "Eastern FC": {"recent": [{"date": "2016-06-12", "opponent": "Westford F.C.", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2016-06-05", "opponent": "Hurricane SC", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2016-05-15", "opponent": "DEA", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "Hurricane SC": {"recent": [{"date": "2016-06-12", "opponent": "DEA", "result": "L", "score": "F", "venue": "A"}, {"date": "2016-06-06", "opponent": "Westford F.C.", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2016-06-05", "opponent": "Eastern FC", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Marblehead": {"recent": [{"date": "2016-06-12", "opponent": "Tewksbury Blues", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2016-06-05", "opponent": "Westford F.C.", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2016-05-15", "opponent": "Hurricane SC", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": "marblehead-over-30-div-3-north"}, "Tewksbury Blues": {"recent": [{"date": "2016-06-12", "opponent": "Marblehead", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2016-06-09", "opponent": "DEA", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2016-06-05", "opponent": "DEA", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}, "Westford F.C.": {"recent": [{"date": "2016-06-12", "opponent": "Eastern FC", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2016-06-06", "opponent": "Hurricane SC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2016-06-05", "opponent": "Marblehead", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

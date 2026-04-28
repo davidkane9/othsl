@@ -452,6 +452,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover Green Masters": 1535.9, "Groton/Dunstable": 1426.0, "Melrose Good Guys": 1528.0, "Nashua Absolute": 1546.4}, "current_stats": {"Andover Green Masters": {"gd": -4, "gf": 2, "pts": 2}, "Groton/Dunstable": {"gd": 2, "gf": 4, "pts": 3}, "Melrose Good Guys": {"gd": -6, "gf": 3, "pts": 4}, "Nashua Absolute": {"gd": 8, "gf": 13, "pts": 10}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "Andover Green Masters", "date": "TBD", "home": "Nashua Absolute", "id": "inferred|Nashua Absolute|Andover Green Masters", "involves_team": false}, {"away": "Groton/Dunstable", "date": "TBD", "home": "Melrose Good Guys", "id": "inferred|Melrose Good Guys|Groton/Dunstable", "involves_team": false}, {"away": "Groton/Dunstable", "date": "TBD", "home": "Melrose Good Guys", "id": "inferred|Melrose Good Guys|Groton/Dunstable", "involves_team": false}, {"away": "Andover Green Masters", "date": "TBD", "home": "Melrose Good Guys", "id": "inferred|Melrose Good Guys|Andover Green Masters", "involves_team": false}, {"away": "Andover Green Masters", "date": "TBD", "home": "Groton/Dunstable", "id": "inferred|Groton/Dunstable|Andover Green Masters", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Nashua Absolute", "Melrose Good Guys", "Groton/Dunstable", "Andover Green Masters"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Nashua Absolute", "date": "1998-04-19", "forfeit": false, "hg": 2, "home": "Andover Green Masters", "home_forfeit": false}, {"ag": 1, "away": "Nashua Absolute", "date": "1998-04-26", "forfeit": false, "hg": 0, "home": "Groton/Dunstable", "home_forfeit": false}, {"ag": 1, "away": "Melrose Good Guys", "date": "1998-05-03", "forfeit": false, "hg": 8, "home": "Nashua Absolute", "home_forfeit": false}, {"ag": 0, "away": "Andover Green Masters", "date": "1998-05-03", "forfeit": false, "hg": 4, "home": "Groton/Dunstable", "home_forfeit": false}, {"ag": 0, "away": "Melrose Good Guys", "date": "1998-05-17", "forfeit": false, "hg": 0, "home": "Andover Green Masters", "home_forfeit": false}, {"ag": 0, "away": "Groton/Dunstable", "date": "1998-05-31", "forfeit": false, "hg": 1, "home": "Nashua Absolute", "home_forfeit": false}, {"ag": 1, "away": "Nashua Absolute", "date": "1998-06-07", "forfeit": false, "hg": 2, "home": "Melrose Good Guys", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover Green Masters": {"recent": [{"date": "1998-05-17", "opponent": "Melrose Good Guys", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "1998-05-03", "opponent": "Groton/Dunstable", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "1998-04-19", "opponent": "Nashua Absolute", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "Groton/Dunstable": {"recent": [{"date": "1998-05-31", "opponent": "Nashua Absolute", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "1998-05-03", "opponent": "Andover Green Masters", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "1998-04-26", "opponent": "Nashua Absolute", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": ""}, "Melrose Good Guys": {"recent": [{"date": "1998-06-07", "opponent": "Nashua Absolute", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "1998-05-17", "opponent": "Andover Green Masters", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "1998-05-03", "opponent": "Nashua Absolute", "result": "L", "score": "1\u20138", "venue": "A"}], "slug": ""}, "Nashua Absolute": {"recent": [{"date": "1998-06-07", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "1998-05-31", "opponent": "Groton/Dunstable", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "1998-05-03", "opponent": "Melrose Good Guys", "result": "W", "score": "8\u20131", "venue": "H"}], "slug": ""}};
@@ -658,9 +659,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -913,9 +918,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

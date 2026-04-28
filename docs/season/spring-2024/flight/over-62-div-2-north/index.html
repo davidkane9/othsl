@@ -470,6 +470,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Concord United Dragons": 1675.9, "Harvard 0-63": 1385.1, "Lynnfield F.C. Olympians": 1499.9, "NE Evolution FC.": 1518.3, "Nashoba Apple Corps": 1455.6}, "current_stats": {"Concord United Dragons": {"gd": 63, "gf": 64, "pts": 24}, "Harvard 0-63": {"gd": -33, "gf": 10, "pts": 3}, "Lynnfield F.C. Olympians": {"gd": 4, "gf": 21, "pts": 16}, "NE Evolution FC.": {"gd": -9, "gf": 17, "pts": 13}, "Nashoba Apple Corps": {"gd": -25, "gf": 7, "pts": 3}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Concord United Dragons", "Lynnfield F.C. Olympians", "NE Evolution FC.", "Nashoba Apple Corps", "Harvard 0-63"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "NE Evolution FC.", "date": "2024-04-07", "forfeit": false, "hg": 2, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 2, "away": "Nashoba Apple Corps", "date": "2024-04-07", "forfeit": false, "hg": 1, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 1, "away": "Harvard 0-63", "date": "2024-04-14", "forfeit": false, "hg": 3, "home": "NE Evolution FC.", "home_forfeit": false}, {"ag": 0, "away": "Lynnfield F.C. Olympians", "date": "2024-04-14", "forfeit": false, "hg": 4, "home": "Concord United Dragons", "home_forfeit": false}, {"ag": 0, "away": "NE Evolution FC.", "date": "2024-04-21", "forfeit": false, "hg": 7, "home": "Concord United Dragons", "home_forfeit": false}, {"ag": 4, "away": "Lynnfield F.C. Olympians", "date": "2024-04-21", "forfeit": false, "hg": 1, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 2, "away": "Nashoba Apple Corps", "date": "2024-04-28", "forfeit": false, "hg": 3, "home": "NE Evolution FC.", "home_forfeit": false}, {"ag": 11, "away": "Concord United Dragons", "date": "2024-04-28", "forfeit": false, "hg": 0, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 4, "away": "Lynnfield F.C. Olympians", "date": "2024-05-05", "forfeit": false, "hg": 2, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 0, "away": "Nashoba Apple Corps", "date": "2024-05-05", "forfeit": false, "hg": 8, "home": "Concord United Dragons", "home_forfeit": false}, {"ag": 1, "away": "Harvard 0-63", "date": "2024-05-12", "forfeit": false, "hg": 7, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 8, "away": "Concord United Dragons", "date": "2024-05-12", "forfeit": false, "hg": 0, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 3, "away": "NE Evolution FC.", "date": "2024-05-19", "forfeit": false, "hg": 2, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 0, "away": "Harvard 0-63", "date": "2024-05-19", "forfeit": false, "hg": 11, "home": "Concord United Dragons", "home_forfeit": false}, {"ag": 8, "away": "Concord United Dragons", "date": "2024-06-02", "forfeit": false, "hg": 1, "home": "NE Evolution FC.", "home_forfeit": false}, {"ag": 0, "away": "Nashoba Apple Corps", "date": "2024-06-02", "forfeit": false, "hg": 2, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield F.C. Olympians", "date": "2024-06-09", "forfeit": false, "hg": 2, "home": "NE Evolution FC.", "home_forfeit": false}, {"ag": 3, "away": "Harvard 0-63", "date": "2024-06-09", "forfeit": false, "hg": 0, "home": "Nashoba Apple Corps", "home_forfeit": false}, {"ag": 5, "away": "NE Evolution FC.", "date": "2024-06-16", "forfeit": false, "hg": 2, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 7, "away": "Concord United Dragons", "date": "2024-06-16", "forfeit": false, "hg": 0, "home": "Lynnfield F.C. Olympians", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Concord United Dragons": {"recent": [{"date": "2024-06-16", "opponent": "Lynnfield F.C. Olympians", "result": "W", "score": "7\u20130", "venue": "A"}, {"date": "2024-06-02", "opponent": "NE Evolution FC.", "result": "W", "score": "8\u20131", "venue": "A"}, {"date": "2024-05-19", "opponent": "Harvard 0-63", "result": "W", "score": "11\u20130", "venue": "H"}], "slug": ""}, "Harvard 0-63": {"recent": [{"date": "2024-06-16", "opponent": "NE Evolution FC.", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2024-06-09", "opponent": "Nashoba Apple Corps", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2024-05-19", "opponent": "Concord United Dragons", "result": "L", "score": "0\u201311", "venue": "A"}], "slug": ""}, "Lynnfield F.C. Olympians": {"recent": [{"date": "2024-06-16", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20137", "venue": "H"}, {"date": "2024-06-09", "opponent": "NE Evolution FC.", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2024-06-02", "opponent": "Nashoba Apple Corps", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "NE Evolution FC.": {"recent": [{"date": "2024-06-16", "opponent": "Harvard 0-63", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2024-06-09", "opponent": "Lynnfield F.C. Olympians", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2024-06-02", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20138", "venue": "H"}], "slug": ""}, "Nashoba Apple Corps": {"recent": [{"date": "2024-06-09", "opponent": "Harvard 0-63", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2024-06-02", "opponent": "Lynnfield F.C. Olympians", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2024-05-19", "opponent": "NE Evolution FC.", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}};
@@ -678,9 +679,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -933,9 +938,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

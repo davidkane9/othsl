@@ -456,6 +456,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA": 1508.5, "Lexington Golden Eagles": 1476.4, "Northshore United Soccer Club": 1494.5, "Pepperell Red Bulls": 1490.3, "Windham 50s": 1464.5}, "current_stats": {"DEA": {"gd": -7, "gf": 18, "pts": 10}, "Lexington Golden Eagles": {"gd": 0, "gf": 19, "pts": 8}, "Northshore United Soccer Club": {"gd": -11, "gf": 18, "pts": 10}, "Pepperell Red Bulls": {"gd": 13, "gf": 25, "pts": 15}, "Windham 50s": {"gd": 5, "gf": 18, "pts": 13}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Pepperell Red Bulls", "Windham 50s", "DEA", "Northshore United Soccer Club", "Lexington Golden Eagles"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Northshore United Soccer Club", "date": "2018-08-26", "forfeit": false, "hg": 2, "home": "Windham 50s", "home_forfeit": false}, {"ag": 1, "away": "Pepperell Red Bulls", "date": "2018-08-26", "forfeit": false, "hg": 1, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 1, "away": "Lexington Golden Eagles", "date": "2018-09-09", "forfeit": false, "hg": 4, "home": "Northshore United Soccer Club", "home_forfeit": false}, {"ag": 2, "away": "DEA", "date": "2018-09-09", "forfeit": false, "hg": 6, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 3, "away": "Northshore United Soccer Club", "date": "2018-09-16", "forfeit": false, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 0, "away": "Windham 50s", "date": "2018-09-16", "forfeit": false, "hg": 1, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 2, "away": "Pepperell Red Bulls", "date": "2018-09-23", "forfeit": false, "hg": 2, "home": "Northshore United Soccer Club", "home_forfeit": false}, {"ag": 2, "away": "DEA", "date": "2018-09-23", "forfeit": false, "hg": 5, "home": "Windham 50s", "home_forfeit": false}, {"ag": 0, "away": "Windham 50s", "date": "2018-09-30", "forfeit": false, "hg": 2, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 3, "away": "Lexington Golden Eagles", "date": "2018-09-30", "forfeit": false, "hg": 3, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Lexington Golden Eagles", "date": "2018-10-07", "forfeit": false, "hg": 4, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 2, "away": "Northshore United Soccer Club", "date": "2018-10-14", "forfeit": false, "hg": 8, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 1, "away": "Pepperell Red Bulls", "date": "2018-10-14", "forfeit": false, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 1, "away": "DEA", "date": "2018-10-21", "forfeit": false, "hg": 4, "home": "Northshore United Soccer Club", "home_forfeit": false}, {"ag": 2, "away": "Lexington Golden Eagles", "date": "2018-10-21", "forfeit": false, "hg": 3, "home": "Windham 50s", "home_forfeit": false}, {"ag": 5, "away": "Windham 50s", "date": "2018-10-24", "forfeit": false, "hg": 0, "home": "Northshore United Soccer Club", "home_forfeit": false}, {"ag": 2, "away": "Northshore United Soccer Club", "date": "2018-10-28", "forfeit": false, "hg": 8, "home": "Pepperell Red Bulls", "home_forfeit": false}, {"ag": 2, "away": "Windham 50s", "date": "2018-10-28", "forfeit": false, "hg": 4, "home": "DEA", "home_forfeit": false}, {"ag": 1, "away": "Pepperell Red Bulls", "date": "2018-11-04", "forfeit": false, "hg": 1, "home": "Windham 50s", "home_forfeit": false}, {"ag": 2, "away": "DEA", "date": "2018-11-04", "forfeit": false, "hg": 1, "home": "Lexington Golden Eagles", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA": {"recent": [{"date": "2018-11-04", "opponent": "Lexington Golden Eagles", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2018-10-28", "opponent": "Windham 50s", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2018-10-21", "opponent": "Northshore United Soccer Club", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": ""}, "Lexington Golden Eagles": {"recent": [{"date": "2018-11-04", "opponent": "DEA", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2018-10-21", "opponent": "Windham 50s", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2018-10-14", "opponent": "Northshore United Soccer Club", "result": "W", "score": "8\u20132", "venue": "H"}], "slug": "lexington-golden-eagles-over-48-div-3-north"}, "Northshore United Soccer Club": {"recent": [{"date": "2018-10-28", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20138", "venue": "A"}, {"date": "2018-10-24", "opponent": "Windham 50s", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2018-10-21", "opponent": "DEA", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": ""}, "Pepperell Red Bulls": {"recent": [{"date": "2018-11-04", "opponent": "Windham 50s", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2018-10-28", "opponent": "Northshore United Soccer Club", "result": "W", "score": "8\u20132", "venue": "H"}, {"date": "2018-10-14", "opponent": "DEA", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Windham 50s": {"recent": [{"date": "2018-11-04", "opponent": "Pepperell Red Bulls", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2018-10-28", "opponent": "DEA", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2018-10-24", "opponent": "Northshore United Soccer Club", "result": "W", "score": "5\u20130", "venue": "A"}], "slug": "windham-50s-over-48-div-3-north"}};
@@ -664,9 +665,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -919,9 +924,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

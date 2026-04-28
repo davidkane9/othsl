@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Billerica Roarin 50s": 1426.0, "Georgetown": 1564.9, "Nashua Internationals": 1388.7, "North Andover Grand Masters": 1482.4, "Peabody Gold": 1421.1}, "current_stats": {"Billerica Roarin 50s": {"gd": 5, "gf": 17, "pts": 11}, "Georgetown": {"gd": -10, "gf": 14, "pts": 7}, "Nashua Internationals": {"gd": 5, "gf": 18, "pts": 17}, "North Andover Grand Masters": {"gd": 6, "gf": 19, "pts": 14}, "Peabody Gold": {"gd": -6, "gf": 12, "pts": 6}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Nashua Internationals", "North Andover Grand Masters", "Billerica Roarin 50s", "Georgetown", "Peabody Gold"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Billerica Roarin 50s", "date": "2001-08-26", "forfeit": false, "hg": 1, "home": "North Andover Grand Masters", "home_forfeit": false}, {"ag": 2, "away": "Nashua Internationals", "date": "2001-08-26", "forfeit": false, "hg": 1, "home": "Georgetown", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold", "date": "2001-09-09", "forfeit": false, "hg": 1, "home": "Billerica Roarin 50s", "home_forfeit": false}, {"ag": 1, "away": "North Andover Grand Masters", "date": "2001-09-09", "forfeit": false, "hg": 3, "home": "Nashua Internationals", "home_forfeit": false}, {"ag": 1, "away": "Billerica Roarin 50s", "date": "2001-09-16", "forfeit": false, "hg": 2, "home": "Georgetown", "home_forfeit": false}, {"ag": 1, "away": "North Andover Grand Masters", "date": "2001-09-16", "forfeit": false, "hg": 1, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 1, "away": "Georgetown", "date": "2001-09-23", "forfeit": false, "hg": 3, "home": "North Andover Grand Masters", "home_forfeit": false}, {"ag": 3, "away": "Nashua Internationals", "date": "2001-09-23", "forfeit": false, "hg": 3, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 1, "away": "Billerica Roarin 50s", "date": "2001-09-30", "forfeit": false, "hg": 2, "home": "Nashua Internationals", "home_forfeit": false}, {"ag": 3, "away": "Peabody Gold", "date": "2001-09-30", "forfeit": false, "hg": 2, "home": "Georgetown", "home_forfeit": false}, {"ag": 4, "away": "North Andover Grand Masters", "date": "2001-10-07", "forfeit": false, "hg": 4, "home": "Billerica Roarin 50s", "home_forfeit": false}, {"ag": 3, "away": "Georgetown", "date": "2001-10-07", "forfeit": false, "hg": 3, "home": "Nashua Internationals", "home_forfeit": false}, {"ag": 4, "away": "Billerica Roarin 50s", "date": "2001-10-14", "forfeit": false, "hg": 2, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 3, "away": "Nashua Internationals", "date": "2001-10-14", "forfeit": false, "hg": 2, "home": "North Andover Grand Masters", "home_forfeit": false}, {"ag": 0, "away": "Georgetown", "date": "2001-10-21", "forfeit": false, "hg": 4, "home": "Billerica Roarin 50s", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold", "date": "2001-10-21", "forfeit": false, "hg": 1, "home": "North Andover Grand Masters", "home_forfeit": false}, {"ag": 6, "away": "North Andover Grand Masters", "date": "2001-10-28", "forfeit": false, "hg": 1, "home": "Georgetown", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold", "date": "2001-10-28", "forfeit": false, "hg": 2, "home": "Nashua Internationals", "home_forfeit": false}, {"ag": 0, "away": "Nashua Internationals", "date": "2001-11-04", "forfeit": false, "hg": 2, "home": "Billerica Roarin 50s", "home_forfeit": false}, {"ag": 4, "away": "Georgetown", "date": "2001-11-04", "forfeit": false, "hg": 2, "home": "Peabody Gold", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Billerica Roarin 50s": {"recent": [{"date": "2001-11-04", "opponent": "Nashua Internationals", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2001-10-21", "opponent": "Georgetown", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2001-10-14", "opponent": "Peabody Gold", "result": "W", "score": "4\u20132", "venue": "A"}], "slug": ""}, "Georgetown": {"recent": [{"date": "2001-11-04", "opponent": "Peabody Gold", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2001-10-28", "opponent": "North Andover Grand Masters", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2001-10-21", "opponent": "Billerica Roarin 50s", "result": "L", "score": "0\u20134", "venue": "A"}], "slug": ""}, "Nashua Internationals": {"recent": [{"date": "2001-11-04", "opponent": "Billerica Roarin 50s", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2001-10-28", "opponent": "Peabody Gold", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2001-10-14", "opponent": "North Andover Grand Masters", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}, "North Andover Grand Masters": {"recent": [{"date": "2001-10-28", "opponent": "Georgetown", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2001-10-21", "opponent": "Peabody Gold", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2001-10-14", "opponent": "Nashua Internationals", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Peabody Gold": {"recent": [{"date": "2001-11-04", "opponent": "Georgetown", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2001-10-28", "opponent": "Nashua Internationals", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2001-10-21", "opponent": "North Andover Grand Masters", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

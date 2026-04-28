@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Belmont Old Boys": 1456.0, "Bridgewater Seniors": 1365.2, "Dover-Sherborn Silverbacks": 1388.2, "Needham Seniors": 1535.9, "South Shore Seniors": 1617.3}, "current_stats": {"Belmont Old Boys": {"gd": 14, "gf": 24, "pts": 18}, "Bridgewater Seniors": {"gd": 13, "gf": 21, "pts": 19}, "Dover-Sherborn Silverbacks": {"gd": -4, "gf": 14, "pts": 7}, "Needham Seniors": {"gd": -21, "gf": 5, "pts": 1}, "South Shore Seniors": {"gd": -2, "gf": 14, "pts": 13}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Bridgewater Seniors", "Belmont Old Boys", "South Shore Seniors", "Dover-Sherborn Silverbacks", "Needham Seniors"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Needham Seniors", "date": "2000-08-27", "forfeit": false, "hg": 5, "home": "Belmont Old Boys", "home_forfeit": false}, {"ag": 6, "away": "Bridgewater Seniors", "date": "2000-08-27", "forfeit": false, "hg": 0, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 3, "away": "South Shore Seniors", "date": "2000-09-10", "forfeit": false, "hg": 0, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 1, "away": "Dover-Sherborn Silverbacks", "date": "2000-09-10", "forfeit": false, "hg": 2, "home": "Bridgewater Seniors", "home_forfeit": false}, {"ag": 2, "away": "Needham Seniors", "date": "2000-09-17", "forfeit": false, "hg": 5, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "Belmont Old Boys", "date": "2000-09-17", "forfeit": false, "hg": 2, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 4, "away": "Bridgewater Seniors", "date": "2000-09-24", "forfeit": false, "hg": 0, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 0, "away": "Dover-Sherborn Silverbacks", "date": "2000-09-24", "forfeit": false, "hg": 4, "home": "Belmont Old Boys", "home_forfeit": false}, {"ag": 3, "away": "Belmont Old Boys", "date": "2000-10-01", "forfeit": false, "hg": 4, "home": "Bridgewater Seniors", "home_forfeit": false}, {"ag": 3, "away": "South Shore Seniors", "date": "2000-10-01", "forfeit": false, "hg": 3, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 4, "away": "Belmont Old Boys", "date": "2000-10-08", "forfeit": false, "hg": 0, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 0, "away": "South Shore Seniors", "date": "2000-10-08", "forfeit": false, "hg": 1, "home": "Bridgewater Seniors", "home_forfeit": false}, {"ag": 1, "away": "Needham Seniors", "date": "2000-10-15", "forfeit": false, "hg": 2, "home": "South Shore Seniors", "home_forfeit": false}, {"ag": 2, "away": "Bridgewater Seniors", "date": "2000-10-15", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 2, "away": "Dover-Sherborn Silverbacks", "date": "2000-10-22", "forfeit": false, "hg": 1, "home": "Needham Seniors", "home_forfeit": false}, {"ag": 2, "away": "South Shore Seniors", "date": "2000-10-22", "forfeit": false, "hg": 3, "home": "Belmont Old Boys", "home_forfeit": false}, {"ag": 1, "away": "Needham Seniors", "date": "2000-10-29", "forfeit": false, "hg": 1, "home": "Bridgewater Seniors", "home_forfeit": false}, {"ag": 2, "away": "Belmont Old Boys", "date": "2000-10-29", "forfeit": false, "hg": 1, "home": "Dover-Sherborn Silverbacks", "home_forfeit": false}, {"ag": 1, "away": "Bridgewater Seniors", "date": "2000-11-05", "forfeit": false, "hg": 2, "home": "Belmont Old Boys", "home_forfeit": false}, {"ag": 1, "away": "Dover-Sherborn Silverbacks", "date": "2000-11-05", "forfeit": false, "hg": 2, "home": "South Shore Seniors", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Belmont Old Boys": {"recent": [{"date": "2000-11-05", "opponent": "Bridgewater Seniors", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2000-10-29", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2000-10-22", "opponent": "South Shore Seniors", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}, "Bridgewater Seniors": {"recent": [{"date": "2000-11-05", "opponent": "Belmont Old Boys", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2000-10-29", "opponent": "Needham Seniors", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2000-10-15", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "Dover-Sherborn Silverbacks": {"recent": [{"date": "2000-11-05", "opponent": "South Shore Seniors", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2000-10-29", "opponent": "Belmont Old Boys", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2000-10-22", "opponent": "Needham Seniors", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "Needham Seniors": {"recent": [{"date": "2000-10-29", "opponent": "Bridgewater Seniors", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2000-10-22", "opponent": "Dover-Sherborn Silverbacks", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2000-10-15", "opponent": "South Shore Seniors", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "South Shore Seniors": {"recent": [{"date": "2000-11-05", "opponent": "Dover-Sherborn Silverbacks", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2000-10-22", "opponent": "Belmont Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2000-10-15", "opponent": "Needham Seniors", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

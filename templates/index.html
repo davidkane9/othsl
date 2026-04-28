@@ -91,7 +91,7 @@
     display: grid;
     grid-template-columns: 1.45fr 1fr;
     gap: 26px;
-    align-items: end;
+    align-items: start;
     margin-top: 16px;
   }
 
@@ -469,40 +469,35 @@
   .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
   .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
 
-  /* ── Top teams leaderboard ────────────────────────────────── */
-  .leaderboard {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  /* ── ELO leaderboard ─────────────────────────────────────── */
+  .leaderboard { display: flex; flex-direction: column; gap: 4px; }
   .lb-title {
-    font-size: .72rem;
-    text-transform: uppercase;
-    letter-spacing: .09em;
-    color: rgba(247,242,232,.55);
-    margin-bottom: 4px;
+    font-size: .68rem; text-transform: uppercase; letter-spacing: .1em;
+    color: rgba(247,242,232,.45); margin-bottom: 6px; display: flex;
+    justify-content: space-between; align-items: center;
   }
+  .lb-title-right { font-size: .65rem; color: rgba(247,242,232,.3); letter-spacing: .06em; }
   .lb-row {
     display: grid;
-    grid-template-columns: 20px 1fr 42px;
+    grid-template-columns: 18px 1fr auto;
     align-items: center;
-    gap: 7px;
-    cursor: default;
+    gap: 8px;
+    padding: 3px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background .12s;
   }
-  .lb-rank { font-size: .7rem; color: rgba(247,242,232,.4); text-align: right; }
-  .lb-bar-wrap { position: relative; height: 22px; border-radius: 5px; overflow: hidden; background: rgba(255,255,255,.06); }
-  .lb-bar {
-    position: absolute; inset: 0 auto 0 0;
-    border-radius: 5px;
-    width: 0;
-    transition: width .6s cubic-bezier(.4,0,.2,1);
-  }
-  .lb-name {
-    position: absolute; left: 7px; top: 50%; transform: translateY(-50%);
-    font-size: .75rem; font-weight: 600; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; max-width: calc(100% - 12px);
-  }
-  .lb-ppg { font-size: .75rem; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.85); text-align: right; }
+  .lb-row:hover { background: rgba(255,255,255,.07); }
+  .lb-rank { font-size: .68rem; color: rgba(247,242,232,.3); text-align: right; font-variant-numeric: tabular-nums; }
+  .lb-center { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
+  .lb-team-row { display: flex; align-items: center; gap: 6px; }
+  .lb-name { font-size: .78rem; font-weight: 600; color: rgba(247,242,232,.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lb-flight { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; }
+  .lb-bar-track { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .lb-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width .7s cubic-bezier(.4,0,.2,1); }
+  .lb-right { text-align: right; flex-shrink: 0; }
+  .lb-elo { font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.9); }
+  .lb-record { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; margin-top: 1px; }
 
   @media (max-width: 960px) {
     .hero-grid { grid-template-columns: 1fr; }
@@ -548,17 +543,37 @@
           </div>
         </div>
         {% if top_teams %}
-        <div style="padding-top:4px">
-          <div class="lb-title">Top performers · {{ season }}</div>
+        {% set elo_min = top_teams[-1].elo %}
+        {% set elo_max = top_teams[0].elo %}
+        {% set elo_range = [elo_max - elo_min, 1] | max %}
+        <div style="padding-top:2px">
+          <div class="lb-title">
+            <span>ELO Leaderboard</span>
+            <span class="lb-title-right">All-time rating · {{ season }}</span>
+          </div>
           <div class="leaderboard" id="leaderboard">
             {% for t in top_teams %}
-            <div class="lb-row" data-ppg="{{ t.ppg }}" data-slug="{{ t.flight_slug }}" data-flight="{{ t.flight_label }}" data-record="{{ t.w }}W {{ t.l }}L {{ t.t }}T · {{ '+' + t.gd|string if t.gd > 0 else t.gd }}" title="{{ t.team }} · {{ t.flight_label }} · {{ t.ppg }} PPG">
+            {% set pct = ((t.elo - elo_min) / elo_range * 100) | round | int %}
+            {% set ag_colors = {
+              'Over 30': '#4ade80', 'Over 40': '#38bdf8', 'Over 50': '#fb923c',
+              'Over 60': '#a78bfa', 'Over 70': '#f472b6', 'Open': '#facc15', 'Women': '#e879f9'
+            } %}
+            {% set bar_color = ag_colors.get(t.age_group, '#6ee7b7') %}
+            <div class="lb-row" data-slug="{{ t.flight_slug }}">
               <span class="lb-rank">{{ loop.index }}</span>
-              <div class="lb-bar-wrap">
-                <div class="lb-bar" data-pct="{{ (t.ppg / 3.0 * 100) | round | int }}" style="background:{{ ['rgba(74,222,128,.85)','rgba(52,196,110,.85)','rgba(34,170,96,.85)','rgba(22,145,80,.85)','rgba(16,120,66,.85)','rgba(10,100,54,.85)','rgba(6,82,44,.85)','rgba(3,66,36,.85)','rgba(1,52,28,.85)','rgba(0,40,22,.85)','rgba(34,211,238,.8)','rgba(22,180,208,.8)','rgba(251,146,60,.85)','rgba(167,139,250,.85)','rgba(251,191,36,.85)'][loop.index0] }}"></div>
-                <span class="lb-name" style="color:{{ ['rgba(20,50,20,.95)','rgba(20,50,20,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(20,40,44,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(247,242,232,.95)','rgba(20,40,20,.95)'][loop.index0] }}">{{ t.team }}</span>
+              <div class="lb-center">
+                <div class="lb-team-row">
+                  <span class="lb-name">{{ t.team }}</span>
+                  <span class="lb-flight">{{ t.flight_label }}</span>
+                </div>
+                <div class="lb-bar-track">
+                  <div class="lb-bar-fill" data-pct="{{ pct }}" style="background:{{ bar_color }};opacity:.75"></div>
+                </div>
               </div>
-              <span class="lb-ppg">{{ "%.2f"|format(t.ppg) }}</span>
+              <div class="lb-right">
+                <div class="lb-elo">{{ t.elo }}</div>
+                <div class="lb-record">{% if t.gp > 0 %}{{ t.w }}W {{ t.l }}L{{ ' ' + t.t|string + 'T' if t.t > 0 else '' }}{% else %}—{% endif %}</div>
+              </div>
             </div>
             {% endfor %}
           </div>
@@ -694,27 +709,20 @@ const SEASON_NAV_PREFIX = "{{ season_nav_prefix }}";
 (function() {
   const rows = document.querySelectorAll('.lb-row');
   if (!rows.length) return;
-  // Animate bars after a short delay
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      rows.forEach(row => {
-        const bar = row.querySelector('.lb-bar');
-        if (bar) bar.style.width = bar.dataset.pct + '%';
-      });
-    }, 120);
+  // Staggered bar animation
+  rows.forEach((row, i) => {
+    const fill = row.querySelector('.lb-bar-fill');
+    if (!fill) return;
+    setTimeout(() => { fill.style.width = fill.dataset.pct + '%'; }, 80 + i * 40);
   });
   // Click → flight page
   rows.forEach(row => {
     const slug = row.dataset.slug;
     if (!slug) return;
-    row.style.cursor = 'pointer';
     row.addEventListener('click', () => {
       document.body.classList.add('is-leaving');
       setTimeout(() => { window.location.href = FLIGHT_URL_PREFIX + slug + '/'; }, 180);
     });
-    // Hover tooltip via title is fine; optionally highlight
-    row.addEventListener('mouseenter', () => row.querySelector('.lb-bar-wrap').style.outline = '1px solid rgba(255,255,255,.18)');
-    row.addEventListener('mouseleave', () => row.querySelector('.lb-bar-wrap').style.outline = '');
   });
 })();
 

@@ -438,6 +438,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Framingham": 1321.4, "Harvard 0-63": 1385.1, "Lexington": 1488.4, "Wayland Spirit": 1352.2}, "current_stats": {"Framingham": {"gd": -24, "gf": 15, "pts": 4}, "Harvard 0-63": {"gd": 3, "gf": 16, "pts": 14}, "Lexington": {"gd": 30, "gf": 34, "pts": 28}, "Wayland Spirit": {"gd": -9, "gf": 11, "pts": 11}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Lexington", "Harvard 0-63", "Wayland Spirit", "Framingham"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Wayland Spirit", "date": "2018-08-26", "forfeit": false, "hg": 6, "home": "Lexington", "home_forfeit": false}, {"ag": 2, "away": "Harvard 0-63", "date": "2018-08-26", "forfeit": false, "hg": 4, "home": "Framingham", "home_forfeit": false}, {"ag": 1, "away": "Lexington", "date": "2018-09-09", "forfeit": false, "hg": 0, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 2, "away": "Framingham", "date": "2018-09-09", "forfeit": false, "hg": 2, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 7, "away": "Harvard 0-63", "date": "2018-09-16", "forfeit": false, "hg": 1, "home": "Framingham", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2018-09-16", "forfeit": false, "hg": 1, "home": "Lexington", "home_forfeit": false}, {"ag": 1, "away": "Wayland Spirit", "date": "2018-09-23", "forfeit": false, "hg": 0, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 0, "away": "Framingham", "date": "2018-09-23", "forfeit": false, "hg": 4, "home": "Lexington", "home_forfeit": false}, {"ag": 0, "away": "Harvard 0-63", "date": "2018-09-30", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 7, "away": "Lexington", "date": "2018-09-30", "forfeit": false, "hg": 1, "home": "Framingham", "home_forfeit": false}, {"ag": 0, "away": "Lexington", "date": "2018-10-07", "forfeit": false, "hg": 0, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 2, "away": "Framingham", "date": "2018-10-07", "forfeit": false, "hg": 5, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 1, "away": "Harvard 0-63", "date": "2018-10-14", "forfeit": false, "hg": 5, "home": "Lexington", "home_forfeit": false}, {"ag": 3, "away": "Wayland Spirit", "date": "2018-10-14", "forfeit": false, "hg": 2, "home": "Framingham", "home_forfeit": false}, {"ag": 1, "away": "Framingham", "date": "2018-10-21", "forfeit": false, "hg": 2, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 3, "away": "Lexington", "date": "2018-10-21", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 3, "away": "Harvard 0-63", "date": "2018-10-28", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 5, "away": "Lexington", "date": "2018-10-28", "forfeit": false, "hg": 1, "home": "Framingham", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2018-11-04", "forfeit": false, "hg": 1, "home": "Harvard 0-63", "home_forfeit": false}, {"ag": 1, "away": "Framingham", "date": "2018-11-04", "forfeit": false, "hg": 2, "home": "Lexington", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Framingham": {"recent": [{"date": "2018-11-04", "opponent": "Lexington", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2018-10-28", "opponent": "Lexington", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2018-10-21", "opponent": "Harvard 0-63", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Harvard 0-63": {"recent": [{"date": "2018-11-04", "opponent": "Wayland Spirit", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2018-10-28", "opponent": "Wayland Spirit", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2018-10-21", "opponent": "Framingham", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Lexington": {"recent": [{"date": "2018-11-04", "opponent": "Framingham", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2018-10-28", "opponent": "Framingham", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2018-10-21", "opponent": "Wayland Spirit", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": ""}, "Wayland Spirit": {"recent": [{"date": "2018-11-04", "opponent": "Harvard 0-63", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2018-10-28", "opponent": "Harvard 0-63", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2018-10-21", "opponent": "Lexington", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": ""}};
@@ -644,9 +645,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -899,9 +904,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

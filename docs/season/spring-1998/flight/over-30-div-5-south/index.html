@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Acton Gold": 1564.0, "Boston Olympics": 1517.2, "Heaven United": 1484.4, "Natick United": 1524.9, "Westboro Suds": 1525.1}, "current_stats": {"Acton Gold": {"gd": -1, "gf": 2, "pts": 0}, "Boston Olympics": {"gd": 1, "gf": 1, "pts": 3}, "Heaven United": {"gd": -1, "gf": 1, "pts": 0}, "Natick United": {"gd": -2, "gf": 1, "pts": 0}, "Westboro Suds": {"gd": 3, "gf": 8, "pts": 9}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "Westboro Suds", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Westboro Suds", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Acton Gold", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Acton Gold", "involves_team": false}, {"away": "Heaven United", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Heaven United", "involves_team": false}, {"away": "Heaven United", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Heaven United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Natick United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Boston Olympics", "id": "inferred|Boston Olympics|Natick United", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Westboro Suds", "id": "inferred|Westboro Suds|Acton Gold", "involves_team": false}, {"away": "Heaven United", "date": "TBD", "home": "Westboro Suds", "id": "inferred|Westboro Suds|Heaven United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Westboro Suds", "id": "inferred|Westboro Suds|Natick United", "involves_team": false}, {"away": "Heaven United", "date": "TBD", "home": "Acton Gold", "id": "inferred|Acton Gold|Heaven United", "involves_team": false}, {"away": "Heaven United", "date": "TBD", "home": "Acton Gold", "id": "inferred|Acton Gold|Heaven United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Acton Gold", "id": "inferred|Acton Gold|Natick United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Acton Gold", "id": "inferred|Acton Gold|Natick United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Heaven United", "id": "inferred|Heaven United|Natick United", "involves_team": false}, {"away": "Natick United", "date": "TBD", "home": "Heaven United", "id": "inferred|Heaven United|Natick United", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Boston Olympics", "Westboro Suds", "Acton Gold", "Heaven United", "Natick United"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Natick United", "date": "1998-04-19", "forfeit": false, "hg": 3, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 2, "away": "Acton Gold", "date": "1998-04-26", "forfeit": false, "hg": 3, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 0, "away": "Westboro Suds", "date": "1998-05-03", "forfeit": false, "hg": 1, "home": "Boston Olympics", "home_forfeit": false}, {"ag": 1, "away": "Heaven United", "date": "1998-05-10", "forfeit": false, "hg": 2, "home": "Westboro Suds", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Acton Gold": {"recent": [{"date": "1998-04-26", "opponent": "Westboro Suds", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "Boston Olympics": {"recent": [{"date": "1998-05-03", "opponent": "Westboro Suds", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}, "Heaven United": {"recent": [{"date": "1998-05-10", "opponent": "Westboro Suds", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Natick United": {"recent": [{"date": "1998-04-19", "opponent": "Westboro Suds", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": ""}, "Westboro Suds": {"recent": [{"date": "1998-05-10", "opponent": "Heaven United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "1998-05-03", "opponent": "Boston Olympics", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "1998-04-26", "opponent": "Acton Gold", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

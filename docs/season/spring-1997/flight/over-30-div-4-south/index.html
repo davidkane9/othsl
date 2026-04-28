@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Acton Gold": 1564.0, "Bridgewater": 1360.4, "Hopkinton SC": 1490.0, "Hudson Portuguese Club": 1529.9, "Needham Athletic": 1469.4, "Westwood": 1403.1}, "current_stats": {"Acton Gold": {"gd": -6, "gf": 1, "pts": 0}, "Bridgewater": {"gd": 1, "gf": 6, "pts": 6}, "Hopkinton SC": {"gd": 5, "gf": 5, "pts": 6}, "Hudson Portuguese Club": {"gd": 7, "gf": 7, "pts": 6}, "Needham Athletic": {"gd": -4, "gf": 1, "pts": 0}, "Westwood": {"gd": -3, "gf": 3, "pts": 3}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Hopkinton SC", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Hopkinton SC", "involves_team": false}, {"away": "Hopkinton SC", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Hopkinton SC", "involves_team": false}, {"away": "Bridgewater", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Bridgewater", "involves_team": false}, {"away": "Bridgewater", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Bridgewater", "involves_team": false}, {"away": "Westwood", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Westwood", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Needham Athletic", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Acton Gold", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Hudson Portuguese Club", "id": "inferred|Hudson Portuguese Club|Acton Gold", "involves_team": false}, {"away": "Bridgewater", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Bridgewater", "involves_team": false}, {"away": "Bridgewater", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Bridgewater", "involves_team": false}, {"away": "Westwood", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Westwood", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Needham Athletic", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Needham Athletic", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Hopkinton SC", "id": "inferred|Hopkinton SC|Acton Gold", "involves_team": false}, {"away": "Westwood", "date": "TBD", "home": "Bridgewater", "id": "inferred|Bridgewater|Westwood", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Bridgewater", "id": "inferred|Bridgewater|Needham Athletic", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Bridgewater", "id": "inferred|Bridgewater|Acton Gold", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Westwood", "id": "inferred|Westwood|Needham Athletic", "involves_team": false}, {"away": "Needham Athletic", "date": "TBD", "home": "Westwood", "id": "inferred|Westwood|Needham Athletic", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Westwood", "id": "inferred|Westwood|Acton Gold", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Westwood", "id": "inferred|Westwood|Acton Gold", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Needham Athletic", "id": "inferred|Needham Athletic|Acton Gold", "involves_team": false}, {"away": "Acton Gold", "date": "TBD", "home": "Needham Athletic", "id": "inferred|Needham Athletic|Acton Gold", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Hudson Portuguese Club", "Hopkinton SC", "Bridgewater", "Westwood", "Needham Athletic", "Acton Gold"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "Hudson Portuguese Club", "date": "1997-04-13", "forfeit": false, "hg": 0, "home": "Westwood", "home_forfeit": false}, {"ag": 0, "away": "Acton Gold", "date": "1997-04-13", "forfeit": false, "hg": 3, "home": "Hopkinton SC", "home_forfeit": false}, {"ag": 2, "away": "Bridgewater", "date": "1997-04-13", "forfeit": false, "hg": 1, "home": "Needham Athletic", "home_forfeit": false}, {"ag": 3, "away": "Westwood", "date": "1997-04-20", "forfeit": false, "hg": 0, "home": "Bridgewater", "home_forfeit": false}, {"ag": 3, "away": "Hudson Portuguese Club", "date": "1997-04-27", "forfeit": false, "hg": 0, "home": "Needham Athletic", "home_forfeit": false}, {"ag": 0, "away": "Westwood", "date": "1997-04-27", "forfeit": false, "hg": 2, "home": "Hopkinton SC", "home_forfeit": false}, {"ag": 1, "away": "Acton Gold", "date": "1997-04-27", "forfeit": false, "hg": 4, "home": "Bridgewater", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Acton Gold": {"recent": [{"date": "1997-04-27", "opponent": "Bridgewater", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "1997-04-13", "opponent": "Hopkinton SC", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}, "Bridgewater": {"recent": [{"date": "1997-04-27", "opponent": "Acton Gold", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "1997-04-20", "opponent": "Westwood", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "1997-04-13", "opponent": "Needham Athletic", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "Hopkinton SC": {"recent": [{"date": "1997-04-27", "opponent": "Westwood", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "1997-04-13", "opponent": "Acton Gold", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": ""}, "Hudson Portuguese Club": {"recent": [{"date": "1997-04-27", "opponent": "Needham Athletic", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "1997-04-13", "opponent": "Westwood", "result": "W", "score": "4\u20130", "venue": "A"}], "slug": ""}, "Needham Athletic": {"recent": [{"date": "1997-04-27", "opponent": "Hudson Portuguese Club", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "1997-04-13", "opponent": "Bridgewater", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": ""}, "Westwood": {"recent": [{"date": "1997-04-27", "opponent": "Hopkinton SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "1997-04-20", "opponent": "Bridgewater", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "1997-04-13", "opponent": "Hudson Portuguese Club", "result": "L", "score": "0\u20134", "venue": "H"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

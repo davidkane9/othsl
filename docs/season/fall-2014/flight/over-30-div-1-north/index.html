@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover United": 1554.1, "DEA Bedford": 1436.0, "Hudson": 1456.6, "Ipswich": 1517.2, "L.S.C.": 1716.8, "P.A.C. Lowell": 1398.6}, "current_stats": {"Andover United": {"gd": -15, "gf": 7, "pts": 12}, "DEA Bedford": {"gd": -3, "gf": 23, "pts": 15}, "Hudson": {"gd": -9, "gf": 21, "pts": 11}, "Ipswich": {"gd": 2, "gf": 26, "pts": 10}, "L.S.C.": {"gd": 30, "gf": 45, "pts": 28}, "P.A.C. Lowell": {"gd": -5, "gf": 26, "pts": 9}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["L.S.C.", "DEA Bedford", "Andover United", "Hudson", "Ipswich", "P.A.C. Lowell"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "L.S.C.", "date": "2014-09-07", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Andover United", "date": "2014-09-07", "forfeit": false, "hg": 0, "home": "P.A.C. Lowell", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2014-09-07", "forfeit": false, "hg": 4, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "P.A.C. Lowell", "date": "2014-09-14", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2014-09-14", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 5, "away": "L.S.C.", "date": "2014-09-21", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2014-09-21", "forfeit": false, "hg": 2, "home": "P.A.C. Lowell", "home_forfeit": false}, {"ag": 0, "away": "Andover United", "date": "2014-09-21", "forfeit": false, "hg": 4, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Andover United", "date": "2014-09-28", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 2, "away": "DEA Bedford", "date": "2014-09-28", "forfeit": false, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2014-09-28", "forfeit": false, "hg": 3, "home": "P.A.C. Lowell", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2014-10-05", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Ipswich", "date": "2014-10-05", "forfeit": false, "hg": 1, "home": "Andover United", "home_forfeit": false}, {"ag": 2, "away": "P.A.C. Lowell", "date": "2014-10-05", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2014-10-12", "forfeit": false, "hg": 4, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "P.A.C. Lowell", "date": "2014-10-12", "forfeit": false, "hg": 2, "home": "Andover United", "home_forfeit": false}, {"ag": 3, "away": "DEA Bedford", "date": "2014-10-12", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2014-10-17", "forfeit": false, "hg": 0, "home": "Andover United", "home_forfeit": false}, {"ag": 5, "away": "L.S.C.", "date": "2014-10-19", "forfeit": false, "hg": 2, "home": "P.A.C. Lowell", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2014-10-19", "forfeit": false, "hg": 4, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Andover United", "date": "2014-10-19", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "DEA Bedford", "date": "2014-10-26", "forfeit": false, "hg": 9, "home": "L.S.C.", "home_forfeit": false}, {"ag": 6, "away": "P.A.C. Lowell", "date": "2014-10-26", "forfeit": false, "hg": 8, "home": "Ipswich", "home_forfeit": false}, {"ag": 6, "away": "Hudson", "date": "2014-10-26", "forfeit": false, "hg": 1, "home": "Andover United", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2014-11-02", "forfeit": false, "hg": 0, "home": "Andover United", "home_forfeit": false}, {"ag": 0, "away": "Ipswich", "date": "2014-11-02", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 4, "away": "P.A.C. Lowell", "date": "2014-11-02", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2014-11-09", "forfeit": false, "hg": 8, "home": "L.S.C.", "home_forfeit": false}, {"ag": 0, "away": "Andover United", "date": "2014-11-09", "forfeit": false, "hg": 5, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "DEA Bedford", "date": "2014-11-09", "forfeit": false, "hg": 3, "home": "P.A.C. Lowell", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover United": {"recent": [{"date": "2014-11-09", "opponent": "Ipswich", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2014-11-02", "opponent": "L.S.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2014-10-26", "opponent": "Hudson", "result": "L", "score": "1\u20136", "venue": "H"}], "slug": ""}, "DEA Bedford": {"recent": [{"date": "2014-11-09", "opponent": "P.A.C. Lowell", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2014-11-02", "opponent": "Ipswich", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2014-10-26", "opponent": "L.S.C.", "result": "L", "score": "3\u20139", "venue": "A"}], "slug": ""}, "Hudson": {"recent": [{"date": "2014-11-09", "opponent": "L.S.C.", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2014-11-02", "opponent": "P.A.C. Lowell", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2014-10-26", "opponent": "Andover United", "result": "W", "score": "6\u20131", "venue": "A"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2014-11-09", "opponent": "Andover United", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2014-11-02", "opponent": "DEA Bedford", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2014-10-26", "opponent": "P.A.C. Lowell", "result": "W", "score": "8\u20136", "venue": "H"}], "slug": ""}, "L.S.C.": {"recent": [{"date": "2014-11-09", "opponent": "Hudson", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2014-11-02", "opponent": "Andover United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2014-10-26", "opponent": "DEA Bedford", "result": "W", "score": "9\u20133", "venue": "H"}], "slug": ""}, "P.A.C. Lowell": {"recent": [{"date": "2014-11-09", "opponent": "DEA Bedford", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2014-11-02", "opponent": "Hudson", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2014-10-26", "opponent": "Ipswich", "result": "L", "score": "6\u20138", "venue": "A"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

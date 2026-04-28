@@ -481,6 +481,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Acton-Boxboro": 1491.6, "Black Rhinos": 1557.8, "FUFC Gray": 1415.9, "GPS Silver": 1377.3, "Hudson": 1566.8, "Sudbury AC": 1508.5}, "current_stats": {"Acton-Boxboro": {"gd": -5, "gf": 7, "pts": 8}, "Black Rhinos": {"gd": -8, "gf": 8, "pts": 9}, "FUFC Gray": {"gd": 14, "gf": 23, "pts": 23}, "GPS Silver": {"gd": -6, "gf": 10, "pts": 9}, "Hudson": {"gd": 6, "gf": 16, "pts": 16}, "Sudbury AC": {"gd": -1, "gf": 17, "pts": 17}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["FUFC Gray", "Sudbury AC", "Hudson", "GPS Silver", "Black Rhinos", "Acton-Boxboro"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "Sudbury AC", "date": "2015-04-12", "forfeit": false, "hg": 1, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 2, "away": "FUFC Gray", "date": "2015-04-12", "forfeit": false, "hg": 0, "home": "Acton-Boxboro", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2015-04-12", "forfeit": false, "hg": 1, "home": "GPS Silver", "home_forfeit": false}, {"ag": 0, "away": "Acton-Boxboro", "date": "2015-04-19", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "Black Rhinos", "date": "2015-04-19", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "GPS Silver", "date": "2015-04-19", "forfeit": false, "hg": 2, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 0, "away": "Sudbury AC", "date": "2015-04-26", "forfeit": false, "hg": 2, "home": "GPS Silver", "home_forfeit": false}, {"ag": 2, "away": "Black Rhinos", "date": "2015-04-26", "forfeit": false, "hg": 2, "home": "Acton-Boxboro", "home_forfeit": false}, {"ag": 1, "away": "FUFC Gray", "date": "2015-04-26", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 3, "away": "FUFC Gray", "date": "2015-05-03", "forfeit": false, "hg": 2, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 2, "away": "GPS Silver", "date": "2015-05-03", "forfeit": false, "hg": 0, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2015-05-03", "forfeit": false, "hg": 0, "home": "Acton-Boxboro", "home_forfeit": false}, {"ag": 2, "away": "Sudbury AC", "date": "2015-05-10", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Black Rhinos", "date": "2015-05-10", "forfeit": false, "hg": 4, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 0, "away": "Acton-Boxboro", "date": "2015-05-10", "forfeit": false, "hg": 2, "home": "GPS Silver", "home_forfeit": false}, {"ag": 0, "away": "Black Rhinos", "date": "2015-05-17", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "Acton-Boxboro", "date": "2015-05-17", "forfeit": false, "hg": 1, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 0, "away": "GPS Silver", "date": "2015-05-17", "forfeit": false, "hg": 4, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2015-05-24", "forfeit": false, "hg": 0, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2015-05-25", "forfeit": false, "hg": 1, "home": "Acton-Boxboro", "home_forfeit": false}, {"ag": 1, "away": "FUFC Gray", "date": "2015-05-25", "forfeit": false, "hg": 0, "home": "GPS Silver", "home_forfeit": false}, {"ag": 2, "away": "GPS Silver", "date": "2015-05-31", "forfeit": false, "hg": 3, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 0, "away": "Acton-Boxboro", "date": "2015-05-31", "forfeit": false, "hg": 0, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2015-05-31", "forfeit": false, "hg": 2, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 0, "away": "Sudbury AC", "date": "2015-06-07", "forfeit": false, "hg": 7, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 1, "away": "Black Rhinos", "date": "2015-06-07", "forfeit": false, "hg": 0, "home": "GPS Silver", "home_forfeit": false}, {"ag": 0, "away": "Acton-Boxboro", "date": "2015-06-07", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2015-06-14", "forfeit": false, "hg": 3, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 0, "away": "FUFC Gray", "date": "2015-06-14", "forfeit": false, "hg": 2, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 0, "away": "GPS Silver", "date": "2015-06-14", "forfeit": false, "hg": 3, "home": "Acton-Boxboro", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Acton-Boxboro": {"recent": [{"date": "2015-06-14", "opponent": "GPS Silver", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2015-06-07", "opponent": "Hudson", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2015-05-31", "opponent": "Black Rhinos", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": ""}, "Black Rhinos": {"recent": [{"date": "2015-06-14", "opponent": "FUFC Gray", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2015-06-07", "opponent": "GPS Silver", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2015-05-31", "opponent": "Acton-Boxboro", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": ""}, "FUFC Gray": {"recent": [{"date": "2015-06-14", "opponent": "Black Rhinos", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2015-06-07", "opponent": "Sudbury AC", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2015-05-31", "opponent": "Hudson", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "GPS Silver": {"recent": [{"date": "2015-06-14", "opponent": "Acton-Boxboro", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2015-06-07", "opponent": "Black Rhinos", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2015-05-31", "opponent": "Sudbury AC", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "Hudson": {"recent": [{"date": "2015-06-14", "opponent": "Sudbury AC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2015-06-07", "opponent": "Acton-Boxboro", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2015-05-31", "opponent": "FUFC Gray", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Sudbury AC": {"recent": [{"date": "2015-06-14", "opponent": "Hudson", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2015-06-07", "opponent": "FUFC Gray", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2015-05-31", "opponent": "GPS Silver", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}};
@@ -691,9 +692,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -946,9 +951,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

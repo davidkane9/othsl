@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Boston United": 1526.0, "Hudson": 1456.6, "Natick United": 1524.9, "Walpole": 1500.6, "Westboro Suds": 1525.1}, "current_stats": {"Boston United": {"gd": 11, "gf": 18, "pts": 20}, "Hudson": {"gd": 0, "gf": 14, "pts": 7}, "Natick United": {"gd": 7, "gf": 23, "pts": 15}, "Walpole": {"gd": -7, "gf": 17, "pts": 8}, "Westboro Suds": {"gd": -11, "gf": 11, "pts": 7}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Boston United", "Natick United", "Walpole", "Hudson", "Westboro Suds"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Hudson", "date": "2001-08-26", "forfeit": false, "hg": 3, "home": "Boston United", "home_forfeit": false}, {"ag": 2, "away": "Walpole", "date": "2001-08-26", "forfeit": false, "hg": 4, "home": "Natick United", "home_forfeit": false}, {"ag": 1, "away": "Natick United", "date": "2001-09-09", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Boston United", "date": "2001-09-09", "forfeit": false, "hg": 1, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 3, "away": "Boston United", "date": "2001-09-16", "forfeit": false, "hg": 2, "home": "Natick United", "home_forfeit": false}, {"ag": 4, "away": "Walpole", "date": "2001-09-16", "forfeit": false, "hg": 2, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 3, "away": "Walpole", "date": "2001-09-23", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Westboro Suds", "date": "2001-09-23", "forfeit": false, "hg": 3, "home": "Natick United", "home_forfeit": false}, {"ag": 5, "away": "Hudson", "date": "2001-09-30", "forfeit": false, "hg": 0, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 0, "away": "Boston United", "date": "2001-09-30", "forfeit": false, "hg": 0, "home": "Walpole", "home_forfeit": false}, {"ag": 1, "away": "Boston United", "date": "2001-10-07", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 6, "away": "Natick United", "date": "2001-10-07", "forfeit": false, "hg": 2, "home": "Walpole", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2001-10-14", "forfeit": false, "hg": 2, "home": "Natick United", "home_forfeit": false}, {"ag": 1, "away": "Westboro Suds", "date": "2001-10-14", "forfeit": false, "hg": 3, "home": "Boston United", "home_forfeit": false}, {"ag": 1, "away": "Natick United", "date": "2001-10-21", "forfeit": false, "hg": 2, "home": "Boston United", "home_forfeit": false}, {"ag": 3, "away": "Westboro Suds", "date": "2001-10-21", "forfeit": false, "hg": 2, "home": "Walpole", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2001-10-28", "forfeit": false, "hg": 3, "home": "Walpole", "home_forfeit": false}, {"ag": 4, "away": "Natick United", "date": "2001-10-28", "forfeit": false, "hg": 1, "home": "Westboro Suds", "home_forfeit": false}, {"ag": 1, "away": "Westboro Suds", "date": "2001-11-04", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Walpole", "date": "2001-11-04", "forfeit": false, "hg": 5, "home": "Boston United", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Boston United": {"recent": [{"date": "2001-11-04", "opponent": "Walpole", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2001-10-21", "opponent": "Natick United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2001-10-14", "opponent": "Westboro Suds", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}, "Hudson": {"recent": [{"date": "2001-11-04", "opponent": "Westboro Suds", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2001-10-28", "opponent": "Walpole", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2001-10-14", "opponent": "Natick United", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Natick United": {"recent": [{"date": "2001-10-28", "opponent": "Westboro Suds", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2001-10-21", "opponent": "Boston United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2001-10-14", "opponent": "Hudson", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Walpole": {"recent": [{"date": "2001-11-04", "opponent": "Boston United", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2001-10-28", "opponent": "Hudson", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2001-10-21", "opponent": "Westboro Suds", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Westboro Suds": {"recent": [{"date": "2001-11-04", "opponent": "Hudson", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2001-10-28", "opponent": "Natick United", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2001-10-21", "opponent": "Walpole", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA Bedford": 1436.0, "Ipswich": 1517.2, "L.S.C.": 1716.8, "NH Wanderers": 1378.9, "Salem SF Vikings": 1452.6, "Seacoast FC": 1453.3}, "current_stats": {"DEA Bedford": {"gd": 2, "gf": 19, "pts": 13}, "Ipswich": {"gd": 3, "gf": 19, "pts": 18}, "L.S.C.": {"gd": 11, "gf": 26, "pts": 14}, "NH Wanderers": {"gd": -17, "gf": 21, "pts": 8}, "Salem SF Vikings": {"gd": -10, "gf": 22, "pts": 9}, "Seacoast FC": {"gd": 11, "gf": 26, "pts": 23}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Seacoast FC", "Ipswich", "L.S.C.", "DEA Bedford", "Salem SF Vikings", "NH Wanderers"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Ipswich", "date": "2010-04-11", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Salem SF Vikings", "date": "2010-04-11", "forfeit": false, "hg": 3, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 1, "away": "L.S.C.", "date": "2010-04-11", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "NH Wanderers", "date": "2010-04-18", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 7, "away": "DEA Bedford", "date": "2010-04-18", "forfeit": false, "hg": 2, "home": "Salem SF Vikings", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2010-04-25", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2010-04-25", "forfeit": false, "hg": 2, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 0, "away": "Salem SF Vikings", "date": "2010-04-25", "forfeit": false, "hg": 4, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "Salem SF Vikings", "date": "2010-05-02", "forfeit": false, "hg": 4, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2010-05-02", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 4, "away": "L.S.C.", "date": "2010-05-02", "forfeit": false, "hg": 1, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2010-05-09", "forfeit": false, "hg": 1, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Seacoast FC", "date": "2010-05-09", "forfeit": false, "hg": 4, "home": "Salem SF Vikings", "home_forfeit": false}, {"ag": 0, "away": "NH Wanderers", "date": "2010-05-09", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 1, "away": "Seacoast FC", "date": "2010-05-16", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 5, "away": "NH Wanderers", "date": "2010-05-16", "forfeit": false, "hg": 4, "home": "Salem SF Vikings", "home_forfeit": false}, {"ag": 0, "away": "DEA Bedford", "date": "2010-05-16", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2010-05-23", "forfeit": false, "hg": 1, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2010-05-23", "forfeit": false, "hg": 3, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Salem SF Vikings", "date": "2010-05-23", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2010-05-30", "forfeit": false, "hg": 0, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2010-06-02", "forfeit": false, "hg": 1, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2010-06-06", "forfeit": false, "hg": 2, "home": "Salem SF Vikings", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2010-06-06", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "NH Wanderers", "date": "2010-06-06", "forfeit": false, "hg": 8, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "NH Wanderers", "date": "2010-06-09", "forfeit": false, "hg": 3, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "L.S.C.", "date": "2010-06-13", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 0, "away": "Salem SF Vikings", "date": "2010-06-13", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 5, "away": "DEA Bedford", "date": "2010-06-13", "forfeit": false, "hg": 0, "home": "NH Wanderers", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2010-06-17", "forfeit": false, "hg": 3, "home": "Salem SF Vikings", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA Bedford": {"recent": [{"date": "2010-06-13", "opponent": "NH Wanderers", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2010-06-06", "opponent": "Seacoast FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2010-05-30", "opponent": "Ipswich", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2010-06-13", "opponent": "L.S.C.", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2010-06-06", "opponent": "Salem SF Vikings", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2010-05-30", "opponent": "DEA Bedford", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": ""}, "L.S.C.": {"recent": [{"date": "2010-06-17", "opponent": "Salem SF Vikings", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2010-06-13", "opponent": "Ipswich", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2010-06-06", "opponent": "NH Wanderers", "result": "W", "score": "8\u20133", "venue": "H"}], "slug": ""}, "NH Wanderers": {"recent": [{"date": "2010-06-13", "opponent": "DEA Bedford", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2010-06-09", "opponent": "Seacoast FC", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2010-06-06", "opponent": "L.S.C.", "result": "L", "score": "3\u20138", "venue": "A"}], "slug": ""}, "Salem SF Vikings": {"recent": [{"date": "2010-06-17", "opponent": "L.S.C.", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2010-06-13", "opponent": "Seacoast FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2010-06-06", "opponent": "Ipswich", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2010-06-13", "opponent": "Salem SF Vikings", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2010-06-09", "opponent": "NH Wanderers", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2010-06-06", "opponent": "DEA Bedford", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

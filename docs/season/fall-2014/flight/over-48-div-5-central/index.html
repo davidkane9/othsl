@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Arlington Pond Dawgz": 1532.4, "Burlington": 1413.0, "Irish Village 50": 1520.6, "North Shore Spartans": 1378.0, "Weston": 1417.9}, "current_stats": {"Arlington Pond Dawgz": {"gd": -7, "gf": 9, "pts": 7}, "Burlington": {"gd": -1, "gf": 15, "pts": 9}, "Irish Village 50": {"gd": 2, "gf": 13, "pts": 13}, "North Shore Spartans": {"gd": -1, "gf": 14, "pts": 10}, "Weston": {"gd": 7, "gf": 12, "pts": 19}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Weston", "Irish Village 50", "North Shore Spartans", "Burlington", "Arlington Pond Dawgz"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Irish Village 50", "date": "2014-09-07", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 3, "away": "Weston", "date": "2014-09-07", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "date": "2014-09-14", "forfeit": false, "hg": 2, "home": "Irish Village 50", "home_forfeit": false}, {"ag": 0, "away": "North Shore Spartans", "date": "2014-09-14", "forfeit": false, "hg": 0, "home": "Weston", "home_forfeit": false}, {"ag": 2, "away": "Irish Village 50", "date": "2014-09-21", "forfeit": false, "hg": 3, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2014-09-21", "forfeit": false, "hg": 1, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 1, "away": "Weston", "date": "2014-09-28", "forfeit": false, "hg": 0, "home": "Irish Village 50", "home_forfeit": false}, {"ag": 1, "away": "North Shore Spartans", "date": "2014-09-28", "forfeit": false, "hg": 3, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2014-10-05", "forfeit": false, "hg": 2, "home": "Weston", "home_forfeit": false}, {"ag": 1, "away": "Arlington Pond Dawgz", "date": "2014-10-05", "forfeit": false, "hg": 4, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2014-10-12", "forfeit": false, "hg": 4, "home": "Irish Village 50", "home_forfeit": false}, {"ag": 0, "away": "Arlington Pond Dawgz", "date": "2014-10-12", "forfeit": false, "hg": 2, "home": "Weston", "home_forfeit": false}, {"ag": 2, "away": "Irish Village 50", "date": "2014-10-19", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 0, "away": "Weston", "date": "2014-10-19", "forfeit": false, "hg": 3, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 0, "away": "North Shore Spartans", "date": "2014-10-26", "forfeit": false, "hg": 1, "home": "Irish Village 50", "home_forfeit": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "date": "2014-10-26", "forfeit": false, "hg": 0, "home": "Burlington", "home_forfeit": false}, {"ag": 0, "away": "Irish Village 50", "date": "2014-11-02", "forfeit": false, "hg": 2, "home": "Weston", "home_forfeit": false}, {"ag": 5, "away": "Burlington", "date": "2014-11-02", "forfeit": false, "hg": 2, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 2, "away": "Weston", "date": "2014-11-09", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "North Shore Spartans", "date": "2014-11-09", "forfeit": false, "hg": 3, "home": "Arlington Pond Dawgz", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Arlington Pond Dawgz": {"recent": [{"date": "2014-11-09", "opponent": "North Shore Spartans", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2014-10-26", "opponent": "Burlington", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2014-10-19", "opponent": "Irish Village 50", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "Burlington": {"recent": [{"date": "2014-11-09", "opponent": "Weston", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2014-11-02", "opponent": "North Shore Spartans", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2014-10-26", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": ""}, "Irish Village 50": {"recent": [{"date": "2014-11-02", "opponent": "Weston", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2014-10-26", "opponent": "North Shore Spartans", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2014-10-19", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": ""}, "North Shore Spartans": {"recent": [{"date": "2014-11-09", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2014-11-02", "opponent": "Burlington", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2014-10-26", "opponent": "Irish Village 50", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": ""}, "Weston": {"recent": [{"date": "2014-11-09", "opponent": "Burlington", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2014-11-02", "opponent": "Irish Village 50", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2014-10-19", "opponent": "North Shore Spartans", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

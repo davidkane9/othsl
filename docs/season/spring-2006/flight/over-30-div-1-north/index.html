@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA Bedford": 1436.0, "Hollis United": 1466.9, "Ipswich": 1517.2, "Pepperell": 1386.7, "Seacoast FC": 1453.3, "Stoneham S.C.": 1590.3}, "current_stats": {"DEA Bedford": {"gd": -20, "gf": 10, "pts": 3}, "Hollis United": {"gd": -5, "gf": 29, "pts": 11}, "Ipswich": {"gd": 20, "gf": 30, "pts": 24}, "Pepperell": {"gd": -15, "gf": 19, "pts": 4}, "Seacoast FC": {"gd": 2, "gf": 23, "pts": 16}, "Stoneham S.C.": {"gd": 18, "gf": 35, "pts": 27}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Pepperell", "date": "TBD", "home": "Hollis United", "id": "inferred|Hollis United|Pepperell", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Stoneham S.C.", "Ipswich", "Seacoast FC", "Hollis United", "Pepperell", "DEA Bedford"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "Hollis United", "date": "2006-04-09", "forfeit": false, "hg": 4, "home": "Pepperell", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2006-04-09", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2006-04-09", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Pepperell", "date": "2006-04-15", "forfeit": false, "hg": 5, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Hollis United", "date": "2006-04-23", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 0, "away": "Pepperell", "date": "2006-04-23", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "DEA Bedford", "date": "2006-04-23", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "DEA Bedford", "date": "2006-04-30", "forfeit": false, "hg": 2, "home": "Hollis United", "home_forfeit": false}, {"ag": 6, "away": "Stoneham S.C.", "date": "2006-04-30", "forfeit": false, "hg": 4, "home": "Pepperell", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2006-04-30", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "Hollis United", "date": "2006-05-07", "forfeit": false, "hg": 5, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Pepperell", "date": "2006-05-07", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 0, "away": "Seacoast FC", "date": "2006-05-07", "forfeit": false, "hg": 2, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2006-05-14", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 4, "away": "Hollis United", "date": "2006-05-21", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2006-05-21", "forfeit": false, "hg": 1, "home": "Pepperell", "home_forfeit": false}, {"ag": 0, "away": "DEA Bedford", "date": "2006-05-21", "forfeit": false, "hg": 2, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 5, "away": "Stoneham S.C.", "date": "2006-05-28", "forfeit": false, "hg": 7, "home": "Hollis United", "home_forfeit": false}, {"ag": 7, "away": "Seacoast FC", "date": "2006-05-28", "forfeit": false, "hg": 3, "home": "Pepperell", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2006-05-28", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2006-06-02", "forfeit": false, "hg": 3, "home": "Hollis United", "home_forfeit": false}, {"ag": 4, "away": "Stoneham S.C.", "date": "2006-06-02", "forfeit": false, "hg": 1, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 7, "away": "Hollis United", "date": "2006-06-04", "forfeit": false, "hg": 3, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 1, "away": "Pepperell", "date": "2006-06-04", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 0, "away": "Seacoast FC", "date": "2006-06-04", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 4, "away": "Ipswich", "date": "2006-06-11", "forfeit": false, "hg": 1, "home": "Hollis United", "home_forfeit": false}, {"ag": 0, "away": "DEA Bedford", "date": "2006-06-11", "forfeit": false, "hg": 3, "home": "Pepperell", "home_forfeit": false}, {"ag": 2, "away": "Stoneham S.C.", "date": "2006-06-11", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Stoneham S.C.", "date": "2006-06-14", "forfeit": false, "hg": 0, "home": "Ipswich", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA Bedford": {"recent": [{"date": "2006-06-11", "opponent": "Pepperell", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2006-06-04", "opponent": "Hollis United", "result": "L", "score": "3\u20137", "venue": "H"}, {"date": "2006-06-02", "opponent": "Stoneham S.C.", "result": "L", "score": "1\u20134", "venue": "H"}], "slug": ""}, "Hollis United": {"recent": [{"date": "2006-06-11", "opponent": "Ipswich", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2006-06-04", "opponent": "DEA Bedford", "result": "W", "score": "7\u20133", "venue": "A"}, {"date": "2006-06-02", "opponent": "Seacoast FC", "result": "L", "score": "3\u20134", "venue": "H"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2006-06-14", "opponent": "Stoneham S.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2006-06-11", "opponent": "Hollis United", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2006-06-04", "opponent": "Seacoast FC", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": ""}, "Pepperell": {"recent": [{"date": "2006-06-11", "opponent": "DEA Bedford", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2006-06-04", "opponent": "Stoneham S.C.", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2006-05-28", "opponent": "Seacoast FC", "result": "L", "score": "3\u20137", "venue": "H"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2006-06-11", "opponent": "Stoneham S.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2006-06-04", "opponent": "Ipswich", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2006-06-02", "opponent": "Hollis United", "result": "W", "score": "4\u20133", "venue": "A"}], "slug": ""}, "Stoneham S.C.": {"recent": [{"date": "2006-06-14", "opponent": "Ipswich", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2006-06-11", "opponent": "Seacoast FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2006-06-04", "opponent": "Pepperell", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

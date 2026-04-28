@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Hopkinton OF": 1406.3, "NASHUA GOLDEN BOOTS": 1474.7, "Needham Relics": 1454.1, "Tewksbury": 1324.5, "Wenham Veterans": 1469.1}, "current_stats": {"Hopkinton OF": {"gd": 8, "gf": 20, "pts": 21}, "NASHUA GOLDEN BOOTS": {"gd": 37, "gf": 39, "pts": 27}, "Needham Relics": {"gd": 1, "gf": 17, "pts": 10}, "Tewksbury": {"gd": -33, "gf": 0, "pts": 0}, "Wenham Veterans": {"gd": -13, "gf": 6, "pts": 7}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["NASHUA GOLDEN BOOTS", "Hopkinton OF", "Needham Relics", "Wenham Veterans", "Tewksbury"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": null, "away": "Wenham Veterans", "date": "2015-04-12", "forfeit": true, "hg": 2, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2015-04-12", "forfeit": false, "hg": 5, "home": "Needham Relics", "home_forfeit": false}, {"ag": 5, "away": "Needham Relics", "date": "2015-04-19", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 0, "away": "Needham Relics", "date": "2015-04-26", "forfeit": false, "hg": 2, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 2, "away": "Wenham Veterans", "date": "2015-04-26", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 3, "away": "NASHUA GOLDEN BOOTS", "date": "2015-05-03", "forfeit": false, "hg": 0, "home": "Needham Relics", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2015-05-03", "forfeit": false, "hg": 4, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2015-05-06", "forfeit": false, "hg": 6, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 1, "away": "Needham Relics", "date": "2015-05-10", "forfeit": false, "hg": 1, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 2, "away": "Hopkinton OF", "date": "2015-05-10", "forfeit": false, "hg": 3, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 3, "away": "Hopkinton OF", "date": "2015-05-17", "forfeit": false, "hg": 1, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 6, "away": "NASHUA GOLDEN BOOTS", "date": "2015-05-17", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 0, "away": "Wenham Veterans", "date": "2015-05-24", "forfeit": false, "hg": 6, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 2, "away": "Hopkinton OF", "date": "2015-05-31", "forfeit": false, "hg": 0, "home": "Needham Relics", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2015-05-31", "forfeit": false, "hg": 1, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 0, "away": "Needham Relics", "date": "2015-06-07", "forfeit": false, "hg": 4, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 4, "away": "Hopkinton OF", "date": "2015-06-07", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 1, "away": "Wenham Veterans", "date": "2015-06-14", "forfeit": false, "hg": 4, "home": "Needham Relics", "home_forfeit": false}, {"ag": 3, "away": "NASHUA GOLDEN BOOTS", "date": "2015-06-14", "forfeit": false, "hg": 0, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Wenham Veterans", "date": "2015-06-21", "forfeit": false, "hg": 5, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 2, "away": "Needham Relics", "date": "2015-06-21", "forfeit": false, "hg": 3, "home": "Hopkinton OF", "home_forfeit": false}, {"ag": 0, "away": "Hopkinton OF", "date": "2015-06-28", "forfeit": false, "hg": 3, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Hopkinton OF": {"recent": [{"date": "2015-06-28", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2015-06-21", "opponent": "Needham Relics", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2015-06-14", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": ""}, "NASHUA GOLDEN BOOTS": {"recent": [{"date": "2015-06-28", "opponent": "Hopkinton OF", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2015-06-21", "opponent": "Wenham Veterans", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2015-06-14", "opponent": "Hopkinton OF", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": ""}, "Needham Relics": {"recent": [{"date": "2015-06-21", "opponent": "Hopkinton OF", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2015-06-14", "opponent": "Wenham Veterans", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2015-06-07", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20134", "venue": "A"}], "slug": ""}, "Tewksbury": {"recent": [{"date": "2015-06-07", "opponent": "Hopkinton OF", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2015-05-31", "opponent": "Wenham Veterans", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2015-05-17", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20136", "venue": "H"}], "slug": ""}, "Wenham Veterans": {"recent": [{"date": "2015-06-21", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2015-06-14", "opponent": "Needham Relics", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2015-05-31", "opponent": "Tewksbury", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

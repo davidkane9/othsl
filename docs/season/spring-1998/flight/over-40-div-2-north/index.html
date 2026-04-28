@@ -456,6 +456,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover United Masters": 1438.6, "Dracut o-40": 1470.9, "PAC Lowell Masters": 1534.8, "Rovers SC": 1497.2, "Stoneham SC": 1479.1}, "current_stats": {"Andover United Masters": {"gd": -8, "gf": 11, "pts": 3}, "Dracut o-40": {"gd": 7, "gf": 20, "pts": 13}, "PAC Lowell Masters": {"gd": -1, "gf": 4, "pts": 6}, "Rovers SC": {"gd": 6, "gf": 12, "pts": 12}, "Stoneham SC": {"gd": -4, "gf": 9, "pts": 1}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [{"away": "PAC Lowell Masters", "date": "TBD", "home": "Rovers SC", "id": "inferred|Rovers SC|PAC Lowell Masters", "involves_team": false}, {"away": "PAC Lowell Masters", "date": "TBD", "home": "Rovers SC", "id": "inferred|Rovers SC|PAC Lowell Masters", "involves_team": false}, {"away": "Stoneham SC", "date": "TBD", "home": "Rovers SC", "id": "inferred|Rovers SC|Stoneham SC", "involves_team": false}, {"away": "Stoneham SC", "date": "TBD", "home": "Rovers SC", "id": "inferred|Rovers SC|Stoneham SC", "involves_team": false}, {"away": "Andover United Masters", "date": "TBD", "home": "PAC Lowell Masters", "id": "inferred|PAC Lowell Masters|Andover United Masters", "involves_team": false}, {"away": "Stoneham SC", "date": "TBD", "home": "PAC Lowell Masters", "id": "inferred|PAC Lowell Masters|Stoneham SC", "involves_team": false}, {"away": "Stoneham SC", "date": "TBD", "home": "PAC Lowell Masters", "id": "inferred|PAC Lowell Masters|Stoneham SC", "involves_team": false}, {"away": "Stoneham SC", "date": "TBD", "home": "Andover United Masters", "id": "inferred|Andover United Masters|Stoneham SC", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Rovers SC", "PAC Lowell Masters", "Dracut o-40", "Andover United Masters", "Stoneham SC"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "PAC Lowell Masters", "date": "1998-04-12", "forfeit": false, "hg": 3, "home": "Dracut o-40", "home_forfeit": false}, {"ag": 4, "away": "Rovers SC", "date": "1998-04-12", "forfeit": false, "hg": 3, "home": "Andover United Masters", "home_forfeit": false}, {"ag": 0, "away": "Dracut o-40", "date": "1998-04-19", "forfeit": false, "hg": 3, "home": "Rovers SC", "home_forfeit": false}, {"ag": 3, "away": "PAC Lowell Masters", "date": "1998-04-26", "forfeit": false, "hg": 2, "home": "Andover United Masters", "home_forfeit": false}, {"ag": 3, "away": "Dracut o-40", "date": "1998-04-26", "forfeit": false, "hg": 3, "home": "Stoneham SC", "home_forfeit": false}, {"ag": 0, "away": "Andover United Masters", "date": "1998-05-03", "forfeit": false, "hg": 3, "home": "Dracut o-40", "home_forfeit": false}, {"ag": 3, "away": "Stoneham SC", "date": "1998-05-10", "forfeit": false, "hg": 5, "home": "Andover United Masters", "home_forfeit": false}, {"ag": 0, "away": "Dracut o-40", "date": "1998-05-17", "forfeit": false, "hg": 1, "home": "PAC Lowell Masters", "home_forfeit": false}, {"ag": 1, "away": "Andover United Masters", "date": "1998-05-17", "forfeit": false, "hg": 2, "home": "Rovers SC", "home_forfeit": false}, {"ag": 3, "away": "Rovers SC", "date": "1998-05-24", "forfeit": false, "hg": 2, "home": "Dracut o-40", "home_forfeit": false}, {"ag": 3, "away": "Stoneham SC", "date": "1998-05-31", "forfeit": false, "hg": 5, "home": "Dracut o-40", "home_forfeit": false}, {"ag": 4, "away": "Dracut o-40", "date": "1998-06-07", "forfeit": false, "hg": 0, "home": "Andover United Masters", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover United Masters": {"recent": [{"date": "1998-06-07", "opponent": "Dracut o-40", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "1998-05-17", "opponent": "Rovers SC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "1998-05-10", "opponent": "Stoneham SC", "result": "W", "score": "5\u20133", "venue": "H"}], "slug": ""}, "Dracut o-40": {"recent": [{"date": "1998-06-07", "opponent": "Andover United Masters", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "1998-05-31", "opponent": "Stoneham SC", "result": "W", "score": "5\u20133", "venue": "H"}, {"date": "1998-05-24", "opponent": "Rovers SC", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "PAC Lowell Masters": {"recent": [{"date": "1998-05-17", "opponent": "Dracut o-40", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "1998-04-26", "opponent": "Andover United Masters", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "1998-04-12", "opponent": "Dracut o-40", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}, "Rovers SC": {"recent": [{"date": "1998-05-24", "opponent": "Dracut o-40", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "1998-05-17", "opponent": "Andover United Masters", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "1998-04-19", "opponent": "Dracut o-40", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": ""}, "Stoneham SC": {"recent": [{"date": "1998-05-31", "opponent": "Dracut o-40", "result": "L", "score": "3\u20135", "venue": "A"}, {"date": "1998-05-10", "opponent": "Andover United Masters", "result": "L", "score": "3\u20135", "venue": "A"}, {"date": "1998-04-26", "opponent": "Dracut o-40", "result": "T", "score": "3\u20133", "venue": "H"}], "slug": ""}};
@@ -664,9 +665,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -919,9 +924,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

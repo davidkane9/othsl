@@ -477,6 +477,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Canton United II": 1365.3, "Lexington Golden Eagles": 1476.4, "Medway": 1546.0, "Wayland Spirit": 1499.3, "Wayland Wizards": 1468.6}, "current_stats": {"Canton United II": {"gd": 8, "gf": 19, "pts": 14}, "Lexington Golden Eagles": {"gd": 11, "gf": 16, "pts": 19}, "Medway": {"gd": -11, "gf": 8, "pts": 6}, "Wayland Spirit": {"gd": -5, "gf": 8, "pts": 9}, "Wayland Wizards": {"gd": -3, "gf": 13, "pts": 7}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Lexington Golden Eagles", "Canton United II", "Wayland Spirit", "Wayland Wizards", "Medway"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Canton United II", "date": "2009-04-05", "forfeit": false, "hg": 2, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 1, "away": "Medway", "date": "2009-04-05", "forfeit": false, "hg": 3, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 2, "away": "Lexington Golden Eagles", "date": "2009-04-19", "forfeit": false, "hg": 0, "home": "Canton United II", "home_forfeit": false}, {"ag": 1, "away": "Wayland Spirit", "date": "2009-04-19", "forfeit": false, "hg": 1, "home": "Wayland Wizards", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2009-04-26", "forfeit": false, "hg": 3, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 1, "away": "Medway", "date": "2009-04-26", "forfeit": false, "hg": 5, "home": "Wayland Wizards", "home_forfeit": false}, {"ag": 0, "away": "Medway", "date": "2009-05-03", "forfeit": false, "hg": 5, "home": "Canton United II", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wizards", "date": "2009-05-03", "forfeit": false, "hg": 1, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 1, "away": "Canton United II", "date": "2009-05-10", "forfeit": false, "hg": 0, "home": "Wayland Wizards", "home_forfeit": false}, {"ag": 1, "away": "Wayland Spirit", "date": "2009-05-10", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2009-05-17", "forfeit": false, "hg": 2, "home": "Canton United II", "home_forfeit": false}, {"ag": 1, "away": "Lexington Golden Eagles", "date": "2009-05-17", "forfeit": false, "hg": 1, "home": "Medway", "home_forfeit": false}, {"ag": 0, "away": "Canton United II", "date": "2009-05-24", "forfeit": false, "hg": 1, "home": "Lexington Golden Eagles", "home_forfeit": false}, {"ag": 1, "away": "Wayland Wizards", "date": "2009-05-24", "forfeit": false, "hg": 3, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 4, "away": "Lexington Golden Eagles", "date": "2009-05-31", "forfeit": false, "hg": 1, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 1, "away": "Wayland Wizards", "date": "2009-05-31", "forfeit": false, "hg": 2, "home": "Medway", "home_forfeit": false}, {"ag": 3, "away": "Canton United II", "date": "2009-06-07", "forfeit": false, "hg": 3, "home": "Medway", "home_forfeit": false}, {"ag": 1, "away": "Lexington Golden Eagles", "date": "2009-06-07", "forfeit": false, "hg": 2, "home": "Wayland Wizards", "home_forfeit": false}, {"ag": 3, "away": "Wayland Wizards", "date": "2009-06-14", "forfeit": false, "hg": 6, "home": "Canton United II", "home_forfeit": false}, {"ag": 0, "away": "Medway", "date": "2009-06-14", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Canton United II": {"recent": [{"date": "2009-06-14", "opponent": "Wayland Wizards", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2009-06-07", "opponent": "Medway", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2009-05-24", "opponent": "Lexington Golden Eagles", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": ""}, "Lexington Golden Eagles": {"recent": [{"date": "2009-06-07", "opponent": "Wayland Wizards", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2009-05-31", "opponent": "Wayland Spirit", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2009-05-24", "opponent": "Canton United II", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}, "Medway": {"recent": [{"date": "2009-06-14", "opponent": "Wayland Spirit", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2009-06-07", "opponent": "Canton United II", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2009-05-31", "opponent": "Wayland Wizards", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Wayland Spirit": {"recent": [{"date": "2009-06-14", "opponent": "Medway", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2009-05-31", "opponent": "Lexington Golden Eagles", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2009-05-24", "opponent": "Wayland Wizards", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}, "Wayland Wizards": {"recent": [{"date": "2009-06-14", "opponent": "Canton United II", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2009-06-07", "opponent": "Lexington Golden Eagles", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2009-05-31", "opponent": "Medway", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}};
@@ -685,9 +686,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -940,9 +945,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

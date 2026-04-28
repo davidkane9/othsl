@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover Gold": 1521.7, "Burlington": 1413.0, "Everett": 1576.4, "Hudson": 1566.8, "Lynnfield": 1531.8, "Seacoast over 50": 1470.6}, "current_stats": {"Andover Gold": {"gd": 2, "gf": 24, "pts": 15}, "Burlington": {"gd": -23, "gf": 16, "pts": 3}, "Everett": {"gd": 30, "gf": 36, "pts": 25}, "Hudson": {"gd": -15, "gf": 10, "pts": 6}, "Lynnfield": {"gd": -4, "gf": 13, "pts": 10}, "Seacoast over 50": {"gd": 10, "gf": 26, "pts": 23}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Burlington", "date": "TBD", "home": "Everett", "id": "TBD|Everett|Burlington", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Everett", "Seacoast over 50", "Andover Gold", "Lynnfield", "Hudson", "Burlington"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Lynnfield", "date": "2005-08-28", "forfeit": false, "hg": 2, "home": "Andover Gold", "home_forfeit": false}, {"ag": 4, "away": "Seacoast over 50", "date": "2005-08-28", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 9, "away": "Everett", "date": "2005-08-28", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2005-09-11", "forfeit": false, "hg": 2, "home": "Lynnfield", "home_forfeit": false}, {"ag": 3, "away": "Andover Gold", "date": "2005-09-11", "forfeit": false, "hg": 5, "home": "Everett", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2005-09-11", "forfeit": false, "hg": 3, "home": "Seacoast over 50", "home_forfeit": false}, {"ag": 4, "away": "Lynnfield", "date": "2005-09-18", "forfeit": false, "hg": 2, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "Andover Gold", "date": "2005-09-18", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Seacoast over 50", "date": "2005-09-18", "forfeit": false, "hg": 4, "home": "Everett", "home_forfeit": false}, {"ag": 1, "away": "Seacoast over 50", "date": "2005-09-25", "forfeit": false, "hg": 1, "home": "Lynnfield", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2005-09-25", "forfeit": false, "hg": 3, "home": "Andover Gold", "home_forfeit": false}, {"ag": 2, "away": "Everett", "date": "2005-09-25", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Lynnfield", "date": "2005-10-02", "forfeit": false, "hg": 3, "home": "Everett", "home_forfeit": false}, {"ag": 2, "away": "Andover Gold", "date": "2005-10-02", "forfeit": false, "hg": 5, "home": "Seacoast over 50", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2005-10-02", "forfeit": false, "hg": 2, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "Andover Gold", "date": "2005-10-09", "forfeit": false, "hg": 0, "home": "Lynnfield", "home_forfeit": false}, {"ag": 4, "away": "Seacoast over 50", "date": "2005-10-16", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2005-10-23", "forfeit": false, "hg": 3, "home": "Lynnfield", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2005-10-23", "forfeit": false, "hg": 2, "home": "Andover Gold", "home_forfeit": false}, {"ag": 1, "away": "Everett", "date": "2005-10-23", "forfeit": false, "hg": 1, "home": "Seacoast over 50", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2005-10-25", "forfeit": false, "hg": 2, "home": "Seacoast over 50", "home_forfeit": false}, {"ag": 2, "away": "Lynnfield", "date": "2005-10-30", "forfeit": false, "hg": 3, "home": "Seacoast over 50", "home_forfeit": false}, {"ag": 8, "away": "Andover Gold", "date": "2005-10-30", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "2005-10-30", "forfeit": false, "hg": 7, "home": "Everett", "home_forfeit": false}, {"ag": 3, "away": "Everett", "date": "2005-11-06", "forfeit": false, "hg": 0, "home": "Lynnfield", "home_forfeit": false}, {"ag": 3, "away": "Seacoast over 50", "date": "2005-11-06", "forfeit": false, "hg": 2, "home": "Andover Gold", "home_forfeit": false}, {"ag": 3, "away": "Burlington", "date": "2005-11-06", "forfeit": false, "hg": 2, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Everett", "date": "2005-11-07", "forfeit": false, "hg": 0, "home": "Andover Gold", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover Gold": {"recent": [{"date": "2005-11-07", "opponent": "Everett", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2005-11-06", "opponent": "Seacoast over 50", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2005-10-30", "opponent": "Burlington", "result": "W", "score": "8\u20131", "venue": "A"}], "slug": ""}, "Burlington": {"recent": [{"date": "2005-11-06", "opponent": "Hudson", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2005-10-30", "opponent": "Andover Gold", "result": "L", "score": "1\u20138", "venue": "H"}, {"date": "2005-10-23", "opponent": "Lynnfield", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "Everett": {"recent": [{"date": "2005-11-07", "opponent": "Andover Gold", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2005-11-06", "opponent": "Lynnfield", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2005-10-30", "opponent": "Hudson", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": ""}, "Hudson": {"recent": [{"date": "2005-11-06", "opponent": "Burlington", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2005-10-30", "opponent": "Everett", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2005-10-25", "opponent": "Seacoast over 50", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Lynnfield": {"recent": [{"date": "2005-11-06", "opponent": "Everett", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2005-10-30", "opponent": "Seacoast over 50", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2005-10-23", "opponent": "Burlington", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}, "Seacoast over 50": {"recent": [{"date": "2005-11-06", "opponent": "Andover Gold", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2005-10-30", "opponent": "Lynnfield", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2005-10-25", "opponent": "Hudson", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

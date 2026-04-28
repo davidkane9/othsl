@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Concord": 1455.7, "Dedham": 1606.7, "Hudson": 1510.9, "Medway": 1495.5, "Sudbury Blast": 1434.8, "Wayland Wahoo": 1493.4}, "current_stats": {"Concord": {"gd": -11, "gf": 16, "pts": 10}, "Dedham": {"gd": 37, "gf": 38, "pts": 30}, "Hudson": {"gd": 22, "gf": 37, "pts": 22}, "Medway": {"gd": 6, "gf": 23, "pts": 12}, "Sudbury Blast": {"gd": -12, "gf": 17, "pts": 10}, "Wayland Wahoo": {"gd": -42, "gf": 4, "pts": 4}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Dedham", "Hudson", "Medway", "Concord", "Sudbury Blast", "Wayland Wahoo"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Concord", "date": "1999-04-11", "forfeit": false, "hg": 8, "home": "Dedham", "home_forfeit": false}, {"ag": 1, "away": "Medway", "date": "1999-04-11", "forfeit": false, "hg": 2, "home": "Sudbury Blast", "home_forfeit": false}, {"ag": 11, "away": "Hudson", "date": "1999-04-11", "forfeit": false, "hg": 0, "home": "Wayland Wahoo", "home_forfeit": false}, {"ag": 2, "away": "Sudbury Blast", "date": "1999-04-18", "forfeit": false, "hg": 1, "home": "Concord", "home_forfeit": false}, {"ag": 4, "away": "Dedham", "date": "1999-04-18", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wahoo", "date": "1999-04-18", "forfeit": false, "hg": 6, "home": "Medway", "home_forfeit": false}, {"ag": 1, "away": "Concord", "date": "1999-04-25", "forfeit": false, "hg": 1, "home": "Wayland Wahoo", "home_forfeit": false}, {"ag": 6, "away": "Dedham", "date": "1999-04-25", "forfeit": false, "hg": 0, "home": "Sudbury Blast", "home_forfeit": false}, {"ag": 1, "away": "Medway", "date": "1999-04-25", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Medway", "date": "1999-05-02", "forfeit": false, "hg": 3, "home": "Concord", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wahoo", "date": "1999-05-02", "forfeit": false, "hg": 8, "home": "Dedham", "home_forfeit": false}, {"ag": 4, "away": "Hudson", "date": "1999-05-02", "forfeit": false, "hg": 4, "home": "Sudbury Blast", "home_forfeit": false}, {"ag": 2, "away": "Concord", "date": "1999-05-09", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Dedham", "date": "1999-05-09", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false}, {"ag": 1, "away": "Sudbury Blast", "date": "1999-05-09", "forfeit": false, "hg": 2, "home": "Wayland Wahoo", "home_forfeit": false}, {"ag": 3, "away": "Dedham", "date": "1999-05-16", "forfeit": false, "hg": 1, "home": "Concord", "home_forfeit": false}, {"ag": 3, "away": "Sudbury Blast", "date": "1999-05-16", "forfeit": false, "hg": 6, "home": "Medway", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wahoo", "date": "1999-05-16", "forfeit": false, "hg": 6, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Concord", "date": "1999-05-23", "forfeit": false, "hg": 1, "home": "Sudbury Blast", "home_forfeit": false}, {"ag": 0, "away": "Hudson", "date": "1999-05-23", "forfeit": false, "hg": 1, "home": "Dedham", "home_forfeit": false}, {"ag": 3, "away": "Medway", "date": "1999-05-23", "forfeit": false, "hg": 0, "home": "Wayland Wahoo", "home_forfeit": false}, {"ag": 1, "away": "Wayland Wahoo", "date": "1999-05-30", "forfeit": false, "hg": 3, "home": "Concord", "home_forfeit": false}, {"ag": 0, "away": "Sudbury Blast", "date": "1999-05-30", "forfeit": false, "hg": 2, "home": "Dedham", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "1999-05-30", "forfeit": false, "hg": 1, "home": "Medway", "home_forfeit": false}, {"ag": 1, "away": "Concord", "date": "1999-06-06", "forfeit": false, "hg": 4, "home": "Medway", "home_forfeit": false}, {"ag": 3, "away": "Dedham", "date": "1999-06-06", "forfeit": false, "hg": 0, "home": "Wayland Wahoo", "home_forfeit": false}, {"ag": 0, "away": "Sudbury Blast", "date": "1999-06-06", "forfeit": false, "hg": 5, "home": "Hudson", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "1999-06-13", "forfeit": false, "hg": 2, "home": "Concord", "home_forfeit": false}, {"ag": 0, "away": "Medway", "date": "1999-06-13", "forfeit": false, "hg": 1, "home": "Dedham", "home_forfeit": false}, {"ag": 0, "away": "Wayland Wahoo", "date": "1999-06-13", "forfeit": false, "hg": 4, "home": "Sudbury Blast", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Concord": {"recent": [{"date": "1999-06-13", "opponent": "Hudson", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "1999-06-06", "opponent": "Medway", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "1999-05-30", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20131", "venue": "H"}], "slug": ""}, "Dedham": {"recent": [{"date": "1999-06-13", "opponent": "Medway", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "1999-06-06", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "1999-05-30", "opponent": "Sudbury Blast", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "Hudson": {"recent": [{"date": "1999-06-13", "opponent": "Concord", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "1999-06-06", "opponent": "Sudbury Blast", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "1999-05-30", "opponent": "Medway", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "Medway": {"recent": [{"date": "1999-06-13", "opponent": "Dedham", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "1999-06-06", "opponent": "Concord", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "1999-05-30", "opponent": "Hudson", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": ""}, "Sudbury Blast": {"recent": [{"date": "1999-06-13", "opponent": "Wayland Wahoo", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "1999-06-06", "opponent": "Hudson", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "1999-05-30", "opponent": "Dedham", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Wayland Wahoo": {"recent": [{"date": "1999-06-13", "opponent": "Sudbury Blast", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "1999-06-06", "opponent": "Dedham", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "1999-05-30", "opponent": "Concord", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

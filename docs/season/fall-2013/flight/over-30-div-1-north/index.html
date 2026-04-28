@@ -474,6 +474,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA Bedford": 1436.0, "Hudson": 1456.6, "Ipswich": 1517.2, "L.S.C.": 1716.8, "Seacoast FC": 1453.3, "Tewksbury Blues": 1399.8}, "current_stats": {"DEA Bedford": {"gd": 10, "gf": 23, "pts": 19}, "Hudson": {"gd": -6, "gf": 16, "pts": 8}, "Ipswich": {"gd": 5, "gf": 21, "pts": 21}, "L.S.C.": {"gd": 21, "gf": 38, "pts": 23}, "Seacoast FC": {"gd": -7, "gf": 21, "pts": 11}, "Tewksbury Blues": {"gd": -23, "gf": 13, "pts": 3}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["L.S.C.", "Ipswich", "DEA Bedford", "Seacoast FC", "Hudson", "Tewksbury Blues"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "DEA Bedford", "date": "2013-09-08", "forfeit": false, "hg": 0, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2013-09-08", "forfeit": false, "hg": 3, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2013-09-08", "forfeit": false, "hg": 5, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Tewksbury Blues", "date": "2013-09-15", "forfeit": false, "hg": 4, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2013-09-15", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 1, "away": "L.S.C.", "date": "2013-09-15", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 0, "away": "DEA Bedford", "date": "2013-09-22", "forfeit": false, "hg": 2, "home": "L.S.C.", "home_forfeit": false}, {"ag": 4, "away": "Ipswich", "date": "2013-09-22", "forfeit": false, "hg": 1, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2013-09-29", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 0, "away": "L.S.C.", "date": "2013-09-29", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2013-09-29", "forfeit": false, "hg": 0, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 4, "away": "DEA Bedford", "date": "2013-10-06", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2013-10-06", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Tewksbury Blues", "date": "2013-10-06", "forfeit": false, "hg": 10, "home": "L.S.C.", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2013-10-13", "forfeit": false, "hg": 4, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 4, "away": "Tewksbury Blues", "date": "2013-10-13", "forfeit": false, "hg": 4, "home": "Hudson", "home_forfeit": false}, {"ag": 3, "away": "L.S.C.", "date": "2013-10-13", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "DEA Bedford", "date": "2013-10-20", "forfeit": false, "hg": 0, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Seacoast FC", "date": "2013-10-20", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2013-10-20", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2013-10-26", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "L.S.C.", "date": "2013-10-27", "forfeit": false, "hg": 0, "home": "DEA Bedford", "home_forfeit": false}, {"ag": null, "away": "Tewksbury Blues", "date": "2013-10-27", "forfeit": true, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2013-10-27", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "DEA Bedford", "date": "2013-11-03", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2013-11-03", "forfeit": false, "hg": 5, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Tewksbury Blues", "date": "2013-11-03", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2013-11-10", "forfeit": false, "hg": 7, "home": "DEA Bedford", "home_forfeit": false}, {"ag": 2, "away": "Hudson", "date": "2013-11-10", "forfeit": false, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 5, "away": "L.S.C.", "date": "2013-11-10", "forfeit": false, "hg": 1, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2013-11-24", "forfeit": false, "hg": 1, "home": "L.S.C.", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA Bedford": {"recent": [{"date": "2013-11-10", "opponent": "Seacoast FC", "result": "W", "score": "7\u20133", "venue": "H"}, {"date": "2013-11-03", "opponent": "Hudson", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2013-10-27", "opponent": "L.S.C.", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": ""}, "Hudson": {"recent": [{"date": "2013-11-10", "opponent": "Ipswich", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2013-11-03", "opponent": "DEA Bedford", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2013-10-27", "opponent": "Seacoast FC", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2013-11-24", "opponent": "L.S.C.", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2013-11-10", "opponent": "Hudson", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2013-11-03", "opponent": "L.S.C.", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": ""}, "L.S.C.": {"recent": [{"date": "2013-11-24", "opponent": "Ipswich", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2013-11-10", "opponent": "Tewksbury Blues", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2013-11-03", "opponent": "Ipswich", "result": "W", "score": "5\u20132", "venue": "H"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2013-11-10", "opponent": "DEA Bedford", "result": "L", "score": "3\u20137", "venue": "A"}, {"date": "2013-11-03", "opponent": "Tewksbury Blues", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2013-10-27", "opponent": "Hudson", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": ""}, "Tewksbury Blues": {"recent": [{"date": "2013-11-10", "opponent": "L.S.C.", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2013-11-03", "opponent": "Seacoast FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2013-10-27", "opponent": "Ipswich", "result": "L", "score": "F", "venue": "A"}], "slug": ""}};
@@ -684,9 +685,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -939,9 +944,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

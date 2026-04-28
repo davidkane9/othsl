@@ -422,6 +422,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Lowell Carcara": 1563.4, "Nashua Granite St.Int.A": 1593.4, "PAC Lowell Masters": 1534.8, "Rovers SC": 1497.2, "Stoneham Masters SC": 1615.5}, "current_stats": {"Lowell Carcara": {"gd": 31, "gf": 37, "pts": 22}, "Nashua Granite St.Int.A": {"gd": -20, "gf": 11, "pts": 9}, "PAC Lowell Masters": {"gd": -15, "gf": 14, "pts": 7}, "Rovers SC": {"gd": -27, "gf": 7, "pts": 1}, "Stoneham Masters SC": {"gd": 31, "gf": 39, "pts": 19}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Lowell Carcara", "Stoneham Masters SC", "Nashua Granite St.Int.A", "PAC Lowell Masters", "Rovers SC"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "PAC Lowell Masters", "date": "1999-08-29", "forfeit": false, "hg": 3, "home": "Rovers SC", "home_forfeit": false}, {"ag": 0, "away": "Nashua Granite St.Int.A", "date": "1999-08-29", "forfeit": false, "hg": 3, "home": "Lowell Carcara", "home_forfeit": false}, {"ag": 4, "away": "Stoneham Masters SC", "date": "1999-09-12", "forfeit": false, "hg": 0, "home": "PAC Lowell Masters", "home_forfeit": false}, {"ag": 0, "away": "Rovers SC", "date": "1999-09-12", "forfeit": false, "hg": 3, "home": "Nashua Granite St.Int.A", "home_forfeit": false}, {"ag": 0, "away": "PAC Lowell Masters", "date": "1999-09-19", "forfeit": false, "hg": 5, "home": "Lowell Carcara", "home_forfeit": false}, {"ag": 0, "away": "Rovers SC", "date": "1999-09-19", "forfeit": false, "hg": 8, "home": "Stoneham Masters SC", "home_forfeit": false}, {"ag": 5, "away": "Lowell Carcara", "date": "1999-09-26", "forfeit": false, "hg": 1, "home": "Rovers SC", "home_forfeit": false}, {"ag": 1, "away": "Nashua Granite St.Int.A", "date": "1999-09-26", "forfeit": false, "hg": 6, "home": "Stoneham Masters SC", "home_forfeit": false}, {"ag": 0, "away": "PAC Lowell Masters", "date": "1999-10-03", "forfeit": false, "hg": 3, "home": "Nashua Granite St.Int.A", "home_forfeit": false}, {"ag": 1, "away": "Stoneham Masters SC", "date": "1999-10-03", "forfeit": false, "hg": 1, "home": "Lowell Carcara", "home_forfeit": false}, {"ag": 0, "away": "Rovers SC", "date": "1999-10-10", "forfeit": false, "hg": 0, "home": "PAC Lowell Masters", "home_forfeit": false}, {"ag": 4, "away": "Lowell Carcara", "date": "1999-10-10", "forfeit": false, "hg": 0, "home": "Nashua Granite St.Int.A", "home_forfeit": false}, {"ag": 0, "away": "PAC Lowell Masters", "date": "1999-10-17", "forfeit": false, "hg": 8, "home": "Stoneham Masters SC", "home_forfeit": false}, {"ag": 3, "away": "Nashua Granite St.Int.A", "date": "1999-10-17", "forfeit": false, "hg": 2, "home": "Rovers SC", "home_forfeit": false}, {"ag": 6, "away": "Lowell Carcara", "date": "1999-10-24", "forfeit": false, "hg": 2, "home": "PAC Lowell Masters", "home_forfeit": false}, {"ag": 2, "away": "Stoneham Masters SC", "date": "1999-10-24", "forfeit": false, "hg": 1, "home": "Rovers SC", "home_forfeit": false}, {"ag": 0, "away": "Rovers SC", "date": "1999-10-31", "forfeit": false, "hg": 9, "home": "Lowell Carcara", "home_forfeit": false}, {"ag": 8, "away": "Stoneham Masters SC", "date": "1999-10-31", "forfeit": false, "hg": 1, "home": "Nashua Granite St.Int.A", "home_forfeit": false}, {"ag": 0, "away": "Nashua Granite St.Int.A", "date": "1999-11-07", "forfeit": false, "hg": 8, "home": "PAC Lowell Masters", "home_forfeit": false}, {"ag": 4, "away": "Lowell Carcara", "date": "1999-11-07", "forfeit": false, "hg": 2, "home": "Stoneham Masters SC", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Lowell Carcara": {"recent": [{"date": "1999-11-07", "opponent": "Stoneham Masters SC", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "1999-10-31", "opponent": "Rovers SC", "result": "W", "score": "9\u20130", "venue": "H"}, {"date": "1999-10-24", "opponent": "PAC Lowell Masters", "result": "W", "score": "6\u20132", "venue": "A"}], "slug": ""}, "Nashua Granite St.Int.A": {"recent": [{"date": "1999-11-07", "opponent": "PAC Lowell Masters", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "1999-10-31", "opponent": "Stoneham Masters SC", "result": "L", "score": "1\u20138", "venue": "H"}, {"date": "1999-10-17", "opponent": "Rovers SC", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}, "PAC Lowell Masters": {"recent": [{"date": "1999-11-07", "opponent": "Nashua Granite St.Int.A", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "1999-10-24", "opponent": "Lowell Carcara", "result": "L", "score": "2\u20136", "venue": "H"}, {"date": "1999-10-17", "opponent": "Stoneham Masters SC", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": ""}, "Rovers SC": {"recent": [{"date": "1999-10-31", "opponent": "Lowell Carcara", "result": "L", "score": "0\u20139", "venue": "A"}, {"date": "1999-10-24", "opponent": "Stoneham Masters SC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "1999-10-17", "opponent": "Nashua Granite St.Int.A", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Stoneham Masters SC": {"recent": [{"date": "1999-11-07", "opponent": "Lowell Carcara", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "1999-10-31", "opponent": "Nashua Granite St.Int.A", "result": "W", "score": "8\u20131", "venue": "A"}, {"date": "1999-10-24", "opponent": "Rovers SC", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}};
@@ -630,9 +631,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -885,9 +890,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

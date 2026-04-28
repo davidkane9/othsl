@@ -533,6 +533,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Arlington Pond Dawgz": 1532.4, "Burlington": 1413.0, "Hurricane SC": 1339.4, "MGG O50": 1423.3, "North Shore Spartans": 1378.0}, "current_stats": {"Arlington Pond Dawgz": {"gd": -7, "gf": 7, "pts": 8}, "Burlington": {"gd": -9, "gf": 6, "pts": 6}, "Hurricane SC": {"gd": 20, "gf": 25, "pts": 22}, "MGG O50": {"gd": -6, "gf": 10, "pts": 8}, "North Shore Spartans": {"gd": 2, "gf": 14, "pts": 12}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Hurricane SC", "North Shore Spartans", "MGG O50", "Arlington Pond Dawgz", "Burlington"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Arlington Pond Dawgz", "date": "2013-09-08", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 3, "away": "MGG O50", "date": "2013-09-08", "forfeit": false, "hg": 1, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 3, "away": "Hurricane SC", "date": "2013-09-15", "forfeit": false, "hg": 2, "home": "MGG O50", "home_forfeit": false}, {"ag": 2, "away": "North Shore Spartans", "date": "2013-09-15", "forfeit": false, "hg": 1, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 0, "away": "Hurricane SC", "date": "2013-09-22", "forfeit": false, "hg": 0, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "North Shore Spartans", "date": "2013-09-29", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 2, "away": "MGG O50", "date": "2013-09-29", "forfeit": false, "hg": 0, "home": "Burlington", "home_forfeit": false}, {"ag": 4, "away": "Hurricane SC", "date": "2013-10-06", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 2, "away": "Burlington", "date": "2013-10-06", "forfeit": false, "hg": 1, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "date": "2013-10-10", "forfeit": false, "hg": 1, "home": "MGG O50", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2013-10-13", "forfeit": false, "hg": 1, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 3, "away": "North Shore Spartans", "date": "2013-10-13", "forfeit": false, "hg": 0, "home": "MGG O50", "home_forfeit": false}, {"ag": 1, "away": "MGG O50", "date": "2013-10-20", "forfeit": false, "hg": 6, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 0, "away": "Arlington Pond Dawgz", "date": "2013-10-20", "forfeit": false, "hg": 3, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 0, "away": "Burlington", "date": "2013-10-27", "forfeit": false, "hg": 5, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 0, "away": "MGG O50", "date": "2013-10-27", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false}, {"ag": 3, "away": "Hurricane SC", "date": "2013-11-03", "forfeit": false, "hg": 0, "home": "North Shore Spartans", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2013-11-03", "forfeit": false, "hg": 1, "home": "MGG O50", "home_forfeit": false}, {"ag": 1, "away": "Arlington Pond Dawgz", "date": "2013-11-10", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false}, {"ag": 3, "away": "North Shore Spartans", "date": "2013-11-10", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Arlington Pond Dawgz": {"recent": [{"date": "2013-11-10", "opponent": "Hurricane SC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2013-10-27", "opponent": "MGG O50", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2013-10-20", "opponent": "North Shore Spartans", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}, "Burlington": {"recent": [{"date": "2013-11-10", "opponent": "North Shore Spartans", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2013-11-03", "opponent": "MGG O50", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2013-10-27", "opponent": "Hurricane SC", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": ""}, "Hurricane SC": {"recent": [{"date": "2013-11-10", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2013-11-03", "opponent": "North Shore Spartans", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2013-10-27", "opponent": "Burlington", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": ""}, "MGG O50": {"recent": [{"date": "2013-11-03", "opponent": "Burlington", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2013-10-27", "opponent": "Arlington Pond Dawgz", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2013-10-20", "opponent": "Hurricane SC", "result": "L", "score": "1\u20136", "venue": "A"}], "slug": ""}, "North Shore Spartans": {"recent": [{"date": "2013-11-10", "opponent": "Burlington", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2013-11-03", "opponent": "Hurricane SC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2013-10-20", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": ""}};
@@ -741,9 +742,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -996,9 +1001,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

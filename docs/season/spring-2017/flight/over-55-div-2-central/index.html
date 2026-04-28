@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Ashland": 1512.8, "Burlington": 1377.7, "Medford Mystics": 1399.9, "Nashoba56ford": 1388.2, "Sudbury Veterans": 1513.3}, "current_stats": {"Ashland": {"gd": 5, "gf": 14, "pts": 18}, "Burlington": {"gd": -22, "gf": 12, "pts": 4}, "Medford Mystics": {"gd": 11, "gf": 20, "pts": 13}, "Nashoba56ford": {"gd": -15, "gf": 8, "pts": 3}, "Sudbury Veterans": {"gd": 21, "gf": 28, "pts": 17}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Ashland", "Sudbury Veterans", "Medford Mystics", "Burlington", "Nashoba56ford"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Sudbury Veterans", "date": "2017-04-09", "forfeit": false, "hg": 1, "home": "Ashland", "home_forfeit": false}, {"ag": 2, "away": "Ashland", "date": "2017-04-15", "forfeit": false, "hg": 0, "home": "Burlington", "home_forfeit": false}, {"ag": 1, "away": "Medford Mystics", "date": "2017-04-16", "forfeit": false, "hg": 1, "home": "Sudbury Veterans", "home_forfeit": false}, {"ag": 0, "away": "Nashoba56ford", "date": "2017-04-23", "forfeit": false, "hg": 6, "home": "Sudbury Veterans", "home_forfeit": false}, {"ag": 2, "away": "Ashland", "date": "2017-04-30", "forfeit": false, "hg": 1, "home": "Nashoba56ford", "home_forfeit": false}, {"ag": 2, "away": "Sudbury Veterans", "date": "2017-04-30", "forfeit": false, "hg": 2, "home": "Burlington", "home_forfeit": false}, {"ag": 2, "away": "Medford Mystics", "date": "2017-05-07", "forfeit": false, "hg": 3, "home": "Ashland", "home_forfeit": false}, {"ag": 4, "away": "Burlington", "date": "2017-05-07", "forfeit": false, "hg": 2, "home": "Nashoba56ford", "home_forfeit": false}, {"ag": 1, "away": "Ashland", "date": "2017-05-14", "forfeit": false, "hg": 3, "home": "Sudbury Veterans", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2017-05-21", "forfeit": false, "hg": 2, "home": "Ashland", "home_forfeit": false}, {"ag": 3, "away": "Sudbury Veterans", "date": "2017-05-21", "forfeit": false, "hg": 0, "home": "Medford Mystics", "home_forfeit": false}, {"ag": 3, "away": "Medford Mystics", "date": "2017-05-24", "forfeit": false, "hg": 0, "home": "Nashoba56ford", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2017-05-28", "forfeit": false, "hg": 2, "home": "Medford Mystics", "home_forfeit": false}, {"ag": 10, "away": "Medford Mystics", "date": "2017-06-04", "forfeit": false, "hg": 1, "home": "Burlington", "home_forfeit": false}, {"ag": 3, "away": "Sudbury Veterans", "date": "2017-06-04", "forfeit": false, "hg": 1, "home": "Nashoba56ford", "home_forfeit": false}, {"ag": 0, "away": "Ashland", "date": "2017-06-07", "forfeit": false, "hg": 2, "home": "Medford Mystics", "home_forfeit": false}, {"ag": 0, "away": "Nashoba56ford", "date": "2017-06-11", "forfeit": false, "hg": 3, "home": "Ashland", "home_forfeit": false}, {"ag": 1, "away": "Burlington", "date": "2017-06-11", "forfeit": false, "hg": 10, "home": "Sudbury Veterans", "home_forfeit": false}, {"ag": 4, "away": "Nashoba56ford", "date": "2017-06-18", "forfeit": false, "hg": 2, "home": "Burlington", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Ashland": {"recent": [{"date": "2017-06-11", "opponent": "Nashoba56ford", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2017-06-07", "opponent": "Medford Mystics", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2017-05-21", "opponent": "Burlington", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Burlington": {"recent": [{"date": "2017-06-18", "opponent": "Nashoba56ford", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2017-06-11", "opponent": "Sudbury Veterans", "result": "L", "score": "1\u201310", "venue": "A"}, {"date": "2017-06-04", "opponent": "Medford Mystics", "result": "L", "score": "1\u201310", "venue": "H"}], "slug": ""}, "Medford Mystics": {"recent": [{"date": "TBD", "opponent": "Nashoba56ford", "result": "W", "score": "F", "venue": "H"}, {"date": "2017-06-07", "opponent": "Ashland", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2017-06-04", "opponent": "Burlington", "result": "W", "score": "10\u20131", "venue": "A"}], "slug": ""}, "Nashoba56ford": {"recent": [{"date": "TBD", "opponent": "Medford Mystics", "result": "W", "score": "F", "venue": "A"}, {"date": "2017-06-18", "opponent": "Burlington", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2017-06-11", "opponent": "Ashland", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": ""}, "Sudbury Veterans": {"recent": [{"date": "2017-06-11", "opponent": "Burlington", "result": "W", "score": "10\u20131", "venue": "H"}, {"date": "2017-06-04", "opponent": "Nashoba56ford", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2017-05-21", "opponent": "Medford Mystics", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": ""}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

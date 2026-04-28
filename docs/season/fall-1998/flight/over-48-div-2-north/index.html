@@ -404,6 +404,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover": 1512.7, "Georgetown": 1564.9, "Nashua": 1392.6, "Peabody Gold": 1421.1}, "current_stats": {"Andover": {"gd": -14, "gf": 17, "pts": 6}, "Georgetown": {"gd": -4, "gf": 25, "pts": 13}, "Nashua": {"gd": -8, "gf": 18, "pts": 7}, "Peabody Gold": {"gd": 26, "gf": 39, "pts": 27}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Peabody Gold", "Georgetown", "Nashua", "Andover"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 6, "away": "Peabody Gold", "date": "1998-08-30", "forfeit": false, "hg": 1, "home": "Andover", "home_forfeit": false}, {"ag": 5, "away": "Georgetown", "date": "1998-09-13", "forfeit": false, "hg": 1, "home": "Andover", "home_forfeit": false}, {"ag": 2, "away": "Peabody Gold", "date": "1998-09-13", "forfeit": false, "hg": 0, "home": "Nashua", "home_forfeit": false}, {"ag": 1, "away": "Georgetown", "date": "1998-09-20", "forfeit": false, "hg": 6, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 4, "away": "Andover", "date": "1998-09-20", "forfeit": false, "hg": 5, "home": "Nashua", "home_forfeit": false}, {"ag": 5, "away": "Georgetown", "date": "1998-09-27", "forfeit": false, "hg": 2, "home": "Nashua", "home_forfeit": false}, {"ag": 3, "away": "Andover", "date": "1998-09-27", "forfeit": false, "hg": 4, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 2, "away": "Andover", "date": "1998-10-04", "forfeit": false, "hg": 5, "home": "Georgetown", "home_forfeit": false}, {"ag": 0, "away": "Nashua", "date": "1998-10-04", "forfeit": false, "hg": 5, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 7, "away": "Peabody Gold", "date": "1998-10-11", "forfeit": false, "hg": 2, "home": "Georgetown", "home_forfeit": false}, {"ag": 2, "away": "Nashua", "date": "1998-10-11", "forfeit": false, "hg": 3, "home": "Andover", "home_forfeit": false}, {"ag": 6, "away": "Nashua", "date": "1998-10-18", "forfeit": false, "hg": 2, "home": "Georgetown", "home_forfeit": false}, {"ag": 3, "away": "Peabody Gold", "date": "1998-10-18", "forfeit": false, "hg": 2, "home": "Andover", "home_forfeit": false}, {"ag": 0, "away": "Georgetown", "date": "1998-10-25", "forfeit": false, "hg": 1, "home": "Andover", "home_forfeit": false}, {"ag": 3, "away": "Peabody Gold", "date": "1998-10-25", "forfeit": false, "hg": 1, "home": "Nashua", "home_forfeit": false}, {"ag": 3, "away": "Georgetown", "date": "1998-11-01", "forfeit": false, "hg": 2, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 2, "away": "Nashua", "date": "1998-11-08", "forfeit": false, "hg": 2, "home": "Georgetown", "home_forfeit": false}, {"ag": 0, "away": "Andover", "date": "1998-11-08", "forfeit": false, "hg": 1, "home": "Peabody Gold", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover": {"recent": [{"date": "1998-11-08", "opponent": "Peabody Gold", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "1998-10-25", "opponent": "Georgetown", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "1998-10-18", "opponent": "Peabody Gold", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Georgetown": {"recent": [{"date": "1998-11-08", "opponent": "Nashua", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "1998-11-01", "opponent": "Peabody Gold", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "1998-10-25", "opponent": "Andover", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": ""}, "Nashua": {"recent": [{"date": "1998-11-08", "opponent": "Georgetown", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "1998-10-25", "opponent": "Peabody Gold", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "1998-10-18", "opponent": "Georgetown", "result": "W", "score": "6\u20132", "venue": "A"}], "slug": ""}, "Peabody Gold": {"recent": [{"date": "1998-11-08", "opponent": "Andover", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "1998-11-01", "opponent": "Georgetown", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "1998-10-25", "opponent": "Nashua", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": ""}};
@@ -610,9 +611,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -865,9 +870,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

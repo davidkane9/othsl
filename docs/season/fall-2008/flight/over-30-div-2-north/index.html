@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Alliance FC": 1443.8, "Billerica Rovers": 1379.9, "L.S.C.": 1716.8, "Merrimac Forrest": 1430.5, "Salem": 1533.6, "Tewksbury Blues": 1399.8}, "current_stats": {"Alliance FC": {"gd": 7, "gf": 27, "pts": 14}, "Billerica Rovers": {"gd": 5, "gf": 20, "pts": 15}, "L.S.C.": {"gd": -5, "gf": 15, "pts": 14}, "Merrimac Forrest": {"gd": -8, "gf": 12, "pts": 5}, "Salem": {"gd": -4, "gf": 19, "pts": 11}, "Tewksbury Blues": {"gd": 5, "gf": 23, "pts": 18}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Merrimac Forrest", "date": "TBD", "home": "Billerica Rovers", "id": "inferred|Billerica Rovers|Merrimac Forrest", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Tewksbury Blues", "Billerica Rovers", "Alliance FC", "L.S.C.", "Salem", "Merrimac Forrest"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Billerica Rovers", "date": "2008-09-07", "forfeit": false, "hg": 3, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Salem", "date": "2008-09-07", "forfeit": false, "hg": 3, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "Tewksbury Blues", "date": "2008-09-14", "forfeit": false, "hg": 2, "home": "Alliance FC", "home_forfeit": false}, {"ag": 1, "away": "Merrimac Forrest", "date": "2008-09-14", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2008-09-14", "forfeit": false, "hg": 3, "home": "Billerica Rovers", "home_forfeit": false}, {"ag": 4, "away": "Alliance FC", "date": "2008-09-21", "forfeit": false, "hg": 1, "home": "L.S.C.", "home_forfeit": false}, {"ag": 1, "away": "Merrimac Forrest", "date": "2008-09-21", "forfeit": false, "hg": 3, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 3, "away": "Billerica Rovers", "date": "2008-09-21", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2008-09-28", "forfeit": false, "hg": 3, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Alliance FC", "date": "2008-10-05", "forfeit": false, "hg": 1, "home": "Salem", "home_forfeit": false}, {"ag": 0, "away": "Merrimac Forrest", "date": "2008-10-05", "forfeit": false, "hg": 3, "home": "Billerica Rovers", "home_forfeit": false}, {"ag": 4, "away": "Tewksbury Blues", "date": "2008-10-05", "forfeit": false, "hg": 0, "home": "L.S.C.", "home_forfeit": false}, {"ag": 4, "away": "Alliance FC", "date": "2008-10-08", "forfeit": false, "hg": 1, "home": "Merrimac Forrest", "home_forfeit": false}, {"ag": 2, "away": "Merrimac Forrest", "date": "2008-10-12", "forfeit": false, "hg": 2, "home": "Alliance FC", "home_forfeit": false}, {"ag": 3, "away": "Tewksbury Blues", "date": "2008-10-12", "forfeit": false, "hg": 3, "home": "Billerica Rovers", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2008-10-12", "forfeit": false, "hg": 4, "home": "Salem", "home_forfeit": false}, {"ag": 3, "away": "Alliance FC", "date": "2008-10-19", "forfeit": false, "hg": 0, "home": "Tewksbury Blues", "home_forfeit": false}, {"ag": 1, "away": "Salem", "date": "2008-10-19", "forfeit": false, "hg": 4, "home": "Merrimac Forrest", "home_forfeit": false}, {"ag": 0, "away": "Billerica Rovers", "date": "2008-10-19", "forfeit": false, "hg": 0, "home": "L.S.C.", "home_forfeit": false}, {"ag": 3, "away": "L.S.C.", "date": "2008-10-26", "forfeit": false, "hg": 1, "home": "Alliance FC", "home_forfeit": false}, {"ag": 2, "away": "Tewksbury Blues", "date": "2008-10-26", "forfeit": false, "hg": 2, "home": "Merrimac Forrest", "home_forfeit": false}, {"ag": 3, "away": "Billerica Rovers", "date": "2008-10-30", "forfeit": false, "hg": 2, "home": "Alliance FC", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2008-10-30", "forfeit": false, "hg": 1, "home": "Merrimac Forrest", "home_forfeit": false}, {"ag": 2, "away": "Alliance FC", "date": "2008-11-02", "forfeit": false, "hg": 3, "home": "Billerica Rovers", "home_forfeit": false}, {"ag": null, "away": "Merrimac Forrest", "date": "2008-11-02", "forfeit": true, "hg": 2, "home": "L.S.C.", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury Blues", "date": "2008-11-02", "forfeit": false, "hg": 1, "home": "Salem", "home_forfeit": false}, {"ag": 3, "away": "Salem", "date": "2008-11-09", "forfeit": false, "hg": 6, "home": "Alliance FC", "home_forfeit": false}, {"ag": 2, "away": "L.S.C.", "date": "2008-11-09", "forfeit": false, "hg": 2, "home": "Tewksbury Blues", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Alliance FC": {"recent": [{"date": "2008-11-09", "opponent": "Salem", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2008-11-02", "opponent": "Billerica Rovers", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2008-10-30", "opponent": "Billerica Rovers", "result": "L", "score": "2\u20133", "venue": "H"}], "slug": ""}, "Billerica Rovers": {"recent": [{"date": "TBD", "opponent": "Salem", "result": "W", "score": "F", "venue": "H"}, {"date": "2008-11-02", "opponent": "Alliance FC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2008-10-30", "opponent": "Alliance FC", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}, "L.S.C.": {"recent": [{"date": "2008-11-09", "opponent": "Tewksbury Blues", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2008-11-02", "opponent": "Merrimac Forrest", "result": "W", "score": "F", "venue": "H"}, {"date": "2008-10-30", "opponent": "Merrimac Forrest", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "Merrimac Forrest": {"recent": [{"date": "2008-11-02", "opponent": "L.S.C.", "result": "L", "score": "F", "venue": "A"}, {"date": "2008-10-30", "opponent": "L.S.C.", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2008-10-26", "opponent": "Tewksbury Blues", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "Salem": {"recent": [{"date": "TBD", "opponent": "Billerica Rovers", "result": "W", "score": "F", "venue": "A"}, {"date": "2008-11-09", "opponent": "Alliance FC", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2008-11-02", "opponent": "Tewksbury Blues", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}, "Tewksbury Blues": {"recent": [{"date": "2008-11-09", "opponent": "L.S.C.", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2008-11-02", "opponent": "Salem", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2008-10-26", "opponent": "Merrimac Forrest", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

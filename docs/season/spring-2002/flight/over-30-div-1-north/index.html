@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Deportivo A.C.A.": 1510.0, "Ipswich": 1517.2, "Salem": 1533.6, "Seacoast FC": 1453.3, "Stoneham S.C.": 1590.3, "Windham": 1474.1}, "current_stats": {"Deportivo A.C.A.": {"gd": -5, "gf": 21, "pts": 9}, "Ipswich": {"gd": 13, "gf": 27, "pts": 18}, "Salem": {"gd": 7, "gf": 19, "pts": 20}, "Seacoast FC": {"gd": 1, "gf": 19, "pts": 16}, "Stoneham S.C.": {"gd": 8, "gf": 31, "pts": 14}, "Windham": {"gd": -24, "gf": 12, "pts": 7}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Salem", "Ipswich", "Seacoast FC", "Stoneham S.C.", "Deportivo A.C.A.", "Windham"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Deportivo A.C.A.", "date": "2002-04-07", "forfeit": false, "hg": 2, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2002-04-07", "forfeit": false, "hg": 2, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2002-04-07", "forfeit": false, "hg": 0, "home": "Ipswich", "home_forfeit": false}, {"ag": 5, "away": "Stoneham S.C.", "date": "2002-04-14", "forfeit": false, "hg": 2, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 1, "away": "Windham", "date": "2002-04-14", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "Ipswich", "date": "2002-04-14", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 0, "away": "Deportivo A.C.A.", "date": "2002-04-21", "forfeit": false, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Windham", "date": "2002-04-21", "forfeit": false, "hg": 6, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2002-04-21", "forfeit": false, "hg": 0, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2002-04-28", "forfeit": false, "hg": 3, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 4, "away": "Ipswich", "date": "2002-04-28", "forfeit": false, "hg": 0, "home": "Windham", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2002-04-28", "forfeit": false, "hg": 3, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 3, "away": "Deportivo A.C.A.", "date": "2002-05-05", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Windham", "date": "2002-05-05", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 4, "away": "Stoneham S.C.", "date": "2002-05-05", "forfeit": false, "hg": 4, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Windham", "date": "2002-05-12", "forfeit": false, "hg": 3, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 0, "away": "Stoneham S.C.", "date": "2002-05-12", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 4, "away": "Ipswich", "date": "2002-05-12", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 4, "away": "Deportivo A.C.A.", "date": "2002-05-19", "forfeit": false, "hg": 5, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2002-05-19", "forfeit": false, "hg": 1, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2002-05-19", "forfeit": false, "hg": 2, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2002-05-26", "forfeit": false, "hg": 2, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 6, "away": "Stoneham S.C.", "date": "2002-05-26", "forfeit": false, "hg": 1, "home": "Windham", "home_forfeit": false}, {"ag": 0, "away": "Seacoast FC", "date": "2002-05-26", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 0, "away": "Deportivo A.C.A.", "date": "2002-06-02", "forfeit": false, "hg": 1, "home": "Salem", "home_forfeit": false}, {"ag": 0, "away": "Windham", "date": "2002-06-02", "forfeit": false, "hg": 8, "home": "Ipswich", "home_forfeit": false}, {"ag": 0, "away": "Stoneham S.C.", "date": "2002-06-02", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Seacoast FC", "date": "2002-06-09", "forfeit": false, "hg": 2, "home": "Deportivo A.C.A.", "home_forfeit": false}, {"ag": 0, "away": "Salem", "date": "2002-06-09", "forfeit": false, "hg": 3, "home": "Windham", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2002-06-09", "forfeit": false, "hg": 0, "home": "Stoneham S.C.", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Deportivo A.C.A.": {"recent": [{"date": "2002-06-09", "opponent": "Seacoast FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2002-06-02", "opponent": "Salem", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2002-05-26", "opponent": "Ipswich", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "Ipswich": {"recent": [{"date": "2002-06-09", "opponent": "Stoneham S.C.", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2002-06-02", "opponent": "Windham", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2002-05-26", "opponent": "Deportivo A.C.A.", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": ""}, "Salem": {"recent": [{"date": "2002-06-09", "opponent": "Windham", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2002-06-02", "opponent": "Deportivo A.C.A.", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2002-05-26", "opponent": "Seacoast FC", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2002-06-09", "opponent": "Deportivo A.C.A.", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2002-06-02", "opponent": "Stoneham S.C.", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2002-05-26", "opponent": "Salem", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Stoneham S.C.": {"recent": [{"date": "2002-06-09", "opponent": "Ipswich", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2002-06-02", "opponent": "Seacoast FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2002-05-26", "opponent": "Windham", "result": "W", "score": "6\u20131", "venue": "A"}], "slug": ""}, "Windham": {"recent": [{"date": "2002-06-09", "opponent": "Salem", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2002-06-02", "opponent": "Ipswich", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2002-05-26", "opponent": "Stoneham S.C.", "result": "L", "score": "1\u20136", "venue": "H"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

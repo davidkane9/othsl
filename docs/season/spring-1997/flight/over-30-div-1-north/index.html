@@ -368,6 +368,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Stoneham": 1500.7, "Wakefield Bulldogs": 1534.0}, "current_stats": {"Stoneham": {"gd": 0, "gf": 2, "pts": 1}, "Wakefield Bulldogs": {"gd": 0, "gf": 2, "pts": 1}}, "promotion_cut": 2, "relegation_cut": 0, "remaining_games": [{"away": "Wakefield Bulldogs", "date": "TBD", "home": "Stoneham", "id": "inferred|Stoneham|Wakefield Bulldogs", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Stoneham", "Wakefield Bulldogs"], "total_teams": 2};
 const FLIGHT_RESULTS   = [{"ag": 2, "away": "Stoneham", "date": "1997-05-11", "forfeit": false, "hg": 2, "home": "Wakefield Bulldogs", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Stoneham": {"recent": [{"date": "1997-05-11", "opponent": "Wakefield Bulldogs", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": ""}, "Wakefield Bulldogs": {"recent": [{"date": "1997-05-11", "opponent": "Stoneham", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}};
@@ -570,9 +571,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -825,9 +830,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

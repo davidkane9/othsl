@@ -404,6 +404,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Beverly": 1482.3, "Lexington o68": 1488.8, "Nashua": 1383.0, "Wayland Spirit": 1345.0}, "current_stats": {"Beverly": {"gd": -2, "gf": 17, "pts": 13}, "Lexington o68": {"gd": 34, "gf": 41, "pts": 33}, "Nashua": {"gd": -15, "gf": 12, "pts": 9}, "Wayland Spirit": {"gd": -17, "gf": 9, "pts": 13}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Lexington o68", "Wayland Spirit", "Beverly", "Nashua"], "total_teams": 4};
 const FLIGHT_RESULTS   = [{"ag": 1, "away": "Wayland Spirit", "date": "2022-04-03", "forfeit": false, "hg": 7, "home": "Lexington o68", "home_forfeit": false}, {"ag": 1, "away": "Nashua", "date": "2022-04-03", "forfeit": false, "hg": 3, "home": "Beverly", "home_forfeit": false}, {"ag": 0, "away": "Beverly", "date": "2022-04-10", "forfeit": false, "hg": 1, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 3, "away": "Lexington o68", "date": "2022-04-10", "forfeit": false, "hg": 0, "home": "Nashua", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2022-04-17", "forfeit": false, "hg": 4, "home": "Nashua", "home_forfeit": false}, {"ag": null, "away": "Beverly", "date": "2022-04-17", "forfeit": true, "hg": 2, "home": "Lexington o68", "home_forfeit": false}, {"ag": 4, "away": "Lexington o68", "date": "2022-04-24", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 0, "away": "Nashua", "date": "2022-04-24", "forfeit": false, "hg": 4, "home": "Beverly", "home_forfeit": false}, {"ag": 0, "away": "Beverly", "date": "2022-05-01", "forfeit": false, "hg": 3, "home": "Lexington o68", "home_forfeit": false}, {"ag": 1, "away": "Wayland Spirit", "date": "2022-05-01", "forfeit": false, "hg": 3, "home": "Nashua", "home_forfeit": false}, {"ag": 3, "away": "Lexington o68", "date": "2022-05-08", "forfeit": false, "hg": 1, "home": "Beverly", "home_forfeit": false}, {"ag": 1, "away": "Nashua", "date": "2022-05-08", "forfeit": false, "hg": 3, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 0, "away": "Wayland Spirit", "date": "2022-05-15", "forfeit": false, "hg": 3, "home": "Lexington o68", "home_forfeit": false}, {"ag": 3, "away": "Beverly", "date": "2022-05-15", "forfeit": false, "hg": 0, "home": "Nashua", "home_forfeit": false}, {"ag": null, "away": "Nashua", "date": "2022-05-22", "forfeit": true, "hg": 2, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 4, "away": "Lexington o68", "date": "2022-05-22", "forfeit": false, "hg": 2, "home": "Beverly", "home_forfeit": false}, {"ag": 1, "away": "Lexington o68", "date": "2022-06-05", "forfeit": false, "hg": 2, "home": "Nashua", "home_forfeit": false}, {"ag": 0, "away": "Beverly", "date": "2022-06-05", "forfeit": false, "hg": 1, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 2, "away": "Wayland Spirit", "date": "2022-06-12", "forfeit": false, "hg": 2, "home": "Beverly", "home_forfeit": false}, {"ag": 1, "away": "Nashua", "date": "2022-06-12", "forfeit": false, "hg": 7, "home": "Lexington o68", "home_forfeit": false}, {"ag": 2, "away": "Beverly", "date": "2022-06-19", "forfeit": false, "hg": 0, "home": "Wayland Spirit", "home_forfeit": false}, {"ag": 0, "away": "Nashua", "date": "2022-06-19", "forfeit": false, "hg": 2, "home": "Lexington o68", "home_forfeit": false}, {"ag": 0, "away": "Beverly", "date": "2022-06-26", "forfeit": false, "hg": 4, "home": "Lexington o68", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Beverly": {"recent": [{"date": "2022-06-26", "opponent": "Lexington o68", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2022-06-19", "opponent": "Wayland Spirit", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2022-06-12", "opponent": "Wayland Spirit", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": ""}, "Lexington o68": {"recent": [{"date": "2022-06-26", "opponent": "Beverly", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2022-06-19", "opponent": "Nashua", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2022-06-12", "opponent": "Nashua", "result": "W", "score": "7\u20131", "venue": "H"}], "slug": "lexington-o68-over-68-div-1-central"}, "Nashua": {"recent": [{"date": "2022-06-19", "opponent": "Lexington o68", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2022-06-12", "opponent": "Lexington o68", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2022-06-05", "opponent": "Lexington o68", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Wayland Spirit": {"recent": [{"date": "2022-06-19", "opponent": "Beverly", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2022-06-12", "opponent": "Beverly", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2022-06-05", "opponent": "Beverly", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}};
@@ -610,9 +611,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -865,9 +870,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

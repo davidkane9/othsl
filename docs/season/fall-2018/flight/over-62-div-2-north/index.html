@@ -456,6 +456,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Beverly Veterans": 1515.0, "Burlington 0-63": 1404.5, "NASHUA GOLDEN BOOTS": 1474.7, "Peabody Gold 63": 1496.9, "Tewksbury": 1324.5}, "current_stats": {"Beverly Veterans": {"gd": 12, "gf": 24, "pts": 14}, "Burlington 0-63": {"gd": 2, "gf": 18, "pts": 15}, "NASHUA GOLDEN BOOTS": {"gd": 23, "gf": 29, "pts": 19}, "Peabody Gold 63": {"gd": 2, "gf": 13, "pts": 10}, "Tewksbury": {"gd": -39, "gf": 2, "pts": 0}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["NASHUA GOLDEN BOOTS", "Burlington 0-63", "Beverly Veterans", "Peabody Gold 63", "Tewksbury"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Beverly Veterans", "date": "2018-08-26", "forfeit": false, "hg": 3, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 1, "away": "Tewksbury", "date": "2018-08-26", "forfeit": false, "hg": 2, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 2, "away": "Burlington 0-63", "date": "2018-09-09", "forfeit": false, "hg": 0, "home": "Beverly Veterans", "home_forfeit": false}, {"ag": 7, "away": "NASHUA GOLDEN BOOTS", "date": "2018-09-09", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 1, "away": "Beverly Veterans", "date": "2018-09-16", "forfeit": false, "hg": 1, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 4, "away": "NASHUA GOLDEN BOOTS", "date": "2018-09-16", "forfeit": false, "hg": 2, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": null, "away": "Peabody Gold 63", "date": "2018-09-23", "forfeit": true, "hg": 2, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2018-09-23", "forfeit": false, "hg": 3, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": 6, "away": "Beverly Veterans", "date": "2018-09-30", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 5, "away": "Burlington 0-63", "date": "2018-09-30", "forfeit": false, "hg": 2, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 4, "away": "NASHUA GOLDEN BOOTS", "date": "2018-10-07", "forfeit": false, "hg": 4, "home": "Beverly Veterans", "home_forfeit": false}, {"ag": 7, "away": "Peabody Gold 63", "date": "2018-10-07", "forfeit": false, "hg": 0, "home": "Tewksbury", "home_forfeit": false}, {"ag": 4, "away": "Beverly Veterans", "date": "2018-10-14", "forfeit": false, "hg": 1, "home": "Burlington 0-63", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2018-10-14", "forfeit": false, "hg": 6, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold 63", "date": "2018-10-21", "forfeit": false, "hg": 2, "home": "Beverly Veterans", "home_forfeit": false}, {"ag": 0, "away": "Burlington 0-63", "date": "2018-10-21", "forfeit": false, "hg": 5, "home": "NASHUA GOLDEN BOOTS", "home_forfeit": false}, {"ag": null, "away": "NASHUA GOLDEN BOOTS", "date": "2018-10-28", "forfeit": true, "hg": 2, "home": "Peabody Gold 63", "home_forfeit": false}, {"ag": 3, "away": "Burlington 0-63", "date": "2018-10-28", "forfeit": false, "hg": 1, "home": "Tewksbury", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury", "date": "2018-11-04", "forfeit": false, "hg": 7, "home": "Beverly Veterans", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold 63", "date": "2018-11-04", "forfeit": false, "hg": 2, "home": "Burlington 0-63", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Beverly Veterans": {"recent": [{"date": "2018-11-04", "opponent": "Tewksbury", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2018-10-21", "opponent": "Peabody Gold 63", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2018-10-14", "opponent": "Burlington 0-63", "result": "W", "score": "4\u20131", "venue": "A"}], "slug": ""}, "Burlington 0-63": {"recent": [{"date": "2018-11-04", "opponent": "Peabody Gold 63", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2018-10-28", "opponent": "Tewksbury", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2018-10-21", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": ""}, "NASHUA GOLDEN BOOTS": {"recent": [{"date": "2018-10-28", "opponent": "Peabody Gold 63", "result": "L", "score": "F", "venue": "A"}, {"date": "2018-10-21", "opponent": "Burlington 0-63", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2018-10-14", "opponent": "Tewksbury", "result": "W", "score": "6\u20130", "venue": "H"}], "slug": ""}, "Peabody Gold 63": {"recent": [{"date": "2018-11-04", "opponent": "Burlington 0-63", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2018-10-28", "opponent": "NASHUA GOLDEN BOOTS", "result": "W", "score": "F", "venue": "H"}, {"date": "2018-10-21", "opponent": "Beverly Veterans", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": ""}, "Tewksbury": {"recent": [{"date": "2018-11-04", "opponent": "Beverly Veterans", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2018-10-28", "opponent": "Burlington 0-63", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2018-10-14", "opponent": "NASHUA GOLDEN BOOTS", "result": "L", "score": "0\u20136", "venue": "A"}], "slug": ""}};
@@ -664,9 +665,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -919,9 +924,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -456,6 +456,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Black Rhinos": 1557.8, "FUFC Gray": 1415.9, "MPS Silver": 1536.5, "Mariner United Seniors": 1365.8, "Sudbury AC": 1508.5}, "current_stats": {"Black Rhinos": {"gd": 1, "gf": 9, "pts": 11}, "FUFC Gray": {"gd": 7, "gf": 12, "pts": 15}, "MPS Silver": {"gd": -4, "gf": 3, "pts": 7}, "Mariner United Seniors": {"gd": -2, "gf": 14, "pts": 13}, "Sudbury AC": {"gd": -2, "gf": 9, "pts": 8}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["FUFC Gray", "Mariner United Seniors", "Black Rhinos", "Sudbury AC", "MPS Silver"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Black Rhinos", "date": "2014-09-07", "forfeit": false, "hg": 0, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 1, "away": "Mariner United Seniors", "date": "2014-09-07", "forfeit": false, "hg": 0, "home": "MPS Silver", "home_forfeit": false}, {"ag": 1, "away": "FUFC Gray", "date": "2014-09-14", "forfeit": false, "hg": 1, "home": "Mariner United Seniors", "home_forfeit": false}, {"ag": 0, "away": "MPS Silver", "date": "2014-09-14", "forfeit": false, "hg": 3, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "Black Rhinos", "date": "2014-09-21", "forfeit": false, "hg": 0, "home": "MPS Silver", "home_forfeit": false}, {"ag": 2, "away": "Sudbury AC", "date": "2014-09-21", "forfeit": false, "hg": 3, "home": "Mariner United Seniors", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2014-09-28", "forfeit": false, "hg": 2, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 0, "away": "MPS Silver", "date": "2014-09-28", "forfeit": false, "hg": 0, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 1, "away": "Black Rhinos", "date": "2014-10-05", "forfeit": false, "hg": 2, "home": "Mariner United Seniors", "home_forfeit": false}, {"ag": 0, "away": "FUFC Gray", "date": "2014-10-05", "forfeit": false, "hg": 0, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 1, "away": "FUFC Gray", "date": "2014-10-12", "forfeit": false, "hg": 0, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 1, "away": "MPS Silver", "date": "2014-10-12", "forfeit": false, "hg": 1, "home": "Mariner United Seniors", "home_forfeit": false}, {"ag": 2, "away": "Mariner United Seniors", "date": "2014-10-19", "forfeit": false, "hg": 2, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 0, "away": "Sudbury AC", "date": "2014-10-19", "forfeit": false, "hg": 1, "home": "MPS Silver", "home_forfeit": false}, {"ag": 1, "away": "MPS Silver", "date": "2014-10-26", "forfeit": false, "hg": 1, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 1, "away": "Mariner United Seniors", "date": "2014-10-26", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 0, "away": "Black Rhinos", "date": "2014-11-02", "forfeit": false, "hg": 1, "home": "Sudbury AC", "home_forfeit": false}, {"ag": 0, "away": "FUFC Gray", "date": "2014-11-02", "forfeit": false, "hg": 0, "home": "MPS Silver", "home_forfeit": false}, {"ag": 2, "away": "Mariner United Seniors", "date": "2014-11-09", "forfeit": false, "hg": 4, "home": "Black Rhinos", "home_forfeit": false}, {"ag": 1, "away": "Sudbury AC", "date": "2014-11-09", "forfeit": false, "hg": 4, "home": "FUFC Gray", "home_forfeit": false}, {"ag": 4, "away": "FUFC Gray", "date": "2014-11-23", "forfeit": false, "hg": 1, "home": "Mariner United Seniors", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Black Rhinos": {"recent": [{"date": "2014-11-09", "opponent": "Mariner United Seniors", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2014-11-02", "opponent": "Sudbury AC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2014-10-26", "opponent": "MPS Silver", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": ""}, "FUFC Gray": {"recent": [{"date": "2014-11-23", "opponent": "Mariner United Seniors", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2014-11-09", "opponent": "Sudbury AC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2014-11-02", "opponent": "MPS Silver", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": ""}, "MPS Silver": {"recent": [{"date": "2014-11-02", "opponent": "FUFC Gray", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2014-10-26", "opponent": "Black Rhinos", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2014-10-19", "opponent": "Sudbury AC", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": ""}, "Mariner United Seniors": {"recent": [{"date": "2014-11-23", "opponent": "FUFC Gray", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2014-11-09", "opponent": "Black Rhinos", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2014-10-26", "opponent": "Sudbury AC", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": ""}, "Sudbury AC": {"recent": [{"date": "2014-11-09", "opponent": "FUFC Gray", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2014-11-02", "opponent": "Black Rhinos", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2014-10-26", "opponent": "Mariner United Seniors", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": ""}};
@@ -664,9 +665,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -919,9 +924,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Ipswich": 1517.2, "North Andover Hotspurs": 1554.4, "Salem": 1533.6, "Seacoast FC": 1453.3, "Stoneham S.C.": 1590.3, "Windham": 1474.1}, "current_stats": {"Ipswich": {"gd": 6, "gf": 26, "pts": 11}, "North Andover Hotspurs": {"gd": 8, "gf": 34, "pts": 17}, "Salem": {"gd": -7, "gf": 20, "pts": 10}, "Seacoast FC": {"gd": 1, "gf": 22, "pts": 13}, "Stoneham S.C.": {"gd": 9, "gf": 31, "pts": 19}, "Windham": {"gd": -17, "gf": 20, "pts": 10}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Ipswich", "date": "TBD", "home": "Stoneham S.C.", "id": "inferred|Stoneham S.C.|Ipswich", "involves_team": false}, {"away": "Salem", "date": "TBD", "home": "Seacoast FC", "id": "inferred|Seacoast FC|Salem", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Stoneham S.C.", "North Andover Hotspurs", "Seacoast FC", "Ipswich", "Salem", "Windham"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 5, "away": "Stoneham S.C.", "date": "2005-04-10", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 1, "away": "Seacoast FC", "date": "2005-04-10", "forfeit": false, "hg": 3, "home": "Windham", "home_forfeit": false}, {"ag": 1, "away": "Ipswich", "date": "2005-04-10", "forfeit": false, "hg": 0, "home": "North Andover Hotspurs", "home_forfeit": false}, {"ag": 2, "away": "Windham", "date": "2005-04-17", "forfeit": false, "hg": 5, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 1, "away": "Salem", "date": "2005-04-17", "forfeit": false, "hg": 1, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "North Andover Hotspurs", "date": "2005-04-17", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 4, "away": "Stoneham S.C.", "date": "2005-04-24", "forfeit": false, "hg": 4, "home": "North Andover Hotspurs", "home_forfeit": false}, {"ag": 4, "away": "Salem", "date": "2005-04-24", "forfeit": false, "hg": 6, "home": "Windham", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2005-04-24", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 1, "away": "Seacoast FC", "date": "2005-05-01", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 2, "away": "North Andover Hotspurs", "date": "2005-05-01", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2005-05-01", "forfeit": false, "hg": 2, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Windham", "date": "2005-05-08", "forfeit": false, "hg": 8, "home": "North Andover Hotspurs", "home_forfeit": false}, {"ag": 1, "away": "Salem", "date": "2005-05-15", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 1, "away": "Windham", "date": "2005-05-15", "forfeit": false, "hg": 2, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 4, "away": "North Andover Hotspurs", "date": "2005-05-15", "forfeit": false, "hg": 3, "home": "Ipswich", "home_forfeit": false}, {"ag": 2, "away": "Stoneham S.C.", "date": "2005-05-22", "forfeit": false, "hg": 0, "home": "Windham", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2005-05-22", "forfeit": false, "hg": 3, "home": "Salem", "home_forfeit": false}, {"ag": 3, "away": "Seacoast FC", "date": "2005-05-22", "forfeit": false, "hg": 3, "home": "North Andover Hotspurs", "home_forfeit": false}, {"ag": 5, "away": "North Andover Hotspurs", "date": "2005-05-29", "forfeit": false, "hg": 3, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 0, "away": "Windham", "date": "2005-05-29", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "Ipswich", "date": "2005-05-29", "forfeit": false, "hg": 1, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 0, "away": "Stoneham S.C.", "date": "2005-06-05", "forfeit": false, "hg": 4, "home": "Seacoast FC", "home_forfeit": false}, {"ag": 2, "away": "Salem", "date": "2005-06-05", "forfeit": false, "hg": 3, "home": "North Andover Hotspurs", "home_forfeit": false}, {"ag": 1, "away": "Windham", "date": "2005-06-05", "forfeit": false, "hg": 9, "home": "Ipswich", "home_forfeit": false}, {"ag": 3, "away": "Ipswich", "date": "2005-06-12", "forfeit": false, "hg": 4, "home": "Stoneham S.C.", "home_forfeit": false}, {"ag": 4, "away": "Seacoast FC", "date": "2005-06-12", "forfeit": false, "hg": 2, "home": "Salem", "home_forfeit": false}, {"ag": 2, "away": "North Andover Hotspurs", "date": "2005-06-12", "forfeit": false, "hg": 3, "home": "Windham", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Ipswich": {"recent": [{"date": "2005-06-12", "opponent": "Stoneham S.C.", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2005-06-05", "opponent": "Windham", "result": "W", "score": "9\u20131", "venue": "H"}, {"date": "2005-05-29", "opponent": "Seacoast FC", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": ""}, "North Andover Hotspurs": {"recent": [{"date": "2005-06-12", "opponent": "Windham", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2005-06-05", "opponent": "Salem", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2005-05-29", "opponent": "Stoneham S.C.", "result": "W", "score": "5\u20133", "venue": "A"}], "slug": ""}, "Salem": {"recent": [{"date": "2005-06-12", "opponent": "Seacoast FC", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2005-06-05", "opponent": "North Andover Hotspurs", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2005-05-29", "opponent": "Windham", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": ""}, "Seacoast FC": {"recent": [{"date": "2005-06-12", "opponent": "Salem", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2005-06-05", "opponent": "Stoneham S.C.", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2005-05-29", "opponent": "Ipswich", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": ""}, "Stoneham S.C.": {"recent": [{"date": "2005-06-12", "opponent": "Ipswich", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2005-06-05", "opponent": "Seacoast FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2005-05-29", "opponent": "North Andover Hotspurs", "result": "L", "score": "3\u20135", "venue": "H"}], "slug": ""}, "Windham": {"recent": [{"date": "2005-06-12", "opponent": "North Andover Hotspurs", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2005-06-05", "opponent": "Ipswich", "result": "L", "score": "1\u20139", "venue": "A"}, {"date": "2005-05-29", "opponent": "Salem", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

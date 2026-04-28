@@ -484,6 +484,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Groton-Dunstable": 1458.0, "North Reading Gray Cobras": 1384.9, "North Shore Raiders": 1499.2, "Peabody Gold": 1421.1, "Saugus F.C.": 1554.8}, "current_stats": {"Groton-Dunstable": {"gd": -3, "gf": 13, "pts": 10}, "North Reading Gray Cobras": {"gd": 1, "gf": 13, "pts": 9}, "North Shore Raiders": {"gd": 1, "gf": 12, "pts": 14}, "Peabody Gold": {"gd": -7, "gf": 8, "pts": 10}, "Saugus F.C.": {"gd": 8, "gf": 19, "pts": 15}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Saugus F.C.", "North Shore Raiders", "Groton-Dunstable", "Peabody Gold", "North Reading Gray Cobras"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 3, "away": "North Shore Raiders", "date": "2009-04-05", "forfeit": false, "hg": 1, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 2, "away": "Groton-Dunstable", "date": "2009-04-05", "forfeit": false, "hg": 1, "home": "North Reading Gray Cobras", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold", "date": "2009-04-19", "forfeit": false, "hg": 2, "home": "Groton-Dunstable", "home_forfeit": false}, {"ag": 1, "away": "North Reading Gray Cobras", "date": "2009-04-19", "forfeit": false, "hg": 2, "home": "Saugus F.C.", "home_forfeit": false}, {"ag": 3, "away": "North Shore Raiders", "date": "2009-04-26", "forfeit": false, "hg": 2, "home": "North Reading Gray Cobras", "home_forfeit": false}, {"ag": 4, "away": "Saugus F.C.", "date": "2009-04-26", "forfeit": false, "hg": 3, "home": "Groton-Dunstable", "home_forfeit": false}, {"ag": 1, "away": "Saugus F.C.", "date": "2009-05-03", "forfeit": false, "hg": 2, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 0, "away": "North Reading Gray Cobras", "date": "2009-05-03", "forfeit": false, "hg": 1, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 0, "away": "North Shore Raiders", "date": "2009-05-10", "forfeit": false, "hg": 3, "home": "Groton-Dunstable", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold", "date": "2009-05-10", "forfeit": false, "hg": 0, "home": "Saugus F.C.", "home_forfeit": false}, {"ag": 1, "away": "Peabody Gold", "date": "2009-05-17", "forfeit": false, "hg": 1, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 2, "away": "North Reading Gray Cobras", "date": "2009-05-17", "forfeit": false, "hg": 0, "home": "Groton-Dunstable", "home_forfeit": false}, {"ag": 2, "away": "Groton-Dunstable", "date": "2009-05-24", "forfeit": false, "hg": 3, "home": "Peabody Gold", "home_forfeit": false}, {"ag": 2, "away": "Saugus F.C.", "date": "2009-05-24", "forfeit": false, "hg": 4, "home": "North Reading Gray Cobras", "home_forfeit": false}, {"ag": 1, "away": "North Reading Gray Cobras", "date": "2009-05-31", "forfeit": false, "hg": 2, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 0, "away": "Groton-Dunstable", "date": "2009-05-31", "forfeit": false, "hg": 4, "home": "Saugus F.C.", "home_forfeit": false}, {"ag": 0, "away": "North Shore Raiders", "date": "2009-06-07", "forfeit": false, "hg": 1, "home": "Saugus F.C.", "home_forfeit": false}, {"ag": 0, "away": "Peabody Gold", "date": "2009-06-07", "forfeit": false, "hg": 2, "home": "North Reading Gray Cobras", "home_forfeit": false}, {"ag": 1, "away": "Groton-Dunstable", "date": "2009-06-14", "forfeit": false, "hg": 1, "home": "North Shore Raiders", "home_forfeit": false}, {"ag": 5, "away": "Saugus F.C.", "date": "2009-06-14", "forfeit": false, "hg": 0, "home": "Peabody Gold", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Groton-Dunstable": {"recent": [{"date": "2009-06-14", "opponent": "North Shore Raiders", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2009-05-31", "opponent": "Saugus F.C.", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2009-05-24", "opponent": "Peabody Gold", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "North Reading Gray Cobras": {"recent": [{"date": "2009-06-07", "opponent": "Peabody Gold", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2009-05-31", "opponent": "North Shore Raiders", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2009-05-24", "opponent": "Saugus F.C.", "result": "W", "score": "4\u20132", "venue": "H"}], "slug": ""}, "North Shore Raiders": {"recent": [{"date": "2009-06-14", "opponent": "Groton-Dunstable", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2009-06-07", "opponent": "Saugus F.C.", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2009-05-31", "opponent": "North Reading Gray Cobras", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Peabody Gold": {"recent": [{"date": "2009-06-14", "opponent": "Saugus F.C.", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2009-06-07", "opponent": "North Reading Gray Cobras", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2009-05-24", "opponent": "Groton-Dunstable", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": ""}, "Saugus F.C.": {"recent": [{"date": "2009-06-14", "opponent": "Peabody Gold", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2009-06-07", "opponent": "North Shore Raiders", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2009-05-31", "opponent": "Groton-Dunstable", "result": "W", "score": "4\u20130", "venue": "H"}], "slug": ""}};
@@ -692,9 +693,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -947,9 +952,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -440,6 +440,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Boston Olympic": 1589.3, "Duxbury SC": 1421.9, "Hudson": 1456.6, "Sarsfields": 1527.4, "Suds": 1402.1, "Westwood": 1403.1}, "current_stats": {"Boston Olympic": {"gd": 15, "gf": 29, "pts": 24}, "Duxbury SC": {"gd": 0, "gf": 14, "pts": 16}, "Hudson": {"gd": -2, "gf": 23, "pts": 12}, "Sarsfields": {"gd": 1, "gf": 20, "pts": 18}, "Suds": {"gd": -2, "gf": 16, "pts": 8}, "Westwood": {"gd": -12, "gf": 14, "pts": 5}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "Suds", "date": "TBD", "home": "Boston Olympic", "id": "inferred|Boston Olympic|Suds", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["Boston Olympic", "Sarsfields", "Duxbury SC", "Hudson", "Suds", "Westwood"], "total_teams": 6};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Suds", "date": "2003-04-13", "forfeit": false, "hg": 1, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 3, "away": "Sarsfields", "date": "2003-04-20", "forfeit": false, "hg": 1, "home": "Suds", "home_forfeit": false}, {"ag": 1, "away": "Duxbury SC", "date": "2003-04-20", "forfeit": false, "hg": 2, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 1, "away": "Westwood", "date": "2003-04-20", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Suds", "date": "2003-04-27", "forfeit": false, "hg": 2, "home": "Westwood", "home_forfeit": false}, {"ag": 1, "away": "Duxbury SC", "date": "2003-04-27", "forfeit": false, "hg": 2, "home": "Sarsfields", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2003-04-27", "forfeit": false, "hg": 7, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2003-05-04", "forfeit": false, "hg": 4, "home": "Suds", "home_forfeit": false}, {"ag": 3, "away": "Westwood", "date": "2003-05-04", "forfeit": false, "hg": 1, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 6, "away": "Boston Olympic", "date": "2003-05-04", "forfeit": false, "hg": 2, "home": "Sarsfields", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-05-11", "forfeit": false, "hg": 1, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 1, "away": "Duxbury SC", "date": "2003-05-11", "forfeit": false, "hg": 1, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Sarsfields", "date": "2003-05-11", "forfeit": false, "hg": 1, "home": "Westwood", "home_forfeit": false}, {"ag": 2, "away": "Boston Olympic", "date": "2003-05-14", "forfeit": false, "hg": 0, "home": "Westwood", "home_forfeit": false}, {"ag": 3, "away": "Hudson", "date": "2003-05-17", "forfeit": false, "hg": 0, "home": "Sarsfields", "home_forfeit": false}, {"ag": 1, "away": "Duxbury SC", "date": "2003-05-18", "forfeit": false, "hg": 0, "home": "Suds", "home_forfeit": false}, {"ag": 2, "away": "Sarsfields", "date": "2003-05-18", "forfeit": false, "hg": 0, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Westwood", "date": "2003-05-18", "forfeit": false, "hg": 3, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 3, "away": "Boston Olympic", "date": "2003-05-25", "forfeit": false, "hg": 2, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 4, "away": "Hudson", "date": "2003-05-25", "forfeit": false, "hg": 2, "home": "Westwood", "home_forfeit": false}, {"ag": 1, "away": "Westwood", "date": "2003-06-01", "forfeit": false, "hg": 5, "home": "Suds", "home_forfeit": false}, {"ag": 1, "away": "Sarsfields", "date": "2003-06-01", "forfeit": false, "hg": 2, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 4, "away": "Suds", "date": "2003-06-08", "forfeit": false, "hg": 4, "home": "Hudson", "home_forfeit": false}, {"ag": 2, "away": "Duxbury SC", "date": "2003-06-08", "forfeit": false, "hg": 1, "home": "Westwood", "home_forfeit": false}, {"ag": 2, "away": "Sarsfields", "date": "2003-06-08", "forfeit": false, "hg": 3, "home": "Boston Olympic", "home_forfeit": false}, {"ag": 0, "away": "Suds", "date": "2003-06-14", "forfeit": false, "hg": 2, "home": "Sarsfields", "home_forfeit": false}, {"ag": 2, "away": "Boston Olympic", "date": "2003-06-14", "forfeit": false, "hg": 3, "home": "Hudson", "home_forfeit": false}, {"ag": 1, "away": "Hudson", "date": "2003-06-15", "forfeit": false, "hg": 2, "home": "Duxbury SC", "home_forfeit": false}, {"ag": 2, "away": "Westwood", "date": "2003-06-15", "forfeit": false, "hg": 4, "home": "Sarsfields", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Boston Olympic": {"recent": [{"date": "2003-06-14", "opponent": "Hudson", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2003-06-08", "opponent": "Sarsfields", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2003-05-25", "opponent": "Duxbury SC", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": ""}, "Duxbury SC": {"recent": [{"date": "2003-06-15", "opponent": "Hudson", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2003-06-08", "opponent": "Westwood", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2003-06-01", "opponent": "Sarsfields", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": ""}, "Hudson": {"recent": [{"date": "2003-06-15", "opponent": "Duxbury SC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2003-06-14", "opponent": "Boston Olympic", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2003-06-08", "opponent": "Suds", "result": "T", "score": "4\u20134", "venue": "H"}], "slug": ""}, "Sarsfields": {"recent": [{"date": "2003-06-15", "opponent": "Westwood", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2003-06-14", "opponent": "Suds", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2003-06-08", "opponent": "Boston Olympic", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": ""}, "Suds": {"recent": [{"date": "2003-06-14", "opponent": "Sarsfields", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2003-06-08", "opponent": "Hudson", "result": "T", "score": "4\u20134", "venue": "A"}, {"date": "2003-06-01", "opponent": "Westwood", "result": "W", "score": "5\u20131", "venue": "H"}], "slug": ""}, "Westwood": {"recent": [{"date": "2003-06-15", "opponent": "Sarsfields", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2003-06-08", "opponent": "Duxbury SC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2003-06-01", "opponent": "Suds", "result": "L", "score": "1\u20135", "venue": "A"}], "slug": ""}};
@@ -650,9 +651,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -905,9 +910,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

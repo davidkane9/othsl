@@ -463,6 +463,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"DEA": 1488.6, "Derry Eagles": 1362.0, "Hurricanes SC": 1525.5, "Lexington Eagles O55": 1521.8, "MGG": 1460.3}, "current_stats": {"DEA": {"gd": 17, "gf": 26, "pts": 19}, "Derry Eagles": {"gd": -39, "gf": 6, "pts": 0}, "Hurricanes SC": {"gd": 12, "gf": 24, "pts": 15}, "Lexington Eagles O55": {"gd": 8, "gf": 26, "pts": 10}, "MGG": {"gd": 2, "gf": 18, "pts": 13}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["DEA", "Hurricanes SC", "MGG", "Lexington Eagles O55", "Derry Eagles"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 4, "away": "Hurricanes SC", "date": "2025-04-06", "forfeit": false, "hg": 2, "home": "Derry Eagles", "home_forfeit": false}, {"ag": 3, "away": "DEA", "date": "2025-04-06", "forfeit": false, "hg": 1, "home": "Lexington Eagles O55", "home_forfeit": false}, {"ag": 2, "away": "MGG", "date": "2025-04-13", "forfeit": false, "hg": 0, "home": "DEA", "home_forfeit": false}, {"ag": 2, "away": "Lexington Eagles O55", "date": "2025-04-13", "forfeit": false, "hg": 5, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 1, "away": "MGG", "date": "2025-04-20", "forfeit": false, "hg": 2, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 2, "away": "Lexington Eagles O55", "date": "2025-04-27", "forfeit": false, "hg": 4, "home": "MGG", "home_forfeit": false}, {"ag": 4, "away": "MGG", "date": "2025-05-04", "forfeit": false, "hg": 2, "home": "Derry Eagles", "home_forfeit": false}, {"ag": 2, "away": "Hurricanes SC", "date": "2025-05-04", "forfeit": false, "hg": 2, "home": "DEA", "home_forfeit": false}, {"ag": 0, "away": "Derry Eagles", "date": "2025-05-11", "forfeit": false, "hg": 3, "home": "MGG", "home_forfeit": false}, {"ag": 1, "away": "DEA", "date": "2025-05-11", "forfeit": false, "hg": 0, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 1, "away": "MGG", "date": "2025-05-18", "forfeit": false, "hg": 2, "home": "Lexington Eagles O55", "home_forfeit": false}, {"ag": 1, "away": "Derry Eagles", "date": "2025-05-18", "forfeit": false, "hg": 7, "home": "DEA", "home_forfeit": false}, {"ag": 0, "away": "Derry Eagles", "date": "2025-05-24", "forfeit": false, "hg": 7, "home": "Lexington Eagles O55", "home_forfeit": false}, {"ag": 2, "away": "Hurricanes SC", "date": "2025-06-01", "forfeit": false, "hg": 2, "home": "MGG", "home_forfeit": false}, {"ag": 9, "away": "Lexington Eagles O55", "date": "2025-06-01", "forfeit": false, "hg": 0, "home": "Derry Eagles", "home_forfeit": false}, {"ag": 1, "away": "Derry Eagles", "date": "2025-06-08", "forfeit": false, "hg": 8, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 2, "away": "Lexington Eagles O55", "date": "2025-06-08", "forfeit": false, "hg": 4, "home": "DEA", "home_forfeit": false}, {"ag": 3, "away": "DEA", "date": "2025-06-11", "forfeit": false, "hg": 0, "home": "Derry Eagles", "home_forfeit": false}, {"ag": 6, "away": "DEA", "date": "2025-06-15", "forfeit": false, "hg": 1, "home": "MGG", "home_forfeit": false}, {"ag": 1, "away": "Hurricanes SC", "date": "2025-06-15", "forfeit": false, "hg": 1, "home": "Lexington Eagles O55", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"DEA": {"recent": [{"date": "2025-06-15", "opponent": "MGG", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2025-06-11", "opponent": "Derry Eagles", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2025-06-08", "opponent": "Lexington Eagles O55", "result": "W", "score": "4\u20132", "venue": "H"}], "slug": ""}, "Derry Eagles": {"recent": [{"date": "2025-06-11", "opponent": "DEA", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2025-06-08", "opponent": "Hurricanes SC", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2025-06-01", "opponent": "Lexington Eagles O55", "result": "L", "score": "0\u20139", "venue": "H"}], "slug": "derry-eagles-over-55-div-3-north"}, "Hurricanes SC": {"recent": [{"date": "2025-06-15", "opponent": "Lexington Eagles O55", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2025-06-08", "opponent": "Derry Eagles", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2025-06-01", "opponent": "MGG", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "hurricanes-sc-over-55-div-3-north"}, "Lexington Eagles O55": {"recent": [{"date": "2025-06-15", "opponent": "Hurricanes SC", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2025-06-08", "opponent": "DEA", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2025-06-01", "opponent": "Derry Eagles", "result": "W", "score": "9\u20130", "venue": "A"}], "slug": ""}, "MGG": {"recent": [{"date": "2025-06-15", "opponent": "DEA", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2025-06-01", "opponent": "Hurricanes SC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2025-05-18", "opponent": "Lexington Eagles O55", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "mgg-over-55-div-3-north"}};
@@ -671,9 +672,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -926,9 +931,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

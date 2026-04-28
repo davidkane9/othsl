@@ -991,34 +991,81 @@ def get_team_page_context(team_slug):
 
 
 def get_top_teams(rows=None):
-    """Top 15 teams by PPG across the current season, min 3 games played."""
+    """Top 15 teams by current ELO rating, with current-season record overlay."""
     if rows is None:
         rows = get_current_season_rows()
-    results = []
+
+    # Build current-season records per (team, age_group)
+    season_records = defaultdict(lambda: {"gp": 0, "w": 0, "l": 0, "t": 0, "pts": 0})
+    for r in rows:
+        if not (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"])):
+            continue
+        if not (is_real_team_name(r["home_team"]) and is_real_team_name(r["away_team"])):
+            continue
+        ht = clean_team_name(r["home_team"])
+        at = clean_team_name(r["away_team"])
+        ag = r["age_group"]
+        hg, ag_g = r["home_goals"], r["away_goals"]
+        if is_forfeit(hg) or is_forfeit(ag_g):
+            hwin = is_forfeit(ag_g)
+            awin = not hwin
+        else:
+            hg, ag_g = int(hg), int(ag_g)
+            hwin = hg > ag_g; awin = ag_g > hg
+        for team, win, loss in [(ht, hwin, awin), (at, awin, hwin)]:
+            k = (team, r["age_group"])
+            season_records[k]["gp"] += 1
+            if win: season_records[k]["w"] += 1; season_records[k]["pts"] += 3
+            elif loss: season_records[k]["l"] += 1
+            else: season_records[k]["t"] += 1; season_records[k]["pts"] += 1
+
+    # Get most recent ELO per (team, age_group) from elo_history
+    elo_history = load_csv(os.path.join(DATA_DIR, "elo_history.csv"))
+    latest_elo = {}  # (team, age_group) → elo
+    for row in elo_history:
+        ht = clean_team_name(row.get("home_team", ""))
+        at = clean_team_name(row.get("away_team", ""))
+        ag = row.get("age_group", "")
+        try:
+            latest_elo[(ht, ag)] = float(row["elo_home_after"])
+            latest_elo[(at, ag)] = float(row["elo_away_after"])
+        except (ValueError, KeyError):
+            pass
+
+    # Build flight lookup: (team, ag) → (flight_label, flight_slug)
+    flight_lookup = {}
     flight_rows = defaultdict(list)
     for r in rows:
         flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
-    for (ag, div, geo) in sorted(flight_rows.keys(), key=lambda x: (x[0], int(x[1]), x[2])):
+    for (ag, div, geo) in flight_rows:
+        sl = flight_slug(ag, div, geo)
+        label = f"{ag} Div {div} {geo}"
         pv = identify_playoff_visitors(rows, ag, div, geo)
         standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
-        slug = flight_slug(ag, div, geo)
-        label = f"{ag} Div {div} {geo}"
         for row in standings:
-            if row["gp"] >= 3:
-                results.append({
-                    "team": row["team"],
-                    "ppg": round(row["pts"] / row["gp"], 2),
-                    "pts": row["pts"],
-                    "gp": row["gp"],
-                    "w": row["w"],
-                    "l": row["l"],
-                    "t": row["t"],
-                    "gd": row["gd"],
-                    "age_group": ag,
-                    "flight_label": label,
-                    "flight_slug": slug,
-                })
-    results.sort(key=lambda x: (-x["ppg"], -x["pts"], -x["gd"]))
+            flight_lookup[(row["team"], ag)] = (label, sl)
+
+    # Only include teams in the current season's flights
+    results = []
+    for (team, ag), (flabel, fslug) in flight_lookup.items():
+        elo = latest_elo.get((team, ag))
+        if elo is None:
+            continue
+        rec = season_records.get((team, ag), {})
+        results.append({
+            "team": team,
+            "elo": round(elo),
+            "gp": rec.get("gp", 0),
+            "w": rec.get("w", 0),
+            "l": rec.get("l", 0),
+            "t": rec.get("t", 0),
+            "pts": rec.get("pts", 0),
+            "age_group": ag,
+            "flight_label": flabel,
+            "flight_slug": fslug,
+        })
+
+    results.sort(key=lambda x: -x["elo"])
     return results[:15]
 
 
@@ -1213,7 +1260,8 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
         if flight_slug(age_group, division, geography) == flight_slug_val:
             context = get_flight_page_context(age_group, division, geography, rows=rows)
             if context:
-                return render_template("flight.html", season=season, **context)
+                return render_template("flight.html", season=season,
+                                       is_historical=(season != CURRENT_SEASON), **context)
     return None
 
 

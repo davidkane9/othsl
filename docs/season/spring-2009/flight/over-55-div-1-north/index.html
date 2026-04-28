@@ -505,6 +505,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Andover Gold": 1422.5, "Nashua": 1626.1, "Sudbury Gold AC": 1592.1, "Tewksbury Veterans": 1350.5, "Wenham Veterans": 1431.8}, "current_stats": {"Andover Gold": {"gd": -17, "gf": 7, "pts": 9}, "Nashua": {"gd": 23, "gf": 27, "pts": 18}, "Sudbury Gold AC": {"gd": 24, "gf": 31, "pts": 19}, "Tewksbury Veterans": {"gd": -37, "gf": 3, "pts": 0}, "Wenham Veterans": {"gd": 7, "gf": 17, "pts": 11}}, "promotion_cut": 2, "relegation_cut": 1, "remaining_games": [], "schedule_inferred": false, "selected_team": "", "teams": ["Sudbury Gold AC", "Nashua", "Wenham Veterans", "Andover Gold", "Tewksbury Veterans"], "total_teams": 5};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Andover Gold", "date": "2009-04-05", "forfeit": false, "hg": 9, "home": "Sudbury Gold AC", "home_forfeit": false}, {"ag": 1, "away": "Tewksbury Veterans", "date": "2009-04-19", "forfeit": false, "hg": 3, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 6, "away": "Nashua", "date": "2009-04-19", "forfeit": false, "hg": 0, "home": "Andover Gold", "home_forfeit": false}, {"ag": 0, "away": "Wenham Veterans", "date": "2009-04-26", "forfeit": false, "hg": 3, "home": "Sudbury Gold AC", "home_forfeit": false}, {"ag": 5, "away": "Nashua", "date": "2009-04-26", "forfeit": false, "hg": 0, "home": "Tewksbury Veterans", "home_forfeit": false}, {"ag": 1, "away": "Sudbury Gold AC", "date": "2009-05-03", "forfeit": false, "hg": 1, "home": "Nashua", "home_forfeit": false}, {"ag": 2, "away": "Andover Gold", "date": "2009-05-03", "forfeit": false, "hg": 1, "home": "Tewksbury Veterans", "home_forfeit": false}, {"ag": 3, "away": "Wenham Veterans", "date": "2009-05-10", "forfeit": false, "hg": 1, "home": "Andover Gold", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury Veterans", "date": "2009-05-10", "forfeit": false, "hg": 9, "home": "Sudbury Gold AC", "home_forfeit": false}, {"ag": 0, "away": "Nashua", "date": "2009-05-17", "forfeit": false, "hg": 0, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 2, "away": "Sudbury Gold AC", "date": "2009-05-17", "forfeit": false, "hg": 1, "home": "Andover Gold", "home_forfeit": false}, {"ag": 8, "away": "Wenham Veterans", "date": "2009-05-24", "forfeit": false, "hg": 0, "home": "Tewksbury Veterans", "home_forfeit": false}, {"ag": 0, "away": "Andover Gold", "date": "2009-05-24", "forfeit": false, "hg": 2, "home": "Nashua", "home_forfeit": false}, {"ag": 1, "away": "Sudbury Gold AC", "date": "2009-05-31", "forfeit": false, "hg": 0, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 0, "away": "Tewksbury Veterans", "date": "2009-05-31", "forfeit": false, "hg": 5, "home": "Nashua", "home_forfeit": false}, {"ag": 5, "away": "Nashua", "date": "2009-06-07", "forfeit": false, "hg": 0, "home": "Sudbury Gold AC", "home_forfeit": false}, {"ag": 1, "away": "Tewksbury Veterans", "date": "2009-06-07", "forfeit": false, "hg": 2, "home": "Andover Gold", "home_forfeit": false}, {"ag": 3, "away": "Wenham Veterans", "date": "2009-06-13", "forfeit": false, "hg": 3, "home": "Nashua", "home_forfeit": false}, {"ag": 1, "away": "Andover Gold", "date": "2009-06-14", "forfeit": false, "hg": 0, "home": "Wenham Veterans", "home_forfeit": false}, {"ag": 6, "away": "Sudbury Gold AC", "date": "2009-06-14", "forfeit": false, "hg": 0, "home": "Tewksbury Veterans", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Andover Gold": {"recent": [{"date": "2009-06-14", "opponent": "Wenham Veterans", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2009-06-07", "opponent": "Tewksbury Veterans", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2009-05-24", "opponent": "Nashua", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "Nashua": {"recent": [{"date": "2009-06-13", "opponent": "Wenham Veterans", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2009-06-07", "opponent": "Sudbury Gold AC", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2009-05-31", "opponent": "Tewksbury Veterans", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": ""}, "Sudbury Gold AC": {"recent": [{"date": "2009-06-14", "opponent": "Tewksbury Veterans", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2009-06-07", "opponent": "Nashua", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2009-05-31", "opponent": "Wenham Veterans", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": ""}, "Tewksbury Veterans": {"recent": [{"date": "2009-06-14", "opponent": "Sudbury Gold AC", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2009-06-07", "opponent": "Andover Gold", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2009-05-31", "opponent": "Nashua", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": ""}, "Wenham Veterans": {"recent": [{"date": "2009-06-14", "opponent": "Andover Gold", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2009-06-13", "opponent": "Nashua", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2009-05-31", "opponent": "Sudbury Gold AC", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": ""}};
@@ -713,9 +714,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -968,9 +973,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────

@@ -386,6 +386,7 @@
 </main>
 
 <script>
+const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Methuen United": 1399.0, "N.Andover Grand Masters": 1462.9, "Tewksbury Grand Masters": 1392.9}, "current_stats": {"Methuen United": {"gd": -2, "gf": 0, "pts": 0}, "N.Andover Grand Masters": {"gd": 4, "gf": 5, "pts": 3}, "Tewksbury Grand Masters": {"gd": -2, "gf": 3, "pts": 3}}, "promotion_cut": 2, "relegation_cut": 0, "remaining_games": [{"away": "Tewksbury Grand Masters", "date": "TBD", "home": "N.Andover Grand Masters", "id": "inferred|N.Andover Grand Masters|Tewksbury Grand Masters", "involves_team": false}, {"away": "Methuen United", "date": "TBD", "home": "N.Andover Grand Masters", "id": "inferred|N.Andover Grand Masters|Methuen United", "involves_team": false}, {"away": "Methuen United", "date": "TBD", "home": "N.Andover Grand Masters", "id": "inferred|N.Andover Grand Masters|Methuen United", "involves_team": false}, {"away": "Methuen United", "date": "TBD", "home": "Tewksbury Grand Masters", "id": "inferred|Tewksbury Grand Masters|Methuen United", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["N.Andover Grand Masters", "Tewksbury Grand Masters", "Methuen United"], "total_teams": 3};
 const FLIGHT_RESULTS   = [{"ag": 5, "away": "N.Andover Grand Masters", "date": "1997-09-14", "forfeit": false, "hg": 1, "home": "Tewksbury Grand Masters", "home_forfeit": false}, {"ag": 0, "away": "Methuen United", "date": "1997-09-28", "forfeit": false, "hg": 2, "home": "Tewksbury Grand Masters", "home_forfeit": false}];
 const FLIGHT_CARDS     = {"Methuen United": {"recent": [{"date": "1997-09-28", "opponent": "Tewksbury Grand Masters", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": ""}, "N.Andover Grand Masters": {"recent": [{"date": "1997-09-14", "opponent": "Tewksbury Grand Masters", "result": "W", "score": "5\u20131", "venue": "A"}], "slug": ""}, "Tewksbury Grand Masters": {"recent": [{"date": "1997-09-28", "opponent": "Methuen United", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "1997-09-14", "opponent": "N.Andover Grand Masters", "result": "L", "score": "1\u20135", "venue": "H"}], "slug": ""}};
@@ -590,9 +591,13 @@ function updateSimHeader() {
       </tr>`;
     }).join('');
     tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-      cell.addEventListener('mouseleave',hidePopup);
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      if (!IS_HISTORICAL) {
+        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
+        cell.addEventListener('mouseleave',hidePopup);
+        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+      } else {
+        cell.style.cursor='default';
+      }
     });
   }
 
@@ -845,9 +850,13 @@ function showPopup(cell, teamName) {
 function hidePopup(){popup.classList.remove("visible");}
 
 document.querySelectorAll("td.team-name-cell").forEach(cell=>{
-  cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
-  cell.addEventListener("mouseleave",hidePopup);
-  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  if (!IS_HISTORICAL) {
+    cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
+    cell.addEventListener("mouseleave",hidePopup);
+    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
+  } else {
+    cell.style.cursor='default';
+  }
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────
