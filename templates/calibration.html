@@ -104,6 +104,25 @@
     white-space: nowrap;
   }
 
+  /* ── Week selector ─────────────────────────────────────────────── */
+  .week-selector {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .week-selector label { font-size: .9rem; white-space: nowrap; }
+  #week-slider { flex: 1; max-width: 320px; accent-color: var(--field); cursor: pointer; }
+  .week-data-info { font-size: .8rem; color: var(--muted); }
+  .outlook-charts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 640px) { .outlook-charts { grid-template-columns: 1fr; } }
+  .chart-sub-title { font-size: .88rem; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+  .outlook-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 12px; font-size: .82rem;
+    box-shadow: 0 4px 20px rgba(27,38,29,.14); transition: opacity .1s; white-space: nowrap;
+  }
+
   /* ── Bucket bars ────────────────────────────────────────────────── */
   .bucket-grid {
     display: grid;
@@ -192,13 +211,43 @@
   </div>
 
   <div class="panel">
+    <h2>Season Outlook Calibration</h2>
+    <p class="section-sub">
+      At each game-week checkpoint, the simulation predicts each team's chance of promotion or relegation.
+      How well do those predictions match what actually happened across historical seasons?
+      Use the slider to see how calibration improves as more games are played.
+    </p>
+    <div class="week-selector">
+      <label>Week: <strong id="week-display">0</strong></label>
+      <input type="range" id="week-slider" min="0" max="10" value="0" step="1">
+      <span class="week-data-info" id="week-data-info"></span>
+    </div>
+    <div class="outlook-charts">
+      <div>
+        <div class="chart-sub-title">Promotion Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="promo-canvas"></canvas>
+          <div class="outlook-tooltip" id="promo-tooltip"></div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-sub-title">Relegation Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="relg-canvas"></canvas>
+          <div class="outlook-tooltip" id="relg-tooltip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
     <h2>How It Works</h2>
     <p class="section-sub" style="margin-bottom:12px">
       ELO ratings are maintained per (team, age-group) pair. Before each game, each team has a rating; the expected
       win probability for the home side is:
     </p>
     <p style="font-family:monospace;font-size:.9rem;background:rgba(35,68,43,.07);padding:10px 14px;border-radius:8px;margin:0 0 12px">
-      P(home wins) = 1 / (1 + 10<sup>(ELO_away − ELO_home) / 400</sup>)
+      P(home wins) = 1 / (1 + 10<sup>(ELO_away − ELO_home) / 200</sup>)
     </p>
     <p style="color:var(--muted);font-size:.88rem;margin:0">
       K-factor is 32. Ratings regress 40% toward 1500 between seasons to account for roster turnover.
@@ -338,6 +387,154 @@ const CAL_POINTS = {{ cal.points | tojson }};
     }
   });
   canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+})();
+
+const SEASON_CAL = {{ season_cal | tojson }};
+
+// ── Season outlook charts ──────────────────────────────────────────
+(function() {
+  const slider  = document.getElementById('week-slider');
+  const display = document.getElementById('week-display');
+  const infoEl  = document.getElementById('week-data-info');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 400, H = 280;
+  const PAD = { top: 20, right: 20, bottom: 44, left: 50 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top - PAD.bottom;
+
+  function setup(id) {
+    const c = document.getElementById(id);
+    c.width  = W * dpr; c.height = H * dpr;
+    c.style.width  = W + 'px'; c.style.height = H + 'px';
+    const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+    return { canvas: c, ctx };
+  }
+
+  const promo = setup('promo-canvas');
+  const relg  = setup('relg-canvas');
+
+  function px(x, y) { return [PAD.left + x * cw, PAD.top + (1 - y) * ch]; }
+
+  function drawChart({ canvas, ctx }, points, fillColor, glowColor) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(38,61,41,0.08)'; ctx.lineWidth = 1;
+    for (let v = 0; v <= 10; v++) {
+      const t = v / 10;
+      ctx.beginPath(); ctx.moveTo(...px(t, 0)); ctx.lineTo(...px(t, 1)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(...px(0, t)); ctx.lineTo(...px(1, t)); ctx.stroke();
+    }
+
+    // ±0.1 confidence band
+    ctx.fillStyle = 'rgba(35,68,43,0.05)';
+    ctx.beginPath(); ctx.moveTo(...px(0, 0.1));
+    for (let t = 0; t <= 1; t += 0.01) ctx.lineTo(...px(t, Math.min(1, t + 0.1)));
+    ctx.lineTo(...px(1, 1)); ctx.lineTo(...px(1, 0.9));
+    for (let t = 1; t >= 0; t -= 0.01) ctx.lineTo(...px(t, Math.max(0, t - 0.1)));
+    ctx.closePath(); ctx.fill();
+
+    // Diagonal
+    ctx.strokeStyle = 'rgba(35,68,43,0.35)'; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 1)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(38,61,41,0.3)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(0, 1)); ctx.stroke();
+
+    // Axis tick labels
+    ctx.fillStyle = '#5f695f'; ctx.font = '10px Georgia, serif';
+    ctx.textAlign = 'center';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(t, 0);
+      ctx.fillText((t * 100).toFixed(0) + '%', x, y + 16);
+    }
+    ctx.textAlign = 'right';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(0, t);
+      ctx.fillText((t * 100).toFixed(0) + '%', x - 5, y + 3);
+    }
+    ctx.save(); ctx.translate(12, PAD.top + ch / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center'; ctx.fillText('Actual rate', 0, 0); ctx.restore();
+    ctx.textAlign = 'center';
+    ctx.fillText('Predicted probability', PAD.left + cw / 2, H - 5);
+
+    if (!points || !points.length) {
+      ctx.fillStyle = 'rgba(95,105,95,0.5)'; ctx.font = '12px Georgia, serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('No data for this week', W / 2, H / 2);
+      ctx.textBaseline = 'alphabetic';
+      return;
+    }
+
+    const maxN = Math.max(...points.map(p => p.n), 1);
+    const minR = 5, maxR = 16;
+
+    for (const pt of points) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = minR + (pt.n / maxN) * (maxR - minR);
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+      grd.addColorStop(0, glowColor); grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = fillColor; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+
+  function makeTooltip(canvas, tooltipEl, getPoints) {
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const points = getPoints();
+      if (!points) { tooltipEl.style.opacity = '0'; return; }
+      const maxN = Math.max(...points.map(p => p.n), 1);
+      let hit = null;
+      for (const pt of points) {
+        const [cx, cy] = px(pt.pred, pt.actual);
+        const r = 5 + (pt.n / maxN) * 11 + 4;
+        if (Math.hypot(mx - cx, my - cy) < r) { hit = pt; break; }
+      }
+      if (hit) {
+        tooltipEl.style.opacity = '1';
+        tooltipEl.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> → ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} team-seasons</span>`;
+        const tw = tooltipEl.offsetWidth, th = tooltipEl.offsetHeight;
+        let lx = mx + 14, ly = my - th / 2;
+        if (lx + tw > W) lx = mx - tw - 14;
+        tooltipEl.style.left = lx + 'px'; tooltipEl.style.top = ly + 'px';
+      } else {
+        tooltipEl.style.opacity = '0';
+      }
+    });
+    canvas.addEventListener('mouseleave', () => { tooltipEl.style.opacity = '0'; });
+  }
+
+  function update(week) {
+    const data = SEASON_CAL[String(week)] || { promo: [], relg: [] };
+    drawChart(promo, data.promo, '#237744', 'rgba(35,119,68,0.22)');
+    drawChart(relg,  data.relg,  '#a63f35', 'rgba(166,63,53,0.22)');
+    const np = data.promo.reduce((s, p) => s + p.n, 0);
+    const nr = data.relg.reduce((s, p) => s + p.n, 0);
+    infoEl.textContent = `${np.toLocaleString()} promo · ${nr.toLocaleString()} relg team-seasons`;
+  }
+
+  let currentWeek = 0;
+  makeTooltip(promo.canvas, document.getElementById('promo-tooltip'), () => (SEASON_CAL[String(currentWeek)] || {}).promo);
+  makeTooltip(relg.canvas,  document.getElementById('relg-tooltip'),  () => (SEASON_CAL[String(currentWeek)] || {}).relg);
+
+  slider.addEventListener('input', () => {
+    currentWeek = parseInt(slider.value, 10);
+    display.textContent = currentWeek;
+    update(currentWeek);
+  });
+
+  update(0);
 })();
 
 // ── Bucket bar chart ───────────────────────────────────────────────

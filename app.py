@@ -8,10 +8,12 @@ Then open http://localhost:5000
 """
 
 import csv
+import json
 import os
 import re
 import random
 from collections import defaultdict
+from datetime import datetime, timedelta
 from flask import Flask, abort, render_template, request
 
 app = Flask(__name__)
@@ -143,7 +145,7 @@ def season_sort_key(season_name):
 
 
 def expected_result(elo_a, elo_b):
-    return 1.0 / (1.0 + 10 ** ((elo_b - elo_a) / 400))
+    return 1.0 / (1.0 + 10 ** ((elo_b - elo_a) / 200))
 
 
 def identify_playoff_visitors(rows, age_group, division, geography):
@@ -1069,9 +1071,176 @@ def get_top_teams(rows=None):
     return results[:15]
 
 
+def get_season_outlook_calibration():
+    """
+    For each completed historical season/flight, run a simulation at each
+    game-week checkpoint and compare predicted promo/relg probabilities to
+    actual outcomes. Returns bucketed calibration curves indexed by week 1-10.
+    """
+    SIM_RUNS  = 100
+    MAX_WEEKS = 10
+    N_BUCKETS = 10
+    DP = 0.22
+
+    # Build ELO timeline: (team, ag) -> sorted [(date, elo_after)]
+    elo_hist = load_csv(os.path.join(DATA_DIR, "elo_history.csv"))
+    elo_tl = defaultdict(list)
+    for row in elo_hist:
+        try:
+            d  = row["date"]
+            ag = row["age_group"]
+            elo_tl[(clean_team_name(row["home_team"]), ag)].append((d, float(row["elo_home_after"])))
+            elo_tl[(clean_team_name(row["away_team"]), ag)].append((d, float(row["elo_away_after"])))
+        except (ValueError, KeyError):
+            pass
+    for k in elo_tl:
+        elo_tl[k].sort()
+
+    def get_elo(team, ag, cutoff):
+        elo = DEFAULT_ELO
+        for d, e in elo_tl.get((team, ag), []):
+            if d <= cutoff:
+                elo = e
+            else:
+                break
+        return elo
+
+    def sim_once(teams, base, elos, remaining):
+        st = {t: dict(s) for t, s in base.items()}
+        el = dict(elos)
+        for home, away in remaining:
+            if home not in st or away not in st:
+                continue
+            we = expected_result(el.get(home, DEFAULT_ELO), el.get(away, DEFAULT_ELO))
+            hp = max(0.05, min(0.90, we - DP / 2))
+            r  = random.random()
+            if r < hp:
+                st[home]["pts"] += 3; st[home]["gd"] += 1; st[home]["gf"] += 2
+                st[away]["gd"]  -= 1; st[away]["gf"] += 1
+            elif r < hp + DP:
+                st[home]["pts"] += 1; st[away]["pts"] += 1
+                st[home]["gf"]  += 1; st[away]["gf"]  += 1
+            else:
+                st[away]["pts"] += 3; st[away]["gd"] += 1; st[away]["gf"] += 2
+                st[home]["gd"]  -= 1; st[home]["gf"] += 1
+            act = 1.0 if r < hp else (0.5 if r < hp + DP else 0.0)
+            ex  = expected_result(el.get(home, DEFAULT_ELO), el.get(away, DEFAULT_ELO))
+            el[home] = el.get(home, DEFAULT_ELO) + 32 * (act - ex)
+            el[away] = el.get(away, DEFAULT_ELO) + 32 * ((1 - act) - (1 - ex))
+        return sorted(teams, key=lambda t: (-st[t]["pts"], -st[t]["gd"], -st[t]["gf"], t))
+
+    # week_pts[week]["promo"|"relg"] = list of (pred, actual)
+    week_pts = {w: {"promo": [], "relg": []} for w in range(MAX_WEEKS + 1)}
+
+    for season in get_all_seasons():
+        if season == CURRENT_SEASON:
+            continue
+        rows = get_rows_for_season(season)
+        flight_rows = defaultdict(list)
+        for r in rows:
+            if r["age_group"] and r["division"] and r["geography"]:
+                flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
+
+        for (ag, div, geo), frows in flight_rows.items():
+            pv = identify_playoff_visitors(rows, ag, div, geo)
+
+            def real(r):
+                ht = clean_team_name(r["home_team"])
+                at = clean_team_name(r["away_team"])
+                if not (is_real_team_name(r["home_team"]) and is_real_team_name(r["away_team"])):
+                    return False
+                if pv and (ht in pv or at in pv):
+                    return False
+                return True
+
+            played_rows = [r for r in frows if real(r) and
+                           (has_played_score(r) or is_forfeit(r["home_goals"]) or is_forfeit(r["away_goals"]))]
+            all_game_rows = [r for r in frows if real(r)]
+
+            teams = sorted({
+                name
+                for r in all_game_rows
+                for name in (clean_team_name(r["home_team"]), clean_team_name(r["away_team"]))
+            })
+            n = len(teams)
+            if n < 4:
+                continue
+
+            promo_cut = 2
+            relg_cut  = 2 if n >= 6 else (1 if n >= 4 else 0)
+
+            final = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
+            if not final:
+                continue
+            actual_promo = {row["team"] for i, row in enumerate(final) if i < promo_cut}
+            actual_relg  = {row["team"] for i, row in enumerate(final) if i >= n - relg_cut}
+
+            dates = sorted({r["date"] for r in played_rows if r["date"] != "TBD"})
+            if not dates:
+                continue
+
+            # Week 0 = before any games (pure ELO)
+            pre_season = (datetime.strptime(dates[0][:10], "%Y-%m-%d") - timedelta(days=1)).strftime("%Y-%m-%d")
+            checkpoints = [(0, None, pre_season)] + [(w, dates[w - 1], dates[w - 1]) for w in range(1, min(MAX_WEEKS, len(dates)) + 1)]
+
+            for week, cutoff, elo_cutoff in checkpoints:
+                base = {t: {"pts": 0, "gd": 0, "gf": 0} for t in teams}
+                if cutoff:
+                    for r in played_rows:
+                        if r["date"] > cutoff:
+                            continue
+                        ht = clean_team_name(r["home_team"])
+                        at = clean_team_name(r["away_team"])
+                        if ht not in base or at not in base:
+                            continue
+                        hg_s, ag_s = r["home_goals"], r["away_goals"]
+                        if is_forfeit(hg_s) or is_forfeit(ag_s):
+                            winner, loser = (at, ht) if is_forfeit(hg_s) else (ht, at)
+                            base[winner]["pts"] += 3; base[winner]["gd"] += 1; base[winner]["gf"] += 2
+                            base[loser]["gd"]   -= 1; base[loser]["gf"]  += 1
+                        elif hg_s.isdigit() and ag_s.isdigit():
+                            hg, ag_g = int(hg_s), int(ag_s)
+                            base[ht]["gf"] += hg; base[ht]["gd"] += hg - ag_g
+                            base[at]["gf"] += ag_g; base[at]["gd"] += ag_g - hg
+                            if hg > ag_g:   base[ht]["pts"] += 3
+                            elif ag_g > hg: base[at]["pts"] += 3
+                            else:           base[ht]["pts"] += 1; base[at]["pts"] += 1
+
+                elos = {t: get_elo(t, ag, elo_cutoff) for t in teams}
+                remaining = [(clean_team_name(r["home_team"]), clean_team_name(r["away_team"]))
+                             for r in all_game_rows
+                             if not cutoff or r["date"] == "TBD" or r["date"] > cutoff]
+
+                promo_ct = defaultdict(int)
+                relg_ct  = defaultdict(int)
+                for _ in range(SIM_RUNS):
+                    ranked = sim_once(teams, base, elos, remaining)
+                    for i, t in enumerate(ranked):
+                        if i < promo_cut:        promo_ct[t] += 1
+                        if i >= n - relg_cut:    relg_ct[t]  += 1
+
+                for t in teams:
+                    pp = promo_ct[t] / SIM_RUNS
+                    rp = relg_ct[t]  / SIM_RUNS
+                    week_pts[week]["promo"].append((pp, 1 if t in actual_promo else 0))
+                    week_pts[week]["relg"].append( (rp, 1 if t in actual_relg  else 0))
+
+    def bucket(pairs):
+        bp, ba, bn = defaultdict(float), defaultdict(float), defaultdict(int)
+        for pred, actual in pairs:
+            idx = min(int(pred * N_BUCKETS), N_BUCKETS - 1)
+            bp[idx] += pred; ba[idx] += actual; bn[idx] += 1
+        return [{"pred": round(bp[i]/bn[i], 3), "actual": round(ba[i]/bn[i], 3), "n": bn[i]}
+                for i in range(N_BUCKETS) if bn[i] >= 5]
+
+    return {
+        str(w): {"promo": bucket(week_pts[w]["promo"]), "relg": bucket(week_pts[w]["relg"])}
+        for w in range(MAX_WEEKS + 1)
+    }
+
+
 def get_calibration_data():
     """Compute ELO calibration stats from full elo_history.csv."""
-    from elo import expected as elo_expected
     history = load_csv(os.path.join(DATA_DIR, "elo_history.csv"))
     N = 20  # 5%-wide buckets
     bucket_pred  = defaultdict(float)
@@ -1091,7 +1260,7 @@ def get_calibration_data():
             hg, ag = int(hg), int(ag)
         except (ValueError, KeyError):
             continue
-        exp = elo_expected(eh, ea)
+        exp = 1.0 / (1.0 + 10 ** ((ea - eh) / 200))
         actual = 1.0 if hg > ag else 0.0 if hg < ag else 0.5
         idx = min(int(exp * N), N - 1)
         bucket_pred[idx] += exp
@@ -1288,11 +1457,24 @@ def flight_page_historical(season_slug, flight_slug_val):
     abort(404)
 
 
+_SEASON_CAL_CACHE = os.path.join(DATA_DIR, "season_outlook_cal.json")
+
+def load_season_outlook_calibration():
+    if os.path.exists(_SEASON_CAL_CACHE):
+        with open(_SEASON_CAL_CACHE) as f:
+            return json.load(f)
+    result = get_season_outlook_calibration()
+    with open(_SEASON_CAL_CACHE, "w") as f:
+        json.dump(result, f)
+    return result
+
+
 @app.route("/calibration/")
 def calibration_page():
     return render_template(
         "calibration.html",
         cal=get_calibration_data(),
+        season_cal=load_season_outlook_calibration(),
         home_path="../",
     )
 

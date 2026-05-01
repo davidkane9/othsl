@@ -640,7 +640,7 @@ document.querySelectorAll(".page-link").forEach(link=>{
 
 // ── Simulation worker ─────────────────────────────────────────────────────
 const WORKER_SRC = `
-  function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/400));}
+  function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/200));}
   function simOnce(teams,baseStats,baseElos,games,overrides){
     const st={},el={};
     for(const t of teams){st[t]={pts:baseStats[t].pts,gd:baseStats[t].gd,gf:baseStats[t].gf};el[t]=baseElos[t]||1500;}
