@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTHSL | Fall 2020</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --field-2: #6f8f63;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 36px;
+    border-radius: 30px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -50px -120px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 26px;
+    align-items: start;
+    margin-top: 16px;
+  }
+
+  .hero h1 {
+    margin: 6px 0 10px;
+    font-size: 1.05rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: rgba(247,242,232,.55);
+  }
+
+  .hero p {
+    margin: 0;
+    max-width: 58ch;
+    color: rgba(247, 242, 232, 0.82);
+    line-height: 1.65;
+    font-size: 1.03rem;
+  }
+
+  .hero-meta {
+    margin-top: 18px;
+    color: rgba(247, 242, 232, 0.72);
+    font-size: 0.95rem;
+  }
+
+  .hero-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hero-card {
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .hero-card .label {
+    color: rgba(247, 242, 232, 0.64);
+  }
+
+  .hero-card .value {
+    font-size: 1.95rem;
+    line-height: 1;
+  }
+
+  .hero-card .sub {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: rgba(247, 242, 232, 0.72);
+  }
+
+  .section {
+    margin-top: 26px;
+    padding: 28px;
+    border-radius: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .section-title h2 {
+    margin: 0 0 4px;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* Season selector */
+  .season-select-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .season-select-wrap .label {
+    margin-bottom: 0;
+    color: var(--muted);
+  }
+
+  .season-select {
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    min-width: 160px;
+  }
+
+  .season-select:focus {
+    outline: 2px solid var(--field);
+    outline-offset: 2px;
+  }
+
+  /* Full-width flight directory table */
+  .flight-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    border: 1.5px solid rgba(38, 61, 41, 0.22);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .flight-col {
+    border-right: 1.5px solid rgba(38, 61, 41, 0.18);
+  }
+
+  .flight-col:last-child {
+    border-right: none;
+  }
+
+  .flight-col-header {
+    padding: 11px 14px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    border-bottom: 1.5px solid rgba(38, 61, 41, 0.22);
+    background: rgba(35, 68, 43, 0.07);
+    color: var(--field);
+  }
+
+  .flight-div-row {
+    display: flex;
+    gap: 6px;
+    padding: 7px 14px;
+    border-bottom: 1px solid rgba(38, 61, 41, 0.1);
+    flex-wrap: wrap;
+  }
+
+  .flight-div-row:last-child {
+    border-bottom: none;
+  }
+
+  .flight-link {
+    font-size: 0.84rem;
+    color: #8b1a1a;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 2px 1px;
+  }
+
+  .flight-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Historical season notice */
+  .historical-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: rgba(198, 138, 43, 0.1);
+    border: 1px solid rgba(198, 138, 43, 0.28);
+    color: var(--ink);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .historical-notice a {
+    color: var(--field);
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Feedback */
+  .feedback-section {
+    margin-top: 10px;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .feedback-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .feedback-drawer {
+    display: none;
+    margin-top: 16px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feedback-drawer.open { display: block; }
+
+  .feedback-drawer h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .feedback-drawer p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .feedback-field label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .feedback-submit:disabled {
+    background: #90a08f;
+    cursor: not-allowed;
+  }
+
+  .feedback-thanks {
+    display: none;
+    color: var(--field);
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  .subscribe-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(35,68,43,0.08), rgba(198,138,43,0.10));
+    border: 1px solid rgba(198,138,43,0.25);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-banner-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .subscribe-banner-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .subscribe-banner-text span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn:hover { opacity: 0.88; }
+
+  /* ── Nav ─────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 24px; height: 52px;
+    width: min(1180px, calc(100% - 32px));
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  /* ── Plinko ────────────────────────────────────────────────── */
+  .plinko-panel {
+    background: rgba(18,40,22,0.82); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px; padding: 18px 16px 14px; display: flex;
+    flex-direction: column; align-items: center; gap: 0;
+  }
+  .plinko-eyebrow { font-size: .63rem; text-transform: uppercase; letter-spacing: .1em; color: rgba(247,242,232,.4); margin-bottom: 3px; }
+  .plinko-team-name { font-size: 1rem; font-weight: 700; color: #f7f2e8; margin-bottom: 10px; text-align: center; }
+  .plinko-canvas-wrap { position: relative; width: 100%; }
+  #plinko-canvas { display: block; width: 100%; }
+  .plinko-stats { display: flex; gap: 20px; margin-top: 8px; }
+  .plinko-stat { text-align: center; }
+  .plinko-stat-val { font-size: 1.2rem; font-weight: 700; color: #f7f2e8; line-height: 1; }
+  .plinko-stat-lbl { font-size: .6rem; text-transform: uppercase; letter-spacing: .07em; color: rgba(247,242,232,.45); margin-top: 2px; }
+  .plinko-link {
+    margin-top: 10px; font-size: .75rem; color: rgba(247,242,232,.55);
+    text-decoration: none; border: 1px solid rgba(255,255,255,.12);
+    border-radius: 20px; padding: 4px 14px; transition: all .15s;
+  }
+  .plinko-link:hover { color: #f7f2e8; background: rgba(255,255,255,.08); }
+
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+    .hero, .section { padding: 20px; border-radius: 22px; }
+    .section-title { flex-direction: column; align-items: start; }
+    .flight-table { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../" class="active">Home</a></li>
+      <li><a href="../../calibration/">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="page">
+    <section class="hero">
+      <span class="eyebrow">OTHSL Match Intelligence</span>
+      <div class="hero-grid">
+        <div>
+          <h1>Fall 2020</h1>
+          <p>
+            League standings, team pages, and model-driven views for every season,
+            organized by flight.
+          </p>
+          <div class="hero-meta">
+            Historical season — select a flight below to browse standings
+          </div>
+        </div>
+        
+        <div class="hero-cards">
+          <div class="hero-card">
+            <span class="label">Teams</span>
+            <div class="value">164</div>
+            <div class="sub">Active this season</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Flights</span>
+            <div class="value">30</div>
+            <div class="sub">Age group × division × geography</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Games</span>
+            <div class="value">682</div>
+            <div class="sub">Completed results</div>
+          </div>
+          <div class="hero-card">
+            <span class="label">Age Groups</span>
+            <div class="value">5</div>
+            <div class="sub">Ladders to explore</div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    
+
+    <section class="section" id="flights-section">
+      <div class="section-title">
+        <div>
+          <h2>Flight Directory</h2>
+          <p class="note">Click a flight to view standings and results.</p>
+        </div>
+        <div class="season-select-wrap">
+          <span class="label">Season</span>
+          <select id="season-select-main" class="season-select">
+            
+            <option value="spring-2026" >Spring 2026</option>
+            
+            <option value="fall-2025" >Fall 2025</option>
+            
+            <option value="spring-2025" >Spring 2025</option>
+            
+            <option value="fall-2024" >Fall 2024</option>
+            
+            <option value="spring-2024" >Spring 2024</option>
+            
+            <option value="fall-2023" >Fall 2023</option>
+            
+            <option value="spring-2023" >Spring 2023</option>
+            
+            <option value="fall-2022" >Fall 2022</option>
+            
+            <option value="spring-2022" >Spring 2022</option>
+            
+            <option value="fall-2021" >Fall 2021</option>
+            
+            <option value="spring-2021" >Spring 2021</option>
+            
+            <option value="fall-2020" selected>Fall 2020</option>
+            
+            <option value="fall-2019" >Fall 2019</option>
+            
+            <option value="spring-2019" >Spring 2019</option>
+            
+            <option value="fall-2018" >Fall 2018</option>
+            
+            <option value="spring-2018" >Spring 2018</option>
+            
+            <option value="fall-2017" >Fall 2017</option>
+            
+            <option value="spring-2017" >Spring 2017</option>
+            
+            <option value="fall-2016" >Fall 2016</option>
+            
+            <option value="spring-2016" >Spring 2016</option>
+            
+            <option value="fall-2015" >Fall 2015</option>
+            
+            <option value="spring-2015" >Spring 2015</option>
+            
+            <option value="fall-2014" >Fall 2014</option>
+            
+            <option value="spring-2014" >Spring 2014</option>
+            
+            <option value="fall-2013" >Fall 2013</option>
+            
+            <option value="spring-2013" >Spring 2013</option>
+            
+            <option value="fall-2012" >Fall 2012</option>
+            
+            <option value="spring-2012" >Spring 2012</option>
+            
+            <option value="fall-2011" >Fall 2011</option>
+            
+            <option value="spring-2011" >Spring 2011</option>
+            
+            <option value="fall-2010" >Fall 2010</option>
+            
+            <option value="spring-2010" >Spring 2010</option>
+            
+            <option value="fall-2009" >Fall 2009</option>
+            
+            <option value="spring-2009" >Spring 2009</option>
+            
+            <option value="fall-2008" >Fall 2008</option>
+            
+            <option value="spring-2008" >Spring 2008</option>
+            
+            <option value="fall-2007" >Fall 2007</option>
+            
+            <option value="spring-2007" >Spring 2007</option>
+            
+            <option value="fall-2006" >Fall 2006</option>
+            
+            <option value="spring-2006" >Spring 2006</option>
+            
+            <option value="fall-2005" >Fall 2005</option>
+            
+            <option value="spring-2005" >Spring 2005</option>
+            
+            <option value="fall-2004" >Fall 2004</option>
+            
+            <option value="spring-2004" >Spring 2004</option>
+            
+            <option value="fall-2003" >Fall 2003</option>
+            
+            <option value="spring-2003" >Spring 2003</option>
+            
+            <option value="fall-2002" >Fall 2002</option>
+            
+            <option value="spring-2002" >Spring 2002</option>
+            
+            <option value="fall-2001" >Fall 2001</option>
+            
+            <option value="spring-2001" >Spring 2001</option>
+            
+            <option value="fall-2000" >Fall 2000</option>
+            
+            <option value="spring-2000" >Spring 2000</option>
+            
+            <option value="fall-1999" >Fall 1999</option>
+            
+            <option value="spring-1999" >Spring 1999</option>
+            
+            <option value="fall-1998" >Fall 1998</option>
+            
+            <option value="spring-1998" >Spring 1998</option>
+            
+            <option value="fall-1997" >Fall 1997</option>
+            
+            <option value="spring-1997" >Spring 1997</option>
+            
+          </select>
+        </div>
+      </div>
+
+      
+      <div class="historical-notice">
+        Viewing historical data for <strong>Fall 2020</strong>.
+        <a href="../../">Switch to current season</a>
+      </div>
+      
+
+      <div class="flight-table">
+        
+        <div class="flight-col">
+          <div class="flight-col-header">Over 30</div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-30-div-1-north/" class="flight-link page-link">1n</a>
+            
+            <a href="flight/over-30-div-1-south/" class="flight-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-30-div-2-north/" class="flight-link page-link">2n</a>
+            
+            <a href="flight/over-30-div-2-south/" class="flight-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-30-div-3-north/" class="flight-link page-link">3n</a>
+            
+            <a href="flight/over-30-div-3-south/" class="flight-link page-link">3s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="flight-col">
+          <div class="flight-col-header">Over 40</div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-1-north/" class="flight-link page-link">1n</a>
+            
+            <a href="flight/over-40-div-1-south/" class="flight-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-2-north/" class="flight-link page-link">2n</a>
+            
+            <a href="flight/over-40-div-2-south/" class="flight-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-3-north/" class="flight-link page-link">3n</a>
+            
+            <a href="flight/over-40-div-3-south/" class="flight-link page-link">3s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-4-north/" class="flight-link page-link">4n</a>
+            
+            <a href="flight/over-40-div-4-south/" class="flight-link page-link">4s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-5-north/" class="flight-link page-link">5n</a>
+            
+            <a href="flight/over-40-div-5-south/" class="flight-link page-link">5s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-40-div-6-north/" class="flight-link page-link">6n</a>
+            
+            <a href="flight/over-40-div-6-south/" class="flight-link page-link">6s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="flight-col">
+          <div class="flight-col-header">Over 48</div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-48-div-1-north/" class="flight-link page-link">1n</a>
+            
+            <a href="flight/over-48-div-1-south/" class="flight-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-48-div-2-north/" class="flight-link page-link">2n</a>
+            
+            <a href="flight/over-48-div-2-south/" class="flight-link page-link">2s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-48-div-3-north/" class="flight-link page-link">3n</a>
+            
+            <a href="flight/over-48-div-3-south/" class="flight-link page-link">3s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-48-div-4-central/" class="flight-link page-link">4c</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="flight-col">
+          <div class="flight-col-header">Over 55</div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-55-div-1-north/" class="flight-link page-link">1n</a>
+            
+            <a href="flight/over-55-div-1-south/" class="flight-link page-link">1s</a>
+            
+          </div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-55-div-2-south/" class="flight-link page-link">2s</a>
+            
+          </div>
+          
+        </div>
+        
+        <div class="flight-col">
+          <div class="flight-col-header">Over 62</div>
+          
+          <div class="flight-div-row">
+            
+            <a href="flight/over-62-div-1-central/" class="flight-link page-link">1c</a>
+            
+            <a href="flight/over-62-div-1-south/" class="flight-link page-link">1s</a>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </section>
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+
+      <div class="feedback-section">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+const CURRENT_SEASON_SLUG = "spring-2026";
+const FLIGHT_URL_PREFIX = "flight/";
+const HOME_PATH = "../../";
+const SEASON_NAV_PREFIX = "../";
+
+(function () {
+  var sel = document.getElementById("season-select-main");
+  sel.addEventListener("change", function () {
+    var slug = this.value;
+    document.body.classList.add("is-leaving");
+    window.setTimeout(function () {
+      window.location.href = slug === CURRENT_SEASON_SLUG
+        ? HOME_PATH
+        : SEASON_NAV_PREFIX + slug + "/";
+    }, 180);
+  });
+})();
+
+// ── Plinko animation ─────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('plinko-canvas');
+  if (!canvas) return;
+  const PLINKO = null;
+  if (!PLINKO) return;
+
+  const dpr = window.devicePixelRatio || 1;
+  const CW = canvas.parentElement.clientWidth || 320;
+  const N  = PLINKO.n_teams;
+  const ROWS = Math.min(8, N + 2);
+  const BIN_H = 56, TOP_PAD = 16, PEG_R = 3;
+  const CH = TOP_PAD + ROWS * 26 + BIN_H + 8;
+  canvas.width  = CW * dpr; canvas.height = CH * dpr;
+  canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
+  const ctx = canvas.getContext('2d'); ctx.scale(dpr, dpr);
+
+  const BW = CW / N;
+  const promo_cut = PLINKO.promo_cut, relg_cut = PLINKO.relg_cut;
+
+  // Build probability array indexed by bin (0 = 1st place)
+  const probs = new Array(N).fill(0);
+  for (const pp of PLINKO.place_probs) probs[pp.place - 1] = pp.probability / 100;
+
+  // Peg positions
+  const pegs = [];
+  for (let row = 0; row < ROWS; row++) {
+    const count = row % 2 === 0 ? N - 1 : N;
+    const offset = row % 2 === 0 ? BW : BW / 2;
+    const y = TOP_PAD + row * 26;
+    for (let col = 0; col < count; col++) {
+      pegs.push({ x: offset + col * BW, y });
+    }
+  }
+
+  // Ball state
+  let balls = [];
+  let binCounts = new Array(N).fill(0);
+  let totalDropped = 0;
+  let totalLanded  = 0;
+  const MAX_BALLS = 150;
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl  = document.getElementById('plinko-relg-pct');
+
+  function updateStats() {
+    if (!totalLanded) return;
+    let promo = 0, relg = 0;
+    for (let i = 0; i < promo_cut; i++) promo += binCounts[i];
+    for (let i = N - relg_cut; i < N; i++) relg += binCounts[i];
+    if (promoEl) promoEl.textContent = Math.round(100 * promo / totalLanded) + '%';
+    if (relgEl)  relgEl.textContent  = Math.round(100 * relg  / totalLanded) + '%';
+  }
+
+  function spawnBall() {
+    // Choose target bin weighted by probs
+    const r = Math.random();
+    let cum = 0, targetBin = N - 1;
+    for (let i = 0; i < N; i++) { cum += probs[i]; if (r < cum) { targetBin = i; break; } }
+    // Start x biased toward target bin center
+    const targetX = (targetBin + 0.5) * BW;
+    const startX = CW / 2 * 0.3 + targetX * 0.7 + (Math.random() - 0.5) * BW * 0.4;
+    balls.push({ x: startX, y: -8, vy: 0.35, vx: (Math.random() - 0.5) * 0.3, done: false, bin: targetBin });
+    totalDropped++;
+  }
+
+  const replayBtn = document.getElementById('plinko-replay');
+  if (replayBtn) {
+    replayBtn.addEventListener('click', () => {
+      balls = []; binCounts.fill(0); totalDropped = 0; totalLanded = 0;
+      if (promoEl) promoEl.textContent = '—';
+      if (relgEl)  relgEl.textContent  = '—';
+    });
+  }
+
+  function binColor(i) {
+    if (i < promo_cut) return 'rgba(74,222,128,0.55)';
+    if (i >= N - relg_cut) return 'rgba(248,113,113,0.45)';
+    return 'rgba(255,255,255,0.1)';
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, CW, CH);
+    const pegRowY = TOP_PAD + (ROWS - 1) * 26;
+    const binTop = pegRowY + 24;
+
+    // Bins — scale bars proportionally to the most-filled bin
+    const maxCount = Math.max(1, ...binCounts);
+    for (let i = 0; i < N; i++) {
+      const bx = i * BW + 1;
+      const maxH = BIN_H - 6;
+      const h = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxH) : 0;
+      ctx.fillStyle = binColor(i);
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(bx, binTop + maxH - h, BW - 2, h + 6, [3, 3, 0, 0]);
+      } else {
+        ctx.rect(bx, binTop + maxH - h, BW - 2, h + 6);
+      }
+      ctx.fill();
+      // Bin number
+      ctx.fillStyle = 'rgba(247,242,232,0.35)';
+      ctx.font = `bold ${Math.max(8, Math.min(11, BW * 0.4))}px Georgia, serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(i + 1, bx + (BW - 2) / 2, binTop + maxH + 18);
+    }
+
+    // Zone labels
+    ctx.font = '8px Georgia, serif'; ctx.textAlign = 'center';
+    if (promo_cut > 0) {
+      ctx.fillStyle = 'rgba(74,222,128,0.6)';
+      ctx.fillText('▲ PROMO', (promo_cut / 2) * BW, binTop - 4);
+    }
+    if (relg_cut > 0) {
+      ctx.fillStyle = 'rgba(248,113,113,0.6)';
+      ctx.fillText('▼ RELG', (N - relg_cut / 2) * BW, binTop - 4);
+    }
+
+    // Pegs
+    for (const p of pegs) {
+      ctx.beginPath(); ctx.arc(p.x, p.y, PEG_R, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(247,242,232,0.3)'; ctx.fill();
+    }
+
+    // Balls
+    for (const b of balls) {
+      if (b.done) continue;
+      ctx.beginPath(); ctx.arc(b.x, b.y, 5, 0, Math.PI * 2);
+      const grd = ctx.createRadialGradient(b.x - 1.5, b.y - 1.5, 0, b.x, b.y, 5);
+      grd.addColorStop(0, '#f9d77e'); grd.addColorStop(1, '#c68a2b');
+      ctx.fillStyle = grd; ctx.fill();
+    }
+  }
+
+  let lastSpawn = 0;
+  function tick(ts) {
+    if (totalDropped < MAX_BALLS && ts - lastSpawn > 180) {
+      spawnBall(); lastSpawn = ts;
+    }
+    const binTop = TOP_PAD + (ROWS - 1) * 26 + 24 + (BIN_H - 6);
+    for (const b of balls) {
+      if (b.done) continue;
+      b.vy += 0.018; b.x += b.vx; b.y += b.vy;
+      // Gentle magnetic pull toward target bin center — stronger near the bottom
+      const targetCX = (b.bin + 0.5) * BW;
+      const pullProgress = Math.max(0, Math.min(1, b.y / binTop));
+      b.vx += (targetCX - b.x) * 0.007 * pullProgress;
+      // Peg collisions
+      for (const p of pegs) {
+        const dx = b.x - p.x, dy = b.y - p.y;
+        if (Math.hypot(dx, dy) < 8) {
+          b.vx = dx > 0 ? Math.abs(b.vx) + 0.18 : -(Math.abs(b.vx) + 0.18);
+          b.vy = Math.abs(b.vy) * 0.55;
+        }
+      }
+      // Clamp horizontal speed
+      b.vx = Math.max(-1.1, Math.min(1.1, b.vx));
+      // Wall bounce
+      if (b.x < 5) { b.x = 5; b.vx = Math.abs(b.vx); }
+      if (b.x > CW - 5) { b.x = CW - 5; b.vx = -Math.abs(b.vx); }
+      // Land in bin — use physical x so the bar that rises matches where the ball lands
+      if (b.y >= binTop) {
+        b.done = true;
+        binCounts[Math.max(0, Math.min(N - 1, Math.floor(b.x / BW)))]++;
+        totalLanded++;
+        updateStats();
+      }
+    }
+    draw();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+// Page-link transitions
+document.addEventListener("click", function (e) {
+  var link = e.target.closest(".page-link");
+  if (!link) return;
+  e.preventDefault();
+  var href = link.getAttribute("href");
+  document.body.classList.add("is-leaving");
+  window.setTimeout(function () { window.location.href = href; }, 180);
+});
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const data = new FormData(fbForm);
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+</script>
+</body>
+</html>

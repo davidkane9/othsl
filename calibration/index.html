@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Calibration | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255,252,247,0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38,61,41,0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+
+  /* ── Nav ─────────────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  /* ── Page ───────────────────────────────────────────────────────── */
+  main { max-width: 960px; margin: 0 auto; padding: 36px 20px 60px; }
+
+  .page-header { margin-bottom: 32px; }
+  .page-header h1 { margin: 0 0 6px; font-size: 2rem; letter-spacing: -.04em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: .97rem; line-height: 1.6; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .stat-label {
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .stat-value { font-size: 2rem; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+  .stat-sub { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+
+  h2 { margin: 0 0 6px; font-size: 1.2rem; }
+  .section-sub { color: var(--muted); font-size: .88rem; margin: 0 0 20px; }
+
+  /* ── Canvas chart ───────────────────────────────────────────────── */
+  .chart-wrap { position: relative; }
+  canvas { display: block; width: 100%; max-width: 640px; cursor: crosshair; }
+  #cal-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 12px; font-size: .82rem;
+    box-shadow: 0 4px 20px rgba(27,38,29,.14);
+    transition: opacity .1s;
+    white-space: nowrap;
+  }
+
+  /* ── Week selector ─────────────────────────────────────────────── */
+  .week-selector {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .week-selector label { font-size: .9rem; white-space: nowrap; }
+  #week-slider { flex: 1; max-width: 320px; accent-color: var(--field); cursor: pointer; }
+  .week-data-info { font-size: .8rem; color: var(--muted); }
+  .outlook-charts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 640px) { .outlook-charts { grid-template-columns: 1fr; } }
+  .chart-sub-title { font-size: .88rem; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+  .outlook-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 12px; font-size: .82rem;
+    box-shadow: 0 4px 20px rgba(27,38,29,.14); transition: opacity .1s; white-space: nowrap;
+  }
+
+  /* ── Bucket bars ────────────────────────────────────────────────── */
+  .bucket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 4px;
+    align-items: end;
+    height: 80px;
+    margin-top: 14px;
+  }
+  .bucket-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bucket-bar {
+    width: 100%; border-radius: 3px 3px 0 0;
+    background: rgba(35,68,43,.45);
+    transition: background .15s;
+  }
+  .bucket-bar:hover { background: var(--field); }
+  .bucket-label { font-size: .6rem; color: var(--muted); }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date()); gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../">Home</a></li>
+      <li><a href="./" class="active">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Model Calibration</h1>
+    <p>
+      How accurate are the ELO-based win probability estimates?
+      Each game's pre-match ELO ratings are used to predict the outcome, then compared to what actually happened
+      across 64243 historical games.
+    </p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Brier Score</div>
+      <div class="stat-value">0.176</div>
+      <div class="stat-sub">Lower is better · 0 = perfect · 0.25 = coin flip</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Favorite Win Rate</div>
+      <div class="stat-value">56.1%</div>
+      <div class="stat-sub">Games where the higher-ELO side won outright</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Games Analyzed</div>
+      <div class="stat-value">64,243</div>
+      <div class="stat-sub">Non-forfeit games across all historical seasons</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Calibration Curve</h2>
+    <p class="section-sub">
+      Each dot is a bucket of games grouped by predicted win probability.
+      The diagonal line is perfect calibration — dots above mean the model underestimates; dots below mean it overestimates.
+      Dot size reflects number of games in that bucket.
+    </p>
+    <div class="chart-wrap">
+      <canvas id="cal-canvas" width="640" height="420"></canvas>
+      <div id="cal-tooltip"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Game Count by Predicted Probability</h2>
+    <p class="section-sub">How many games fall into each 5% probability bucket — a well-spread distribution means the model uses its full range.</p>
+    <div class="bucket-grid" id="bucket-grid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Season Outlook Calibration</h2>
+    <p class="section-sub">
+      At each game-week checkpoint, the simulation predicts each team's chance of promotion or relegation.
+      How well do those predictions match what actually happened across historical seasons?
+      Use the slider to see how calibration improves as more games are played.
+    </p>
+    <div class="week-selector">
+      <label>Week: <strong id="week-display">0</strong></label>
+      <input type="range" id="week-slider" min="0" max="10" value="0" step="1">
+      <span class="week-data-info" id="week-data-info"></span>
+    </div>
+    <div class="outlook-charts">
+      <div>
+        <div class="chart-sub-title">Promotion Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="promo-canvas"></canvas>
+          <div class="outlook-tooltip" id="promo-tooltip"></div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-sub-title">Relegation Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="relg-canvas"></canvas>
+          <div class="outlook-tooltip" id="relg-tooltip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>How It Works</h2>
+    <p class="section-sub" style="margin-bottom:12px">
+      ELO ratings are maintained per (team, age-group) pair. Before each game, each team has a rating; the expected
+      win probability for the home side is:
+    </p>
+    <p style="font-family:monospace;font-size:.9rem;background:rgba(35,68,43,.07);padding:10px 14px;border-radius:8px;margin:0 0 12px">
+      P(home wins) = 1 / (1 + 10<sup>(ELO_away − ELO_home) / 200</sup>)
+    </p>
+    <p style="color:var(--muted);font-size:.88rem;margin:0">
+      K-factor is 32. Ratings regress 40% toward 1500 between seasons to account for roster turnover.
+      The season simulation uses these ratings plus a fixed 22% draw probability to run 10,000 Monte Carlo trials per flight.
+    </p>
+  </div>
+</main>
+
+<footer>
+  A Khaykin and Kane production. Data from <a href="https://www.othsl.org">othsl.org</a>.
+</footer>
+
+<script>
+const CAL_POINTS = [{"actual": 0.012, "n": 41, "pred": 0.04}, {"actual": 0.107, "n": 454, "pred": 0.081}, {"actual": 0.145, "n": 1159, "pred": 0.128}, {"actual": 0.221, "n": 2028, "pred": 0.177}, {"actual": 0.279, "n": 2813, "pred": 0.226}, {"actual": 0.323, "n": 3748, "pred": 0.276}, {"actual": 0.382, "n": 4399, "pred": 0.326}, {"actual": 0.42, "n": 5293, "pred": 0.375}, {"actual": 0.468, "n": 5690, "pred": 0.425}, {"actual": 0.509, "n": 6018, "pred": 0.475}, {"actual": 0.555, "n": 6448, "pred": 0.524}, {"actual": 0.619, "n": 5713, "pred": 0.575}, {"actual": 0.642, "n": 5243, "pred": 0.625}, {"actual": 0.697, "n": 4588, "pred": 0.674}, {"actual": 0.75, "n": 3903, "pred": 0.724}, {"actual": 0.782, "n": 2978, "pred": 0.773}, {"actual": 0.844, "n": 2048, "pred": 0.823}, {"actual": 0.901, "n": 1187, "pred": 0.872}, {"actual": 0.945, "n": 451, "pred": 0.918}, {"actual": 0.988, "n": 41, "pred": 0.958}];
+
+// ── Calibration curve ──────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('cal-canvas');
+  const tooltip = document.getElementById('cal-tooltip');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 640, H = 420;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = { top: 24, right: 24, bottom: 52, left: 56 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top  - PAD.bottom;
+
+  function px(x, y) {
+    return [PAD.left + x * cw, PAD.top + (1 - y) * ch];
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(38,61,41,0.08)';
+    ctx.lineWidth = 1;
+    for (let v = 0; v <= 10; v++) {
+      const t = v / 10;
+      ctx.beginPath();
+      const [x0,y0] = px(t, 0); const [x1,y1] = px(t, 1);
+      ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+      ctx.beginPath();
+      const [x2,y2] = px(0, t); const [x3,y3] = px(1, t);
+      ctx.moveTo(x2, y2); ctx.lineTo(x3, y3); ctx.stroke();
+    }
+
+    // Confidence band ±0.1
+    ctx.fillStyle = 'rgba(35,68,43,0.05)';
+    ctx.beginPath();
+    const [bx0, by0] = px(0, 0.1);
+    ctx.moveTo(...px(0, 0.1));
+    for (let t = 0; t <= 1; t += 0.01) ctx.lineTo(...px(t, Math.min(1, t + 0.1)));
+    ctx.lineTo(...px(1, 1)); ctx.lineTo(...px(1, 0.9));
+    for (let t = 1; t >= 0; t -= 0.01) ctx.lineTo(...px(t, Math.max(0, t - 0.1)));
+    ctx.lineTo(bx0, by0);
+    ctx.fill();
+
+    // Perfect calibration diagonal
+    ctx.strokeStyle = 'rgba(35,68,43,0.35)';
+    ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(1,1)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(38,61,41,0.3)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(1,0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(0,1)); ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = '#5f695f'; ctx.font = '11px Georgia, serif'; ctx.textAlign = 'center';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(t, 0);
+      ctx.fillText((t * 100).toFixed(0) + '%', x, y + 18);
+    }
+    ctx.textAlign = 'right';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(0, t);
+      ctx.fillText((t * 100).toFixed(0) + '%', x - 8, y + 4);
+    }
+    ctx.save(); ctx.translate(14, PAD.top + ch / 2); ctx.rotate(-Math.PI/2);
+    ctx.textAlign = 'center'; ctx.fillText('Actual win rate', 0, 0); ctx.restore();
+    ctx.textAlign = 'center';
+    ctx.fillText('Predicted win probability', PAD.left + cw / 2, H - 8);
+
+    // Find max n for sizing dots
+    const maxN = Math.max(...CAL_POINTS.map(p => p.n), 1);
+    const minR = 5, maxR = 18;
+
+    // Actual calibration dots
+    for (const pt of CAL_POINTS) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = minR + (pt.n / maxN) * (maxR - minR);
+      // Glow
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+      grd.addColorStop(0, 'rgba(35,119,68,0.22)');
+      grd.addColorStop(1, 'rgba(35,119,68,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      // Dot
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#237744'; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+
+  draw();
+
+  // Tooltip on hover
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const maxN = Math.max(...CAL_POINTS.map(p => p.n), 1);
+    let hit = null;
+    for (const pt of CAL_POINTS) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = 5 + (pt.n / maxN) * 13 + 4;
+      if (Math.hypot(mx - cx, my - cy) < r) { hit = pt; break; }
+    }
+    if (hit) {
+      tooltip.style.opacity = '1';
+      tooltip.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> → ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} games</span>`;
+      const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+      let lx = e.clientX - rect.left + 14, ly = e.clientY - rect.top - th / 2;
+      if (lx + tw > W) lx = e.clientX - rect.left - tw - 14;
+      tooltip.style.left = lx + 'px'; tooltip.style.top = ly + 'px';
+    } else {
+      tooltip.style.opacity = '0';
+    }
+  });
+  canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+})();
+
+const SEASON_CAL = {"0": {"promo": [{"actual": 0.16, "n": 3311, "pred": 0.037}, {"actual": 0.23, "n": 2076, "pred": 0.143}, {"actual": 0.286, "n": 1638, "pred": 0.244}, {"actual": 0.326, "n": 1415, "pred": 0.343}, {"actual": 0.404, "n": 1157, "pred": 0.444}, {"actual": 0.414, "n": 961, "pred": 0.543}, {"actual": 0.469, "n": 718, "pred": 0.644}, {"actual": 0.51, "n": 584, "pred": 0.743}, {"actual": 0.606, "n": 487, "pred": 0.843}, {"actual": 0.715, "n": 375, "pred": 0.941}], "relg": [{"actual": 0.155, "n": 3295, "pred": 0.037}, {"actual": 0.236, "n": 2101, "pred": 0.144}, {"actual": 0.288, "n": 1639, "pred": 0.243}, {"actual": 0.359, "n": 1417, "pred": 0.343}, {"actual": 0.368, "n": 1227, "pred": 0.443}, {"actual": 0.413, "n": 976, "pred": 0.544}, {"actual": 0.477, "n": 754, "pred": 0.643}, {"actual": 0.518, "n": 627, "pred": 0.741}, {"actual": 0.566, "n": 468, "pred": 0.839}, {"actual": 0.633, "n": 218, "pred": 0.934}]}, "1": {"promo": [{"actual": 0.106, "n": 2779, "pred": 0.045}, {"actual": 0.187, "n": 2312, "pred": 0.143}, {"actual": 0.244, "n": 1822, "pred": 0.245}, {"actual": 0.333, "n": 1475, "pred": 0.343}, {"actual": 0.458, "n": 1316, "pred": 0.444}, {"actual": 0.489, "n": 1084, "pred": 0.542}, {"actual": 0.557, "n": 824, "pred": 0.642}, {"actual": 0.609, "n": 570, "pred": 0.742}, {"actual": 0.732, "n": 362, "pred": 0.839}, {"actual": 0.747, "n": 178, "pred": 0.935}], "relg": [{"actual": 0.09, "n": 2807, "pred": 0.042}, {"actual": 0.177, "n": 2316, "pred": 0.143}, {"actual": 0.286, "n": 1758, "pred": 0.243}, {"actual": 0.339, "n": 1567, "pred": 0.343}, {"actual": 0.442, "n": 1340, "pred": 0.445}, {"actual": 0.475, "n": 1126, "pred": 0.543}, {"actual": 0.583, "n": 806, "pred": 0.642}, {"actual": 0.605, "n": 608, "pred": 0.741}, {"actual": 0.666, "n": 305, "pred": 0.838}, {"actual": 0.73, "n": 89, "pred": 0.928}]}, "10": {"promo": [{"actual": 0.012, "n": 7685, "pred": 0.002}, {"actual": 0.161, "n": 267, "pred": 0.144}, {"actual": 0.261, "n": 176, "pred": 0.239}, {"actual": 0.373, "n": 161, "pred": 0.345}, {"actual": 0.455, "n": 189, "pred": 0.446}, {"actual": 0.553, "n": 159, "pred": 0.545}, {"actual": 0.606, "n": 170, "pred": 0.646}, {"actual": 0.794, "n": 170, "pred": 0.75}, {"actual": 0.757, "n": 189, "pred": 0.847}, {"actual": 0.971, "n": 3163, "pred": 0.995}], "relg": [{"actual": 0.008, "n": 7744, "pred": 0.002}, {"actual": 0.169, "n": 266, "pred": 0.144}, {"actual": 0.298, "n": 198, "pred": 0.239}, {"actual": 0.339, "n": 177, "pred": 0.344}, {"actual": 0.409, "n": 164, "pred": 0.445}, {"actual": 0.586, "n": 152, "pred": 0.545}, {"actual": 0.669, "n": 151, "pred": 0.649}, {"actual": 0.709, "n": 165, "pred": 0.747}, {"actual": 0.773, "n": 220, "pred": 0.845}, {"actual": 0.982, "n": 3092, "pred": 0.995}]}, "2": {"promo": [{"actual": 0.068, "n": 3494, "pred": 0.038}, {"actual": 0.176, "n": 2085, "pred": 0.143}, {"actual": 0.248, "n": 1574, "pred": 0.243}, {"actual": 0.348, "n": 1194, "pred": 0.344}, {"actual": 0.408, "n": 1032, "pred": 0.443}, {"actual": 0.53, "n": 964, "pred": 0.544}, {"actual": 0.6, "n": 830, "pred": 0.643}, {"actual": 0.712, "n": 742, "pred": 0.744}, {"actual": 0.734, "n": 496, "pred": 0.842}, {"actual": 0.865, "n": 311, "pred": 0.94}], "relg": [{"actual": 0.056, "n": 3578, "pred": 0.036}, {"actual": 0.163, "n": 1990, "pred": 0.142}, {"actual": 0.262, "n": 1498, "pred": 0.244}, {"actual": 0.363, "n": 1304, "pred": 0.342}, {"actual": 0.442, "n": 1153, "pred": 0.444}, {"actual": 0.528, "n": 950, "pred": 0.543}, {"actual": 0.588, "n": 834, "pred": 0.646}, {"actual": 0.674, "n": 697, "pred": 0.743}, {"actual": 0.768, "n": 518, "pred": 0.84}, {"actual": 0.845, "n": 200, "pred": 0.933}]}, "3": {"promo": [{"actual": 0.05, "n": 4278, "pred": 0.031}, {"actual": 0.171, "n": 1735, "pred": 0.142}, {"actual": 0.251, "n": 1310, "pred": 0.243}, {"actual": 0.358, "n": 1045, "pred": 0.345}, {"actual": 0.439, "n": 839, "pred": 0.444}, {"actual": 0.508, "n": 807, "pred": 0.544}, {"actual": 0.584, "n": 757, "pred": 0.645}, {"actual": 0.68, "n": 678, "pred": 0.743}, {"actual": 0.833, "n": 641, "pred": 0.844}, {"actual": 0.902, "n": 632, "pred": 0.945}], "relg": [{"actual": 0.042, "n": 4367, "pred": 0.029}, {"actual": 0.174, "n": 1642, "pred": 0.142}, {"actual": 0.237, "n": 1298, "pred": 0.242}, {"actual": 0.337, "n": 1034, "pred": 0.343}, {"actual": 0.436, "n": 946, "pred": 0.445}, {"actual": 0.546, "n": 819, "pred": 0.544}, {"actual": 0.647, "n": 771, "pred": 0.643}, {"actual": 0.732, "n": 693, "pred": 0.745}, {"actual": 0.775, "n": 648, "pred": 0.844}, {"actual": 0.865, "n": 504, "pred": 0.942}]}, "4": {"promo": [{"actual": 0.041, "n": 4907, "pred": 0.024}, {"actual": 0.171, "n": 1476, "pred": 0.141}, {"actual": 0.265, "n": 1059, "pred": 0.243}, {"actual": 0.314, "n": 862, "pred": 0.343}, {"actual": 0.434, "n": 756, "pred": 0.444}, {"actual": 0.501, "n": 687, "pred": 0.544}, {"actual": 0.63, "n": 665, "pred": 0.645}, {"actual": 0.714, "n": 643, "pred": 0.746}, {"actual": 0.801, "n": 677, "pred": 0.844}, {"actual": 0.923, "n": 972, "pred": 0.954}], "relg": [{"actual": 0.036, "n": 5049, "pred": 0.023}, {"actual": 0.166, "n": 1463, "pred": 0.142}, {"actual": 0.263, "n": 1006, "pred": 0.245}, {"actual": 0.369, "n": 835, "pred": 0.345}, {"actual": 0.437, "n": 773, "pred": 0.444}, {"actual": 0.512, "n": 647, "pred": 0.546}, {"actual": 0.613, "n": 679, "pred": 0.645}, {"actual": 0.709, "n": 656, "pred": 0.744}, {"actual": 0.805, "n": 709, "pred": 0.846}, {"actual": 0.909, "n": 887, "pred": 0.95}]}, "5": {"promo": [{"actual": 0.032, "n": 5510, "pred": 0.019}, {"actual": 0.167, "n": 1248, "pred": 0.141}, {"actual": 0.262, "n": 863, "pred": 0.243}, {"actual": 0.388, "n": 703, "pred": 0.344}, {"actual": 0.408, "n": 642, "pred": 0.445}, {"actual": 0.526, "n": 580, "pred": 0.546}, {"actual": 0.6, "n": 547, "pred": 0.647}, {"actual": 0.695, "n": 568, "pred": 0.746}, {"actual": 0.81, "n": 673, "pred": 0.846}, {"actual": 0.936, "n": 1359, "pred": 0.962}], "relg": [{"actual": 0.028, "n": 5608, "pred": 0.018}, {"actual": 0.172, "n": 1211, "pred": 0.142}, {"actual": 0.261, "n": 863, "pred": 0.242}, {"actual": 0.345, "n": 689, "pred": 0.344}, {"actual": 0.449, "n": 655, "pred": 0.443}, {"actual": 0.522, "n": 554, "pred": 0.546}, {"actual": 0.622, "n": 572, "pred": 0.647}, {"actual": 0.699, "n": 559, "pred": 0.747}, {"actual": 0.825, "n": 690, "pred": 0.845}, {"actual": 0.925, "n": 1292, "pred": 0.961}]}, "6": {"promo": [{"actual": 0.027, "n": 5973, "pred": 0.015}, {"actual": 0.163, "n": 1033, "pred": 0.141}, {"actual": 0.23, "n": 722, "pred": 0.242}, {"actual": 0.361, "n": 631, "pred": 0.343}, {"actual": 0.456, "n": 504, "pred": 0.445}, {"actual": 0.531, "n": 490, "pred": 0.544}, {"actual": 0.607, "n": 511, "pred": 0.643}, {"actual": 0.727, "n": 546, "pred": 0.746}, {"actual": 0.819, "n": 587, "pred": 0.847}, {"actual": 0.94, "n": 1690, "pred": 0.971}], "relg": [{"actual": 0.024, "n": 6112, "pred": 0.014}, {"actual": 0.175, "n": 1048, "pred": 0.142}, {"actual": 0.244, "n": 680, "pred": 0.244}, {"actual": 0.396, "n": 599, "pred": 0.343}, {"actual": 0.432, "n": 474, "pred": 0.443}, {"actual": 0.517, "n": 484, "pred": 0.545}, {"actual": 0.611, "n": 501, "pred": 0.648}, {"actual": 0.702, "n": 514, "pred": 0.746}, {"actual": 0.812, "n": 611, "pred": 0.85}, {"actual": 0.942, "n": 1664, "pred": 0.969}]}, "7": {"promo": [{"actual": 0.024, "n": 6425, "pred": 0.012}, {"actual": 0.153, "n": 844, "pred": 0.141}, {"actual": 0.216, "n": 593, "pred": 0.241}, {"actual": 0.325, "n": 465, "pred": 0.344}, {"actual": 0.432, "n": 468, "pred": 0.445}, {"actual": 0.553, "n": 385, "pred": 0.546}, {"actual": 0.656, "n": 451, "pred": 0.646}, {"actual": 0.743, "n": 456, "pred": 0.749}, {"actual": 0.789, "n": 584, "pred": 0.847}, {"actual": 0.961, "n": 1976, "pred": 0.976}], "relg": [{"actual": 0.021, "n": 6539, "pred": 0.011}, {"actual": 0.164, "n": 791, "pred": 0.144}, {"actual": 0.247, "n": 596, "pred": 0.245}, {"actual": 0.349, "n": 473, "pred": 0.343}, {"actual": 0.423, "n": 463, "pred": 0.444}, {"actual": 0.52, "n": 404, "pred": 0.546}, {"actual": 0.626, "n": 436, "pred": 0.645}, {"actual": 0.738, "n": 428, "pred": 0.745}, {"actual": 0.826, "n": 552, "pred": 0.847}, {"actual": 0.954, "n": 1965, "pred": 0.977}]}, "8": {"promo": [{"actual": 0.018, "n": 6784, "pred": 0.009}, {"actual": 0.152, "n": 669, "pred": 0.143}, {"actual": 0.24, "n": 496, "pred": 0.242}, {"actual": 0.343, "n": 405, "pred": 0.344}, {"actual": 0.404, "n": 379, "pred": 0.444}, {"actual": 0.552, "n": 355, "pred": 0.545}, {"actual": 0.655, "n": 351, "pred": 0.648}, {"actual": 0.722, "n": 389, "pred": 0.746}, {"actual": 0.842, "n": 493, "pred": 0.849}, {"actual": 0.962, "n": 2291, "pred": 0.983}], "relg": [{"actual": 0.015, "n": 6922, "pred": 0.008}, {"actual": 0.194, "n": 639, "pred": 0.141}, {"actual": 0.258, "n": 469, "pred": 0.244}, {"actual": 0.309, "n": 349, "pred": 0.343}, {"actual": 0.471, "n": 412, "pred": 0.445}, {"actual": 0.494, "n": 348, "pred": 0.545}, {"actual": 0.609, "n": 327, "pred": 0.646}, {"actual": 0.762, "n": 407, "pred": 0.746}, {"actual": 0.788, "n": 452, "pred": 0.849}, {"actual": 0.965, "n": 2287, "pred": 0.982}]}, "9": {"promo": [{"actual": 0.014, "n": 7222, "pred": 0.005}, {"actual": 0.154, "n": 469, "pred": 0.143}, {"actual": 0.257, "n": 382, "pred": 0.243}, {"actual": 0.387, "n": 333, "pred": 0.344}, {"actual": 0.442, "n": 285, "pred": 0.443}, {"actual": 0.472, "n": 248, "pred": 0.543}, {"actual": 0.635, "n": 304, "pred": 0.645}, {"actual": 0.705, "n": 329, "pred": 0.745}, {"actual": 0.811, "n": 334, "pred": 0.848}, {"actual": 0.974, "n": 2692, "pred": 0.99}], "relg": [{"actual": 0.011, "n": 7322, "pred": 0.005}, {"actual": 0.192, "n": 475, "pred": 0.142}, {"actual": 0.243, "n": 366, "pred": 0.243}, {"actual": 0.344, "n": 299, "pred": 0.345}, {"actual": 0.417, "n": 290, "pred": 0.444}, {"actual": 0.55, "n": 249, "pred": 0.547}, {"actual": 0.622, "n": 296, "pred": 0.645}, {"actual": 0.714, "n": 294, "pred": 0.748}, {"actual": 0.822, "n": 370, "pred": 0.845}, {"actual": 0.976, "n": 2637, "pred": 0.989}]}};
+
+// ── Season outlook charts ──────────────────────────────────────────
+(function() {
+  const slider  = document.getElementById('week-slider');
+  const display = document.getElementById('week-display');
+  const infoEl  = document.getElementById('week-data-info');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 400, H = 280;
+  const PAD = { top: 20, right: 20, bottom: 44, left: 50 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top - PAD.bottom;
+
+  function setup(id) {
+    const c = document.getElementById(id);
+    c.width  = W * dpr; c.height = H * dpr;
+    c.style.width  = W + 'px'; c.style.height = H + 'px';
+    const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+    return { canvas: c, ctx };
+  }
+
+  const promo = setup('promo-canvas');
+  const relg  = setup('relg-canvas');
+
+  function px(x, y) { return [PAD.left + x * cw, PAD.top + (1 - y) * ch]; }
+
+  function drawChart({ canvas, ctx }, points, fillColor, glowColor) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(38,61,41,0.08)'; ctx.lineWidth = 1;
+    for (let v = 0; v <= 10; v++) {
+      const t = v / 10;
+      ctx.beginPath(); ctx.moveTo(...px(t, 0)); ctx.lineTo(...px(t, 1)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(...px(0, t)); ctx.lineTo(...px(1, t)); ctx.stroke();
+    }
+
+    // ±0.1 confidence band
+    ctx.fillStyle = 'rgba(35,68,43,0.05)';
+    ctx.beginPath(); ctx.moveTo(...px(0, 0.1));
+    for (let t = 0; t <= 1; t += 0.01) ctx.lineTo(...px(t, Math.min(1, t + 0.1)));
+    ctx.lineTo(...px(1, 1)); ctx.lineTo(...px(1, 0.9));
+    for (let t = 1; t >= 0; t -= 0.01) ctx.lineTo(...px(t, Math.max(0, t - 0.1)));
+    ctx.closePath(); ctx.fill();
+
+    // Diagonal
+    ctx.strokeStyle = 'rgba(35,68,43,0.35)'; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 1)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(38,61,41,0.3)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(0, 1)); ctx.stroke();
+
+    // Axis tick labels
+    ctx.fillStyle = '#5f695f'; ctx.font = '10px Georgia, serif';
+    ctx.textAlign = 'center';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(t, 0);
+      ctx.fillText((t * 100).toFixed(0) + '%', x, y + 16);
+    }
+    ctx.textAlign = 'right';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(0, t);
+      ctx.fillText((t * 100).toFixed(0) + '%', x - 5, y + 3);
+    }
+    ctx.save(); ctx.translate(12, PAD.top + ch / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center'; ctx.fillText('Actual rate', 0, 0); ctx.restore();
+    ctx.textAlign = 'center';
+    ctx.fillText('Predicted probability', PAD.left + cw / 2, H - 5);
+
+    if (!points || !points.length) {
+      ctx.fillStyle = 'rgba(95,105,95,0.5)'; ctx.font = '12px Georgia, serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('No data for this week', W / 2, H / 2);
+      ctx.textBaseline = 'alphabetic';
+      return;
+    }
+
+    const maxN = Math.max(...points.map(p => p.n), 1);
+    const minR = 5, maxR = 16;
+
+    for (const pt of points) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = minR + (pt.n / maxN) * (maxR - minR);
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+      grd.addColorStop(0, glowColor); grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = fillColor; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+
+  function makeTooltip(canvas, tooltipEl, getPoints) {
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const points = getPoints();
+      if (!points) { tooltipEl.style.opacity = '0'; return; }
+      const maxN = Math.max(...points.map(p => p.n), 1);
+      let hit = null;
+      for (const pt of points) {
+        const [cx, cy] = px(pt.pred, pt.actual);
+        const r = 5 + (pt.n / maxN) * 11 + 4;
+        if (Math.hypot(mx - cx, my - cy) < r) { hit = pt; break; }
+      }
+      if (hit) {
+        tooltipEl.style.opacity = '1';
+        tooltipEl.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> → ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} team-seasons</span>`;
+        const tw = tooltipEl.offsetWidth, th = tooltipEl.offsetHeight;
+        let lx = mx + 14, ly = my - th / 2;
+        if (lx + tw > W) lx = mx - tw - 14;
+        tooltipEl.style.left = lx + 'px'; tooltipEl.style.top = ly + 'px';
+      } else {
+        tooltipEl.style.opacity = '0';
+      }
+    });
+    canvas.addEventListener('mouseleave', () => { tooltipEl.style.opacity = '0'; });
+  }
+
+  function update(week) {
+    const data = SEASON_CAL[String(week)] || { promo: [], relg: [] };
+    drawChart(promo, data.promo, '#237744', 'rgba(35,119,68,0.22)');
+    drawChart(relg,  data.relg,  '#a63f35', 'rgba(166,63,53,0.22)');
+    const np = data.promo.reduce((s, p) => s + p.n, 0);
+    const nr = data.relg.reduce((s, p) => s + p.n, 0);
+    infoEl.textContent = `${np.toLocaleString()} promo · ${nr.toLocaleString()} relg team-seasons`;
+  }
+
+  let currentWeek = 0;
+  makeTooltip(promo.canvas, document.getElementById('promo-tooltip'), () => (SEASON_CAL[String(currentWeek)] || {}).promo);
+  makeTooltip(relg.canvas,  document.getElementById('relg-tooltip'),  () => (SEASON_CAL[String(currentWeek)] || {}).relg);
+
+  slider.addEventListener('input', () => {
+    currentWeek = parseInt(slider.value, 10);
+    display.textContent = currentWeek;
+    update(currentWeek);
+  });
+
+  update(0);
+})();
+
+// ── Bucket bar chart ───────────────────────────────────────────────
+(function() {
+  const grid = document.getElementById('bucket-grid');
+  if (!CAL_POINTS.length) return;
+  const maxN = Math.max(...CAL_POINTS.map(p => p.n));
+  const MAX_H = 68;
+  for (const pt of CAL_POINTS) {
+    const h = Math.max(3, Math.round((pt.n / maxN) * MAX_H));
+    const wrap = document.createElement('div');
+    wrap.className = 'bucket-bar-wrap';
+    wrap.title = `${(pt.pred*100).toFixed(0)}% bucket · ${pt.n.toLocaleString()} games`;
+    const bar = document.createElement('div');
+    bar.className = 'bucket-bar'; bar.style.height = h + 'px';
+    const lbl = document.createElement('div');
+    lbl.className = 'bucket-label'; lbl.textContent = (pt.pred*100).toFixed(0);
+    wrap.appendChild(bar); wrap.appendChild(lbl);
+    grid.appendChild(wrap);
+  }
+})();
+</script>
+</body>
+</html>

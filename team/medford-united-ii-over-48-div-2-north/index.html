@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medford United II | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --draw: #7d6d50;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .topbar {
+    margin-bottom: 18px;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .topbar a {
+    text-decoration: none;
+  }
+
+  .hero {
+    padding: 34px;
+    border-radius: 28px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+  }
+
+  .hero h1 {
+    margin: 10px 0 10px;
+    font-size: clamp(2.3rem, 5vw, 4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .hero p {
+    margin: 0;
+    color: rgba(247, 242, 232, 0.8);
+    font-size: 1rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .chip {
+    padding: 9px 13px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.9rem;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .metric {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    color: rgba(247, 242, 232, 0.66);
+  }
+
+  .metric .value {
+    font-size: 1.75rem;
+    line-height: 1;
+  }
+
+  .section {
+    margin-top: 22px;
+    padding: 26px;
+    border-radius: 24px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 18px;
+  }
+
+  .section-title h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.95fr;
+    gap: 18px;
+  }
+
+  .panel,
+  .chart-card {
+    padding: 22px;
+    border-radius: 22px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+  }
+
+  .chart-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .chart-range {
+    padding: 9px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(35, 68, 43, 0.06);
+    color: var(--field);
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+
+  .chart-range:hover {
+    transform: translateY(-1px);
+  }
+
+  .chart-range.is-active {
+    background: var(--field);
+    color: #f9f4ea;
+  }
+
+  .chart-note {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .panel h3 {
+    margin: 0 0 14px;
+    font-size: 1.1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  th {
+    padding: 11px 10px;
+    text-align: left;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(38, 61, 41, 0.08);
+  }
+
+  tbody tr:hover td {
+    background: rgba(35, 68, 43, 0.04);
+  }
+
+  tr.highlight td {
+    background: rgba(35, 68, 43, 0.08);
+    font-weight: 700;
+  }
+
+  .result-pill {
+    display: inline-flex;
+    min-width: 34px;
+    justify-content: center;
+    padding: 5px 8px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .W { color: var(--win); }
+  .L, .F { color: var(--loss); }
+  .T { color: var(--draw); }
+
+  .result-pill.W { background: rgba(35, 119, 68, 0.12); }
+  .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
+  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+
+  /* ── Simulation ─────────────────────────── */
+  .sim-counter {
+    font-size: 1.6rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--field);
+    white-space: nowrap;
+  }
+
+  .outcome-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .outcome-chip {
+    flex: 1;
+    min-width: 120px;
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.3s;
+  }
+
+  .outcome-chip.promo  { border-color: rgba(35,119,68,.35); background: rgba(35,119,68,.06); }
+  .outcome-chip.stay   { border-color: rgba(198,138,43,.35); background: rgba(198,138,43,.06); }
+  .outcome-chip.relegate { border-color: rgba(166,63,53,.35); background: rgba(166,63,53,.06); }
+
+  .outcome-label { font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  .outcome-pct   { font-size:2rem; line-height:1; font-weight:700; }
+  #chip-promo    .outcome-pct { color: var(--win); }
+  #chip-stay     .outcome-pct { color: var(--accent); }
+  #chip-relegate .outcome-pct { color: var(--loss); }
+
+  .sim-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  /* distribution bars */
+  .dist-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .dist-label {
+    width: 56px;
+    font-size: .88rem;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .dist-track {
+    flex: 1;
+    height: 28px;
+    background: rgba(35,68,43,.07);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .dist-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.35s ease;
+    width: 0%;
+  }
+
+  .dist-fill.zone-promo    { background: rgba(35,119,68,.75); }
+  .dist-fill.zone-mid      { background: rgba(35,68,43,.45); }
+  .dist-fill.zone-relegate { background: rgba(166,63,53,.72); }
+  .dist-fill.current-pos   { outline: 2.5px solid var(--accent); }
+
+  .dist-pct {
+    width: 46px;
+    font-size:.88rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    text-align: left;
+    flex-shrink: 0;
+  }
+
+  /* what-if grid */
+  .whatif-panel { overflow-y: visible; }
+  .whatif-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .whatif-table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  .whatif-table thead th {
+    background: var(--surface);
+    padding: 6px 8px;
+    text-align: center;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--line);
+    font-weight: 600;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .whatif-table thead th.col-team { text-align: left; }
+  .whatif-table td {
+    padding: 5px 6px;
+    text-align: center;
+    border-bottom: 1px solid rgba(38,61,41,.07);
+    vertical-align: middle;
+  }
+  .whatif-table td.col-team {
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-right: 10px;
+    font-size: .82rem;
+  }
+  .whatif-table th.col-team { white-space: nowrap; }
+  .whatif-table tr.sel-row td { background: rgba(35,100,55,.05); }
+  .whatif-table tr:last-child td { border-bottom: none; }
+  .no-game { color: var(--muted); font-size: .78rem; }
+  .past-cell { text-align: center; background: rgba(0,0,0,.015); }
+  .past-cell .cell-opp { font-size: .68rem; color: var(--muted); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 56px; }
+  .past-cell .cell-result { font-size: .72rem; white-space: nowrap; font-weight: 700; }
+  .cell-opp { font-size: .7rem; color: var(--muted); margin-bottom: 3px; white-space: nowrap; }
+  .cell-btns { display: flex; gap: 2px; justify-content: center; }
+  .ov-select {
+    font: inherit;
+    font-size: .73rem;
+    padding: 2px 4px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    width: 100%;
+    max-width: 52px;
+  }
+  .ov-select.sel-W { background: rgba(35,119,68,.18); border-color: var(--win); color: var(--win); font-weight: 700; }
+  .ov-select.sel-D { background: rgba(198,138,43,.18); border-color: var(--accent); color: var(--accent); font-weight: 700; }
+  .ov-select.sel-L { background: rgba(166,63,53,.18); border-color: var(--loss); color: var(--loss); font-weight: 700; }
+  .col-stat { width: 56px; font-size: .8rem; font-weight: 500; }
+  .stat-promo { color: var(--win); }
+  .stat-rel   { color: var(--loss); }
+  .stat-pos   { color: var(--ink); }
+
+  .reset-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    font: inherit;
+    font-size: .85rem;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background .15s;
+  }
+  .reset-btn:hover { background: rgba(35,68,43,.08); color: var(--ink); }
+
+  @media (max-width: 760px) {
+    .sim-layout { grid-template-columns: 1fr; }
+  }
+
+  /* ── Team card popup ────────────────────────────────────────── */
+  .team-popup {
+    position: fixed;
+    z-index: 999;
+    width: 260px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(27,38,29,.18);
+    padding: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+  .team-popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .team-popup .pop-name {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .team-popup .pop-record {
+    font-size: .82rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .team-popup .pop-game {
+    display: flex;
+    justify-content: space-between;
+    font-size: .82rem;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(38,61,41,.07);
+  }
+  .team-popup .pop-game:last-child { border-bottom: none; }
+  .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-hint {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+  td.team-name-cell { cursor: pointer; }
+  td.team-name-cell:hover { text-decoration: underline; color: var(--field); }
+
+  /* Matchweek timeline */
+  .mw-selects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .mw-sel {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    font: inherit;
+    font-size: .82rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .mw-sel:focus { outline: none; border-color: var(--field); }
+  .mw-label { font-size: .82rem; color: var(--muted); margin-left: 4px; }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .feedback-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .feedback-drawer {
+    display: none;
+    margin: 16px auto 0;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+  }
+  .feedback-drawer.open { display: block; }
+  .feedback-drawer h4 { margin: 0 0 4px; font-size: 1rem; }
+  .feedback-drawer p { margin: 0 0 14px; color: var(--muted); font-size: 0.88rem; }
+
+  .feedback-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .feedback-field label { font-size: 0.82rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+  .feedback-submit:disabled { background: #90a08f; cursor: not-allowed; }
+  .feedback-thanks { display: none; color: var(--field); font-size: 0.92rem; margin-top: 10px; }
+
+  @media (max-width: 960px) {
+    .metrics,
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      width: min(100% - 20px, 1180px);
+      padding-top: 14px;
+    }
+
+    .hero,
+    .section {
+      padding: 20px;
+      border-radius: 22px;
+    }
+
+    .metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .section-title {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+  .site-nav {
+    background: rgba(23,52,31,0.97); backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand { color: #f7f2e8; font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; text-decoration: none; flex-shrink: 0; }
+  @keyframes ai-blink { 0%,100%{opacity:.2} 50%{opacity:1} }
+  .ai-pulse { display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);animation:ai-blink 1.1s ease-in-out infinite; }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a { color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem; padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s; }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../">Home</a></li>
+      <li><a href="../../calibration/">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+  <div class="team-popup" id="team-popup">
+    <div class="pop-name" id="pop-name"></div>
+    <div class="pop-record" id="pop-record"></div>
+    <div id="pop-games"></div>
+    <div class="pop-hint">Click to view team page</div>
+  </div>
+  <main class="page">
+    <div class="topbar"><a class="page-link" href="../../index.html">Back to homepage</a></div>
+
+    <section class="hero">
+      <p>Spring 2026</p>
+      <h1>Medford United II</h1>
+      <p>Over 48 Division 2 North</p>
+
+      <div class="chips">
+        
+        <span class="chip">ELO 1485</span>
+        
+        
+        <span class="chip">Current place: 7</span>
+        
+        <span class="chip">Record 1-4-0</span>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="label">Games</span>
+          <div class="value">10</div>
+        </div>
+        <div class="metric">
+          <span class="label">Wins</span>
+          <div class="value">1</div>
+        </div>
+        <div class="metric">
+          <span class="label">Losses</span>
+          <div class="value">4</div>
+        </div>
+        <div class="metric">
+          <span class="label">Draws</span>
+          <div class="value">0</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h2>Team Snapshot</h2>
+          <p>Current results, standings context, and ELO trend for this selected team.</p>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div class="panel">
+          <h3>Final Position Distribution</h3>
+          <p class="note" style="margin-bottom:16px">Based on 10,000 simulated seasons. <span style="color:var(--win)">■</span> Promotion &nbsp;<span style="color:var(--loss)">■</span> Relegation</p>
+          <div id="dist-bars"></div>
+        </div>
+
+        <div class="panel">
+          <h3>Flight Standings</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>GP</th>
+                <th>Pts</th>
+                <th>GD</th>
+                <th>PPG</th>
+              </tr>
+            </thead>
+            <tbody id="standings-tbody">
+              
+              <tr>
+                <td class="team-name-cell" data-team="Shrewsbury Wanderers">Shrewsbury Wanderers</td>
+                <td>5</td>
+                <td>13</td>
+                <td>+17</td>
+                <td>2.60</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="NH Freedom">NH Freedom</td>
+                <td>5</td>
+                <td>13</td>
+                <td>+8</td>
+                <td>2.60</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Winchester Town Fifties">Winchester Town Fifties</td>
+                <td>5</td>
+                <td>12</td>
+                <td>+14</td>
+                <td>2.40</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Westford O48 PAC Lowell">Westford O48 PAC Lowell</td>
+                <td>5</td>
+                <td>7</td>
+                <td>-2</td>
+                <td>1.40</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Lexington Eagles">Lexington Eagles</td>
+                <td>4</td>
+                <td>4</td>
+                <td>-1</td>
+                <td>1.00</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="North Andover FC O48">North Andover FC O48</td>
+                <td>4</td>
+                <td>3</td>
+                <td>-7</td>
+                <td>0.75</td>
+              </tr>
+              
+              <tr class="highlight">
+                <td class="team-name-cell" data-team="Medford United II">Medford United II</td>
+                <td>5</td>
+                <td>3</td>
+                <td>-12</td>
+                <td>0.60</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Hurricanes SC">Hurricanes SC</td>
+                <td>5</td>
+                <td>0</td>
+                <td>-17</td>
+                <td>0.00</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      </div>
+    </section>
+
+    <!-- ── Overall Outlook ──────────────────────────────────────────── -->
+    
+    <section class="section" id="ai-team-section">
+      <div class="section-title">
+        <h2>Overall Outlook</h2>
+      </div>
+      <div class="panel" style="padding:18px 22px">
+        <p id="ai-team-text" data-text="Medford United II is currently struggling in the Over 48 Div 2 North flight, sitting in 7th place with just 3 points after 5 games, which puts them 10 points off promotion and perilously close to relegation with a goal difference of -12. To avoid relegation, they must secure at least 7 more points from their remaining five games, which means winning at least two of their next matches, especially since they face teams like NH Freedom and Winchester Town Fifties who are currently in the top half of the standings. The most crucial game on their schedule is the matchup against Westford O48 PAC Lowell on May 17, as a win would not only boost their confidence but also directly impact their relegation battle against a team that is currently just ahead of them in the standings."
+           style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
+      </div>
+    </section>
+    
+
+    <section class="section" id="sim-section">
+      <div class="section-title">
+        <div>
+          <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+            <h2 style="margin:0">Season Outlook</h2>
+            <span id="mw-label" class="mw-label"></span>
+          </div>
+          <p id="sim-status">Starting simulation…</p>
+        </div>
+        <div id="sim-counter" class="sim-counter">0 <span style="opacity:.45">/ 10,000</span></div>
+      </div>
+
+      <!-- matchweek timeline -->
+      <div class="mw-selects" id="mw-controls">
+        <select id="mw-year" class="mw-sel"></select>
+        <select id="mw-season" class="mw-sel"></select>
+        <select id="mw-week" class="mw-sel"></select>
+        <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
+      </div>
+
+      <!-- outcome summary -->
+      <div class="outcome-row">
+        <div class="outcome-chip" id="chip-promo">
+          <span class="outcome-label">Promotion</span>
+          <span class="outcome-pct" id="pct-promo">—</span>
+        </div>
+        <div class="outcome-chip" id="chip-stay">
+          <span class="outcome-label">Stay</span>
+          <span class="outcome-pct" id="pct-stay">—</span>
+        </div>
+        
+        <div class="outcome-chip" id="chip-relegate">
+          <span class="outcome-label">Relegation</span>
+          <span class="outcome-pct" id="pct-relegate">—</span>
+        </div>
+        
+      </div>
+
+      <!-- what-if grid -->
+      <div class="panel whatif-panel" style="max-height:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <h3 style="margin:0">What-If Scenarios</h3>
+          <button id="reset-btn" class="reset-btn">Reset all</button>
+        </div>
+        <p class="note" style="margin-bottom:10px">Use the dropdown on any remaining game to lock an outcome — the simulation updates live. Changing one team's result automatically flips the opponent.</p>
+        
+        <div id="game-list"></div>
+      </div>
+    </section>
+
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+
+      <div style="margin-top:14px">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+const SIM_DATA        = {"current_elos": {"Hurricanes SC": 1467.8, "Lexington Eagles": 1461.4, "Medford United II": 1485.2, "NH Freedom": 1586.6, "North Andover FC O48": 1500.1, "Shrewsbury Wanderers": 1609.1, "Westford O48 PAC Lowell": 1540.6, "Winchester Town Fifties": 1540.4}, "current_stats": {"Hurricanes SC": {"gd": -17, "gf": 5, "gp": 5, "l": 5, "pts": 0, "t": 0, "w": 0}, "Lexington Eagles": {"gd": -1, "gf": 9, "gp": 4, "l": 2, "pts": 4, "t": 1, "w": 1}, "Medford United II": {"gd": -12, "gf": 4, "gp": 5, "l": 4, "pts": 3, "t": 0, "w": 1}, "NH Freedom": {"gd": 8, "gf": 14, "gp": 5, "l": 0, "pts": 13, "t": 1, "w": 4}, "North Andover FC O48": {"gd": -7, "gf": 3, "gp": 4, "l": 3, "pts": 3, "t": 0, "w": 1}, "Shrewsbury Wanderers": {"gd": 17, "gf": 23, "gp": 5, "l": 0, "pts": 13, "t": 1, "w": 4}, "Westford O48 PAC Lowell": {"gd": -2, "gf": 14, "gp": 5, "l": 2, "pts": 7, "t": 1, "w": 2}, "Winchester Town Fifties": {"gd": 14, "gf": 21, "gp": 5, "l": 1, "pts": 12, "t": 0, "w": 4}}, "promotion_cut": 2, "relegation_cut": 2, "remaining_games": [{"away": "NH Freedom", "date": "2026-05-10", "home": "Medford United II", "id": "2026-05-10|Medford United II|NH Freedom", "involves_team": true}, {"away": "Westford O48 PAC Lowell", "date": "2026-05-10", "home": "Winchester Town Fifties", "id": "2026-05-10|Winchester Town Fifties|Westford O48 PAC Lowell", "involves_team": false}, {"away": "North Andover FC O48", "date": "2026-05-10", "home": "Hurricanes SC", "id": "2026-05-10|Hurricanes SC|North Andover FC O48", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-05-10", "home": "Shrewsbury Wanderers", "id": "2026-05-10|Shrewsbury Wanderers|Lexington Eagles", "involves_team": false}, {"away": "Westford O48 PAC Lowell", "date": "2026-05-17", "home": "Medford United II", "id": "2026-05-17|Medford United II|Westford O48 PAC Lowell", "involves_team": true}, {"away": "North Andover FC O48", "date": "2026-05-17", "home": "Shrewsbury Wanderers", "id": "2026-05-17|Shrewsbury Wanderers|North Andover FC O48", "involves_team": false}, {"away": "Winchester Town Fifties", "date": "2026-05-17", "home": "NH Freedom", "id": "2026-05-17|NH Freedom|Winchester Town Fifties", "involves_team": false}, {"away": "Hurricanes SC", "date": "2026-05-17", "home": "Lexington Eagles", "id": "2026-05-17|Lexington Eagles|Hurricanes SC", "involves_team": false}, {"away": "North Andover FC O48", "date": "2026-05-29", "home": "Lexington Eagles", "id": "2026-05-29|Lexington Eagles|North Andover FC O48", "involves_team": false}, {"away": "Medford United II", "date": "2026-05-31", "home": "Hurricanes SC", "id": "2026-05-31|Hurricanes SC|Medford United II", "involves_team": true}, {"away": "Shrewsbury Wanderers", "date": "2026-05-31", "home": "Winchester Town Fifties", "id": "2026-05-31|Winchester Town Fifties|Shrewsbury Wanderers", "involves_team": false}, {"away": "NH Freedom", "date": "2026-05-31", "home": "North Andover FC O48", "id": "2026-05-31|North Andover FC O48|NH Freedom", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-05-31", "home": "Westford O48 PAC Lowell", "id": "2026-05-31|Westford O48 PAC Lowell|Lexington Eagles", "involves_team": false}, {"away": "Medford United II", "date": "2026-06-07", "home": "Winchester Town Fifties", "id": "2026-06-07|Winchester Town Fifties|Medford United II", "involves_team": true}, {"away": "Hurricanes SC", "date": "2026-06-07", "home": "Shrewsbury Wanderers", "id": "2026-06-07|Shrewsbury Wanderers|Hurricanes SC", "involves_team": false}, {"away": "Westford O48 PAC Lowell", "date": "2026-06-07", "home": "NH Freedom", "id": "2026-06-07|NH Freedom|Westford O48 PAC Lowell", "involves_team": false}, {"away": "Lexington Eagles", "date": "2026-06-07", "home": "North Andover FC O48", "id": "2026-06-07|North Andover FC O48|Lexington Eagles", "involves_team": false}, {"away": "Shrewsbury Wanderers", "date": "2026-06-14", "home": "Medford United II", "id": "2026-06-14|Medford United II|Shrewsbury Wanderers", "involves_team": true}, {"away": "Winchester Town Fifties", "date": "2026-06-14", "home": "Hurricanes SC", "id": "2026-06-14|Hurricanes SC|Winchester Town Fifties", "involves_team": false}, {"away": "North Andover FC O48", "date": "2026-06-14", "home": "Westford O48 PAC Lowell", "id": "2026-06-14|Westford O48 PAC Lowell|North Andover FC O48", "involves_team": false}, {"away": "NH Freedom", "date": "2026-06-14", "home": "Lexington Eagles", "id": "2026-06-14|Lexington Eagles|NH Freedom", "involves_team": false}], "schedule_inferred": false, "selected_team": "Medford United II", "teams": ["Shrewsbury Wanderers", "NH Freedom", "Winchester Town Fifties", "Westford O48 PAC Lowell", "Lexington Eagles", "North Andover FC O48", "Medford United II", "Hurricanes SC"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 7, "away": "Winchester Town Fifties", "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "Medford United II", "home_forfeit": false}, {"ag": 5, "away": "Shrewsbury Wanderers", "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 3, "away": "NH Freedom", "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Westford O48 PAC Lowell", "home_forfeit": false}, {"ag": 0, "away": "Medford United II", "date": "2026-04-12", "forfeit": false, "hg": 6, "home": "Shrewsbury Wanderers", "home_forfeit": false}, {"ag": 0, "away": "Hurricanes SC", "date": "2026-04-12", "forfeit": false, "hg": 5, "home": "Winchester Town Fifties", "home_forfeit": false}, {"ag": 3, "away": "Westford O48 PAC Lowell", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "North Andover FC O48", "home_forfeit": false}, {"ag": 1, "away": "Lexington Eagles", "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "NH Freedom", "home_forfeit": false}, {"ag": 0, "away": "Hurricanes SC", "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Medford United II", "home_forfeit": false}, {"ag": 2, "away": "Winchester Town Fifties", "date": "2026-04-19", "forfeit": false, "hg": 5, "home": "Shrewsbury Wanderers", "home_forfeit": false}, {"ag": 0, "away": "North Andover FC O48", "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "NH Freedom", "home_forfeit": false}, {"ag": 4, "away": "Westford O48 PAC Lowell", "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Lexington Eagles", "home_forfeit": false}, {"ag": 2, "away": "Lexington Eagles", "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Winchester Town Fifties", "home_forfeit": false}, {"ag": 5, "away": "NH Freedom", "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Hurricanes SC", "home_forfeit": false}, {"ag": 6, "away": "Shrewsbury Wanderers", "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Westford O48 PAC Lowell", "home_forfeit": false}, {"ag": 0, "away": "Medford United II", "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "North Andover FC O48", "home_forfeit": false}, {"ag": 1, "away": "Hurricanes SC", "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Westford O48 PAC Lowell", "home_forfeit": false}, {"ag": 1, "away": "Shrewsbury Wanderers", "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "NH Freedom", "home_forfeit": false}, {"ag": 1, "away": "Medford United II", "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Lexington Eagles", "home_forfeit": false}, {"ag": 4, "away": "Winchester Town Fifties", "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "North Andover FC O48", "home_forfeit": false}];
+const SCHEDULE_INFERRED = false;
+const IS_TOP_FLIGHT   = false;
+const IS_BOTTOM_FLIGHT = false;
+const TOTAL_RUNS      = 10000;
+
+// ── Page transition ──────────────────────────────────────────────
+document.querySelectorAll(".page-link").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    document.body.classList.add("is-leaving");
+    const dest = link.getAttribute("href");
+    setTimeout(() => { window.location.href = dest; }, 180);
+  });
+});
+
+// ── Simulation engine (runs in a Blob Web Worker) ────────────────
+const WORKER_SRC = `
+  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 200)); }
+
+  function simOnce(teams, baseStats, baseElos, games, overrides) {
+    const st = {}, el = {};
+    for (const t of teams) {
+      st[t] = { pts: baseStats[t].pts, gd: baseStats[t].gd, gf: baseStats[t].gf };
+      el[t] = baseElos[t] || 1500;
+    }
+    for (const g of games) {
+      const ov = overrides[g.id];
+      let act;
+      if (ov !== undefined) {
+        act = ov === 'home' ? 1 : ov === 'draw' ? 0.5 : 0;
+      } else {
+        const we = expResult(el[g.home] || 1500, el[g.away] || 1500);
+        const dp = 0.22;
+        const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
+        const ap = Math.max(0.05, 1 - dp - hp);
+        const r  = Math.random();
+        act = r < hp ? 1 : r < hp + dp ? 0.5 : 0;
+      }
+      const h = g.home, a = g.away;
+      if (act === 1)   { st[h].pts += 3; st[h].gd += 1; st[h].gf += 2; st[a].gd -= 1; st[a].gf += 1; }
+      else if (act === 0.5) { st[h].pts++; st[a].pts++; st[h].gf++; st[a].gf++; }
+      else             { st[a].pts += 3; st[a].gd += 1; st[a].gf += 2; st[h].gd -= 1; st[h].gf += 1; }
+      // dynamic ELO update
+      const K = 32, eH = el[h] || 1500, eA = el[a] || 1500;
+      const ex = expResult(eH, eA);
+      el[h] = eH + K * (act - ex);
+      el[a] = eA + K * ((1 - act) - (1 - ex));
+    }
+    const sorted = [...teams].sort((a,b) =>
+      st[b].pts !== st[a].pts ? st[b].pts - st[a].pts :
+      st[b].gd  !== st[a].gd  ? st[b].gd  - st[a].gd  :
+      st[b].gf  - st[a].gf
+    );
+    return sorted;
+  }
+
+  function expectedPos(c) {
+    let s = 0, t = 0;
+    for (let p = 1; p < c.length; p++) { s += p * c[p]; t += c[p]; }
+    return t > 0 ? s / t : 999;
+  }
+
+  self.onmessage = function(e) {
+    const { teams, currentStats, currentElos, remainingGames,
+            overrides, selectedTeam, totalRuns, promotionCut, relegationCut } = e.data;
+    const counts = new Array(teams.length + 1).fill(0);
+    const allCounts = {};
+    for (const t of teams) allCounts[t] = new Array(teams.length + 1).fill(0);
+    const BATCH = 200;
+
+    // ── Main simulation ──────────────────────────────────────────
+    for (let i = 0; i < totalRuns; i++) {
+      const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides);
+      counts[sorted.indexOf(selectedTeam) + 1]++;
+      for (let p = 0; p < sorted.length; p++) allCounts[sorted[p]][p + 1]++;
+      if ((i + 1) % BATCH === 0 || i === totalRuns - 1) {
+        self.postMessage({ type: 'progress', done: i + 1 === totalRuns, completed: i + 1, counts: counts.slice() });
+      }
+    }
+
+    // ── Per-team stats ───────────────────────────────────────────
+    const nT = teams.length;
+    const teamStats = {};
+    for (const t of teams) {
+      const c = allCounts[t];
+      let promo = 0, relg = 0, modal = 1, modalCt = 0;
+      for (let p = 1; p <= nT; p++) {
+        const cnt = c[p];
+        if (p <= promotionCut)           promo += cnt;
+        if (p > nT - relegationCut)      relg  += cnt;
+        if (cnt > modalCt) { modalCt = cnt; modal = p; }
+      }
+      teamStats[t] = {
+        promo: Math.round(100 * promo / totalRuns),
+        relg:  Math.round(100 * relg  / totalRuns),
+        modal
+      };
+    }
+    self.postMessage({ type: 'team_stats', teamStats });
+    self.postMessage({ type: 'done' });
+  };
+`;
+
+// ── UI references ────────────────────────────────────────────────
+const elCounter   = document.getElementById("sim-counter");
+const elStatus    = document.getElementById("sim-status");
+const elDistBars  = document.getElementById("dist-bars");
+const elPctPromo  = document.getElementById("pct-promo");
+const elPctStay   = document.getElementById("pct-stay");
+const elPctRel    = document.getElementById("pct-relegate");
+const elChipPromo = document.getElementById("chip-promo");
+const elChipStay  = document.getElementById("chip-stay");
+const elChipRel   = document.getElementById("chip-relegate");
+
+let { teams, current_stats, current_elos, remaining_games,
+      promotion_cut, relegation_cut, total_teams, selected_team } = SIM_DATA;
+
+// ── Build distribution bar DOM ───────────────────────────────────
+const fillEls = [];
+const pctEls  = [];
+
+function posLabel(i) {
+  const s = ["th","st","nd","rd"];
+  const v = i % 100;
+  return i + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+teams.forEach((_, idx) => {
+  const place = idx + 1;
+  let zone = "zone-mid";
+  if (place <= promotion_cut)                      zone = "zone-promo";
+  if (place > total_teams - relegation_cut)        zone = "zone-relegate";
+
+  const row = document.createElement("div");
+  row.className = "dist-row";
+  row.id = `dist-row-${place}`;
+
+  const lbl = document.createElement("div");
+  lbl.className = "dist-label";
+  lbl.textContent = posLabel(place);
+
+  const track = document.createElement("div");
+  track.className = "dist-track";
+
+  const fill = document.createElement("div");
+  fill.className = `dist-fill ${zone}`;
+  track.appendChild(fill);
+
+  const pct = document.createElement("div");
+  pct.className = "dist-pct";
+  pct.textContent = "—";
+
+  row.appendChild(lbl);
+  row.appendChild(track);
+  row.appendChild(pct);
+  elDistBars.appendChild(row);
+
+  fillEls[place] = fill;
+  pctEls[place]  = pct;
+});
+
+// ── Importance scoring ───────────────────────────────────────────
+function importanceClass(game) {
+  if (game.involves_team) return "imp-own";
+  // how close are the two teams to the selected team?
+  const pos = t => teams.indexOf(t);
+  const sp  = teams.indexOf(selected_team);
+  const hp  = pos(game.home), ap = pos(game.away);
+  if (Math.min(Math.abs(hp - sp), Math.abs(ap - sp)) <= 1) return "imp-high";
+  return "imp-low";
+}
+
+function importanceLabel(cls) {
+  if (cls === "imp-own")  return "Your game";
+  if (cls === "imp-high") return "High leverage";
+  return "Low leverage";
+}
+
+// ── What-if grid ─────────────────────────────────────────────────
+const overrides = {};
+let   teamStats = {};
+
+
+function abbrevTeam(name) {
+  // Strip trailing age suffixes like 55, O55, Over55, 50+
+  let s = name.replace(/\s+(Over\s*)?O?\d{2,3}\+?$/i, '').trim();
+  // Strip trailing common soccer suffixes
+  s = s.replace(/\s+(FC|SC|AC|United|Utd|City|Athletic|Rovers|Wanderers|Town|AFC)$/i, '').trim();
+  // If still long and multi-word, take first 2 words
+  if (s.length > 13) {
+    const words = s.split(/\s+/);
+    if (words.length > 2) s = words.slice(0, 2).join(' ');
+  }
+  return s || name;
+}
+
+function renderGrid() {
+  const el = document.getElementById("game-list");
+
+  // Build completed game lookup: date → team → {result, opponent, score}
+  const compByDT = {};
+  for (const r of FLIGHT_RESULTS) {
+    if (!compByDT[r.date]) compByDT[r.date] = {};
+    let homeRes, awayRes, homeScore, awayScore;
+    if (r.forfeit) {
+      homeRes = r.home_forfeit ? 'L' : 'W';
+      awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes   = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes   = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}–${r.ag}`;
+      awayScore = `${r.ag}–${r.hg}`;
+    } else continue;
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
+  }
+
+  // All weeks: completed dates + future dates, TBD last
+  const compDates    = Object.keys(compByDT).sort();
+  const futureDates  = [...new Set(remaining_games.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD       = remaining_games.some(g => g.date === 'TBD');
+  const allWeeks     = [...new Set([...compDates, ...futureDates])].sort();
+  if (hasTBD) allWeeks.push('TBD');
+
+  if (!allWeeks.length) {
+    el.innerHTML = '<p class="note" style="padding:8px 0">No games in this flight.</p>';
+    return;
+  }
+
+  // No max-width needed — abbreviated names are short enough to show fully
+
+  // Future game lookup: team → date → game entry
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
+  for (const g of remaining_games) {
+    byTW[g.home][g.date] = { ...g, role: 'home' };
+    byTW[g.away][g.date] = { ...g, role: 'away' };
+  }
+
+  function fmtDate(d) {
+    if (d === 'TBD') return 'TBD';
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel    = !IS_BOTTOM_FLIGHT;
+
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-team"></th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
+
+  teams.forEach((t, idx) => {
+    const isSel = t === selected_team;
+    html += `<tr${isSel ? ' class="sel-row"' : ''} data-idx="${idx}">`;
+    html += `<td class="col-team" title="${t}">${abbrevTeam(t)}</td>`;
+
+    for (const w of allWeeks) {
+      // Completed game?
+      const comp = compByDT[w]?.[t];
+      if (comp) {
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell">`;
+        html += `<div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div>`;
+        html += `</td>`;
+        continue;
+      }
+
+      // Future game?
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">—</td>'; continue; }
+
+      const isHome  = entry.role === 'home';
+      const opp     = isHome ? entry.away : entry.home;
+      const ov      = overrides[entry.id];
+      const teamOv  = ov === 'home' ? (isHome ? 'W' : 'L')
+                    : ov === 'draw' ? 'D'
+                    : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal  = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
+      html += `<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
+      html += `<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
+      html += `</select></td>`;
+    }
+
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '—'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '—'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '—'}</td>`;
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
+
+  // Change handlers (future cells only)
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid  = cell.dataset.gid;
+    const winV = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    const sel  = cell.querySelector('.ov-select');
+    sel.addEventListener('change', () => {
+      const v = sel.value;
+      if (v === '?') {
+        delete overrides[gid];
+      } else {
+        overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      }
+      renderGrid();
+      startSim();
+    });
+  });
+}
+
+document.getElementById("reset-btn").onclick = () => {
+  Object.keys(overrides).forEach(k => delete overrides[k]);
+  renderGrid();
+  startSim();
+};
+
+renderGrid();
+
+// ── Simulation runner ─────────────────────────────────────────────
+let worker = null;
+
+function updateUI(completed, counts) {
+  const total = completed;
+  elCounter.innerHTML = `${total.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+
+  let maxCount = 1;
+  for (let p = 1; p <= teams.length; p++) maxCount = Math.max(maxCount, counts[p] || 0);
+
+  let promoCt = 0, releg8Ct = 0;
+  for (let p = 1; p <= teams.length; p++) {
+    const c = counts[p] || 0;
+    const pct = total > 0 ? (100 * c / total) : 0;
+    if (fillEls[p]) {
+      fillEls[p].style.width = (100 * c / maxCount) + "%";
+      pctEls[p].textContent  = total > 0 ? Math.round(pct) + "%" : "—";
+    }
+    if (p <= promotion_cut)                      promoCt += c;
+    if (p > total_teams - relegation_cut)        releg8Ct += c;
+  }
+
+  if (total > 0) {
+    const promoPct = Math.round(100 * promoCt / total);
+    const relPct   = Math.round(100 * releg8Ct / total);
+    const stayPct  = 100 - promoPct - relPct;
+    elPctPromo.textContent = promoPct + "%";
+    elPctStay.textContent  = stayPct  + "%";
+    if (elPctRel)  elPctRel.textContent  = relPct + "%";
+    elChipPromo.className  = "outcome-chip promo";
+    elChipStay.className   = "outcome-chip stay";
+    if (elChipRel) elChipRel.className   = "outcome-chip relegate";
+  }
+}
+
+function startSim() {
+  if (worker) worker.terminate();
+  elStatus.textContent = "Running simulation…";
+  elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+
+  const blob = new Blob([WORKER_SRC], { type: "application/javascript" });
+  worker = new Worker(URL.createObjectURL(blob));
+
+  worker.postMessage({
+    teams,
+    currentStats:   current_stats,
+    currentElos:    current_elos,
+    remainingGames: remaining_games,
+    overrides:      { ...overrides },
+    selectedTeam:   selected_team,
+    totalRuns:      TOTAL_RUNS,
+    promotionCut:   promotion_cut,
+    relegationCut:  relegation_cut,
+  });
+
+  worker.onmessage = e => {
+    const msg = e.data;
+    if (msg.type === 'progress') {
+      updateUI(msg.completed, msg.counts);
+      if (msg.done) {
+        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+      }
+    } else if (msg.type === 'team_stats') {
+      teamStats = msg.teamStats;
+      renderGrid();
+    } else if (msg.type === 'done') {
+      if (worker) { worker.terminate(); worker = null; }
+    }
+  };
+}
+
+startSim();
+
+// ── Matchweek history timeline (Year / Season / Week dropdowns) ──────────
+(function() {
+  const mwLabel  = document.getElementById("mw-label");
+  const stdTbody = document.getElementById("standings-tbody");
+  const selYear   = document.getElementById("mw-year");
+  const selSeason = document.getElementById("mw-season");
+  const selWeek   = document.getElementById("mw-week");
+  const btnReset  = document.getElementById("mw-reset");
+
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) return;
+
+  // All scheduled future games (as of page load)
+  const allFutureGames = SIM_DATA.remaining_games;
+
+  function getSeason(d) {
+    const mo = parseInt(d.slice(5, 7));
+    return (mo >= 3 && mo <= 7) ? 'Spring' : 'Fall';
+  }
+
+  // Group: groups[year][season] = [sorted dates...]
+  const groups = {};
+  for (const d of dates) {
+    const yr = d.slice(0, 4);
+    const sn = getSeason(d);
+    if (!groups[yr]) groups[yr] = {};
+    if (!groups[yr][sn]) groups[yr][sn] = [];
+    groups[yr][sn].push(d);
+  }
+  const years = Object.keys(groups).sort();
+
+  // Populate Year select
+  years.forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    selYear.appendChild(opt);
+  });
+
+  function populateSeasons(year) {
+    selSeason.innerHTML = '';
+    const sns = Object.keys(groups[year] || {}).sort();
+    sns.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      selSeason.appendChild(opt);
+    });
+    return sns;
+  }
+
+  function populateWeeks(year, season) {
+    selWeek.innerHTML = '';
+    // First option: "Full season" (no filter)
+    const ph = document.createElement('option');
+    ph.value = ''; ph.textContent = 'Full season';
+    selWeek.appendChild(ph);
+    const wdates = (groups[year] || {})[season] || [];
+    wdates.forEach((d, i) => {
+      const opt = document.createElement('option');
+      opt.value = d; opt.textContent = `Week ${i + 1}`;
+      selWeek.appendChild(opt);
+    });
+    return wdates;
+  }
+
+  // Rebuild stats up to (and including) a given date
+  function statsUpTo(date) {
+    const s = {};
+    for (const r of FLIGHT_RESULTS) {
+      if (r.date > date) continue;
+      for (const t of [r.home, r.away]) {
+        if (!s[t]) s[t] = { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+      }
+      if (r.forfeit) {
+        if (r.home_forfeit) {
+          s[r.away].w++; s[r.away].pts += 3; s[r.away].gp++;
+          s[r.home].l++; s[r.home].gp++;
+        } else {
+          s[r.home].w++; s[r.home].pts += 3; s[r.home].gp++;
+          s[r.away].l++; s[r.away].gp++;
+        }
+      } else {
+        const hg = r.hg, ag = r.ag;
+        s[r.home].gf += hg; s[r.home].gd += hg - ag; s[r.home].gp++;
+        s[r.away].gf += ag; s[r.away].gd += ag - hg; s[r.away].gp++;
+        if (hg > ag) { s[r.home].w++; s[r.home].pts += 3; s[r.away].l++; }
+        else if (ag > hg) { s[r.away].w++; s[r.away].pts += 3; s[r.home].l++; }
+        else { s[r.home].t++; s[r.home].pts++; s[r.away].t++; s[r.away].pts++; }
+      }
+    }
+    return s;
+  }
+
+  // Remaining games from a given date's perspective:
+  // - Played games after that date (from FLIGHT_RESULTS)
+  // - All originally scheduled future games
+  function remainingFrom(date) {
+    const games = [];
+    for (const r of FLIGHT_RESULTS) {
+      if (r.date <= date) continue;
+      games.push({
+        id: `${r.date}|${r.home}|${r.away}`,
+        home: r.home,
+        away: r.away,
+        date: r.date,
+        involves_team: r.home === selected_team || r.away === selected_team,
+      });
+    }
+    for (const g of allFutureGames) games.push(g);
+    return games.sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+  }
+
+  // Update the mini standings table
+  function renderStandingsTable(stats) {
+    const rows = Object.entries(stats)
+      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+      .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+    stdTbody.innerHTML = rows.map(row => {
+      const isSel = row.team === selected_team;
+      const gdStr = row.gd >= 0 ? `+${row.gd}` : `${row.gd}`;
+      return `<tr${isSel ? ' class="highlight"' : ''}>
+        <td class="team-name-cell" data-team="${row.team}">${row.team}</td>
+        <td>${row.gp}</td>
+        <td>${row.pts}</td>
+        <td>${gdStr}</td>
+        <td>${row.gp ? (row.pts / row.gp).toFixed(2) : '0.00'}</td>
+      </tr>`;
+    }).join('');
+    // Re-attach popup listeners
+    stdTbody.querySelectorAll('td.team-name-cell').forEach(cell => {
+      const team = cell.dataset.team;
+      cell.addEventListener('mouseenter', () => showPopup(cell, team));
+      cell.addEventListener('mouseleave', hidePopup);
+    });
+  }
+
+  function applyDate(date) {
+    mwLabel.textContent = `as of ${date}`;
+    btnReset.style.display = '';
+
+    const histStats = statsUpTo(date);
+    current_stats = {};
+    for (const t of teams) {
+      const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
+      current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
+    }
+    remaining_games = remainingFrom(date);
+    Object.keys(overrides).forEach(k => delete overrides[k]);
+    renderStandingsTable(histStats);
+    renderGrid();
+    startSim();
+  }
+
+  // Set defaults: latest year + season, but no week filter (Full season)
+  const latestYear = years[years.length - 1];
+  selYear.value = latestYear;
+  const initSeasons = populateSeasons(latestYear);
+  selSeason.value = initSeasons[initSeasons.length - 1] || '';
+  populateWeeks(latestYear, selSeason.value);
+  // selWeek starts at "Full season" (value = ""), no applyDate called
+
+  selYear.addEventListener('change', () => {
+    const sns = populateSeasons(selYear.value);
+    selSeason.value = sns[sns.length - 1] || '';
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
+  });
+  selSeason.addEventListener('change', () => {
+    populateWeeks(selYear.value, selSeason.value);
+    location.reload();
+  });
+  selWeek.addEventListener('change', () => {
+    if (selWeek.value) applyDate(selWeek.value);
+    else location.reload();
+  });
+  btnReset.addEventListener('click', () => { location.reload(); });
+})();
+
+// ── Team card popup ──────────────────────────────────────────────
+const FLIGHT_CARDS = {"Hurricanes SC": {"recent": [{"date": "2026-05-03", "opponent": "Westford O48 PAC Lowell", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-26", "opponent": "NH Freedom", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-04-19", "opponent": "Medford United II", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "hurricanes-sc-over-48-div-2-north"}, "Lexington Eagles": {"recent": [{"date": "2026-05-03", "opponent": "Medford United II", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "opponent": "Winchester Town Fifties", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "opponent": "Westford O48 PAC Lowell", "result": "T", "score": "4\u20134", "venue": "H"}], "slug": "lexington-eagles-over-48-div-2-north"}, "Medford United II": {"recent": [{"date": "2026-05-03", "opponent": "Lexington Eagles", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "opponent": "North Andover FC O48", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-19", "opponent": "Hurricanes SC", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "medford-united-ii-over-48-div-2-north"}, "NH Freedom": {"recent": [{"date": "2026-05-03", "opponent": "Shrewsbury Wanderers", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "opponent": "Hurricanes SC", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-04-19", "opponent": "North Andover FC O48", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "nh-freedom-over-48-div-2-north"}, "North Andover FC O48": {"recent": [{"date": "2026-05-03", "opponent": "Winchester Town Fifties", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "opponent": "Medford United II", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-19", "opponent": "NH Freedom", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "north-andover-fc-o48-over-48-div-2-north"}, "Shrewsbury Wanderers": {"recent": [{"date": "2026-05-03", "opponent": "NH Freedom", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "opponent": "Westford O48 PAC Lowell", "result": "W", "score": "6\u20132", "venue": "A"}, {"date": "2026-04-19", "opponent": "Winchester Town Fifties", "result": "W", "score": "5\u20132", "venue": "H"}], "slug": "shrewsbury-wanderers-over-48-div-2-north"}, "Westford O48 PAC Lowell": {"recent": [{"date": "2026-05-03", "opponent": "Hurricanes SC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-26", "opponent": "Shrewsbury Wanderers", "result": "L", "score": "2\u20136", "venue": "H"}, {"date": "2026-04-19", "opponent": "Lexington Eagles", "result": "T", "score": "4\u20134", "venue": "A"}], "slug": "westford-o48-pac-lowell-over-48-div-2-north"}, "Winchester Town Fifties": {"recent": [{"date": "2026-05-03", "opponent": "North Andover FC O48", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-26", "opponent": "Lexington Eagles", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "opponent": "Shrewsbury Wanderers", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": "winchester-town-fifties-over-48-div-2-north"}};
+const STANDINGS_MAP = {};
+
+STANDINGS_MAP["Shrewsbury Wanderers"] = { w: 4, l: 0, t: 1, gp: 5 };
+
+STANDINGS_MAP["NH Freedom"] = { w: 4, l: 0, t: 1, gp: 5 };
+
+STANDINGS_MAP["Winchester Town Fifties"] = { w: 4, l: 1, t: 0, gp: 5 };
+
+STANDINGS_MAP["Westford O48 PAC Lowell"] = { w: 2, l: 2, t: 1, gp: 5 };
+
+STANDINGS_MAP["Lexington Eagles"] = { w: 1, l: 2, t: 1, gp: 4 };
+
+STANDINGS_MAP["North Andover FC O48"] = { w: 1, l: 3, t: 0, gp: 4 };
+
+STANDINGS_MAP["Medford United II"] = { w: 1, l: 4, t: 0, gp: 5 };
+
+STANDINGS_MAP["Hurricanes SC"] = { w: 0, l: 5, t: 0, gp: 5 };
+
+
+const popup     = document.getElementById("team-popup");
+const popName   = document.getElementById("pop-name");
+const popRecord = document.getElementById("pop-record");
+const popGames  = document.getElementById("pop-games");
+
+function showPopup(cell, teamName) {
+  const card     = FLIGHT_CARDS[teamName] || {};
+  const standing = STANDINGS_MAP[teamName] || {};
+  popName.textContent   = teamName;
+  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+
+  popGames.innerHTML = "";
+  const recent = card.recent || [];
+  if (!recent.length) {
+    popGames.innerHTML = '<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
+  } else {
+    recent.forEach(g => {
+      const div = document.createElement("div");
+      div.className = "pop-game";
+      const c = g.result === "W" ? "var(--win)" : g.result === "L" ? "var(--loss)" : "var(--draw)";
+      div.innerHTML = `<span class="pop-opp">${g.opponent}</span>
+        <span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
+      popGames.appendChild(div);
+    });
+  }
+
+  popup.classList.add("visible");
+  const pw = popup.offsetWidth || 260;
+  const ph = popup.offsetHeight || 180;
+  const gap = 10;
+  const rect = cell.getBoundingClientRect();
+  // popup is position:fixed — use viewport coords directly, no scroll offset
+  let left = rect.right + gap;
+  let top  = rect.top + (rect.height / 2) - (ph / 2);
+  if (left + pw > window.innerWidth - 8) left = rect.left - pw - gap;
+  if (top < 8) top = 8;
+  if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+  popup.style.left = left + "px";
+  popup.style.top  = top + "px";
+}
+
+function hidePopup() { popup.classList.remove("visible"); }
+
+document.querySelectorAll("td.team-name-cell").forEach(cell => {
+  const team = cell.dataset.team;
+  cell.addEventListener("mouseenter", () => showPopup(cell, team));
+  cell.addEventListener("mouseleave", hidePopup);
+  cell.addEventListener("click", () => {
+    const slug = (FLIGHT_CARDS[team] || {}).slug;
+    if (!slug) return;
+    document.body.classList.add("is-leaving");
+    setTimeout(() => { window.location.href = `../../team/${slug}/`; }, 180);
+  });
+});
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: new FormData(fbForm),
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+
+// Historical season navigation parked for now.
+// (function() {
+//   const sel = document.getElementById("season-nav");
+//   if (!sel) return;
+//   const TEAM_SEASON_SLUGS = {};
+//   const CURRENT_SEASON_SLUG = "spring-2026";
+//   sel.addEventListener("change", () => {
+//     const s = sel.value;
+//     const teamSlug = TEAM_SEASON_SLUGS[s];
+//     if (!teamSlug) return;
+//     const url = (s === CURRENT_SEASON_SLUG)
+//       ? `../../team/${teamSlug}/`
+//       : `../../season/${s}/team/${teamSlug}/`;
+//     window.location.href = url;
+//   });
+// })();
+
+// ── AI team insight typewriter ────────────────────────────────────
+(function() {
+  const el = document.getElementById('ai-team-text');
+  if (!el) return;
+  const text = el.dataset.text || '';
+  if (!text) return;
+  el.textContent = '';
+  (async () => {
+    for (const ch of text) {
+      el.textContent += ch;
+      await new Promise(r => setTimeout(r, 18));
+    }
+  })();
+})();
+</script>
+</body>
+</html>
