@@ -86,7 +86,7 @@ def flight_page_historical():
 
 # ── AI text generation ────────────────────────────────────────────────────────
 
-_OPENAI_KEY = os.environ.get("OPENAI_API_KEY", "")
+_OPENAI_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 
 
 def _openai_call(prompt, max_tokens=200):
