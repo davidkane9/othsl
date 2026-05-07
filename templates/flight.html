@@ -216,6 +216,24 @@
   }
   .feedback-submit:disabled { background: #90a08f; cursor: not-allowed; }
   .feedback-thanks { display: none; color: var(--field); font-size: 0.92rem; margin-top: 10px; }
+  @keyframes ai-blink { 0%,100%{opacity:.2} 50%{opacity:1} }
+  .ai-pulse { display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);animation:ai-blink 1.1s ease-in-out infinite; }
+
+  /* ── Nav ─────────────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97); backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand { color: #f7f2e8; font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a { color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem; padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s; }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
 <script>
@@ -226,6 +244,15 @@
 </script>
 </head>
 <body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="{{ home_path }}" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="{{ home_path }}">Home</a></li>
+      <li><a href="{{ home_path }}calibration/">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
 <div class="team-popup" id="team-popup">
   <div class="pop-name" id="pop-name"></div>
   <div class="pop-record" id="pop-record"></div>
@@ -242,6 +269,21 @@
     <select id="season-nav"></select>
     -->
   </div>
+
+  {% if not is_historical %}
+  <!-- Overall Outlook -->
+  <section class="section" id="ai-flight-section">
+    <div class="section-title">
+      <h2>Overall Outlook</h2>
+    </div>
+    <div class="panel" style="padding:18px 22px;min-height:56px">
+      <p id="ai-flight-indicator" style="font-size:.9rem;color:var(--muted);margin:0;display:flex;align-items:center;gap:7px">
+        <span class="ai-pulse"></span> Writing outlook…
+      </p>
+      <p id="ai-flight-text" style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0;display:none"></p>
+    </div>
+  </section>
+  {% endif %}
 
   <!-- Standings -->
   <section class="section">
@@ -865,6 +907,109 @@ document.querySelectorAll("td.team-name-cell").forEach(cell=>{
       else{submitBtn.disabled=false;submitBtn.textContent="Send";alert("Something went wrong.");}
     }catch{submitBtn.disabled=false;submitBtn.textContent="Send";alert("Network error.");}
   });
+})();
+
+// ── AI flight outlook ─────────────────────────────────────────────
+(async function() {
+  if (IS_HISTORICAL) return;
+  const indicator = document.getElementById('ai-flight-indicator');
+  const textEl    = document.getElementById('ai-flight-text');
+  if (!indicator || !textEl) return;
+
+  const OPENAI_KEY = "{{ openai_key }}";
+  if (!OPENAI_KEY) { indicator.style.display = 'none'; return; }
+
+  const FLIGHT_LABEL = {{ label | tojson }};
+  const SEASON       = {{ season | tojson }};
+  const cacheKey     = `ai_flight3_${FLIGHT_LABEL}_${SEASON}`;
+  const TTL          = 24 * 60 * 60 * 1000;
+
+  const teams   = SIM_DATA.teams || [];
+  const stats   = SIM_DATA.current_stats || {};
+  const n       = teams.length;
+  const pc      = SIM_DATA.promotion_cut || 2;
+  const rc      = SIM_DATA.relegation_cut || 2;
+
+  const standingsSorted = [...teams].sort((a, b) =>
+    (stats[b]?.pts ?? 0) - (stats[a]?.pts ?? 0) ||
+    (stats[b]?.gd  ?? 0) - (stats[a]?.gd  ?? 0)
+  );
+
+  // Count unique future match dates as approximate remaining weeks
+  const futureDates = [...new Set((SIM_DATA.remaining_games || []).filter(g => g.date && g.date !== 'TBD').map(g => g.date))];
+  const weeksLeft   = futureDates.length;
+
+  // Detailed standings: position, name, GP, W, L, T, Pts, GD
+  const standingsTxt = standingsSorted.map((t, i) => {
+    const s = stats[t] || {};
+    return `${i+1}. ${t}: ${s.gp ?? 0}GP ${s.w ?? 0}W-${s.l ?? 0}L-${s.t ?? 0}T ${s.pts ?? 0}pts GD${s.gd ?? 0}`;
+  }).join('; ');
+
+  // Promotion bubble: gap from 1st outside to last inside
+  const promoBubble = standingsSorted.slice(0, pc);
+  const promoEdgePts = stats[standingsSorted[pc - 1]]?.pts ?? 0;
+  const firstOutPts  = stats[standingsSorted[pc]]?.pts ?? 0;
+  const promoGap     = promoEdgePts - firstOutPts;
+
+  // Relegation bubble: gap from last safe to first in zone
+  const relgEdgePts  = stats[standingsSorted[n - rc - 1]]?.pts ?? 0;
+  const firstRelgPts = stats[standingsSorted[n - rc]]?.pts ?? 0;
+  const relgGap      = relgEdgePts - firstRelgPts;
+
+  const promoZone = promoBubble.join(' & ');
+  const relgZone  = standingsSorted.slice(n - rc).join(' & ');
+
+  // Upcoming key matches (first 4 future games)
+  const upcoming = (SIM_DATA.remaining_games || []).slice(0, 4)
+    .map(g => `${g.home} vs ${g.away} (${g.date})`).join(', ');
+
+  const prompt =
+    `You are a sharp soccer analyst for an adult recreational league (OTHSL). ` +
+    `Write 3 sentences analyzing the ${FLIGHT_LABEL} flight this ${SEASON} season. ` +
+    `Cover: (1) who is running away with promotion or how tight the race is, ` +
+    `(2) who is at real risk of relegation and the exact points gap, ` +
+    `(3) a key upcoming matchup that will matter most. ` +
+    `Full standings (${weeksLeft} matchweek${weeksLeft !== 1 ? 's' : ''} remaining): ${standingsTxt}. ` +
+    `Promotion zone top ${pc}: ${promoZone} (gap to outside: ${promoGap}pts). ` +
+    `Relegation zone bottom ${rc}: ${relgZone} (gap from safety: ${relgGap}pts). ` +
+    `Upcoming games: ${upcoming || 'none scheduled'}. ` +
+    `Use exact team names and real point figures. Casual, confident tone. No fluff.`;
+
+  async function typewrite(el, text) {
+    el.style.display = 'block';
+    el.textContent = '';
+    for (const ch of text) {
+      el.textContent += ch;
+      await new Promise(r => setTimeout(r, 18));
+    }
+  }
+
+  let text;
+  const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+  if (cached && Date.now() - cached.ts < TTL) {
+    text = cached.text;
+    indicator.style.display = 'none';
+    typewrite(textEl, text);
+    return;
+  }
+
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+      body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: 200, temperature: 0.7 })
+    });
+    const data = await resp.json();
+    text = data.choices?.[0]?.message?.content?.trim();
+    if (!text) throw new Error();
+    localStorage.setItem(cacheKey, JSON.stringify({ text, ts: Date.now() }));
+  } catch {
+    indicator.style.display = 'none';
+    return;
+  }
+
+  indicator.style.display = 'none';
+  typewrite(textEl, text);
 })();
 </script>
 </body>

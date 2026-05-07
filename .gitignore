@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 data/raw/
 data/refresh.log
+.env
+data/ai_flight_outlooks.json
+data/ai_team_insights.json
+docs/

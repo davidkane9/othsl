@@ -16,7 +16,14 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from flask import Flask, abort, render_template, request
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 app = Flask(__name__)
+app.jinja_env.globals["openai_key"] = os.environ.get("OPENAI_API_KEY", "")
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 CURRENT_SEASON = "Spring 2026"
@@ -642,7 +649,7 @@ def simulate_team_outlook(team_info, standings, rows):
 
     teams = [row["team"] for row in standings]
     current_stats = {
-        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"]}
+        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"], "gp": row["gp"], "w": row["w"], "l": row["l"], "t": row["t"]}
         for row in standings
     }
     position_counts = {place: 0 for place in range(1, len(teams) + 1)}
@@ -827,7 +834,7 @@ def get_flight_sim_data(team_info, standings, rows):
     ]
 
     current_stats = {
-        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"]}
+        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"], "gp": row["gp"], "w": row["w"], "l": row["l"], "t": row["t"]}
         for row in standings
     }
 
@@ -1069,6 +1076,196 @@ def get_top_teams(rows=None):
 
     results.sort(key=lambda x: -x["elo"])
     return results[:15]
+
+
+def get_featured_plinko(rows=None):
+    """Position distribution for Irish Village Over 30 (homepage plinko teaser)."""
+    if rows is None:
+        rows = get_current_season_rows()
+
+
+    flight_rows = defaultdict(list)
+    for r in rows:
+        if r["age_group"] and r["division"] and r["geography"]:
+            flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
+
+    def _build(target_team, target_ag):
+        for (ag, div, geo) in flight_rows:
+            if ag != target_ag:
+                continue
+            pv        = identify_playoff_visitors(rows, ag, div, geo)
+            standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
+            if not standings:
+                continue
+            if not any(row["team"] == target_team for row in standings):
+                continue
+            n = len(standings)
+            team_info = {"team": target_team, "age_group": ag, "division": div, "geography": geo}
+            sim = simulate_team_outlook(team_info, standings, rows)
+            if not sim.get("place_probabilities"):
+                continue
+            sl = flight_slug(ag, div, geo)
+            return {
+                "team": target_team,
+                "flight_slug": sl,
+                "flight_label": f"{ag} Div {div} {geo}",
+                "n_teams": n,
+                "promo_cut": 2,
+                "relg_cut": 2 if n >= 6 else (1 if n >= 4 else 0),
+                "place_probs": sim.get("place_probabilities", []),
+                "promo_prob": sim.get("promotion_probability", 0),
+                "relg_prob": sim.get("relegation_probability", 0),
+            }
+        return None
+
+    # Fixed featured team — consistent across refreshes
+    return _build("Milton FC", "Over 40")
+
+
+# ── AI-generated insight paragraphs ───────────────────────────────────────────
+
+_AI_FLIGHT_CACHE = os.path.join(DATA_DIR, "ai_flight_outlooks.json")
+_AI_TEAM_CACHE   = os.path.join(DATA_DIR, "ai_team_insights.json")
+
+
+def _openai_complete(prompt):
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        return None
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=120,
+            temperature=0.7,
+        )
+        return resp.choices[0].message.content.strip()
+    except Exception:
+        return None
+
+
+def generate_ai_flight_outlook(age_group, division, geography, standings, sim_data):
+    """One paragraph about what drives promotion/relegation in this flight."""
+    n = len(standings)
+    promo_cut = 2
+    relg_cut  = 2 if n >= 6 else (1 if n >= 4 else 0)
+
+    rows_txt = "\n".join(
+        f"  {i+1}. {row['team']} — {row['pts']}pts, GD {row['gd']:+d}, "
+        f"{row.get('w',0)}W {row.get('l',0)}L {row.get('d',0)}D"
+        for i, row in enumerate(standings)
+    )
+    promo_names = ", ".join(row["team"] for row in standings[:promo_cut])
+    relg_names  = ", ".join(row["team"] for row in standings[n - relg_cut:])
+
+    remaining = sim_data.get("remaining_games", [])
+    n_remaining = len(remaining)
+
+    prompt = (
+        f"You are a soccer analyst writing for an adult recreational league (OTHSL) website. "
+        f"Write exactly 2 sentences (no more) about what will most likely decide promotion and relegation "
+        f"in the {age_group} Division {division} {geography} flight this season. "
+        f"Current standings ({n_remaining} games remaining):\n{rows_txt}\n"
+        f"Top {promo_cut} promote: currently {promo_names}. "
+        f"Bottom {relg_cut} relegate: currently {relg_names}. "
+        f"Be specific — mention team names and point gaps. Casual, confident tone. No fluff."
+    )
+    return _openai_complete(prompt)
+
+
+def generate_ai_team_insight(team, age_group, standings, sim_data):
+    """One sentence about the team's most important remaining game."""
+    remaining = [g for g in sim_data.get("remaining_games", []) if g.get("involves_team")]
+    if not remaining:
+        return None
+
+    pos = next((i + 1 for i, r in enumerate(standings) if r["team"] == team), None)
+    n   = len(standings)
+    pts = next((r["pts"] for r in standings if r["team"] == team), 0)
+    promo_pts = standings[1]["pts"] if len(standings) > 1 else pts
+    relg_pts  = standings[n - 2]["pts"] if n >= 2 else pts
+    promo_prob = sim_data.get("promotion_probability", 0)
+    relg_prob  = sim_data.get("relegation_probability", 0)
+
+    games_txt = ", ".join(
+        f"{'vs' if g['home'] == team else '@'} {g['away'] if g['home'] == team else g['home']} ({g['date']})"
+        for g in remaining[:4]
+    )
+
+    prompt = (
+        f"You are a soccer analyst for an adult recreational league (OTHSL). "
+        f"{team} sits {pos}/{n} with {pts} pts in the {age_group} flight. "
+        f"Promotion probability: {promo_prob}%. Relegation probability: {relg_prob}%. "
+        f"Points from top 2: {promo_pts - pts:+d}. Points from relegation zone: {pts - relg_pts:+d}. "
+        f"Remaining games involving {team}: {games_txt}. "
+        f"Write exactly 1 sentence identifying their single most important remaining game and why. "
+        f"Mention the opponent and date. Casual, confident tone. No fluff."
+    )
+    return _openai_complete(prompt)
+
+
+def build_ai_caches(rows=None):
+    """Generate and save all AI insight paragraphs for the current season."""
+    if rows is None:
+        rows = get_current_season_rows()
+
+    flight_cache = {}
+    team_cache   = {}
+
+    flight_rows = defaultdict(list)
+    for r in rows:
+        if r["age_group"] and r["division"] and r["geography"]:
+            flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
+
+    for (ag, div, geo) in sorted(flight_rows):
+        pv        = identify_playoff_visitors(rows, ag, div, geo)
+        standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
+        if not standings:
+            continue
+        sl = flight_slug(ag, div, geo)
+
+        # Pick any team for sim_data (just need remaining games + team list)
+        team_info = {"team": standings[0]["team"], "age_group": ag, "division": div, "geography": geo}
+        flight_sim = get_flight_sim_data(team_info, standings, rows)
+
+        print(f"  Flight {sl}…", end=" ", flush=True)
+        outlook = generate_ai_flight_outlook(ag, div, geo, standings, flight_sim)
+        flight_cache[sl] = outlook
+        print("done")
+
+        for row in standings:
+            t_info = {"team": row["team"], "age_group": ag, "division": div, "geography": geo}
+            t_sim  = get_flight_sim_data(t_info, standings, rows)
+            t_sim_py = simulate_team_outlook(t_info, standings, rows)
+            t_sim["promotion_probability"] = t_sim_py.get("promotion_probability", 0)
+            t_sim["relegation_probability"] = t_sim_py.get("relegation_probability", 0)
+            slug = build_team_slug(row["team"], ag, div, geo)
+            print(f"    Team {row['team']}…", end=" ", flush=True)
+            insight = generate_ai_team_insight(row["team"], ag, standings, t_sim)
+            team_cache[slug] = insight
+            print("done")
+
+    with open(_AI_FLIGHT_CACHE, "w") as f:
+        json.dump(flight_cache, f)
+    with open(_AI_TEAM_CACHE, "w") as f:
+        json.dump(team_cache, f)
+    print("AI caches saved.")
+
+
+def load_ai_flight_outlook(flight_slug_val):
+    if not os.path.exists(_AI_FLIGHT_CACHE):
+        return None
+    with open(_AI_FLIGHT_CACHE) as f:
+        return json.load(f).get(flight_slug_val)
+
+
+def load_ai_team_insight(team_slug_val):
+    if not os.path.exists(_AI_TEAM_CACHE):
+        return None
+    with open(_AI_TEAM_CACHE) as f:
+        return json.load(f).get(team_slug_val)
 
 
 def get_season_outlook_calibration():
@@ -1315,6 +1512,7 @@ def _render_index(season, home_path, season_nav_prefix):
         season_nav_prefix=season_nav_prefix,
         calibration_path=home_path + "calibration/",
         top_teams=get_top_teams(rows) if is_current else [],
+        featured_plinko=get_featured_plinko(rows) if is_current else None,
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
@@ -1429,8 +1627,10 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
         if flight_slug(age_group, division, geography) == flight_slug_val:
             context = get_flight_page_context(age_group, division, geography, rows=rows)
             if context:
+                home_path = "../../" if season == CURRENT_SEASON else "../../../../"
                 return render_template("flight.html", season=season,
-                                       is_historical=(season != CURRENT_SEASON), **context)
+                                       is_historical=(season != CURRENT_SEASON),
+                                       home_path=home_path, **context)
     return None
 
 
