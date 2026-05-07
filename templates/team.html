@@ -716,17 +716,17 @@
     </section>
 
     <!-- ── Overall Outlook ──────────────────────────────────────────── -->
+    {% if ai_text %}
     <section class="section" id="ai-team-section">
       <div class="section-title">
         <h2>Overall Outlook</h2>
       </div>
-      <div class="panel" style="padding:18px 22px;min-height:56px">
-        <p id="ai-team-indicator" style="font-size:.9rem;color:var(--muted);margin:0;display:flex;align-items:center;gap:7px">
-          <span class="ai-pulse"></span> Writing insight…
-        </p>
-        <p id="ai-team-text" style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0;display:none"></p>
+      <div class="panel" style="padding:18px 22px">
+        <p id="ai-team-text" data-text="{{ ai_text | e }}"
+           style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
       </div>
     </section>
+    {% endif %}
 
     <section class="section" id="sim-section">
       <div class="section-title">
@@ -1520,102 +1520,19 @@ document.querySelectorAll("td.team-name-cell").forEach(cell => {
 //   });
 // })();
 
-// ── AI team insight ───────────────────────────────────────────────
-(async function() {
-  const indicator = document.getElementById('ai-team-indicator');
-  const textEl    = document.getElementById('ai-team-text');
-  if (!indicator || !textEl) return;
-
-  const OPENAI_KEY = "{{ openai_key }}";
-  if (!OPENAI_KEY) { indicator.style.display = 'none'; return; }
-
-  const { selected_team, teams, current_stats, current_elos,
-          remaining_games, promotion_cut, relegation_cut, total_teams } = SIM_DATA;
-  const SEASON      = {{ season | tojson }};
-  const FLIGHT_NAME = {{ (team_info.age_group ~ ' Div ' ~ team_info.division ~ ' ' ~ team_info.geography) | tojson }};
-  const cacheKey    = `ai_team3_${selected_team}_${SEASON}`;
-  const TTL       = 24 * 60 * 60 * 1000;
-
-  const sorted = [...teams].sort((a, b) =>
-    (current_stats[b]?.pts ?? 0) - (current_stats[a]?.pts ?? 0) ||
-    (current_stats[b]?.gd  ?? 0) - (current_stats[a]?.gd  ?? 0)
-  );
-  const pos       = sorted.indexOf(selected_team) + 1;
-  const myStats   = current_stats[selected_team] || {};
-  const myPts     = myStats.pts ?? 0;
-  const myGP      = myStats.gp ?? 0;
-  const myGD      = myStats.gd ?? 0;
-
-  const promoPts  = current_stats[sorted[promotion_cut - 1]]?.pts ?? myPts;
-  const safeIdx   = Math.max(0, total_teams - relegation_cut - 1);
-  const relgPts   = current_stats[sorted[safeIdx]]?.pts ?? myPts;
-  const firstRelg = current_stats[sorted[total_teams - relegation_cut]]?.pts ?? myPts;
-
-  const promoGap  = promoPts - myPts;
-  const relgGap   = myPts - firstRelg;  // positive = above relegation
-
-  // Full standings for context
-  const standingsTxt = sorted.map((t, i) => {
-    const s = current_stats[t] || {};
-    return `${i+1}. ${t}: ${s.gp ?? 0}GP ${s.w ?? 0}W-${s.l ?? 0}L-${s.t ?? 0}T ${s.pts ?? 0}pts GD${s.gd ?? 0}`;
-  }).join('; ');
-
-  const myGames = remaining_games.filter(g => g.involves_team).slice(0, 5)
-    .map(g => `${g.home === selected_team ? 'vs' : '@'} ${g.home === selected_team ? g.away : g.home} (${g.date})`)
-    .join(', ');
-
-  const futureDates = [...new Set(remaining_games.filter(g => g.date && g.date !== 'TBD').map(g => g.date))];
-  const weeksLeft = futureDates.length;
-
-  const posDesc = promoGap <= 0
-    ? `in the promotion zone (${pos}/${total_teams})`
-    : `${pos}/${total_teams}, ${promoGap}pts off promotion`;
-  const relgDesc = relgGap < 0
-    ? `IN the relegation zone (${Math.abs(relgGap)}pts from safety)`
-    : relgGap === 0 ? `right on the relegation line` : `${relgGap}pts above relegation`;
-
-  const prompt =
-    `You are a sharp soccer analyst for an adult recreational league (OTHSL). ` +
-    `Write 3 sentences analyzing ${selected_team}'s season in the ${FLIGHT_NAME} flight (${SEASON}). ` +
-    `They are currently ${posDesc}, ${relgDesc}, after ${myGP} games (GD${myGD}). ` +
-    `Cover: (1) their current form and position in the table, ` +
-    `(2) what they need to do to reach/hold promotion or avoid relegation with exact point gaps, ` +
-    `(3) their most important upcoming game and why it matters. ` +
-    `Full standings: ${standingsTxt}. ` +
-    `Their remaining games (${weeksLeft} weeks left): ${myGames || 'none'}. ` +
-    `Use exact team names and real figures. Casual, confident tone. No fluff.`;
-
-  async function typewrite(el, text) {
-    el.style.display = 'block'; el.textContent = '';
-    for (const ch of text) { el.textContent += ch; await new Promise(r => setTimeout(r, 18)); }
-  }
-
-  let text;
-  const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
-  if (cached && Date.now() - cached.ts < TTL) {
-    text = cached.text;
-    indicator.style.display = 'none';
-    typewrite(textEl, text);
-    return;
-  }
-
-  try {
-    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
-      body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: 200, temperature: 0.7 })
-    });
-    const data = await resp.json();
-    text = data.choices?.[0]?.message?.content?.trim();
-    if (!text) throw new Error();
-    localStorage.setItem(cacheKey, JSON.stringify({ text, ts: Date.now() }));
-  } catch {
-    indicator.style.display = 'none';
-    return;
-  }
-
-  indicator.style.display = 'none';
-  typewrite(textEl, text);
+// ── AI team insight typewriter ────────────────────────────────────
+(function() {
+  const el = document.getElementById('ai-team-text');
+  if (!el) return;
+  const text = el.dataset.text || '';
+  if (!text) return;
+  el.textContent = '';
+  (async () => {
+    for (const ch of text) {
+      el.textContent += ch;
+      await new Promise(r => setTimeout(r, 18));
+    }
+  })();
 })();
 </script>
 </body>

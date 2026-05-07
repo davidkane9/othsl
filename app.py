@@ -23,7 +23,11 @@ except ImportError:
     pass
 
 app = Flask(__name__)
-app.jinja_env.globals["openai_key"] = os.environ.get("OPENAI_API_KEY", "")
+
+# Pre-generated AI texts populated by freeze.py before freezing.
+# Keys are flight_slug / team_slug strings.
+_ai_flight_texts: dict = {}
+_ai_team_texts:  dict  = {}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 CURRENT_SEASON = "Spring 2026"
@@ -1546,7 +1550,8 @@ def team_page(team_slug):
     context = get_team_page_context(team_slug)
     if not context:
         abort(404)
-    return render_template("team.html", season=CURRENT_SEASON, **context)
+    return render_template("team.html", season=CURRENT_SEASON,
+                           ai_text=_ai_team_texts.get(team_slug, ""), **context)
 
 
 def get_flight_page_context(age_group, division, geography, rows=None):
@@ -1628,9 +1633,10 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
             context = get_flight_page_context(age_group, division, geography, rows=rows)
             if context:
                 home_path = "../../" if season == CURRENT_SEASON else "../../../../"
+                ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
                 return render_template("flight.html", season=season,
                                        is_historical=(season != CURRENT_SEASON),
-                                       home_path=home_path, **context)
+                                       home_path=home_path, ai_text=ai_text, **context)
     return None
 
 
