@@ -824,7 +824,7 @@ Spring 2026,Over 48,2,North,2026-05-03,North Andover FC O48,0,4,Winchester Town 
 Spring 2026,Over 48,2,North,2026-05-10,Medford United II,,,NH Freedom,scheduled
 Spring 2026,Over 48,2,North,2026-05-10,Winchester Town Fifties,,,Westford O48 PAC Lowell,scheduled
 Spring 2026,Over 48,2,North,2026-05-10,Hurricanes SC,,,North Andover FC O48,scheduled
-Spring 2026,Over 48,2,North,2026-05-10,Shrewsbury Wanderers,,,Lexington Eagles,scheduled
+Spring 2026,Over 48,2,North,2026-05-10,Shrewsbury Wanderers,2,forfeit,Lexington Eagles,forfeit
 Spring 2026,Over 48,2,North,2026-05-17,Medford United II,,,Westford O48 PAC Lowell,scheduled
 Spring 2026,Over 48,2,North,2026-05-17,Shrewsbury Wanderers,,,North Andover FC O48,scheduled
 Spring 2026,Over 48,2,North,2026-05-17,NH Freedom,,,Winchester Town Fifties,scheduled
@@ -1087,7 +1087,7 @@ Spring 2026,Over 48,5,South,2026-05-03,HTK FC,1,6,Criolo City FC,
 Spring 2026,Over 48,5,South,2026-05-03,Needham FC,1,6,Ashland 48,
 Spring 2026,Over 48,5,South,2026-05-10,Franklin,,,Raynham Crue,scheduled
 Spring 2026,Over 48,5,South,2026-05-10,Criolo City FC,,,HTK FC,scheduled
-Spring 2026,Over 48,5,South,2026-05-10,Ashland 48,3,0,Needham FC,
+Spring 2026,Over 48,5,South,2026-05-10,Ashland 48,2,forfeitNP,Needham FC,forfeit
 Spring 2026,Over 48,5,South,2026-05-17,Ashland 48,,,Franklin,scheduled
 Spring 2026,Over 48,5,South,2026-05-17,Raynham Crue,,,Criolo City FC,scheduled
 Spring 2026,Over 48,5,South,2026-05-17,Needham FC,,,HTK FC,scheduled
@@ -1325,7 +1325,6 @@ Spring 2026,Over 55,3,South,2026-05-03,Western Mass Lusitanos,4,1,Warthog Legend
 Spring 2026,Over 55,3,South,2026-05-03,FC Franklin Seniors,0,3,Arlington Pond Dawgz,
 Spring 2026,Over 55,3,South,2026-05-10,F.C. Westwood,,,Fernandes O55++,scheduled
 Spring 2026,Over 55,3,South,2026-05-10,Warthog Legends,,,Western Mass Lusitanos,scheduled
-Spring 2026,Over 55,3,South,2026-05-10,Arlington Pond Dawgz,,,FC Franklin Seniors,scheduled
 Spring 2026,Over 55,3,South,2026-05-17,Arlington Pond Dawgz,,,F.C. Westwood,scheduled
 Spring 2026,Over 55,3,South,2026-05-17,Fernandes O55++,,,Warthog Legends,scheduled
 Spring 2026,Over 55,3,South,2026-05-17,FC Franklin Seniors,,,Western Mass Lusitanos,scheduled
@@ -1341,6 +1340,7 @@ Spring 2026,Over 55,3,South,2026-06-14,Fernandes O55++,,,Arlington Pond Dawgz,sc
 Spring 2026,Over 55,3,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,3,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,3,South,2026-06-28,TBD,,,TBD,scheduled
+Spring 2026,Over 55,3,South,TBD,Arlington Pond Dawgz,,,FC Franklin Seniors,scheduled
 Spring 2026,Over 62,1,Central,2026-04-05,Lexington Eagles United O62,1,1,Raynham,
 Spring 2026,Over 62,1,Central,2026-04-05,Concord United Dragons,3,1,Seadogs EFC,
 Spring 2026,Over 62,1,Central,2026-04-05,Danvers EFC,1,1,Wayland Wahoots,
