@@ -633,7 +633,11 @@
     <div class="pop-hint">Click to view team page</div>
   </div>
   <main class="page">
-    <div class="topbar"><a class="page-link" href="{{ url_for('index') }}">Back to homepage</a></div>
+    <div class="topbar">
+      <a class="page-link" href="../../">← Home</a>
+      &nbsp;·&nbsp;
+      <a class="page-link" href="../../flight/{{ team_flight_slug }}/">← Back to Flight</a>
+    </div>
 
     <section class="hero">
       <p>{{ season }}</p>
@@ -820,6 +824,7 @@ const SCHEDULE_INFERRED = {{ sim_data.schedule_inferred | tojson }};
 const IS_TOP_FLIGHT   = {{ is_top_flight | tojson }};
 const IS_BOTTOM_FLIGHT = {{ is_bottom_flight | tojson }};
 const TOTAL_RUNS      = 10000;
+const CURRENT_REGRESSION = SIM_DATA.current_regression || 0;
 
 // ── Page transition ──────────────────────────────────────────────
 document.querySelectorAll(".page-link").forEach(link => {
@@ -834,6 +839,10 @@ document.querySelectorAll(".page-link").forEach(link => {
 // ── Simulation engine (runs in a Blob Web Worker) ────────────────
 const WORKER_SRC = `
   function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 200)); }
+  function regressedResult(a, b, reg) {
+    const base = expResult(a, b);
+    return base * (1 - reg) + 0.5 * reg;
+  }
 
   function simOnce(teams, baseStats, baseElos, games, overrides) {
     const st = {}, el = {};
@@ -847,7 +856,7 @@ const WORKER_SRC = `
       if (ov !== undefined) {
         act = ov === 'home' ? 1 : ov === 'draw' ? 0.5 : 0;
       } else {
-        const we = expResult(el[g.home] || 1500, el[g.away] || 1500);
+        const we = regressedResult(el[g.home] || 1500, el[g.away] || 1500, currentRegression);
         const dp = 0.22;
         const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
         const ap = Math.max(0.05, 1 - dp - hp);
@@ -867,7 +876,8 @@ const WORKER_SRC = `
     const sorted = [...teams].sort((a,b) =>
       st[b].pts !== st[a].pts ? st[b].pts - st[a].pts :
       st[b].gd  !== st[a].gd  ? st[b].gd  - st[a].gd  :
-      st[b].gf  - st[a].gf
+      st[b].gf  !== st[a].gf  ? st[b].gf - st[a].gf :
+      a.localeCompare(b)
     );
     return sorted;
   }
@@ -880,7 +890,7 @@ const WORKER_SRC = `
 
   self.onmessage = function(e) {
     const { teams, currentStats, currentElos, remainingGames,
-            overrides, selectedTeam, totalRuns, promotionCut, relegationCut } = e.data;
+            overrides, selectedTeam, totalRuns, promotionCut, relegationCut, currentRegression } = e.data;
     const counts = new Array(teams.length + 1).fill(0);
     const allCounts = {};
     for (const t of teams) allCounts[t] = new Array(teams.length + 1).fill(0);
@@ -1204,6 +1214,7 @@ function startSim() {
     totalRuns:      TOTAL_RUNS,
     promotionCut:   promotion_cut,
     relegationCut:  relegation_cut,
+    currentRegression: CURRENT_REGRESSION,
   });
 
   worker.onmessage = e => {

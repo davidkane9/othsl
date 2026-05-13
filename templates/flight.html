@@ -53,6 +53,38 @@
     box-shadow: var(--shadow);
   }
 
+  .summary-stack {
+    display: grid;
+    gap: 16px;
+  }
+
+  .team-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .team-summary-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,250,241,0.95), rgba(250,243,229,0.92));
+    border: 1px solid rgba(38,61,41,.12);
+    box-shadow: 0 10px 28px rgba(27,38,29,.08);
+  }
+
+  .team-summary-card h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    letter-spacing: -.02em;
+  }
+
+  .team-summary-card p {
+    margin: 0;
+    color: var(--ink);
+    font-size: .9rem;
+    line-height: 1.65;
+  }
+
   /* Standings table */
   .standings-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
   .standings-table th {
@@ -270,19 +302,6 @@
     -->
   </div>
 
-  {% if not is_historical and ai_text %}
-  <!-- Overall Outlook -->
-  <section class="section" id="ai-flight-section">
-    <div class="section-title">
-      <h2>Overall Outlook</h2>
-    </div>
-    <div class="panel" style="padding:18px 22px">
-      <p id="ai-flight-text" data-text="{{ ai_text | e }}"
-         style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
-    </div>
-  </section>
-  {% endif %}
-
   <!-- Standings -->
   <section class="section">
     <div class="section-title">
@@ -366,6 +385,34 @@
   </section>
   {% endif %}
 
+  {% if not is_historical and (ai_text or ai_team_summaries) %}
+  <section class="section" id="ai-flight-section">
+    <div class="section-title">
+      <h2>Simulation Summary</h2>
+    </div>
+    <div class="summary-stack">
+      {% if ai_text %}
+      <div class="panel" style="padding:18px 22px">
+        <p id="ai-flight-text" data-text="{{ ai_text | e }}"
+           style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
+      </div>
+      {% endif %}
+      {% if ai_team_summaries %}
+      <div class="team-summary-grid">
+        {% for item in ai_team_summaries %}
+        {% if item.text %}
+        <article class="team-summary-card">
+          <h3>{{ item.team }}</h3>
+          <p>{{ item.text }}</p>
+        </article>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
   <!-- Season Outlook / What If -->
   <section class="section">
     <div class="sim-header">
@@ -432,6 +479,7 @@ const TEAM_SLUGS = {};
 {% endfor %}
 const N_TEAMS    = {{ standings | length }};
 const TOTAL_RUNS = 10000;
+const CURRENT_REGRESSION = SIM_DATA.current_regression || 0;
 
 // ── Core data ─────────────────────────────────────────────────────────────
 const { teams, current_stats, current_elos, remaining_games,
@@ -648,7 +696,8 @@ document.querySelectorAll(".page-link").forEach(link=>{
 // ── Simulation worker ─────────────────────────────────────────────────────
 const WORKER_SRC = `
   function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/200));}
-  function simOnce(teams,baseStats,baseElos,games,overrides){
+  function regressedResult(a,b,reg){const base=expResult(a,b);return base*(1-reg)+0.5*reg;}
+  function simOnce(teams,baseStats,baseElos,games,overrides,regression){
     const st={},el={};
     for(const t of teams){st[t]={pts:baseStats[t].pts,gd:baseStats[t].gd,gf:baseStats[t].gf};el[t]=baseElos[t]||1500;}
     for(const g of games){
@@ -656,7 +705,7 @@ const WORKER_SRC = `
       let act;
       if(ov!==undefined){act=ov==='home'?1:ov==='draw'?0.5:0;}
       else{
-        const we=expResult(el[g.home]||1500,el[g.away]||1500),dp=0.22;
+        const we=regressedResult(el[g.home]||1500,el[g.away]||1500,regression),dp=0.22;
         const hp=Math.max(0.05,Math.min(0.90,we-dp/2)),ap=Math.max(0.05,1-dp-hp);
         const r=Math.random(); act=r<hp?1:r<hp+dp?0.5:0;
       }
@@ -667,14 +716,14 @@ const WORKER_SRC = `
       const K=32,eH=el[h]||1500,eA=el[a]||1500,ex=expResult(eH,eA);
       el[h]=eH+K*(act-ex); el[a]=eA+K*((1-act)-(1-ex));
     }
-    return [...teams].sort((a,b)=>st[b].pts!==st[a].pts?st[b].pts-st[a].pts:st[b].gd!==st[a].gd?st[b].gd-st[a].gd:st[b].gf-st[a].gf);
+    return [...teams].sort((a,b)=>st[b].pts!==st[a].pts?st[b].pts-st[a].pts:st[b].gd!==st[a].gd?st[b].gd-st[a].gd:st[b].gf!==st[a].gf?st[b].gf-st[a].gf:a.localeCompare(b));
   }
   self.onmessage=function(e){
-    const{teams,currentStats,currentElos,remainingGames,overrides,totalRuns,promotionCut,relegationCut}=e.data;
+    const{teams,currentStats,currentElos,remainingGames,overrides,totalRuns,promotionCut,relegationCut,currentRegression}=e.data;
     const allCounts={};
     for(const t of teams)allCounts[t]=new Array(teams.length+1).fill(0);
     for(let i=0;i<totalRuns;i++){
-      const sorted=simOnce(teams,currentStats,currentElos,remainingGames,overrides);
+      const sorted=simOnce(teams,currentStats,currentElos,remainingGames,overrides,currentRegression);
       for(let p=0;p<sorted.length;p++)allCounts[sorted[p]][p+1]++;
       if((i+1)%200===0||(i+1)===totalRuns)self.postMessage({type:'progress',completed:i+1,done:i+1===totalRuns});
     }
@@ -707,6 +756,7 @@ function startSim() {
     totalRuns:      TOTAL_RUNS,
     promotionCut:   promotion_cut,
     relegationCut:  relegation_cut,
+    currentRegression: CURRENT_REGRESSION,
   });
   worker.onmessage = e => {
     const msg=e.data;

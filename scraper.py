@@ -86,7 +86,7 @@ def make_driver():
     """Create a reusable undetected Chrome driver."""
     options = uc.ChromeOptions()
     options.add_argument("--window-size=1280,800")
-    return uc.Chrome(options=options, headless=False, version_main=146)
+    return uc.Chrome(options=options, headless=False, version_main=148)
 
 
 def fetch_page(driver, url, initial_wait=1, max_attempts=20):

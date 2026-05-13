@@ -189,6 +189,11 @@
       <div class="stat-value">{{ "{:,}".format(cal.total) }}</div>
       <div class="stat-sub">Non-forfeit games across all historical seasons</div>
     </div>
+    <div class="stat-card">
+      <div class="stat-label">Season-Start Regression</div>
+      <div class="stat-value">{{ regression_max }}%</div>
+      <div class="stat-sub">Win probability pulled toward 50% at game 0, fading to 0% by game {{ regression_gp_full }}</div>
+    </div>
   </div>
 
   <div class="panel">
@@ -251,7 +256,10 @@
     </p>
     <p style="color:var(--muted);font-size:.88rem;margin:0">
       K-factor is 32. Ratings regress 40% toward 1500 between seasons to account for roster turnover.
-      The season simulation uses these ratings plus a fixed 22% draw probability to run 10,000 Monte Carlo trials per flight.
+      At the start of each season, win probabilities are additionally pulled {{ regression_max }}% toward 50%
+      (pure coin flip) and this season-start regression fades linearly to 0% once teams have averaged
+      {{ regression_gp_full }} games played — reflecting that early-season ELO ratings are less reliable.
+      The season simulation uses these ratings plus a fixed 22% draw probability to run {{ simulation_runs | default(400) }} Monte Carlo trials per team.
     </p>
   </div>
 </main>

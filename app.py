@@ -14,6 +14,7 @@ import re
 import random
 from collections import defaultdict
 from datetime import datetime, timedelta
+from urllib.request import Request, urlopen
 from flask import Flask, abort, render_template, request
 
 try:
@@ -33,6 +34,9 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 CURRENT_SEASON = "Spring 2026"
 DEFAULT_ELO = 1500
 SIMULATION_RUNS = 400
+REGRESSION_MAX  = 0.80   # blend win_expectation 80% toward 0.5 at season start
+REGRESSION_GP_FULL = 6   # regression reaches 0 once avg games played reaches this
+DRAW_PROBABILITY = 0.22
 
 
 def load_csv(path):
@@ -118,6 +122,164 @@ def get_latest_elo_map():
             latest[(clean_team_name(row["away_team"]), age_group)] = float(row["elo_away_after"])
     _elo_map_cache = latest
     return latest
+
+
+def get_current_regression(current_stats):
+    avg_gp = sum(stats.get("gp", 0) for stats in current_stats.values()) / max(1, len(current_stats))
+    return max(0.0, REGRESSION_MAX * (1.0 - avg_gp / REGRESSION_GP_FULL))
+
+
+def adjusted_expected_result(home_elo, away_elo, regression=0.0):
+    base = expected_result(home_elo, away_elo)
+    return base * (1.0 - regression) + 0.5 * regression
+
+
+def match_outcome_probabilities(home_elo, away_elo, regression=0.0, draw_prob=DRAW_PROBABILITY):
+    win_expectation = adjusted_expected_result(home_elo, away_elo, regression=regression)
+    home_win_prob = max(0.05, min(0.9, win_expectation - draw_prob / 2))
+    away_win_prob = max(0.05, 1.0 - draw_prob - home_win_prob)
+    return {
+        "home_win_prob": round(home_win_prob, 3),
+        "draw_prob": round(draw_prob, 3),
+        "away_win_prob": round(away_win_prob, 3),
+    }
+
+
+def format_game_date(date_str):
+    if not date_str or date_str == "TBD":
+        return "TBD"
+    try:
+        return datetime.strptime(date_str[:10], "%Y-%m-%d").strftime("%A, %B %d")
+    except ValueError:
+        return date_str
+
+
+def simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS, overrides=None):
+    teams = sim_data.get("teams", [])
+    if not teams:
+        return {"team_stats": {}, "counts": {}, "total_runs": total_runs, "regression": 0.0}
+
+    current_stats = sim_data.get("current_stats", {})
+    current_elos = sim_data.get("current_elos", {})
+    remaining_games = sim_data.get("remaining_games", [])
+    promotion_cut = sim_data.get("promotion_cut", 2)
+    relegation_cut = sim_data.get("relegation_cut", 0)
+    regression = sim_data.get("current_regression")
+    if regression is None:
+        regression = get_current_regression(current_stats)
+    overrides = overrides or {}
+
+    counts = {team: [0] * (len(teams) + 1) for team in teams}
+
+    if not remaining_games:
+        ordered = sorted(
+            teams,
+            key=lambda name: (
+                -current_stats.get(name, {}).get("pts", 0),
+                -current_stats.get(name, {}).get("gd", 0),
+                -current_stats.get(name, {}).get("gf", 0),
+                name,
+            ),
+        )
+        for place, team in enumerate(ordered, start=1):
+            counts[team][place] = total_runs
+    else:
+        for _ in range(total_runs):
+            sim_stats = {
+                team: {
+                    "pts": current_stats.get(team, {}).get("pts", 0),
+                    "gd": current_stats.get(team, {}).get("gd", 0),
+                    "gf": current_stats.get(team, {}).get("gf", 0),
+                }
+                for team in teams
+            }
+            sim_elos = {team: current_elos.get(team, DEFAULT_ELO) for team in teams}
+
+            for game in remaining_games:
+                home = game["home"]
+                away = game["away"]
+                if home not in sim_stats or away not in sim_stats:
+                    continue
+
+                forced = overrides.get(game["id"])
+                if forced is not None:
+                    act = 1.0 if forced == "home" else (0.5 if forced == "draw" else 0.0)
+                else:
+                    probs = match_outcome_probabilities(
+                        sim_elos.get(home, DEFAULT_ELO),
+                        sim_elos.get(away, DEFAULT_ELO),
+                        regression=regression,
+                    )
+                    roll = random.random()
+                    if roll < probs["home_win_prob"]:
+                        act = 1.0
+                    elif roll < probs["home_win_prob"] + probs["draw_prob"]:
+                        act = 0.5
+                    else:
+                        act = 0.0
+
+                if act == 1.0:
+                    sim_stats[home]["pts"] += 3
+                    sim_stats[home]["gd"] += 1
+                    sim_stats[home]["gf"] += 2
+                    sim_stats[away]["gd"] -= 1
+                    sim_stats[away]["gf"] += 1
+                elif act == 0.5:
+                    sim_stats[home]["pts"] += 1
+                    sim_stats[away]["pts"] += 1
+                    sim_stats[home]["gf"] += 1
+                    sim_stats[away]["gf"] += 1
+                else:
+                    sim_stats[away]["pts"] += 3
+                    sim_stats[away]["gd"] += 1
+                    sim_stats[away]["gf"] += 2
+                    sim_stats[home]["gd"] -= 1
+                    sim_stats[home]["gf"] += 1
+
+                e_home = sim_elos.get(home, DEFAULT_ELO)
+                e_away = sim_elos.get(away, DEFAULT_ELO)
+                expected_home = expected_result(e_home, e_away)
+                sim_elos[home] = e_home + 32 * (act - expected_home)
+                sim_elos[away] = e_away + 32 * ((1 - act) - (1 - expected_home))
+
+            ordered = sorted(
+                teams,
+                key=lambda name: (
+                    -sim_stats[name]["pts"],
+                    -sim_stats[name]["gd"],
+                    -sim_stats[name]["gf"],
+                    name,
+                ),
+            )
+            for place, team in enumerate(ordered, start=1):
+                counts[team][place] += 1
+
+    team_stats = {}
+    n_teams = len(teams)
+    for team in teams:
+        arr = counts[team]
+        promo_count = sum(arr[p] for p in range(1, min(promotion_cut, n_teams) + 1))
+        relg_start = max(1, n_teams - relegation_cut + 1)
+        relg_count = sum(arr[p] for p in range(relg_start, n_teams + 1)) if relegation_cut else 0
+        modal_place = max(range(1, n_teams + 1), key=lambda place: arr[place])
+        expected_place = sum(place * arr[place] for place in range(1, n_teams + 1)) / max(1, total_runs)
+        promo_prob = round(100 * promo_count / max(1, total_runs), 1)
+        relg_prob = round(100 * relg_count / max(1, total_runs), 1)
+        team_stats[team] = {
+            "promotion_probability": promo_prob,
+            "relegation_probability": relg_prob,
+            "stay_probability": round(100.0 - promo_prob - relg_prob, 1),
+            "modal_place": modal_place,
+            "expected_place": round(expected_place, 2),
+            "place_counts": arr,
+        }
+
+    return {
+        "team_stats": team_stats,
+        "counts": counts,
+        "total_runs": total_runs,
+        "regression": regression,
+    }
 
 
 def is_forfeit(value):
@@ -637,119 +799,38 @@ def get_selector_data():
 
 
 def simulate_team_outlook(team_info, standings, rows):
-    flight_rows = [
-        r for r in rows
-        if (
-            r["age_group"] == team_info["age_group"]
-            and r["division"] == team_info["division"]
-            and r["geography"] == team_info["geography"]
-        )
-    ]
-    future_games = [
-        r for r in flight_rows
-        if not has_played_score(r) and not is_forfeit(r["home_goals"]) and not is_forfeit(r["away_goals"])
-        and is_real_team_name(r["home_team"]) and is_real_team_name(r["away_team"])
-    ]
-
-    teams = [row["team"] for row in standings]
-    current_stats = {
-        row["team"]: {"pts": row["pts"], "gd": row["gd"], "gf": row["gf"], "gp": row["gp"], "w": row["w"], "l": row["l"], "t": row["t"]}
-        for row in standings
-    }
-    position_counts = {place: 0 for place in range(1, len(teams) + 1)}
-    latest_elos = get_latest_elo_map()
-    promotion_cut = 2
-    n_teams = len(teams)
-    relegation_cut = 2 if n_teams >= 6 else (1 if n_teams >= 4 else 0)
-
-    if not future_games:
-        current_place = next((i + 1 for i, row in enumerate(standings) if row["is_selected"]), None)
-        if current_place:
-            position_counts[current_place] = SIMULATION_RUNS
+    sim_data = get_flight_sim_data(team_info, standings, rows)
+    outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    team_stats = outlook["team_stats"].get(team_info["team"])
+    if not team_stats:
         return {
-            "future_game_count": 0,
-            "place_probabilities": [
-                {"place": place, "probability": round(100 * count / SIMULATION_RUNS, 1)}
-                for place, count in position_counts.items()
-                if count
-            ],
-            "promotion_probability": 100.0 if current_place and current_place <= promotion_cut else 0.0,
-            "relegation_probability": 100.0 if current_place and current_place > len(teams) - relegation_cut else 0.0,
-            "stay_probability": 100.0 if current_place and promotion_cut < current_place <= len(teams) - relegation_cut else 0.0,
-            "summary": "No remaining scheduled games are in the dataset, so the current table is treated as final.",
+            "future_game_count": len(sim_data.get("remaining_games", [])),
+            "place_probabilities": [],
+            "promotion_probability": 0.0,
+            "relegation_probability": 0.0,
+            "stay_probability": 0.0,
+            "summary": f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight.",
         }
 
-    for _ in range(SIMULATION_RUNS):
-        sim_stats = {team: dict(stats) for team, stats in current_stats.items()}
-        for game in future_games:
-            home = clean_team_name(game["home_team"])
-            away = clean_team_name(game["away_team"])
-            if home not in sim_stats or away not in sim_stats:
-                continue
-            home_elo = latest_elos.get((home, team_info["age_group"]), DEFAULT_ELO)
-            away_elo = latest_elos.get((away, team_info["age_group"]), DEFAULT_ELO)
-            win_expectation = expected_result(home_elo, away_elo)
-            draw_prob = 0.22
-            home_win_prob = max(0.05, min(0.9, win_expectation - draw_prob / 2))
-            away_win_prob = max(0.05, 1.0 - draw_prob - home_win_prob)
-            roll = random.random()
-
-            if roll < home_win_prob:
-                sim_stats[home]["pts"] += 3
-                sim_stats[home]["gd"] += 1
-                sim_stats[home]["gf"] += 2
-                sim_stats[away]["gd"] -= 1
-                sim_stats[away]["gf"] += 1
-            elif roll < home_win_prob + draw_prob:
-                sim_stats[home]["pts"] += 1
-                sim_stats[away]["pts"] += 1
-                sim_stats[home]["gf"] += 1
-                sim_stats[away]["gf"] += 1
-            else:
-                sim_stats[away]["pts"] += 3
-                sim_stats[away]["gd"] += 1
-                sim_stats[away]["gf"] += 2
-                sim_stats[home]["gd"] -= 1
-                sim_stats[home]["gf"] += 1
-
-        ordered = sorted(
-            teams,
-            key=lambda name: (
-                -sim_stats[name]["pts"],
-                -sim_stats[name]["gd"],
-                -sim_stats[name]["gf"],
-                name,
-            ),
-        )
-        if team_info["team"] not in ordered:
-            continue
-        final_place = ordered.index(team_info["team"]) + 1
-        position_counts[final_place] += 1
-
     place_probabilities = [
-        {"place": place, "probability": round(100 * position_counts[place] / SIMULATION_RUNS, 1)}
-        for place in sorted(position_counts)
-        if position_counts[place]
+        {"place": place, "probability": round(100 * count / SIMULATION_RUNS, 1)}
+        for place, count in enumerate(team_stats["place_counts"])
+        if place and count
     ]
-    promotion_probability = round(
-        100 * sum(position_counts[p] for p in range(1, promotion_cut + 1)) / SIMULATION_RUNS, 1
+    summary = (
+        "No remaining scheduled games are in the dataset, so the current table is treated as final."
+        if not sim_data.get("remaining_games")
+        else f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight."
     )
-    relegation_probability = round(
-        100 * sum(position_counts[p] for p in range(n_teams - relegation_cut + 1, n_teams + 1)) / SIMULATION_RUNS,
-        1,
-    ) if relegation_cut else 0.0
-    stay_probability = round(
-        100.0 - promotion_probability - relegation_probability,
-        1,
-    )
-
     return {
-        "future_game_count": len(future_games),
+        "future_game_count": len(sim_data.get("remaining_games", [])),
         "place_probabilities": place_probabilities,
-        "promotion_probability": promotion_probability,
-        "relegation_probability": relegation_probability,
-        "stay_probability": stay_probability,
-        "summary": f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight.",
+        "promotion_probability": team_stats["promotion_probability"],
+        "relegation_probability": team_stats["relegation_probability"],
+        "stay_probability": team_stats["stay_probability"],
+        "summary": summary,
+        "expected_place": team_stats["expected_place"],
+        "modal_place": team_stats["modal_place"],
     }
 
 
@@ -842,6 +923,14 @@ def get_flight_sim_data(team_info, standings, rows):
         for row in standings
     }
 
+    # Build ELO map before remaining-games loop so win probs can be embedded
+    latest_elos = get_latest_elo_map()
+    current_elos = {
+        team: latest_elos.get((team, age_group), DEFAULT_ELO)
+        for team in current_stats
+    }
+    current_regression = get_current_regression(current_stats)
+
     remaining = []
     for r in flight_rows:
         if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
@@ -850,12 +939,20 @@ def get_flight_sim_data(team_info, standings, rows):
             sel = team_info.get("team")
             home = clean_team_name(r["home_team"])
             away = clean_team_name(r["away_team"])
+            probs = match_outcome_probabilities(
+                current_elos.get(home, DEFAULT_ELO),
+                current_elos.get(away, DEFAULT_ELO),
+                regression=current_regression,
+            )
             remaining.append({
                 "id": f"{r['date']}|{home}|{away}",
                 "home": home,
                 "away": away,
                 "date": r["date"],
                 "involves_team": bool(sel and sel in (home, away)),
+                "home_win_prob": probs["home_win_prob"],
+                "draw_prob": probs["draw_prob"],
+                "away_win_prob": probs["away_win_prob"],
             })
 
     # Fallback: if no scheduled games were scraped, infer remaining round-robin matchups
@@ -876,24 +973,25 @@ def get_flight_sim_data(team_info, standings, rows):
                     continue
                 key = tuple(sorted([home, away]))
                 times_played = played_pairs.get(key, 0)
-                # Assume double round-robin (2 meetings); add unplayed fixtures
                 for _ in range(max(0, 2 - times_played)):
                     sel = team_info.get("team")
+                    probs = match_outcome_probabilities(
+                        current_elos.get(home, DEFAULT_ELO),
+                        current_elos.get(away, DEFAULT_ELO),
+                        regression=current_regression,
+                    )
                     remaining.append({
                         "id": f"inferred|{home}|{away}",
                         "home": home,
                         "away": away,
                         "date": "TBD",
                         "involves_team": bool(sel and sel in (home, away)),
+                        "home_win_prob": probs["home_win_prob"],
+                        "draw_prob": probs["draw_prob"],
+                        "away_win_prob": probs["away_win_prob"],
                     })
         if remaining:
             schedule_inferred = True
-
-    latest_elos = get_latest_elo_map()
-    current_elos = {
-        team: latest_elos.get((team, age_group), DEFAULT_ELO)
-        for team in current_stats
-    }
 
     teams = [row["team"] for row in standings]
     n = len(teams)
@@ -902,6 +1000,8 @@ def get_flight_sim_data(team_info, standings, rows):
         "teams": teams,
         "current_stats": current_stats,
         "current_elos": current_elos,
+        "current_regression": current_regression,
+        "regression_gp_full": REGRESSION_GP_FULL,
         "remaining_games": sorted(remaining, key=lambda g: g["date"]),
         "promotion_cut": 2,
         "relegation_cut": 2 if n >= 6 else (1 if n >= 4 else 0),
@@ -1083,7 +1183,7 @@ def get_top_teams(rows=None):
 
 
 def get_featured_plinko(rows=None):
-    """Position distribution for Irish Village Over 30 (homepage plinko teaser)."""
+    """Homepage plinko teaser for Irish Village Over 55 Division 2 South."""
     if rows is None:
         rows = get_current_season_rows()
 
@@ -1093,9 +1193,13 @@ def get_featured_plinko(rows=None):
         if r["age_group"] and r["division"] and r["geography"]:
             flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
 
-    def _build(target_team, target_ag):
+    def _build(target_team, target_ag, target_division=None, target_geography=None):
         for (ag, div, geo) in flight_rows:
             if ag != target_ag:
+                continue
+            if target_division and div != target_division:
+                continue
+            if target_geography and geo != target_geography:
                 continue
             pv        = identify_playoff_visitors(rows, ag, div, geo)
             standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
@@ -1109,6 +1213,54 @@ def get_featured_plinko(rows=None):
             if not sim.get("place_probabilities"):
                 continue
             sl = flight_slug(ag, div, geo)
+            sd = get_flight_sim_data(team_info, standings, rows)
+            current_pos = next(
+                (i + 1 for i, row in enumerate(standings) if row["team"] == target_team),
+                (n + 1) // 2,
+            )
+            team_games = [g for g in sd.get("remaining_games", []) if g.get("involves_team")]
+            remaining_lookup = {game["id"]: game for game in team_games}
+            season_steps = []
+            for r in sorted(flight_rows[(ag, div, geo)], key=lambda item: item["date"]):
+                if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
+                    continue
+                home = clean_team_name(r["home_team"])
+                away = clean_team_name(r["away_team"])
+                if target_team not in (home, away):
+                    continue
+
+                is_home = home == target_team
+                opponent = away if is_home else home
+                step = {
+                    "id": f"{r['date']}|{home}|{away}",
+                    "date": r["date"],
+                    "opponent": opponent,
+                    "venue": "vs" if is_home else "@",
+                    "fixed": False,
+                }
+
+                hg = r["home_goals"]
+                ag_goals = r["away_goals"]
+                if has_played_score(r) or is_forfeit(hg) or is_forfeit(ag_goals):
+                    if is_forfeit(hg) or is_forfeit(ag_goals):
+                        won = (is_home and is_forfeit(ag_goals)) or ((not is_home) and is_forfeit(hg))
+                        step["result"] = "W" if won else "L"
+                        step["score"] = "F"
+                    else:
+                        hg_i = int(hg)
+                        ag_i = int(ag_goals)
+                        gf, ga = (hg_i, ag_i) if is_home else (ag_i, hg_i)
+                        step["result"] = "W" if gf > ga else ("L" if gf < ga else "T")
+                        step["score"] = f"{gf}-{ga}"
+                    step["fixed"] = True
+                else:
+                    game = remaining_lookup.get(step["id"])
+                    if game:
+                        step["home_win_prob"] = game["home_win_prob"]
+                        step["draw_prob"] = game["draw_prob"]
+
+                season_steps.append(step)
+
             return {
                 "team": target_team,
                 "flight_slug": sl,
@@ -1119,17 +1271,96 @@ def get_featured_plinko(rows=None):
                 "place_probs": sim.get("place_probabilities", []),
                 "promo_prob": sim.get("promotion_probability", 0),
                 "relg_prob": sim.get("relegation_probability", 0),
+                "current_position": current_pos,
+                "team_games": team_games,
+                "season_steps": season_steps,
+                "games_played": sum(1 for step in season_steps if step["fixed"]),
+                "games_remaining": len(team_games),
+                "current_stats": sd.get("current_stats", {}),
+                "remaining_games": sd.get("remaining_games", []),
+                "teams": sd.get("teams", []),
             }
         return None
 
     # Fixed featured team — consistent across refreshes
-    return _build("Milton FC", "Over 40")
+    return _build("Irish Village", "Over 55", "2", "South")
 
 
 # ── AI-generated insight paragraphs ───────────────────────────────────────────
 
 _AI_FLIGHT_CACHE = os.path.join(DATA_DIR, "ai_flight_outlooks.json")
 _AI_TEAM_CACHE   = os.path.join(DATA_DIR, "ai_team_insights.json")
+
+
+def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220):
+    remaining_games = sim_data.get("remaining_games", [])
+    teams = sim_data.get("teams", [])
+    if not remaining_games or not teams:
+        return {"games": [], "top_games_by_team": {}}
+
+    baseline_outlook = baseline_outlook or simulate_flight_outlook(sim_data, total_runs=impact_runs)
+    baseline_stats = baseline_outlook.get("team_stats", {})
+    game_reports = []
+    top_games_by_team = {}
+
+    for game in remaining_games:
+        outcome_probs = {
+            "home": game.get("home_win_prob", 0.5),
+            "draw": game.get("draw_prob", DRAW_PROBABILITY),
+            "away": game.get("away_win_prob", max(0.0, 1.0 - game.get("home_win_prob", 0.5) - game.get("draw_prob", DRAW_PROBABILITY))),
+        }
+        variants = {
+            outcome: simulate_flight_outlook(sim_data, total_runs=impact_runs, overrides={game["id"]: outcome})
+            for outcome in ("home", "draw", "away")
+        }
+
+        weighted_total = 0.0
+        team_effects = {}
+        for team in teams:
+            base = baseline_stats.get(team, {})
+            weighted_team_effect = 0.0
+            for outcome, prob in outcome_probs.items():
+                variant = variants[outcome]["team_stats"].get(team, {})
+                delta = (
+                    abs(variant.get("promotion_probability", 0.0) - base.get("promotion_probability", 0.0))
+                    + abs(variant.get("relegation_probability", 0.0) - base.get("relegation_probability", 0.0))
+                    + 10.0 * abs(variant.get("expected_place", 0.0) - base.get("expected_place", 0.0))
+                )
+                weighted_team_effect += prob * delta
+            team_effects[team] = round(weighted_team_effect, 2)
+            weighted_total += weighted_team_effect
+
+        game_report = {
+            "id": game["id"],
+            "home": game["home"],
+            "away": game["away"],
+            "date": game["date"],
+            "display_date": format_game_date(game["date"]),
+            "home_win_prob": game.get("home_win_prob", 0.5),
+            "draw_prob": game.get("draw_prob", DRAW_PROBABILITY),
+            "away_win_prob": game.get("away_win_prob", 0.0),
+            "total_effect": round(weighted_total, 2),
+            "team_effects": team_effects,
+        }
+        game_reports.append(game_report)
+
+        for team in (game["home"], game["away"]):
+            best = top_games_by_team.get(team)
+            if best is None or team_effects.get(team, 0.0) > best["team_effect"]:
+                team_wp = game["home_win_prob"] if team == game["home"] else game["away_win_prob"]
+                top_games_by_team[team] = {
+                    "id": game["id"],
+                    "opponent": game["away"] if team == game["home"] else game["home"],
+                    "date": game["date"],
+                    "display_date": format_game_date(game["date"]),
+                    "venue": "vs" if team == game["home"] else "@",
+                    "win_probability": round(100 * team_wp),
+                    "draw_probability": round(100 * game.get("draw_prob", DRAW_PROBABILITY)),
+                    "team_effect": round(team_effects.get(team, 0.0), 2),
+                }
+
+    game_reports.sort(key=lambda report: (-report["total_effect"], report["date"], report["home"], report["away"]))
+    return {"games": game_reports, "top_games_by_team": top_games_by_team}
 
 
 def _openai_complete(prompt):
@@ -1142,12 +1373,31 @@ def _openai_complete(prompt):
         resp = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=120,
+            max_tokens=220,
             temperature=0.7,
         )
         return resp.choices[0].message.content.strip()
     except Exception:
-        return None
+        try:
+            body = json.dumps({
+                "model": "gpt-4o-mini",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 220,
+                "temperature": 0.7,
+            }).encode("utf-8")
+            req = Request(
+                "https://api.openai.com/v1/chat/completions",
+                data=body,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {api_key}",
+                },
+            )
+            with urlopen(req, timeout=45) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            return data["choices"][0]["message"]["content"].strip()
+        except Exception:
+            return None
 
 
 def generate_ai_flight_outlook(age_group, division, geography, standings, sim_data):
@@ -1210,6 +1460,78 @@ def generate_ai_team_insight(team, age_group, standings, sim_data):
     return _openai_complete(prompt)
 
 
+def generate_ai_flight_outlook_v2(age_group, division, geography, standings, sim_data, flight_outlook, importance):
+    promo_cut = sim_data.get("promotion_cut", 2)
+    relg_cut = sim_data.get("relegation_cut", 0)
+    team_stats = flight_outlook.get("team_stats", {})
+    top_games = importance.get("games", [])[:3]
+
+    rows_txt = "\n".join(
+        f"  {i+1}. {row['team']} - {row['pts']}pts, GD {row['gd']:+d}, "
+        f"{team_stats.get(row['team'], {}).get('promotion_probability', 0):.1f}% promo, "
+        f"{team_stats.get(row['team'], {}).get('relegation_probability', 0):.1f}% relegation"
+        for i, row in enumerate(standings)
+    )
+    key_games_txt = "; ".join(
+        f"{g['home']} vs {g['away']} on {g['display_date']} "
+        f"(effect {g['total_effect']}, {round(g['home_win_prob'] * 100)}% home win, {round(g['draw_prob'] * 100)}% draw)"
+        for g in top_games
+    ) or "No major remaining games."
+
+    prompt = (
+        f"You are writing a single paragraph for the OTHSL website in clean, natural American English. "
+        f"Write 3 to 4 sentences on the {age_group} Division {division} {geography} race in {CURRENT_SEASON}. "
+        f"Use exact team names, point gaps, and promotion/relegation percentages from the simulation. "
+        f"Mention the biggest race at the top, the key danger at the bottom, and the single most important upcoming game. "
+        f"Avoid hype, filler, and bullet formatting.\n\n"
+        f"Standings and simulation snapshot:\n{rows_txt}\n\n"
+        f"Promotion spots: top {promo_cut}. Relegation spots: bottom {relg_cut}.\n"
+        f"Highest-impact upcoming games from the what-if simulation: {key_games_txt}"
+    )
+    return _openai_complete(prompt)
+
+
+def generate_ai_team_insight_v2(team, age_group, standings, sim_data, team_outlook, top_game):
+    pos = next((i + 1 for i, r in enumerate(standings) if r["team"] == team), None)
+    n = len(standings)
+    pts = next((r["pts"] for r in standings if r["team"] == team), 0)
+    gd = next((r["gd"] for r in standings if r["team"] == team), 0)
+    promo_prob = team_outlook.get("promotion_probability", 0)
+    relg_prob = team_outlook.get("relegation_probability", 0)
+    expected_place = team_outlook.get("expected_place", 0)
+    modal_place = team_outlook.get("modal_place", pos or 0)
+    promotion_cut = sim_data.get("promotion_cut", 2)
+    relg_cut = sim_data.get("relegation_cut", 0)
+    promo_line_idx = min(max(0, promotion_cut - 1), max(0, n - 1))
+    promo_line_pts = standings[promo_line_idx]["pts"] if standings else pts
+    safe_idx = n - relg_cut - 1
+    safe_pts = standings[safe_idx]["pts"] if relg_cut and safe_idx >= 0 else pts
+    remaining = [g for g in sim_data.get("remaining_games", []) if team in (g.get("home"), g.get("away"))]
+    top_game_txt = "No meaningful remaining game identified."
+    if top_game:
+        top_game_txt = (
+            f"{top_game['venue']} {top_game['opponent']} on {top_game['display_date']} "
+            f"({top_game['win_probability']}% win, {top_game['draw_probability']}% draw, effect {top_game['team_effect']})"
+        )
+    remaining_txt = "; ".join(
+        f"{'vs' if g['home'] == team else '@'} {g['away'] if g['home'] == team else g['home']} on {format_game_date(g['date'])}"
+        for g in remaining[:5]
+    ) or "No remaining games."
+
+    prompt = (
+        f"You are writing a single paragraph for the OTHSL website in clean, natural American English. "
+        f"Write 2 to 3 sentences about {team}'s current outlook in {CURRENT_SEASON} {age_group}. "
+        f"Use exact standings facts, their simulated promotion/relegation chances, and identify their most important remaining match. "
+        f"Keep it concise, specific, and readable.\n\n"
+        f"{team} are {pos}th of {n} with {pts} points and GD {gd:+d}. "
+        f"Simulation: {promo_prob:.1f}% promotion, {relg_prob:.1f}% relegation, expected finish {expected_place}, modal finish {modal_place}. "
+        f"Gap to the promotion line: {promo_line_pts - pts:+d} points. Gap to safety: {pts - safe_pts:+d} points. "
+        f"Most important remaining game: {top_game_txt}. "
+        f"Remaining schedule sample: {remaining_txt}"
+    )
+    return _openai_complete(prompt)
+
+
 def build_ai_caches(rows=None):
     """Generate and save all AI insight paragraphs for the current season."""
     if rows is None:
@@ -1230,24 +1552,27 @@ def build_ai_caches(rows=None):
             continue
         sl = flight_slug(ag, div, geo)
 
-        # Pick any team for sim_data (just need remaining games + team list)
         team_info = {"team": standings[0]["team"], "age_group": ag, "division": div, "geography": geo}
         flight_sim = get_flight_sim_data(team_info, standings, rows)
+        flight_outlook = simulate_flight_outlook(flight_sim, total_runs=SIMULATION_RUNS)
+        importance = calculate_flight_importance(flight_sim, baseline_outlook=flight_outlook)
 
         print(f"  Flight {sl}…", end=" ", flush=True)
-        outlook = generate_ai_flight_outlook(ag, div, geo, standings, flight_sim)
+        outlook = generate_ai_flight_outlook_v2(ag, div, geo, standings, flight_sim, flight_outlook, importance)
         flight_cache[sl] = outlook
         print("done")
 
         for row in standings:
-            t_info = {"team": row["team"], "age_group": ag, "division": div, "geography": geo}
-            t_sim  = get_flight_sim_data(t_info, standings, rows)
-            t_sim_py = simulate_team_outlook(t_info, standings, rows)
-            t_sim["promotion_probability"] = t_sim_py.get("promotion_probability", 0)
-            t_sim["relegation_probability"] = t_sim_py.get("relegation_probability", 0)
             slug = build_team_slug(row["team"], ag, div, geo)
             print(f"    Team {row['team']}…", end=" ", flush=True)
-            insight = generate_ai_team_insight(row["team"], ag, standings, t_sim)
+            insight = generate_ai_team_insight_v2(
+                row["team"],
+                ag,
+                standings,
+                flight_sim,
+                flight_outlook["team_stats"].get(row["team"], {}),
+                importance["top_games_by_team"].get(row["team"]),
+            )
             team_cache[slug] = insight
             print("done")
 
@@ -1255,6 +1580,9 @@ def build_ai_caches(rows=None):
         json.dump(flight_cache, f)
     with open(_AI_TEAM_CACHE, "w") as f:
         json.dump(team_cache, f)
+    global _ai_flight_texts, _ai_team_texts
+    _ai_flight_texts = flight_cache
+    _ai_team_texts = team_cache
     print("AI caches saved.")
 
 
@@ -1270,6 +1598,18 @@ def load_ai_team_insight(team_slug_val):
         return None
     with open(_AI_TEAM_CACHE) as f:
         return json.load(f).get(team_slug_val)
+
+
+def load_ai_caches_into_memory():
+    global _ai_flight_texts, _ai_team_texts
+    _ai_flight_texts = {}
+    _ai_team_texts = {}
+    if os.path.exists(_AI_FLIGHT_CACHE):
+        with open(_AI_FLIGHT_CACHE) as f:
+            _ai_flight_texts = json.load(f)
+    if os.path.exists(_AI_TEAM_CACHE):
+        with open(_AI_TEAM_CACHE) as f:
+            _ai_team_texts = json.load(f)
 
 
 def get_season_outlook_calibration():
@@ -1309,10 +1649,13 @@ def get_season_outlook_calibration():
     def sim_once(teams, base, elos, remaining):
         st = {t: dict(s) for t, s in base.items()}
         el = dict(elos)
+        avg_gp = sum(s.get("gp", 0) for s in base.values()) / max(1, len(base))
+        reg = max(0.0, REGRESSION_MAX * (1.0 - avg_gp / REGRESSION_GP_FULL))
         for home, away in remaining:
             if home not in st or away not in st:
                 continue
             we = expected_result(el.get(home, DEFAULT_ELO), el.get(away, DEFAULT_ELO))
+            we = we * (1.0 - reg) + 0.5 * reg
             hp = max(0.05, min(0.90, we - DP / 2))
             r  = random.random()
             if r < hp:
@@ -1516,7 +1859,7 @@ def _render_index(season, home_path, season_nav_prefix):
         season_nav_prefix=season_nav_prefix,
         calibration_path=home_path + "calibration/",
         top_teams=get_top_teams(rows) if is_current else [],
-        featured_plinko=get_featured_plinko(rows) if is_current else None,
+        featured_plinko=get_featured_plinko(rows),
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
@@ -1550,8 +1893,11 @@ def team_page(team_slug):
     context = get_team_page_context(team_slug)
     if not context:
         abort(404)
+    ti = context["team_info"]
+    team_fslug = flight_slug(ti["age_group"], ti["division"], ti["geography"])
     return render_template("team.html", season=CURRENT_SEASON,
-                           ai_text=_ai_team_texts.get(team_slug, ""), **context)
+                           ai_text=_ai_team_texts.get(team_slug, ""),
+                           team_flight_slug=team_fslug, **context)
 
 
 def get_flight_page_context(age_group, division, geography, rows=None):
@@ -1634,9 +1980,21 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
             if context:
                 home_path = "../../" if season == CURRENT_SEASON else "../../../../"
                 ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
+                ai_team_summaries = []
+                if season == CURRENT_SEASON:
+                    for row in context["standings"]:
+                        text = _ai_team_texts.get(row["slug"], "")
+                        if not text:
+                            continue
+                        ai_team_summaries.append({
+                            "team": row["team"],
+                            "slug": row["slug"],
+                            "text": text,
+                        })
                 return render_template("flight.html", season=season,
-                                       is_historical=(season != CURRENT_SEASON),
-                                       home_path=home_path, ai_text=ai_text, **context)
+                                        is_historical=(season != CURRENT_SEASON),
+                                       home_path=home_path, ai_text=ai_text,
+                                       ai_team_summaries=ai_team_summaries, **context)
     return None
 
 
@@ -1675,6 +2033,9 @@ def load_season_outlook_calibration():
     return result
 
 
+load_ai_caches_into_memory()
+
+
 @app.route("/calibration/")
 def calibration_page():
     return render_template(
@@ -1682,6 +2043,9 @@ def calibration_page():
         cal=get_calibration_data(),
         season_cal=load_season_outlook_calibration(),
         home_path="../",
+        regression_max=int(REGRESSION_MAX * 100),
+        regression_gp_full=REGRESSION_GP_FULL,
+        simulation_runs=SIMULATION_RUNS,
     )
 
 
