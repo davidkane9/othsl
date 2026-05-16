@@ -252,6 +252,31 @@
   .flight-popup-row:last-child { border-bottom: none; }
   .flight-popup-team { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .flight-popup-metrics { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .flight-preview-panel {
+    display: none;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    box-shadow: 0 10px 28px rgba(27,38,29,.08);
+  }
+  .flight-preview-panel.visible { display: block; }
+  .flight-preview-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+  .flight-preview-note { font-size: .84rem; color: var(--muted); margin-bottom: 12px; }
+  .flight-preview-grid { display: flex; flex-direction: column; gap: 6px; }
+  .flight-preview-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: .88rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(38,61,41,.08);
+  }
+  .flight-preview-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .flight-preview-team { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .flight-preview-metrics { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
 <script>
@@ -326,6 +351,12 @@
       </tr>
       {% endfor %}
     </table>
+
+    <div class="flight-preview-panel" id="flight-preview-panel">
+      <div class="flight-preview-title" id="flight-preview-title">Flight Preview</div>
+      <div class="flight-preview-note">Hover any flight link above to preview the current standings.</div>
+      <div class="flight-preview-grid" id="flight-preview-body"></div>
+    </div>
   </div>
 </main>
 
@@ -408,6 +439,9 @@ searchEl.focus();
 const flightPopup = document.getElementById('flight-popup');
 const flightPopupTitle = document.getElementById('flight-popup-title');
 const flightPopupBody = document.getElementById('flight-popup-body');
+const flightPreviewPanel = document.getElementById('flight-preview-panel');
+const flightPreviewTitle = document.getElementById('flight-preview-title');
+const flightPreviewBody = document.getElementById('flight-preview-body');
 let flightPopupTimer = null;
 
 function hideFlightPopup() {
@@ -422,7 +456,22 @@ function scheduleFlightPopup(link) {
   const slug = link.dataset.flightSlug;
   if (!slug) return;
   if (flightPopupTimer) clearTimeout(flightPopupTimer);
+  renderFlightPreview(slug);
   renderFlightPopup(link, slug);
+}
+
+function renderFlightPreview(slug) {
+  const preview = FLIGHT_PREVIEWS[slug];
+  if (!preview) return;
+  flightPreviewTitle.textContent = preview.label;
+  const standings = preview.standings || [];
+  flightPreviewBody.innerHTML = standings.map((row, idx) => `
+    <div class="flight-preview-item">
+      <div class="flight-preview-team">${idx + 1}. ${row.team}</div>
+      <div class="flight-preview-metrics">${row.pts} pts - GD ${row.gd >= 0 ? '+' + row.gd : row.gd}</div>
+    </div>
+  `).join('');
+  flightPreviewPanel.classList.add('visible');
 }
 
 function renderFlightPopup(anchor, slug) {

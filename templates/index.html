@@ -63,6 +63,9 @@
       linear-gradient(135deg, rgba(23, 52, 31, 0.97), rgba(41, 76, 49, 0.93)),
       linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .hero::after {
@@ -87,74 +90,12 @@
     margin-bottom: 10px;
   }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-
-  .label {
-    display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-
-  /* ── Compact flight selector (left column) ────────────────────── */
-  .flight-selector {
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 10px;
-    padding: 0;
-    max-height: 420px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,0.15) transparent;
-  }
-  .flight-selector-season {
-    padding: 7px 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.13);
-  }
-  .flight-selector-season select {
-    width: 100%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 6px;
-    color: #f7f2e8;
-    font: inherit;
-    font-size: 0.78rem;
-    padding: 5px 7px;
-    cursor: pointer;
-  }
-  .flight-selector-season select option { background: #1a3a22; color: #f7f2e8; }
-  .fs-ag {
-    font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.09em; color: rgba(247,242,232,0.4);
-    padding: 4px 8px 3px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.18);
-  }
-  .fs-div-row {
-    display: flex; flex-wrap: wrap; gap: 3px;
-    padding: 3px 8px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .fs-div-row:last-of-type { padding-bottom: 5px; }
-  .fs-link {
-    font-size: 0.7rem; font-weight: 700; color: rgba(247,242,232,0.72);
-    text-decoration: none; padding: 2px 6px; border-radius: 4px;
-    border: 1px solid rgba(255,255,255,0.14);
-    transition: all 0.12s;
-  }
-  .fs-link:hover { background: rgba(255,255,255,0.14); color: #f7f2e8; border-color: rgba(255,255,255,0.3); }
-
-  /* ── Plinko (right column) ────────────────────────────────────── */
+  /* ── Plinko (centered, full hero) ────────────────────────────── */
   .plinko-panel {
     background: rgba(18,40,22,0.82); border: 1px solid rgba(255,255,255,.08);
     border-radius: 18px; padding: 16px 14px 12px; display: flex;
     flex-direction: column; align-items: center; gap: 0;
+    width: 100%; max-width: 560px;
   }
   .plinko-eyebrow { font-size: .63rem; text-transform: uppercase; letter-spacing: .1em;
                     color: rgba(247,242,232,.4); margin-bottom: 3px; }
@@ -412,11 +353,6 @@
   .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
   .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
 
-  @media (max-width: 860px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .flight-selector { max-height: 160px; }
-  }
-
   @media (max-width: 640px) {
     .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
     .hero, .section { padding: 18px; border-radius: 22px; }
@@ -437,6 +373,7 @@
     <a href="{{ home_path }}" class="nav-brand">OTHSL</a>
     <ul class="nav-links">
       <li><a href="{{ home_path }}" class="active">Home</a></li>
+      <li><a href="{{ home_path }}teams/">Find Team</a></li>
       <li><a href="{{ calibration_path }}">Model Calibration</a></li>
     </ul>
   </div>
@@ -444,70 +381,45 @@
 <main class="page">
     <section class="hero">
       <span class="eyebrow">OTHSL Match Intelligence · {{ season }}</span>
-      <div class="hero-grid">
 
-        <!-- LEFT: Compact flight directory / season selector -->
-        <div class="flight-selector" id="flight-selector">
-          <div class="flight-selector-season">
-            <select id="season-select-main">
-              {% for s in all_seasons %}
-              <option value="{{ s.slug }}" {% if s.slug == season_slug %}selected{% endif %}>{{ s.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-          {% for ag in flight_groups %}
-          <div class="fs-ag">{{ ag.age_group }}</div>
-          {% for div_row in ag.divisions %}
-          <div class="fs-div-row">
-            {% for f in div_row.flights %}
-            <a href="{{ flight_url_prefix }}{{ f.slug }}/" class="fs-link page-link">{{ div_row.div_num }}{{ f.geo_abbr }}</a>
-            {% endfor %}
-          </div>
-          {% endfor %}
-          {% endfor %}
+      {% if featured_plinko and featured_plinko.team_games %}
+      <div class="plinko-panel">
+        <div class="plinko-eyebrow">Season simulation</div>
+        <div class="plinko-team-name">{{ featured_plinko.team }}</div>
+        <div class="plinko-body">
+          <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
+          <div class="plinko-log" id="plinko-log"></div>
         </div>
-
-        <!-- RIGHT: Plinko simulation -->
-        {% if featured_plinko and featured_plinko.team_games %}
-        <div class="plinko-panel">
-          <div class="plinko-eyebrow">Season simulation</div>
-          <div class="plinko-team-name">{{ featured_plinko.team }}</div>
-          <div class="plinko-body">
-            <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
-            <div class="plinko-log" id="plinko-log"></div>
+        <div class="plinko-stats">
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#4ade80" id="plinko-promo-pct">—</div>
+            <div class="plinko-stat-lbl">Promotion</div>
           </div>
-          <div class="plinko-stats">
-            <div class="plinko-stat">
-              <div class="plinko-stat-val" style="color:#4ade80" id="plinko-promo-pct">—</div>
-              <div class="plinko-stat-lbl">Promotion</div>
-            </div>
-            <div class="plinko-stat">
-              <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)">{{ featured_plinko.n_teams }} teams</div>
-              <div class="plinko-stat-lbl">{{ featured_plinko.flight_label }}</div>
-            </div>
-            <div class="plinko-stat">
-              <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
-              <div class="plinko-stat-lbl">Relegation</div>
-            </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)">{{ featured_plinko.n_teams }} teams</div>
+            <div class="plinko-stat-lbl">{{ featured_plinko.flight_label }}</div>
           </div>
-          <div class="plinko-how" id="plinko-how">
-            Each ball is one simulated season — every game played out by ELO probability.
-            A win shifts the team left toward promotion; a loss shifts right toward relegation.
-            The distribution shows where {{ featured_plinko.team }} most likely finishes.
-          </div>
-          <div class="plinko-actions">
-            <a class="plinko-link" href="#flight-selector"
-               onclick="event.preventDefault();document.getElementById('flight-selector').scrollIntoView({behavior:'smooth', block:'nearest'})">Find your team →</a>
-            <button id="plinko-replay" class="plinko-link">↺ Replay</button>
-            <div class="plinko-speed-wrap">
-              <label for="plinko-speed">Speed</label>
-              <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
-            </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
+            <div class="plinko-stat-lbl">Relegation</div>
           </div>
         </div>
-        {% endif %}
-
+        <div class="plinko-how" id="plinko-how">
+          Each ball is one simulated season — every game played out by ELO probability.
+          A win shifts the team left toward promotion; a loss shifts right toward relegation.
+          The distribution shows where {{ featured_plinko.team }} most likely finishes.
+        </div>
+        <div class="plinko-actions">
+          <a class="plinko-link page-link" href="teams/">Find your team →</a>
+          <button id="plinko-replay" class="plinko-link">↺ Replay</button>
+          <div class="plinko-speed-wrap">
+            <label for="plinko-speed">Speed</label>
+            <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
+          </div>
+        </div>
       </div>
+      {% endif %}
+
     </section>
 
     <div class="subscribe-banner">
@@ -551,24 +463,6 @@
   </main>
 
 <script>
-const CURRENT_SEASON_SLUG = "{{ current_season_slug }}";
-const FLIGHT_URL_PREFIX = "{{ flight_url_prefix }}";
-const HOME_PATH = "{{ home_path }}";
-const SEASON_NAV_PREFIX = "{{ season_nav_prefix }}";
-
-(function () {
-  var sel = document.getElementById("season-select-main");
-  sel.addEventListener("change", function () {
-    var slug = this.value;
-    document.body.classList.add("is-leaving");
-    window.setTimeout(function () {
-      window.location.href = slug === CURRENT_SEASON_SLUG
-        ? HOME_PATH
-        : SEASON_NAV_PREFIX + slug + "/";
-    }, 180);
-  });
-})();
-
 // ── Plinko: game-by-game season simulation ───────────────────────
 (function() {
   const canvas = document.getElementById('plinko-canvas');

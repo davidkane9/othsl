@@ -56,21 +56,23 @@
   .hero {
     position: relative;
     overflow: hidden;
-    padding: 36px;
+    padding: 28px 32px;
     border-radius: 30px;
     color: #f7f2e8;
     background:
-      linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
+      linear-gradient(135deg, rgba(23, 52, 31, 0.97), rgba(41, 76, 49, 0.93)),
       linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .hero::after {
     content: "";
     position: absolute;
     inset: auto -50px -120px auto;
-    width: 300px;
-    height: 300px;
+    width: 300px; height: 300px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
     pointer-events: none;
@@ -78,79 +80,62 @@
 
   .eyebrow {
     display: inline-block;
-    padding: 7px 12px;
+    padding: 6px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.12);
     letter-spacing: 0.08em;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
+    margin-bottom: 10px;
   }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1.45fr 1fr;
-    gap: 26px;
-    align-items: start;
-    margin-top: 16px;
+  /* ── Plinko (centered, full hero) ────────────────────────────── */
+  .plinko-panel {
+    background: rgba(18,40,22,0.82); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px; padding: 16px 14px 12px; display: flex;
+    flex-direction: column; align-items: center; gap: 0;
+    width: 100%; max-width: 560px;
   }
-
-  .hero h1 {
-    margin: 12px 0 10px;
-    font-size: clamp(2.6rem, 5vw, 4.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+  .plinko-eyebrow { font-size: .63rem; text-transform: uppercase; letter-spacing: .1em;
+                    color: rgba(247,242,232,.4); margin-bottom: 3px; }
+  .plinko-team-name { font-size: 1rem; font-weight: 700; color: #f7f2e8;
+                      margin-bottom: 8px; text-align: center; }
+  .plinko-body { display: grid; grid-template-columns: 1fr 120px; gap: 10px;
+                 width: 100%; align-items: start; }
+  .plinko-canvas-wrap { position: relative; width: 100%; }
+  #plinko-canvas { display: block; width: 100%; }
+  .plinko-log { display: flex; flex-direction: column; gap: 2px;
+                font-size: 0.67rem; font-family: Georgia, serif;
+                width: 120px; overflow-y: auto; overflow-x: hidden;
+                scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
+  .plinko-log-entry { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .plinko-stats { display: flex; gap: 16px; margin-top: 6px; }
+  .plinko-stat { text-align: center; }
+  .plinko-stat-val { font-size: 1.15rem; font-weight: 700; color: #f7f2e8; line-height: 1; }
+  .plinko-stat-lbl { font-size: .58rem; text-transform: uppercase; letter-spacing: .07em;
+                     color: rgba(247,242,232,.45); margin-top: 2px; }
+  .plinko-how { font-size: .75rem; color: rgba(247,242,232,.6); line-height: 1.5;
+                margin-top: 8px; text-align: center; display: none; max-width: 340px; }
+  .plinko-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+  .plinko-link {
+    font-size: .75rem; color: rgba(247,242,232,.55); text-decoration: none;
+    border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+    padding: 4px 12px; transition: all .15s; cursor: pointer;
+    background: none; font-family: inherit;
   }
-
-  .hero p {
-    margin: 0;
-    max-width: 58ch;
-    color: rgba(247, 242, 232, 0.82);
-    line-height: 1.65;
-    font-size: 1.03rem;
+  .plinko-link:hover { color: #f7f2e8; background: rgba(255,255,255,.08); }
+  .plinko-speed-wrap { display: flex; align-items: center; gap: 5px; }
+  .plinko-speed-wrap label { font-size: .65rem; color: rgba(247,242,232,.4); text-transform: uppercase; letter-spacing: .06em; }
+  #plinko-speed {
+    width: 72px; accent-color: rgba(198,138,43,0.85); cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px; background: rgba(255,255,255,.18);
+    outline: none;
   }
-
-  .hero-meta {
-    margin-top: 18px;
-    color: rgba(247, 242, 232, 0.72);
-    font-size: 0.95rem;
-  }
-
-  .hero-cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .hero-card {
-    padding: 16px 18px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(10px);
-  }
-
-  .label {
-    display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-
-  .hero-card .label {
-    color: rgba(247, 242, 232, 0.64);
-  }
-
-  .hero-card .value {
-    font-size: 1.95rem;
-    line-height: 1;
-  }
-
-  .hero-card .sub {
-    margin-top: 8px;
-    font-size: 0.88rem;
-    color: rgba(247, 242, 232, 0.72);
+  #plinko-speed::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(198,138,43,0.9); cursor: pointer;
   }
 
   .section {
@@ -182,107 +167,6 @@
     margin: 0;
     color: var(--muted);
     line-height: 1.55;
-  }
-
-  /* Season selector */
-  .season-select-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex-shrink: 0;
-  }
-
-  .season-select-wrap .label {
-    margin-bottom: 0;
-    color: var(--muted);
-  }
-
-  .season-select {
-    padding: 10px 14px;
-    border-radius: 14px;
-    border: 1px solid var(--line);
-    background: var(--panel-strong);
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
-    min-width: 160px;
-  }
-
-  .season-select:focus {
-    outline: 2px solid var(--field);
-    outline-offset: 2px;
-  }
-
-  /* Full-width flight directory table */
-  .flight-table {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    border: 1.5px solid rgba(38, 61, 41, 0.22);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .flight-col {
-    border-right: 1.5px solid rgba(38, 61, 41, 0.18);
-  }
-
-  .flight-col:last-child {
-    border-right: none;
-  }
-
-  .flight-col-header {
-    padding: 11px 14px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    letter-spacing: 0.02em;
-    border-bottom: 1.5px solid rgba(38, 61, 41, 0.22);
-    background: rgba(35, 68, 43, 0.07);
-    color: var(--field);
-  }
-
-  .flight-div-row {
-    display: flex;
-    gap: 6px;
-    padding: 7px 14px;
-    border-bottom: 1px solid rgba(38, 61, 41, 0.1);
-    flex-wrap: wrap;
-  }
-
-  .flight-div-row:last-child {
-    border-bottom: none;
-  }
-
-  .flight-link {
-    font-size: 0.84rem;
-    color: #8b1a1a;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 2px 1px;
-  }
-
-  .flight-link:hover {
-    text-decoration: underline;
-  }
-
-  /* Historical season notice */
-  .historical-notice {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    background: rgba(198, 138, 43, 0.1);
-    border: 1px solid rgba(198, 138, 43, 0.28);
-    color: var(--ink);
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-  }
-
-  .historical-notice a {
-    color: var(--field);
-    font-weight: 700;
-    text-decoration: underline;
   }
 
   footer {
@@ -469,45 +353,10 @@
   .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
   .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
 
-  /* ── ELO leaderboard ─────────────────────────────────────── */
-  .leaderboard { display: flex; flex-direction: column; gap: 4px; }
-  .lb-title {
-    font-size: .68rem; text-transform: uppercase; letter-spacing: .1em;
-    color: rgba(247,242,232,.45); margin-bottom: 6px; display: flex;
-    justify-content: space-between; align-items: center;
-  }
-  .lb-title-right { font-size: .65rem; color: rgba(247,242,232,.3); letter-spacing: .06em; }
-  .lb-row {
-    display: grid;
-    grid-template-columns: 18px 1fr auto;
-    align-items: center;
-    gap: 8px;
-    padding: 3px 0;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background .12s;
-  }
-  .lb-row:hover { background: rgba(255,255,255,.07); }
-  .lb-rank { font-size: .68rem; color: rgba(247,242,232,.3); text-align: right; font-variant-numeric: tabular-nums; }
-  .lb-center { display: flex; flex-direction: column; gap: 2px; overflow: hidden; }
-  .lb-team-row { display: flex; align-items: center; gap: 6px; }
-  .lb-name { font-size: .78rem; font-weight: 600; color: rgba(247,242,232,.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lb-flight { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; }
-  .lb-bar-track { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
-  .lb-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width .7s cubic-bezier(.4,0,.2,1); }
-  .lb-right { text-align: right; flex-shrink: 0; }
-  .lb-elo { font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; color: rgba(247,242,232,.9); }
-  .lb-record { font-size: .62rem; color: rgba(247,242,232,.38); white-space: nowrap; margin-top: 1px; }
-
-  @media (max-width: 960px) {
-    .hero-grid { grid-template-columns: 1fr; }
-  }
-
   @media (max-width: 640px) {
     .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
-    .hero, .section { padding: 20px; border-radius: 22px; }
+    .hero, .section { padding: 18px; border-radius: 22px; }
     .section-title { flex-direction: column; align-items: start; }
-    .flight-table { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
@@ -524,380 +373,64 @@
     <a href="../../" class="nav-brand">OTHSL</a>
     <ul class="nav-links">
       <li><a href="../../" class="active">Home</a></li>
+      <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
     </ul>
   </div>
 </nav>
 <main class="page">
     <section class="hero">
-      <span class="eyebrow">OTHSL Match Intelligence</span>
-      <div class="hero-grid">
-        <div>
-          <h1>Fall 2024</h1>
-          <p>
-            League standings, team pages, and model-driven views for every season,
-            organized by flight.
-          </p>
-          <div class="hero-meta">
-            Historical season — select a flight below to browse standings
-          </div>
-        </div>
-        
-        <div class="hero-cards">
-          <div class="hero-card">
-            <span class="label">Teams</span>
-            <div class="value">261</div>
-            <div class="sub">Active this season</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Flights</span>
-            <div class="value">36</div>
-            <div class="sub">Age group × division × geography</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Games</span>
-            <div class="value">1454</div>
-            <div class="sub">Completed results</div>
-          </div>
-          <div class="hero-card">
-            <span class="label">Age Groups</span>
-            <div class="value">6</div>
-            <div class="sub">Ladders to explore</div>
-          </div>
-        </div>
-        
-      </div>
-    </section>
-
-    
-
-    <section class="section">
-      <div class="section-title">
-        <div>
-          <h2>Flight Directory</h2>
-          <p class="note">Click a flight to view standings and results.</p>
-        </div>
-        <div class="season-select-wrap">
-          <span class="label">Season</span>
-          <select id="season-select-main" class="season-select">
-            
-            <option value="spring-2026" >Spring 2026</option>
-            
-            <option value="fall-2025" >Fall 2025</option>
-            
-            <option value="spring-2025" >Spring 2025</option>
-            
-            <option value="fall-2024" selected>Fall 2024</option>
-            
-            <option value="spring-2024" >Spring 2024</option>
-            
-            <option value="fall-2023" >Fall 2023</option>
-            
-            <option value="spring-2023" >Spring 2023</option>
-            
-            <option value="fall-2022" >Fall 2022</option>
-            
-            <option value="spring-2022" >Spring 2022</option>
-            
-            <option value="fall-2021" >Fall 2021</option>
-            
-            <option value="spring-2021" >Spring 2021</option>
-            
-            <option value="fall-2020" >Fall 2020</option>
-            
-            <option value="fall-2019" >Fall 2019</option>
-            
-            <option value="spring-2019" >Spring 2019</option>
-            
-            <option value="fall-2018" >Fall 2018</option>
-            
-            <option value="spring-2018" >Spring 2018</option>
-            
-            <option value="fall-2017" >Fall 2017</option>
-            
-            <option value="spring-2017" >Spring 2017</option>
-            
-            <option value="fall-2016" >Fall 2016</option>
-            
-            <option value="spring-2016" >Spring 2016</option>
-            
-            <option value="fall-2015" >Fall 2015</option>
-            
-            <option value="spring-2015" >Spring 2015</option>
-            
-            <option value="fall-2014" >Fall 2014</option>
-            
-            <option value="spring-2014" >Spring 2014</option>
-            
-            <option value="fall-2013" >Fall 2013</option>
-            
-            <option value="spring-2013" >Spring 2013</option>
-            
-            <option value="fall-2012" >Fall 2012</option>
-            
-            <option value="spring-2012" >Spring 2012</option>
-            
-            <option value="fall-2011" >Fall 2011</option>
-            
-            <option value="spring-2011" >Spring 2011</option>
-            
-            <option value="fall-2010" >Fall 2010</option>
-            
-            <option value="spring-2010" >Spring 2010</option>
-            
-            <option value="fall-2009" >Fall 2009</option>
-            
-            <option value="spring-2009" >Spring 2009</option>
-            
-            <option value="fall-2008" >Fall 2008</option>
-            
-            <option value="spring-2008" >Spring 2008</option>
-            
-            <option value="fall-2007" >Fall 2007</option>
-            
-            <option value="spring-2007" >Spring 2007</option>
-            
-            <option value="fall-2006" >Fall 2006</option>
-            
-            <option value="spring-2006" >Spring 2006</option>
-            
-            <option value="fall-2005" >Fall 2005</option>
-            
-            <option value="spring-2005" >Spring 2005</option>
-            
-            <option value="fall-2004" >Fall 2004</option>
-            
-            <option value="spring-2004" >Spring 2004</option>
-            
-            <option value="fall-2003" >Fall 2003</option>
-            
-            <option value="spring-2003" >Spring 2003</option>
-            
-            <option value="fall-2002" >Fall 2002</option>
-            
-            <option value="spring-2002" >Spring 2002</option>
-            
-            <option value="fall-2001" >Fall 2001</option>
-            
-            <option value="spring-2001" >Spring 2001</option>
-            
-            <option value="fall-2000" >Fall 2000</option>
-            
-            <option value="spring-2000" >Spring 2000</option>
-            
-            <option value="fall-1999" >Fall 1999</option>
-            
-            <option value="spring-1999" >Spring 1999</option>
-            
-            <option value="fall-1998" >Fall 1998</option>
-            
-            <option value="spring-1998" >Spring 1998</option>
-            
-            <option value="fall-1997" >Fall 1997</option>
-            
-            <option value="spring-1997" >Spring 1997</option>
-            
-          </select>
-        </div>
-      </div>
+      <span class="eyebrow">OTHSL Match Intelligence · Fall 2024</span>
 
       
-      <div class="historical-notice">
-        Viewing historical data for <strong>Fall 2024</strong>.
-        <a href="../../">Switch to current season</a>
+      <div class="plinko-panel">
+        <div class="plinko-eyebrow">Season simulation</div>
+        <div class="plinko-team-name">Irish Village</div>
+        <div class="plinko-body">
+          <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
+          <div class="plinko-log" id="plinko-log"></div>
+        </div>
+        <div class="plinko-stats">
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#4ade80" id="plinko-promo-pct">—</div>
+            <div class="plinko-stat-lbl">Promotion</div>
+          </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)">8 teams</div>
+            <div class="plinko-stat-lbl">Over 55 Div 2 South</div>
+          </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
+            <div class="plinko-stat-lbl">Relegation</div>
+          </div>
+        </div>
+        <div class="plinko-how" id="plinko-how">
+          Each ball is one simulated season — every game played out by ELO probability.
+          A win shifts the team left toward promotion; a loss shifts right toward relegation.
+          The distribution shows where Irish Village most likely finishes.
+        </div>
+        <div class="plinko-actions">
+          <a class="plinko-link page-link" href="teams/">Find your team →</a>
+          <button id="plinko-replay" class="plinko-link">↺ Replay</button>
+          <div class="plinko-speed-wrap">
+            <label for="plinko-speed">Speed</label>
+            <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
+          </div>
+        </div>
       </div>
       
 
-      <div class="flight-table">
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 30</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-30-div-1-north/" class="flight-link page-link">1n</a>
-            
-            <a href="flight/over-30-div-1-south/" class="flight-link page-link">1s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-30-div-2-north/" class="flight-link page-link">2n</a>
-            
-            <a href="flight/over-30-div-2-south/" class="flight-link page-link">2s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-30-div-3-central/" class="flight-link page-link">3c</a>
-            
-            <a href="flight/over-30-div-3-north/" class="flight-link page-link">3n</a>
-            
-            <a href="flight/over-30-div-3-south/" class="flight-link page-link">3s</a>
-            
-          </div>
-          
-        </div>
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 40</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-1-north/" class="flight-link page-link">1n</a>
-            
-            <a href="flight/over-40-div-1-south/" class="flight-link page-link">1s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-2-north/" class="flight-link page-link">2n</a>
-            
-            <a href="flight/over-40-div-2-south/" class="flight-link page-link">2s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-3-north/" class="flight-link page-link">3n</a>
-            
-            <a href="flight/over-40-div-3-south/" class="flight-link page-link">3s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-4-north/" class="flight-link page-link">4n</a>
-            
-            <a href="flight/over-40-div-4-south/" class="flight-link page-link">4s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-5-north/" class="flight-link page-link">5n</a>
-            
-            <a href="flight/over-40-div-5-south/" class="flight-link page-link">5s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-40-div-6-central/" class="flight-link page-link">6c</a>
-            
-          </div>
-          
-        </div>
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 48</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-48-div-1-north/" class="flight-link page-link">1n</a>
-            
-            <a href="flight/over-48-div-1-south/" class="flight-link page-link">1s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-48-div-2-north/" class="flight-link page-link">2n</a>
-            
-            <a href="flight/over-48-div-2-south/" class="flight-link page-link">2s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-48-div-3-north/" class="flight-link page-link">3n</a>
-            
-            <a href="flight/over-48-div-3-south/" class="flight-link page-link">3s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-48-div-4-north/" class="flight-link page-link">4n</a>
-            
-            <a href="flight/over-48-div-4-south/" class="flight-link page-link">4s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-48-div-5-central/" class="flight-link page-link">5c</a>
-            
-          </div>
-          
-        </div>
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 55</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-55-div-1-north/" class="flight-link page-link">1n</a>
-            
-            <a href="flight/over-55-div-1-south/" class="flight-link page-link">1s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-55-div-2-north/" class="flight-link page-link">2n</a>
-            
-            <a href="flight/over-55-div-2-south/" class="flight-link page-link">2s</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-55-div-3-central/" class="flight-link page-link">3c</a>
-            
-          </div>
-          
-        </div>
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 62</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-62-div-1-central/" class="flight-link page-link">1c</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-62-div-2-central/" class="flight-link page-link">2c</a>
-            
-          </div>
-          
-        </div>
-        
-        <div class="flight-col">
-          <div class="flight-col-header">Over 68</div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-68-div-1-central/" class="flight-link page-link">1c</a>
-            
-          </div>
-          
-          <div class="flight-div-row">
-            
-            <a href="flight/over-68-div-2-central/" class="flight-link page-link">2c</a>
-            
-          </div>
-          
-        </div>
-        
-      </div>
     </section>
+
+    <div class="subscribe-banner">
+      <div class="subscribe-banner-text">
+        <strong>Stay in the loop</strong>
+        <span>Get weekly updates, standings, and match recaps delivered to your inbox.</span>
+      </div>
+      <a class="subscribe-btn" href="https://substack.com/@jacobkhaykin" target="_blank" rel="noopener">
+        Subscribe ↗
+      </a>
+    </div>
 
     <footer>
       A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
@@ -930,43 +463,628 @@
   </main>
 
 <script>
-const CURRENT_SEASON_SLUG = "spring-2026";
-const FLIGHT_URL_PREFIX = "flight/";
-const HOME_PATH = "../../";
-const SEASON_NAV_PREFIX = "../";
-
-(function () {
-  var sel = document.getElementById("season-select-main");
-  sel.addEventListener("change", function () {
-    var slug = this.value;
-    document.body.classList.add("is-leaving");
-    window.setTimeout(function () {
-      window.location.href = slug === CURRENT_SEASON_SLUG
-        ? HOME_PATH
-        : SEASON_NAV_PREFIX + slug + "/";
-    }, 180);
-  });
-})();
-
-// ── Leaderboard bar animation + navigation ───────────────────────
+// ── Plinko: game-by-game season simulation ───────────────────────
 (function() {
-  const rows = document.querySelectorAll('.lb-row');
-  if (!rows.length) return;
-  // Staggered bar animation
-  rows.forEach((row, i) => {
-    const fill = row.querySelector('.lb-bar-fill');
-    if (!fill) return;
-    setTimeout(() => { fill.style.width = fill.dataset.pct + '%'; }, 80 + i * 40);
-  });
-  // Click → flight page
-  rows.forEach(row => {
-    const slug = row.dataset.slug;
-    if (!slug) return;
-    row.addEventListener('click', () => {
-      document.body.classList.add('is-leaving');
-      setTimeout(() => { window.location.href = FLIGHT_URL_PREFIX + slug + '/'; }, 180);
+  const canvas = document.getElementById('plinko-canvas');
+  if (!canvas) return;
+  const PLINKO = {"current_position": 6, "current_stats": {"AFC Medfield": {"gd": 19, "gf": 30, "gp": 10, "l": 1, "pts": 21, "t": 2, "w": 7}, "Ashland": {"gd": 4, "gf": 24, "gp": 10, "l": 2, "pts": 16, "t": 4, "w": 4}, "FIMA O55": {"gd": -9, "gf": 16, "gp": 10, "l": 6, "pts": 6, "t": 3, "w": 1}, "Irish Village": {"gd": -5, "gf": 17, "gp": 10, "l": 4, "pts": 12, "t": 3, "w": 3}, "Medway MOB": {"gd": 3, "gf": 22, "gp": 10, "l": 2, "pts": 14, "t": 5, "w": 3}, "Sudbury Thistle AC": {"gd": -21, "gf": 8, "gp": 10, "l": 7, "pts": 3, "t": 2, "w": 1}, "Weston": {"gd": 1, "gf": 12, "gp": 10, "l": 4, "pts": 12, "t": 3, "w": 3}, "Westwood A.F.C.": {"gd": 8, "gf": 22, "gp": 10, "l": 2, "pts": 20, "t": 2, "w": 6}}, "flight_label": "Over 55 Div 2 South", "flight_slug": "over-55-div-2-south", "games_played": 10, "games_remaining": 4, "n_teams": 8, "place_probs": [{"place": 2, "probability": 1.2}, {"place": 3, "probability": 7.2}, {"place": 4, "probability": 26.5}, {"place": 5, "probability": 26.2}, {"place": 6, "probability": 36.0}, {"place": 7, "probability": 2.5}, {"place": 8, "probability": 0.2}], "promo_cut": 2, "promo_prob": 1.2, "relg_cut": 2, "relg_prob": 2.8, "remaining_games": [{"away": "Westwood A.F.C.", "away_win_prob": 0.703, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.077, "id": "inferred|AFC Medfield|Westwood A.F.C.", "involves_team": false}, {"away": "Ashland", "away_win_prob": 0.595, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.185, "id": "inferred|AFC Medfield|Ashland", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.509, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.271, "id": "inferred|AFC Medfield|Irish Village", "involves_team": true}, {"away": "FIMA O55", "away_win_prob": 0.35, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.43, "id": "inferred|AFC Medfield|FIMA O55", "involves_team": false}, {"away": "Medway MOB", "away_win_prob": 0.151, "date": "TBD", "draw_prob": 0.22, "home": "Westwood A.F.C.", "home_win_prob": 0.629, "id": "inferred|Westwood A.F.C.|Medway MOB", "involves_team": false}, {"away": "Weston", "away_win_prob": 0.219, "date": "TBD", "draw_prob": 0.22, "home": "Westwood A.F.C.", "home_win_prob": 0.561, "id": "inferred|Westwood A.F.C.|Weston", "involves_team": false}, {"away": "Sudbury Thistle AC", "away_win_prob": 0.056, "date": "TBD", "draw_prob": 0.22, "home": "Westwood A.F.C.", "home_win_prob": 0.724, "id": "inferred|Westwood A.F.C.|Sudbury Thistle AC", "involves_team": false}, {"away": "Medway MOB", "away_win_prob": 0.28, "date": "TBD", "draw_prob": 0.22, "home": "Ashland", "home_win_prob": 0.5, "id": "inferred|Ashland|Medway MOB", "involves_team": false}, {"away": "Weston", "away_win_prob": 0.36, "date": "TBD", "draw_prob": 0.22, "home": "Ashland", "home_win_prob": 0.42, "id": "inferred|Ashland|Weston", "involves_team": false}, {"away": "Sudbury Thistle AC", "away_win_prob": 0.155, "date": "TBD", "draw_prob": 0.22, "home": "Ashland", "home_win_prob": 0.625, "id": "inferred|Ashland|Sudbury Thistle AC", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.405, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.375, "id": "inferred|Medway MOB|Irish Village", "involves_team": true}, {"away": "FIMA O55", "away_win_prob": 0.247, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.533, "id": "inferred|Medway MOB|FIMA O55", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.323, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.457, "id": "inferred|Weston|Irish Village", "involves_team": true}, {"away": "FIMA O55", "away_win_prob": 0.176, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.604, "id": "inferred|Weston|FIMA O55", "involves_team": false}, {"away": "Sudbury Thistle AC", "away_win_prob": 0.237, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.543, "id": "inferred|Irish Village|Sudbury Thistle AC", "involves_team": true}, {"away": "Sudbury Thistle AC", "away_win_prob": 0.394, "date": "TBD", "draw_prob": 0.22, "home": "FIMA O55", "home_win_prob": 0.386, "id": "inferred|FIMA O55|Sudbury Thistle AC", "involves_team": false}], "season_steps": [{"date": "2024-09-08", "fixed": true, "id": "2024-09-08|Ashland|Irish Village", "opponent": "Ashland", "result": "W", "score": "3-1", "venue": "@"}, {"date": "2024-09-15", "fixed": true, "id": "2024-09-15|Irish Village|FIMA O55", "opponent": "FIMA O55", "result": "T", "score": "2-2", "venue": "vs"}, {"date": "2024-09-22", "fixed": true, "id": "2024-09-22|Irish Village|Westwood A.F.C.", "opponent": "Westwood A.F.C.", "result": "L", "score": "1-3", "venue": "vs"}, {"date": "2024-09-29", "fixed": true, "id": "2024-09-29|Medway MOB|Irish Village", "opponent": "Medway MOB", "result": "L", "score": "2-3", "venue": "@"}, {"date": "2024-10-06", "fixed": true, "id": "2024-10-06|AFC Medfield|Irish Village", "opponent": "AFC Medfield", "result": "L", "score": "1-6", "venue": "@"}, {"date": "2024-10-13", "fixed": true, "id": "2024-10-13|Irish Village|Sudbury Thistle AC", "opponent": "Sudbury Thistle AC", "result": "W", "score": "2-1", "venue": "vs"}, {"date": "2024-10-20", "fixed": true, "id": "2024-10-20|Irish Village|Weston", "opponent": "Weston", "result": "T", "score": "0-0", "venue": "vs"}, {"date": "2024-10-27", "fixed": true, "id": "2024-10-27|Westwood A.F.C.|Irish Village", "opponent": "Westwood A.F.C.", "result": "L", "score": "1-2", "venue": "@"}, {"date": "2024-11-03", "fixed": true, "id": "2024-11-03|Irish Village|Ashland", "opponent": "Ashland", "result": "T", "score": "3-3", "venue": "vs"}, {"date": "2024-11-10", "fixed": true, "id": "2024-11-10|FIMA O55|Irish Village", "opponent": "FIMA O55", "result": "W", "score": "2-1", "venue": "@"}], "team": "Irish Village", "team_games": [{"away": "Irish Village", "away_win_prob": 0.509, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.271, "id": "inferred|AFC Medfield|Irish Village", "involves_team": true}, {"away": "Irish Village", "away_win_prob": 0.405, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.375, "id": "inferred|Medway MOB|Irish Village", "involves_team": true}, {"away": "Irish Village", "away_win_prob": 0.323, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.457, "id": "inferred|Weston|Irish Village", "involves_team": true}, {"away": "Sudbury Thistle AC", "away_win_prob": 0.237, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.543, "id": "inferred|Irish Village|Sudbury Thistle AC", "involves_team": true}], "teams": ["AFC Medfield", "Westwood A.F.C.", "Ashland", "Medway MOB", "Weston", "Irish Village", "FIMA O55", "Sudbury Thistle AC"]};
+  if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
+  const seasonSteps = PLINKO.season_steps || [];
+  const remainingGames = PLINKO.remaining_games || [];
+  const teamName = PLINKO.team;
+
+  if (seasonSteps.length) {
+    const dpr = window.devicePixelRatio || 1;
+    const N = PLINKO.n_teams;
+    const G = seasonSteps.length;
+    const PC = PLINKO.promo_cut || 0;
+    const RC = PLINKO.relg_cut || 0;
+    const ROW_H = 26;
+    const BIN_H = 64;
+    const TOP_PAD = 12;
+    const LAND_Y = (G + 1.35) * ROW_H;
+    const CW = canvas.parentElement.clientWidth || 260;
+    const CH = (G + 2) * ROW_H + BIN_H;
+    const LANES = Math.max(7, G + 1);
+    const START_LANE = Math.floor(LANES / 2);
+
+    canvas.width = CW * dpr;
+    canvas.height = CH * dpr;
+    canvas.style.width = CW + 'px';
+    canvas.style.height = CH + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const laneW = CW / LANES;
+    const binW = CW / N;
+    const binTopY = (G + 1.55) * ROW_H;
+
+    const logEl = document.getElementById('plinko-log');
+    if (logEl) logEl.style.height = CH + 'px';
+
+    const promoEl = document.getElementById('plinko-promo-pct');
+    const relgEl = document.getElementById('plinko-relg-pct');
+    const howEl = document.getElementById('plinko-how');
+    if (howEl) {
+      howEl.textContent =
+        `Each ball replays all ${seasonSteps.length} Irish Village league games. ` +
+        `The first ${PLINKO.games_played || 0} rows are locked results, ` +
+        `and the last ${PLINKO.games_remaining || 0} are simulated. ` +
+        `Wins move left, losses move right, and ties stay centered before the drop into the final place bin.`;
+    }
+
+    let speedMul = 0.7;
+    const speedSlider = document.getElementById('plinko-speed');
+    if (speedSlider) {
+      speedMul = parseFloat(speedSlider.value) || speedMul;
+      speedSlider.addEventListener('input', () => {
+        speedMul = parseFloat(speedSlider.value) || speedMul;
+      });
+    }
+
+    function cloneStats(stats) {
+      const out = {};
+      Object.keys(stats || {}).forEach((team) => {
+        out[team] = { ...stats[team] };
+      });
+      return out;
+    }
+
+    function applyOutcome(stats, home, away, outcome) {
+      if (!stats[home] || !stats[away]) return;
+      if (outcome === 'H') {
+        stats[home].pts += 3;
+        stats[home].gd += 1;
+        stats[home].gf += 2;
+        stats[home].w += 1;
+        stats[away].gd -= 1;
+        stats[away].gf += 1;
+        stats[away].l += 1;
+      } else if (outcome === 'A') {
+        stats[away].pts += 3;
+        stats[away].gd += 1;
+        stats[away].gf += 2;
+        stats[away].w += 1;
+        stats[home].gd -= 1;
+        stats[home].gf += 1;
+        stats[home].l += 1;
+      } else {
+        stats[home].pts += 1;
+        stats[away].pts += 1;
+        stats[home].gf += 1;
+        stats[away].gf += 1;
+        stats[home].t += 1;
+        stats[away].t += 1;
+      }
+      stats[home].gp += 1;
+      stats[away].gp += 1;
+    }
+
+    function sampleOutcome(game) {
+      const homeWinProb = game.home_win_prob || 0.5;
+      const drawProb = game.draw_prob || 0.22;
+      const awayWinProb = Math.max(0.05, 1 - drawProb - homeWinProb);
+      const roll = Math.random();
+      if (roll < homeWinProb) return 'H';
+      if (roll < homeWinProb + drawProb) return 'D';
+      return awayWinProb >= 0 ? 'A' : 'D';
+    }
+
+    function simulateSeason() {
+      const stats = cloneStats(PLINKO.current_stats || {});
+      const stepResults = {};
+
+      remainingGames.forEach((game) => {
+        const outcome = sampleOutcome(game);
+        applyOutcome(stats, game.home, game.away, outcome);
+        if (game.home === teamName) stepResults[game.id] = outcome === 'H' ? 'W' : outcome === 'D' ? 'T' : 'L';
+        if (game.away === teamName) stepResults[game.id] = outcome === 'A' ? 'W' : outcome === 'D' ? 'T' : 'L';
+      });
+
+      const ordered = (PLINKO.teams || []).slice().sort((a, b) => {
+        const sa = stats[a];
+        const sb = stats[b];
+        if (!sa || !sb) return a.localeCompare(b);
+        return (sb.pts - sa.pts) || (sb.gd - sa.gd) || (sb.gf - sa.gf) || a.localeCompare(b);
+      });
+      const finalPlace = Math.max(1, ordered.indexOf(teamName) + 1);
+
+      const results = seasonSteps.map((step) => {
+        if (step.fixed) return step.result || 'T';
+        return stepResults[step.id] || 'T';
+      });
+
+      return { finalPlace, results };
+    }
+
+    function laneCenter(lane) {
+      return (lane + 0.5) * laneW;
+    }
+
+    function placeCenter(placeIdx) {
+      return placeIdx * binW + binW / 2;
+    }
+
+    function resultDelta(result) {
+      if (result === 'W') return -1;
+      if (result === 'L') return 1;
+      return 0;
+    }
+
+    function resultColor(result) {
+      if (result === 'W') return '#4ade80';
+      if (result === 'L') return '#f87171';
+      return '#f7f2e8';
+    }
+
+    function resultMarker(result) {
+      if (result === 'W') return '<';
+      if (result === 'L') return '>';
+      return '=';
+    }
+
+    function updateLog(results, upTo) {
+      if (!logEl) return;
+      const items = seasonSteps.slice(0, upTo + 1).map((step, idx) => {
+        const result = results[idx] || 'T';
+        const score = step.fixed && step.score ? ` ${step.score}` : '';
+        const tag = step.fixed ? 'played' : 'sim';
+        return `<div class="plinko-log-entry" style="color:${resultColor(result)}">${step.venue} ${step.opponent} <strong>${result}${resultMarker(result)}</strong>${score} <span style="opacity:.45">(${tag})</span></div>`;
+      });
+      logEl.innerHTML = items.join('');
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function binColor(i) {
+      if (i < PC) return 'rgba(74,222,128,0.65)';
+      if (i >= N - RC) return 'rgba(248,113,113,0.55)';
+      return 'rgba(255,255,255,0.14)';
+    }
+
+    let balls = [];
+    let binCounts = new Array(N).fill(0);
+    let totalDropped = 0;
+    let totalLanded = 0;
+    const MAX_BALLS = 60;
+
+    function updateStats() {
+      const promoPct = totalLanded ? Math.round(100 * binCounts.slice(0, PC).reduce((a, b) => a + b, 0) / totalLanded) : Math.round(PLINKO.promo_prob || 0);
+      let relSum = 0;
+      if (RC > 0) {
+        for (let i = N - RC; i < N; i++) relSum += binCounts[i];
+      }
+      const relgPct = totalLanded ? Math.round(100 * relSum / totalLanded) : Math.round(PLINKO.relg_prob || 0);
+      if (promoEl) promoEl.textContent = `${promoPct}%`;
+      if (relgEl) relgEl.textContent = `${relgPct}%`;
+    }
+
+    function spawnBall() {
+      const sim = simulateSeason();
+      for (const ball of balls) ball.isLatest = false;
+      balls.push({
+        x: laneCenter(START_LANE),
+        y: TOP_PAD,
+        vx: 0,
+        vy: 0.4,
+        lane: START_LANE,
+        gameIdx: -1,
+        hitRow: -1,
+        results: sim.results,
+        finalPlace: sim.finalPlace,
+        targetX: laneCenter(START_LANE),
+        done: false,
+        isLatest: true,
+      });
+      totalDropped += 1;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, CW, CH);
+
+      for (let row = 0; row < G; row++) {
+        const y = (row + 1) * ROW_H;
+        ctx.strokeStyle = 'rgba(247,242,232,0.07)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(CW, y);
+        ctx.stroke();
+
+        ctx.fillStyle = seasonSteps[row].fixed ? 'rgba(247,242,232,0.22)' : 'rgba(198,138,43,0.32)';
+        const offset = row % 2 === 0 ? 0 : laneW * 0.5;
+        for (let peg = 0; peg <= LANES; peg++) {
+          const px = peg * laneW - offset;
+          if (px > 2 && px < CW - 2) {
+            ctx.beginPath();
+            ctx.arc(px, y, 2.4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      const maxCount = Math.max(1, ...binCounts);
+      const maxBarH = BIN_H - 14;
+      for (let i = 0; i < N; i++) {
+        const bx = i * binW + 1;
+        const h = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxBarH) : 0;
+        ctx.fillStyle = binColor(i);
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(bx, binTopY + maxBarH - h, binW - 2, h + 6, [3, 3, 0, 0]);
+        else ctx.rect(bx, binTopY + maxBarH - h, binW - 2, h + 6);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(247,242,232,0.32)';
+        ctx.font = `bold ${Math.max(8, Math.min(10, binW * 0.42))}px Georgia`;
+        ctx.textAlign = 'center';
+        ctx.fillText(String(i + 1), bx + (binW - 2) / 2, binTopY + maxBarH + 16);
+      }
+
+      ctx.font = '7px Georgia';
+      ctx.textAlign = 'center';
+      if (PC > 0) {
+        ctx.fillStyle = 'rgba(74,222,128,0.55)';
+        ctx.fillText('PROMO', (PC * binW) / 2, binTopY - 4);
+      }
+      if (RC > 0) {
+        ctx.fillStyle = 'rgba(248,113,113,0.55)';
+        ctx.fillText('DROP', CW - (RC * binW) / 2, binTopY - 4);
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, 5, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(ball.x - 1.5, ball.y - 1.5, 0, ball.x, ball.y, 5);
+        grad.addColorStop(0, '#f9d77e');
+        grad.addColorStop(1, '#c68a2b');
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    }
+
+    let lastSpawn = 0;
+    function tick(ts) {
+      const spawnMs = 420 / speedMul;
+      if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
+        spawnBall();
+        lastSpawn = ts;
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+
+        ball.vy += 0.016 * speedMul;
+        ball.vy = Math.min(ball.vy, 5 * speedMul);
+        ball.y += ball.vy;
+
+        ball.vx += (ball.targetX - ball.x) * (0.028 * speedMul);
+        ball.vx *= 0.84;
+        ball.x += ball.vx;
+
+        const nextRow = ball.gameIdx + 1;
+        if (nextRow < G && ball.hitRow < nextRow) {
+          const rowY = (nextRow + 1) * ROW_H;
+          if (ball.y >= rowY) {
+            ball.hitRow = nextRow;
+            ball.gameIdx = nextRow;
+            ball.lane = Math.max(0, Math.min(LANES - 1, ball.lane + resultDelta(ball.results[nextRow])));
+            ball.targetX = laneCenter(ball.lane);
+            ball.vx += resultDelta(ball.results[nextRow]) * (0.6 + Math.random() * 0.25);
+            if (ball.isLatest) updateLog(ball.results, ball.gameIdx);
+          }
+        }
+
+        if (ball.gameIdx >= G - 1) {
+          ball.targetX = placeCenter(ball.finalPlace - 1);
+        }
+
+        if (ball.x < 5) {
+          ball.x = 5;
+          ball.vx = Math.abs(ball.vx) * 0.35;
+        }
+        if (ball.x > CW - 5) {
+          ball.x = CW - 5;
+          ball.vx = -Math.abs(ball.vx) * 0.35;
+        }
+
+        if (ball.y >= LAND_Y) {
+          ball.done = true;
+          binCounts[Math.max(0, Math.min(N - 1, ball.finalPlace - 1))] += 1;
+          totalLanded += 1;
+          updateStats();
+          if (ball.isLatest) updateLog(ball.results, G - 1);
+          if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
+        }
+      }
+
+      draw();
+      requestAnimationFrame(tick);
+    }
+
+    updateStats();
+    requestAnimationFrame(tick);
+
+    const replayBtn = document.getElementById('plinko-replay');
+    if (replayBtn) {
+      replayBtn.addEventListener('click', () => {
+        balls = [];
+        binCounts = new Array(N).fill(0);
+        totalDropped = 0;
+        totalLanded = 0;
+        if (logEl) logEl.innerHTML = '';
+        if (howEl) howEl.style.display = 'none';
+        updateStats();
+      });
+    }
+
+    return;
+  }
+
+  const dpr   = window.devicePixelRatio || 1;
+  const N     = PLINKO.n_teams;
+  const GAMES = PLINKO.team_games;
+  const G     = GAMES.length;
+  const PC    = PLINKO.promo_cut;
+  const RC    = PLINKO.relg_cut;
+  const CURPOS = (PLINKO.current_position || Math.ceil(N / 2)) - 1;
+
+  const ROW_H = 28;
+  const BIN_H = 58;
+  const CW    = canvas.parentElement.clientWidth || 260;
+  const CH    = (G + 2) * ROW_H + BIN_H;
+
+  canvas.width  = CW * dpr; canvas.height = CH * dpr;
+  canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const BW = CW / N;
+  const binTopY = (G + 1) * ROW_H;
+
+  // Sync log height to canvas height
+  const logEl = document.getElementById('plinko-log');
+  if (logEl) logEl.style.height = CH + 'px';
+
+  // Speed slider
+  let speedMul = 0.7;
+  const speedSlider = document.getElementById('plinko-speed');
+  if (speedSlider) {
+    speedMul = parseFloat(speedSlider.value) || speedMul;
+    speedSlider.addEventListener('input', () => { speedMul = parseFloat(speedSlider.value) || speedMul; });
+  }
+
+  const probs = new Array(N).fill(0);
+  for (const pp of (PLINKO.place_probs || [])) probs[pp.place - 1] = pp.probability / 100;
+
+  // Physically reachable bins from CURPOS in exactly G steps (parity constraint)
+  const REACHABLE = new Set();
+  for (let net = -G; net <= G; net += 2) {
+    const bin = CURPOS + net;
+    if (bin >= 0 && bin < N) REACHABLE.add(bin);
+  }
+
+  // Renormalize probs over reachable bins
+  let probTotal = 0;
+  for (let i = 0; i < N; i++) if (REACHABLE.has(i)) probTotal += probs[i];
+  if (probTotal === 0) REACHABLE.forEach(i => { probs[i] = 1 / REACHABLE.size; probTotal = 1; });
+  else for (let i = 0; i < N; i++) probs[i] = REACHABLE.has(i) ? probs[i] / probTotal : 0;
+
+  let balls = [], binCounts = new Array(N).fill(0);
+  let totalDropped = 0, totalLanded = 0;
+  const MAX_BALLS = 60;
+
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl  = document.getElementById('plinko-relg-pct');
+  const howEl   = document.getElementById('plinko-how');
+
+  function updateStats() {
+    if (!totalLanded) return;
+    let pr = 0, rl = 0;
+    for (let i = 0; i < PC; i++) pr += binCounts[i];
+    for (let i = N - RC; i < N; i++) rl += binCounts[i];
+    if (promoEl) promoEl.textContent = Math.round(100 * pr / totalLanded) + '%';
+    if (relgEl)  relgEl.textContent  = Math.round(100 * rl / totalLanded) + '%';
+  }
+
+  function makePath(targetBin) {
+    // targetBin is reachable so (G + CURPOS - targetBin) / 2 is an exact integer
+    const winsNeeded = (G + CURPOS - targetBin) / 2;
+    const resultArr  = new Array(G).fill('L');
+
+    // Weighted random sampling (without replacement) to choose which games are wins
+    const available = GAMES.map((g, i) => {
+      const isHome = g.home === PLINKO.team;
+      const wp = isHome ? (g.home_win_prob || 0.5) : Math.max(0, 1 - (g.home_win_prob || 0.5) - (g.draw_prob || 0.22));
+      return { i, wp };
     });
-  });
+    for (let k = 0; k < winsNeeded && available.length > 0; k++) {
+      const total = available.reduce((s, x) => s + x.wp, 0);
+      let r = Math.random() * total;
+      let chosen = available.length - 1;
+      for (let j = 0; j < available.length; j++) { r -= available[j].wp; if (r <= 0) { chosen = j; break; } }
+      resultArr[available[chosen].i] = 'W';
+      available.splice(chosen, 1);
+    }
+
+    return GAMES.map((g, i) => {
+      const isHome = g.home === PLINKO.team;
+      return { opponent: isHome ? g.away : g.home, venue: isHome ? 'vs' : '@',
+               result: resultArr[i], date: g.date };
+    });
+  }
+
+  function chooseTargetBin() {
+    let r = Math.random(), cum = 0;
+    for (let i = 0; i < N; i++) { cum += probs[i]; if (r < cum) return i; }
+    return [...REACHABLE][REACHABLE.size - 1];
+  }
+
+  function spawnBall() {
+    const targetBin = chooseTargetBin();
+    const path      = makePath(targetBin);
+    for (const b of balls) b.isLatest = false;
+    balls.push({
+      x: (CURPOS + 0.5) * BW,
+      y: 2, vx: 0, vy: 0.35,
+      curBin: CURPOS,
+      gameIdx: -1,
+      hitRow: -1,
+      path, bin: targetBin,
+      done: false, isLatest: true,
+    });
+    totalDropped++;
+  }
+
+  function updateLog(path, upTo) {
+    if (!logEl) return;
+    const items = path.slice(0, upTo + 1).map(step => {
+      const c   = step.result === 'W' ? '#4ade80' : '#f87171';
+      const arr = step.result === 'W' ? '↑' : '↓';
+      return `<div class="plinko-log-entry" style="color:${c}">${step.venue} ${step.opponent} <strong>${step.result}${arr}</strong></div>`;
+    });
+    logEl.innerHTML = items.join('');
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function binColor(i) {
+    if (i < PC)      return 'rgba(74,222,128,0.65)';
+    if (i >= N - RC) return 'rgba(248,113,113,0.55)';
+    return 'rgba(255,255,255,0.14)';
+  }
+
+  // Peg positions per row (staggered like a real Galton board)
+  function pegXList(row) {
+    const pegs = [];
+    const offset = (row % 2 === 0) ? 0 : BW * 0.5;
+    for (let p = 0; p <= N; p++) {
+      const px = p * BW - offset;
+      if (px > 0 && px < CW) pegs.push(px);
+    }
+    return pegs;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, CW, CH);
+
+    // Peg rows — horizontal line + peg dots at each game row
+    for (let row = 0; row < G; row++) {
+      const y = (row + 1) * ROW_H;
+
+      // Faint horizontal guide line
+      ctx.strokeStyle = 'rgba(247,242,232,0.07)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y); ctx.stroke();
+
+      // Peg dots
+      ctx.fillStyle = 'rgba(247,242,232,0.28)';
+      for (const px of pegXList(row)) {
+        ctx.beginPath(); ctx.arc(px, y, 2.5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    // Bins
+    const maxCount = Math.max(1, ...binCounts);
+    const maxBarH  = BIN_H - 12;
+    for (let i = 0; i < N; i++) {
+      const bx = i * BW + 1;
+      const h  = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxBarH) : 0;
+      ctx.fillStyle = binColor(i);
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(bx, binTopY + maxBarH - h, BW - 2, h + 6, [3,3,0,0]);
+      else                ctx.rect(bx, binTopY + maxBarH - h, BW - 2, h + 6);
+      ctx.fill();
+      ctx.fillStyle = 'rgba(247,242,232,0.32)';
+      ctx.font = `bold ${Math.max(7, Math.min(10, BW * 0.42))}px Georgia`;
+      ctx.textAlign = 'center';
+      ctx.fillText(i + 1, bx + (BW - 2) / 2, binTopY + maxBarH + 16);
+    }
+
+    // Zone labels
+    ctx.font = '7px Georgia'; ctx.textAlign = 'center';
+    if (PC > 0) { ctx.fillStyle = 'rgba(74,222,128,0.55)';  ctx.fillText('▲', (PC / 2) * BW,       binTopY - 4); }
+    if (RC > 0) { ctx.fillStyle = 'rgba(248,113,113,0.55)'; ctx.fillText('▼', (N - RC / 2) * BW,   binTopY - 4); }
+
+    // Balls
+    for (const b of balls) {
+      if (b.done) continue;
+      ctx.beginPath(); ctx.arc(b.x, b.y, 5, 0, Math.PI * 2);
+      const grd = ctx.createRadialGradient(b.x - 1.5, b.y - 1.5, 0, b.x, b.y, 5);
+      grd.addColorStop(0, '#f9d77e'); grd.addColorStop(1, '#c68a2b');
+      ctx.fillStyle = grd; ctx.fill();
+    }
+  }
+
+  let lastSpawn = 0;
+  function tick(ts) {
+    const spawnMs = 420 / speedMul;
+    if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
+      spawnBall(); lastSpawn = ts;
+    }
+
+    for (const b of balls) {
+      if (b.done) continue;
+
+      // Vertical gravity (scaled by speed)
+      b.vy += 0.016 * speedMul;
+      b.vy  = Math.min(b.vy, 5 * speedMul);
+      b.y  += b.vy;
+
+      // Horizontal: spring pull toward target bin center, with damping
+      // Spring is strong enough to cross one bin width in ROW_H pixels of fall
+      const targetX = (b.curBin + 0.5) * BW;
+      const pullK   = 0.022 * speedMul;  // scales with speed so arc stays proportional
+      b.vx += (targetX - b.x) * pullK;
+      b.vx *= 0.84;
+      b.x  += b.vx;
+
+      // Peg hit: when ball crosses a game row boundary
+      const nextRow = b.gameIdx + 1;
+      if (nextRow < G && b.hitRow < nextRow) {
+        const rowY = (nextRow + 1) * ROW_H;
+        if (b.y >= rowY) {
+          b.hitRow  = nextRow;
+          b.gameIdx = nextRow;
+          const step = b.path[b.gameIdx];
+          const dir  = step.result === 'W' ? -1 : 1;
+          b.curBin   = Math.max(0, Math.min(N - 1, b.curBin + dir));
+          // Gentle nudge in the correct direction — spring pull handles the rest
+          b.vx += dir * (0.6 + Math.random() * 0.3);
+          if (b.isLatest) updateLog(b.path, b.gameIdx);
+        }
+      }
+
+      // Wall bounce
+      if (b.x < 5)      { b.x = 5;      b.vx =  Math.abs(b.vx) * 0.35; }
+      if (b.x > CW - 5) { b.x = CW - 5; b.vx = -Math.abs(b.vx) * 0.35; }
+
+      // Land in the exact target bin (parity-correct)
+      if (b.y >= binTopY) {
+        b.done = true;
+        binCounts[b.bin]++;  // use pre-assigned target bin (parity-correct)
+        totalLanded++;
+        updateStats();
+        if (b.isLatest && logEl) updateLog(b.path, G - 1);
+        if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
+      }
+    }
+
+    draw();
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+
+  const replayBtn = document.getElementById('plinko-replay');
+  if (replayBtn) {
+    replayBtn.addEventListener('click', () => {
+      balls = []; binCounts.fill(0);
+      totalDropped = 0; totalLanded = 0;
+      if (promoEl) promoEl.textContent = '—';
+      if (relgEl)  relgEl.textContent  = '—';
+      if (logEl)   logEl.innerHTML = '';
+      if (howEl)   howEl.style.display = 'none';
+    });
+  }
 })();
 
 // Page-link transitions
