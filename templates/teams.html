@@ -233,12 +233,12 @@
     border-radius: 16px;
     box-shadow: 0 14px 40px rgba(27,38,29,.16);
     padding: 16px;
-    pointer-events: auto;
+    pointer-events: none;
     opacity: 0;
     transform: translateY(6px);
     transition: opacity .15s ease, transform .15s ease;
   }
-  .flight-popup.visible { opacity: 1; transform: translateY(0); }
+  .flight-popup.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .flight-popup-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
   .flight-popup-note { font-size: .8rem; color: var(--muted); margin-bottom: 10px; }
   .flight-popup-row {
@@ -422,7 +422,7 @@ function scheduleFlightPopup(link) {
   const slug = link.dataset.flightSlug;
   if (!slug) return;
   if (flightPopupTimer) clearTimeout(flightPopupTimer);
-  flightPopupTimer = setTimeout(() => renderFlightPopup(link, slug), 2000);
+  renderFlightPopup(link, slug);
 }
 
 function renderFlightPopup(anchor, slug) {
@@ -483,6 +483,20 @@ document.querySelectorAll('[data-flight-slug]').forEach(link => {
     if (flightPopup.contains(e.relatedTarget)) return;
     hideFlightPopup();
   });
+});
+
+document.addEventListener('mouseover', (e) => {
+  const link = e.target.closest('[data-flight-slug]');
+  if (!link) return;
+  scheduleFlightPopup(link);
+});
+
+document.addEventListener('mouseout', (e) => {
+  const link = e.target.closest('[data-flight-slug]');
+  if (!link) return;
+  const next = e.relatedTarget;
+  if (next && (link.contains(next) || flightPopup.contains(next))) return;
+  hideFlightPopup();
 });
 </script>
 </body>

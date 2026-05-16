@@ -413,21 +413,29 @@ def get_standings_for_flight(rows, age_group, division, geography, selected_team
 
         if is_forfeit(hg) or is_forfeit(ag):
             if not is_forfeit(hg) and is_forfeit(ag):
+                stats[ht]["gf"] += 2
+                stats[at]["ga"] += 2
                 stats[ht]["w"] += 1
                 stats[ht]["pts"] += 3
                 stats[ht]["gp"] += 1
                 stats[at]["l"] += 1
+                stats[at]["pts"] -= 2
                 stats[at]["gp"] += 1
             elif is_forfeit(hg) and not is_forfeit(ag):
+                stats[at]["gf"] += 2
+                stats[ht]["ga"] += 2
                 stats[at]["w"] += 1
                 stats[at]["pts"] += 3
                 stats[at]["gp"] += 1
                 stats[ht]["l"] += 1
+                stats[ht]["pts"] -= 2
                 stats[ht]["gp"] += 1
             else:
                 stats[ht]["l"] += 1
+                stats[ht]["pts"] -= 2
                 stats[ht]["gp"] += 1
                 stats[at]["l"] += 1
+                stats[at]["pts"] -= 2
                 stats[at]["gp"] += 1
         elif has_played_score(r):
             hg_i, ag_i = int(hg), int(ag)
