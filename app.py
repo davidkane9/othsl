@@ -29,11 +29,13 @@ app = Flask(__name__)
 # Keys are flight_slug / team_slug strings.
 _ai_flight_texts: dict = {}
 _ai_team_texts:  dict  = {}
+_flight_importance_cache: dict = {}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 CURRENT_SEASON = "Spring 2026"
 DEFAULT_ELO = 1500
 SIMULATION_RUNS = 400
+IMPORTANCE_SIM_RUNS = 220
 REGRESSION_MAX  = 0.80   # blend win_expectation 80% toward 0.5 at season start
 REGRESSION_GP_FULL = 6   # regression reaches 0 once avg games played reaches this
 DRAW_PROBABILITY = 0.22
@@ -543,6 +545,8 @@ def get_team_results(rows, team_info):
 def get_team_elo_history(team_info):
     history = []
     for r in get_elo_rows():
+        if r["age_group"] != team_info["age_group"]:
+            continue
         elo_after = None
         if clean_team_name(r["home_team"]) == team_info["team"]:
             elo_after = float(r["elo_home_after"])
@@ -566,8 +570,9 @@ def get_team_elo_history(team_info):
     return history
 
 
-def get_team_catalog():
-    rows = get_current_season_rows()
+def get_team_catalog(rows=None):
+    if rows is None:
+        rows = get_current_season_rows()
     catalog = {}
 
     for r in rows:
@@ -835,7 +840,7 @@ def simulate_team_outlook(team_info, standings, rows):
 
 
 def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
-    """For each team in the flight return their slug + last 3 played games."""
+    """For each team in the flight return their slug, full played history, and next game."""
     age_group = team_info["age_group"]
     division  = team_info["division"]
     geography = team_info["geography"]
@@ -872,10 +877,29 @@ def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
         reverse=True,
     )
 
+    upcoming = sorted(
+        [
+            r for r in flight_rows
+            if is_real_team_name(r["home_team"])
+            and is_real_team_name(r["away_team"])
+            and not has_played_score(r)
+            and not is_forfeit(r["home_goals"])
+            and not is_forfeit(r["away_goals"])
+            and (
+                not playoff_visitors
+                or (
+                    clean_team_name(r["home_team"]) not in playoff_visitors
+                    and clean_team_name(r["away_team"]) not in playoff_visitors
+                )
+            )
+        ],
+        key=lambda r: (r["date"] == "TBD", r["date"]),
+    )
+
     cards = {}
     for row in standings:
         team = row["team"]
-        recent = []
+        played_history = []
         for r in played:
             if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
                 continue
@@ -894,13 +918,36 @@ def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
                 gf, ga = (hg_i, ag_i) if is_home else (ag_i, hg_i)
                 res   = "W" if gf > ga else ("L" if gf < ga else "T")
                 score = f"{gf}–{ga}"
-            recent.append({"date": r["date"], "opponent": opp,
-                           "venue": "H" if is_home else "A",
-                           "score": score, "result": res})
-            if len(recent) == 3:
-                break
+            played_history.append({
+                "date": r["date"],
+                "display_date": format_game_date(r["date"]),
+                "opponent": opp,
+                "venue": "H" if is_home else "A",
+                "score": score,
+                "result": res,
+            })
 
-        cards[team] = {"slug": slug_map.get(team, ""), "recent": recent}
+        next_game = None
+        for r in upcoming:
+            home_team = clean_team_name(r["home_team"])
+            away_team = clean_team_name(r["away_team"])
+            if team not in (home_team, away_team):
+                continue
+            is_home = home_team == team
+            next_game = {
+                "date": r["date"],
+                "display_date": format_game_date(r["date"]),
+                "opponent": away_team if is_home else home_team,
+                "venue": "vs" if is_home else "@",
+            }
+            break
+
+        cards[team] = {
+            "slug": slug_map.get(team, ""),
+            "recent": played_history[:3],
+            "played": played_history,
+            "next_game": next_game,
+        }
 
     return cards
 
@@ -1015,10 +1062,12 @@ def get_flight_sim_data(team_info, standings, rows):
 # --- END ---
 
 
-def get_team_page_context(team_slug):
-    rows = get_current_season_rows()
+def get_team_page_context(team_slug, season=None):
+    if season is None:
+        season = CURRENT_SEASON
+    rows = get_rows_for_season(season)
 
-    team_catalog = get_team_catalog()
+    team_catalog = get_team_catalog(rows)
     team_info = None
     team_lookup = {item["slug"]: item for item in team_catalog}
     team_info = team_lookup.get(team_slug)
@@ -1041,7 +1090,8 @@ def get_team_page_context(team_slug):
     w = sum(1 for g in games if g["result"] == "W")
     l = sum(1 for g in games if g["result"] == "L")
     t = sum(1 for g in games if g["result"] == "T")
-    current_elo = elo_history[-1]["elo"] if elo_history else None
+    season_elo_history = [point for point in elo_history if point["season"] == season]
+    current_elo = season_elo_history[-1]["elo"] if season_elo_history else None
     standing = next((i + 1 for i, row in enumerate(standings) if row["is_selected"]), None)
     seasons_seen = []
     for point in elo_history:
@@ -1087,7 +1137,7 @@ def get_team_page_context(team_slug):
         "standings": standings,
         "elo_history": elo_history,
         "elo_range_options": [
-            {"value": "current", "label": "This season"},
+            {"value": "current", "label": "This season" if season == CURRENT_SEASON else season},
             {"value": "5", "label": "Past 5 seasons"},
             {"value": "all", "label": "All seasons"},
         ],
@@ -1290,13 +1340,21 @@ def get_featured_plinko(rows=None):
 
 _AI_FLIGHT_CACHE = os.path.join(DATA_DIR, "ai_flight_outlooks.json")
 _AI_TEAM_CACHE   = os.path.join(DATA_DIR, "ai_team_insights.json")
+_IMPORTANCE_CACHE = os.path.join(DATA_DIR, "flight_importance.json")
 
 
 def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220):
     remaining_games = sim_data.get("remaining_games", [])
     teams = sim_data.get("teams", [])
     if not remaining_games or not teams:
-        return {"games": [], "top_games_by_team": {}}
+        return {
+            "formula_name": "Three-result swing for the two teams in the match",
+            "formula": "Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.",
+            "formula_words": "For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.",
+            "impact_runs": impact_runs,
+            "games": [],
+            "top_games_by_team": {},
+        }
 
     baseline_outlook = baseline_outlook or simulate_flight_outlook(sim_data, total_runs=impact_runs)
     baseline_stats = baseline_outlook.get("team_stats", {})
@@ -1304,31 +1362,47 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
     top_games_by_team = {}
 
     for game in remaining_games:
-        outcome_probs = {
-            "home": game.get("home_win_prob", 0.5),
-            "draw": game.get("draw_prob", DRAW_PROBABILITY),
-            "away": game.get("away_win_prob", max(0.0, 1.0 - game.get("home_win_prob", 0.5) - game.get("draw_prob", DRAW_PROBABILITY))),
-        }
         variants = {
             outcome: simulate_flight_outlook(sim_data, total_runs=impact_runs, overrides={game["id"]: outcome})
             for outcome in ("home", "draw", "away")
         }
 
-        weighted_total = 0.0
-        team_effects = {}
-        for team in teams:
-            base = baseline_stats.get(team, {})
-            weighted_team_effect = 0.0
-            for outcome, prob in outcome_probs.items():
-                variant = variants[outcome]["team_stats"].get(team, {})
+        match_teams = (game["home"], game["away"])
+        match_total = 0.0
+        team_effects = {team: 0.0 for team in match_teams}
+        outcome_effects = {}
+        team_effects_by_outcome = {team: {} for team in match_teams}
+        biggest_team = None
+        biggest_team_effect = -1.0
+
+        for outcome, variant_outlook in variants.items():
+            outcome_total = 0.0
+            variant_stats = variant_outlook.get("team_stats", {})
+            for team in match_teams:
+                base = baseline_stats.get(team, {})
+                variant = variant_stats.get(team, {})
                 delta = (
                     abs(variant.get("promotion_probability", 0.0) - base.get("promotion_probability", 0.0))
                     + abs(variant.get("relegation_probability", 0.0) - base.get("relegation_probability", 0.0))
-                    + 10.0 * abs(variant.get("expected_place", 0.0) - base.get("expected_place", 0.0))
                 )
-                weighted_team_effect += prob * delta
-            team_effects[team] = round(weighted_team_effect, 2)
-            weighted_total += weighted_team_effect
+                team_effects_by_outcome[team][outcome] = round(delta, 2)
+                outcome_total += delta
+            outcome_effects[outcome] = round(outcome_total, 2)
+            match_total += outcome_total
+
+        for team in match_teams:
+            team_total_effect = sum(team_effects_by_outcome[team].get(outcome, 0.0) for outcome in ("home", "draw", "away"))
+            team_effects[team] = round(team_total_effect, 2)
+            if team_total_effect > biggest_team_effect:
+                biggest_team_effect = team_total_effect
+                biggest_team = team
+
+        outcome_labels = {
+            "home": f"{game['home']} win",
+            "draw": "Draw",
+            "away": f"{game['away']} win",
+        }
+        biggest_outcome = max(outcome_effects, key=lambda outcome: outcome_effects[outcome]) if outcome_effects else None
 
         game_report = {
             "id": game["id"],
@@ -1339,7 +1413,14 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
             "home_win_prob": game.get("home_win_prob", 0.5),
             "draw_prob": game.get("draw_prob", DRAW_PROBABILITY),
             "away_win_prob": game.get("away_win_prob", 0.0),
-            "total_effect": round(weighted_total, 2),
+            "total_effect": round(match_total, 2),
+            "home_win_swing": outcome_effects.get("home", 0.0),
+            "draw_swing": outcome_effects.get("draw", 0.0),
+            "away_win_swing": outcome_effects.get("away", 0.0),
+            "biggest_outcome": outcome_labels.get(biggest_outcome, ""),
+            "biggest_outcome_swing": outcome_effects.get(biggest_outcome, 0.0) if biggest_outcome else 0.0,
+            "most_affected_team": biggest_team,
+            "most_affected_team_effect": round(biggest_team_effect, 2) if biggest_team else 0.0,
             "team_effects": team_effects,
         }
         game_reports.append(game_report)
@@ -1360,7 +1441,76 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
                 }
 
     game_reports.sort(key=lambda report: (-report["total_effect"], report["date"], report["home"], report["away"]))
-    return {"games": game_reports, "top_games_by_team": top_games_by_team}
+    return {
+        "formula_name": "Three-result swing for the two teams in the match",
+        "formula": "Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.",
+        "formula_words": "For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.",
+        "impact_runs": impact_runs,
+        "games": game_reports,
+        "top_games_by_team": top_games_by_team,
+    }
+
+
+def build_flight_importance_fallback(label, standings, sim_data, importance):
+    top_game = next((g for g in importance.get("games", []) if g.get("date") != "TBD"), None)
+    if not top_game:
+        return f"{label} has no remaining scheduled games, so the current table is effectively the final picture for promotion and relegation."
+
+    promo_cut = sim_data.get("promotion_cut", 2)
+    relg_cut = sim_data.get("relegation_cut", 0)
+    leader_names = ", ".join(row["team"] for row in standings[:promo_cut])
+    danger_names = ", ".join(row["team"] for row in standings[len(standings) - relg_cut:]) if relg_cut else "none"
+    return (
+        f"{label} is being driven by a tight race around the promotion and relegation lines, with {leader_names} currently in the promotion spots and {danger_names} under the most pressure. "
+        f"The biggest remaining game is {top_game['home']} vs {top_game['away']} on {top_game['display_date']}, because this matchup changes the promotion and relegation outlook for those two teams more than any other game left. "
+        f"Its match score is {top_game['total_effect']:.2f}, built from {top_game['home_win_swing']:.2f} if {top_game['home']} win, {top_game['draw_swing']:.2f} if it ends in a draw, and {top_game['away_win_swing']:.2f} if {top_game['away']} win."
+    )
+
+
+def build_team_insight_fallback(team, standings, simulation, top_game, recent_games):
+    pos = next((i + 1 for i, row in enumerate(standings) if row["team"] == team), None)
+    row = next((item for item in standings if item["team"] == team), {})
+    promo_prob = simulation.get("promotion_probability", 0.0)
+    relg_prob = simulation.get("relegation_probability", 0.0)
+    stay_prob = simulation.get("stay_probability", 0.0)
+    modal_place = simulation.get("modal_place", pos or 0)
+    expected_place = simulation.get("expected_place", pos or 0)
+    recent = recent_games[:3]
+    recent_txt = ", ".join(f"{g['score']} {g['result']} vs {g['opponent']}" for g in recent) if recent else "no recent results"
+    if top_game:
+        game_txt = (
+            f"The biggest swing game for them is {top_game['venue']} {top_game['opponent']} on {top_game['display_date']}, "
+            f"where the three possible results create a total match swing of {top_game['team_effect']:.2f} for their own promotion and relegation outlook."
+        )
+    else:
+        game_txt = "They do not have a scheduled remaining game that materially changes their outlook right now."
+    return (
+        f"{team} are {pos}th with {row.get('pts', 0)} points and GD {row.get('gd', 0):+d}, and the model currently gives them "
+        f"{promo_prob:.1f}% promotion, {stay_prob:.1f}% stay, and {relg_prob:.1f}% relegation odds, with a most likely finish around {modal_place}th "
+        f"(expected place {expected_place:.2f}). Recent form: {recent_txt}. {game_txt}"
+    )
+
+
+def get_flight_preview_map(rows):
+    preview_map = {}
+    flights = {
+        (r["age_group"], r["division"], r["geography"])
+        for r in rows
+        if r["age_group"] and r["division"] and r["geography"]
+    }
+    for age_group, division, geography in flights:
+        playoff_visitors = identify_playoff_visitors(rows, age_group, division, geography)
+        standings = get_standings_for_flight(rows, age_group, division, geography, playoff_visitors=playoff_visitors)
+        if not standings:
+            continue
+        preview_map[flight_slug(age_group, division, geography)] = {
+            "label": f"{age_group} Division {division} {geography}",
+            "standings": [
+                {"team": row["team"], "pts": row["pts"], "gd": row["gd"], "gp": row["gp"]}
+                for row in standings
+            ],
+        }
+    return preview_map
 
 
 def _openai_complete(prompt):
@@ -1474,7 +1624,9 @@ def generate_ai_flight_outlook_v2(age_group, division, geography, standings, sim
     )
     key_games_txt = "; ".join(
         f"{g['home']} vs {g['away']} on {g['display_date']} "
-        f"(effect {g['total_effect']}, {round(g['home_win_prob'] * 100)}% home win, {round(g['draw_prob'] * 100)}% draw)"
+        f"(match score {g['total_effect']}, "
+        f"{g['biggest_outcome']} changes the two teams by {g['biggest_outcome_swing']}, "
+        f"{round(g['home_win_prob'] * 100)}% home win, {round(g['draw_prob'] * 100)}% draw)"
         for g in top_games
     ) or "No major remaining games."
 
@@ -1483,6 +1635,7 @@ def generate_ai_flight_outlook_v2(age_group, division, geography, standings, sim
         f"Write 3 to 4 sentences on the {age_group} Division {division} {geography} race in {CURRENT_SEASON}. "
         f"Use exact team names, point gaps, and promotion/relegation percentages from the simulation. "
         f"Mention the biggest race at the top, the key danger at the bottom, and the single most important upcoming game. "
+        f"The importance model is: {importance.get('formula_words', '')}. "
         f"Avoid hype, filler, and bullet formatting.\n\n"
         f"Standings and simulation snapshot:\n{rows_txt}\n\n"
         f"Promotion spots: top {promo_cut}. Relegation spots: bottom {relg_cut}.\n"
@@ -1539,6 +1692,7 @@ def build_ai_caches(rows=None):
 
     flight_cache = {}
     team_cache   = {}
+    importance_cache = {}
 
     flight_rows = defaultdict(list)
     for r in rows:
@@ -1555,10 +1709,13 @@ def build_ai_caches(rows=None):
         team_info = {"team": standings[0]["team"], "age_group": ag, "division": div, "geography": geo}
         flight_sim = get_flight_sim_data(team_info, standings, rows)
         flight_outlook = simulate_flight_outlook(flight_sim, total_runs=SIMULATION_RUNS)
-        importance = calculate_flight_importance(flight_sim, baseline_outlook=flight_outlook)
+        importance = calculate_flight_importance(flight_sim, baseline_outlook=flight_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
+        importance_cache[sl] = importance
 
         print(f"  Flight {sl}…", end=" ", flush=True)
         outlook = generate_ai_flight_outlook_v2(ag, div, geo, standings, flight_sim, flight_outlook, importance)
+        if not outlook:
+            outlook = build_flight_importance_fallback(f"{ag} Division {div} {geo}", standings, flight_sim, importance)
         flight_cache[sl] = outlook
         print("done")
 
@@ -1580,9 +1737,12 @@ def build_ai_caches(rows=None):
         json.dump(flight_cache, f)
     with open(_AI_TEAM_CACHE, "w") as f:
         json.dump(team_cache, f)
-    global _ai_flight_texts, _ai_team_texts
+    with open(_IMPORTANCE_CACHE, "w") as f:
+        json.dump(importance_cache, f)
+    global _ai_flight_texts, _ai_team_texts, _flight_importance_cache
     _ai_flight_texts = flight_cache
     _ai_team_texts = team_cache
+    _flight_importance_cache = importance_cache
     print("AI caches saved.")
 
 
@@ -1600,16 +1760,36 @@ def load_ai_team_insight(team_slug_val):
         return json.load(f).get(team_slug_val)
 
 
+def load_flight_importance(flight_slug_val):
+    if not os.path.exists(_IMPORTANCE_CACHE):
+        return None
+    with open(_IMPORTANCE_CACHE) as f:
+        return json.load(f).get(flight_slug_val)
+
+
+def get_flight_importance_report(flight_slug_val, sim_data, baseline_outlook=None):
+    cached = _flight_importance_cache.get(flight_slug_val)
+    if cached:
+        return cached
+    report = calculate_flight_importance(sim_data, baseline_outlook=baseline_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
+    _flight_importance_cache[flight_slug_val] = report
+    return report
+
+
 def load_ai_caches_into_memory():
-    global _ai_flight_texts, _ai_team_texts
+    global _ai_flight_texts, _ai_team_texts, _flight_importance_cache
     _ai_flight_texts = {}
     _ai_team_texts = {}
+    _flight_importance_cache = {}
     if os.path.exists(_AI_FLIGHT_CACHE):
         with open(_AI_FLIGHT_CACHE) as f:
             _ai_flight_texts = json.load(f)
     if os.path.exists(_AI_TEAM_CACHE):
         with open(_AI_TEAM_CACHE) as f:
             _ai_team_texts = json.load(f)
+    if os.path.exists(_IMPORTANCE_CACHE):
+        with open(_IMPORTANCE_CACHE) as f:
+            _flight_importance_cache = json.load(f)
 
 
 def get_season_outlook_calibration():
@@ -1890,13 +2070,39 @@ def index_historical(season_slug):
 
 @app.route("/team/<team_slug>/")
 def team_page(team_slug):
-    context = get_team_page_context(team_slug)
+    context = get_team_page_context(team_slug, season=CURRENT_SEASON)
     if not context:
         abort(404)
     ti = context["team_info"]
     team_fslug = flight_slug(ti["age_group"], ti["division"], ti["geography"])
+    team_ai_text = _ai_team_texts.get(team_slug, "")
+    if not team_ai_text:
+        importance = get_flight_importance_report(team_fslug, context["sim_data"])
+        team_ai_text = build_team_insight_fallback(
+            ti["team"],
+            context["standings"],
+            context["simulation"],
+            importance.get("top_games_by_team", {}).get(ti["team"]),
+            context["games"],
+        )
     return render_template("team.html", season=CURRENT_SEASON,
-                           ai_text=_ai_team_texts.get(team_slug, ""),
+                           ai_text=team_ai_text,
+                           team_flight_slug=team_fslug, **context)
+
+
+@app.route("/season/<season_slug>/team/<team_slug>/")
+def team_page_historical(season_slug, team_slug):
+    season = slug_to_season(season_slug)
+    all_seasons = get_all_seasons()
+    if season not in all_seasons:
+        abort(404)
+    context = get_team_page_context(team_slug, season=season)
+    if not context:
+        abort(404)
+    ti = context["team_info"]
+    team_fslug = flight_slug(ti["age_group"], ti["division"], ti["geography"])
+    return render_template("team.html", season=season,
+                           ai_text="",
                            team_flight_slug=team_fslug, **context)
 
 
@@ -1964,43 +2170,106 @@ def get_flight_page_context(age_group, division, geography, rows=None):
     }
 
 
-def _resolve_flight_page(flight_slug_val, rows=None, season=None):
-    if rows is None:
-        rows = get_current_season_rows()
-    if season is None:
-        season = CURRENT_SEASON
+def _find_flight_context(flight_slug_val, rows):
     flights = {
         (r["age_group"], r["division"], r["geography"])
         for r in rows
         if r["age_group"] and r["division"] and r["geography"]
     }
     for age_group, division, geography in flights:
-        if flight_slug(age_group, division, geography) == flight_slug_val:
-            context = get_flight_page_context(age_group, division, geography, rows=rows)
-            if context:
-                home_path = "../../" if season == CURRENT_SEASON else "../../../../"
-                ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
-                ai_team_summaries = []
-                if season == CURRENT_SEASON:
-                    for row in context["standings"]:
-                        text = _ai_team_texts.get(row["slug"], "")
-                        if not text:
-                            continue
-                        ai_team_summaries.append({
-                            "team": row["team"],
-                            "slug": row["slug"],
-                            "text": text,
-                        })
-                return render_template("flight.html", season=season,
-                                        is_historical=(season != CURRENT_SEASON),
-                                       home_path=home_path, ai_text=ai_text,
-                                       ai_team_summaries=ai_team_summaries, **context)
+        if flight_slug(age_group, division, geography) != flight_slug_val:
+            continue
+        context = get_flight_page_context(age_group, division, geography, rows=rows)
+        if context:
+            return age_group, division, geography, context
     return None
+
+
+def _resolve_flight_page(flight_slug_val, rows=None, season=None):
+    if rows is None:
+        rows = get_current_season_rows()
+    if season is None:
+        season = CURRENT_SEASON
+    found = _find_flight_context(flight_slug_val, rows)
+    if found:
+        _age_group, _division, _geography, context = found
+        home_path = "../../" if season == CURRENT_SEASON else "../../../../"
+        ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
+        ai_team_summaries = []
+        if season == CURRENT_SEASON:
+            needs_fallback_context = (not ai_text) or any(not _ai_team_texts.get(row["slug"], "") for row in context["standings"])
+            flight_outlook = None
+            importance = None
+            if needs_fallback_context:
+                flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
+                importance = get_flight_importance_report(flight_slug_val, context["sim_data"], baseline_outlook=flight_outlook)
+            if not ai_text:
+                ai_text = build_flight_importance_fallback(context["label"], context["standings"], context["sim_data"], importance)
+            for row in context["standings"]:
+                text = _ai_team_texts.get(row["slug"], "")
+                if not text:
+                    if flight_outlook is None:
+                        flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
+                    if importance is None:
+                        importance = get_flight_importance_report(flight_slug_val, context["sim_data"], baseline_outlook=flight_outlook)
+                    text = build_team_insight_fallback(
+                        row["team"],
+                        context["standings"],
+                        flight_outlook["team_stats"].get(row["team"], {}),
+                        importance.get("top_games_by_team", {}).get(row["team"]),
+                        context["flight_team_cards"].get(row["team"], {}).get("played", []),
+                    )
+                ai_team_summaries.append({
+                    "team": row["team"],
+                    "slug": row["slug"],
+                    "text": text,
+                })
+        return render_template("flight.html", season=season,
+                                is_historical=(season != CURRENT_SEASON),
+                               home_path=home_path, ai_text=ai_text,
+                               ai_team_summaries=ai_team_summaries, **context)
+    return None
+
+
+def _render_flight_importance_page(flight_slug_val, rows=None, season=None):
+    if rows is None:
+        rows = get_current_season_rows()
+    if season is None:
+        season = CURRENT_SEASON
+    found = _find_flight_context(flight_slug_val, rows)
+    if not found:
+        return None
+    age_group, division, geography, context = found
+    sim_data = context["sim_data"]
+    baseline_outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    importance = get_flight_importance_report(flight_slug_val, sim_data, baseline_outlook=baseline_outlook)
+    return render_template(
+        "flight_importance.html",
+        season=season,
+        label=context["label"],
+        flight_slug=flight_slug_val,
+        age_group=age_group,
+        division=division,
+        geography=geography,
+        standings=context["standings"],
+        home_path="../../../",
+        importance=importance,
+        top_game=importance.get("games", [None])[0] if importance.get("games") else None,
+        is_historical=(season != CURRENT_SEASON),
+    )
 
 
 @app.route("/flight/<flight_slug_val>/")
 def flight_page(flight_slug_val):
     result = _resolve_flight_page(flight_slug_val)
+    if result:
+        return result
+    abort(404)
+
+
+@app.route("/flight/<flight_slug_val>/importance/")
+def flight_importance_page(flight_slug_val):
+    result = _render_flight_importance_page(flight_slug_val, season=CURRENT_SEASON)
     if result:
         return result
     abort(404)
@@ -2046,6 +2315,75 @@ def calibration_page():
         regression_max=int(REGRESSION_MAX * 100),
         regression_gp_full=REGRESSION_GP_FULL,
         simulation_runs=SIMULATION_RUNS,
+    )
+
+
+def _render_teams(season, home_path, season_nav_prefix, flight_url_prefix):
+    all_seasons = get_all_seasons()
+    is_current = (season == CURRENT_SEASON)
+    rows = get_rows_for_season(season)
+    flight_groups = get_flight_catalog_grouped(rows)
+    flight_previews = get_flight_preview_map(rows)
+
+    seen = {}
+    for r in rows:
+        for raw in (r["home_team"], r["away_team"]):
+            if not is_real_team_name(raw):
+                continue
+            team = clean_team_name(raw)
+            key = (r["age_group"], r["division"], r["geography"], team)
+            if key in seen:
+                continue
+            seen[key] = {
+                "name": team,
+                "age_group": r["age_group"],
+                "division": r["division"],
+                "geography": r["geography"],
+                "flight_label": f"{r['age_group']} · Div {r['division']} · {r['geography']}",
+                "flight_slug": flight_slug(r["age_group"], r["division"], r["geography"]),
+            }
+    search_data = sorted(seen.values(), key=lambda x: (x["age_group"], x["division"], x["geography"], x["name"]))
+
+    seasons_for_select = [{"name": s, "slug": season_to_slug(s)} for s in reversed(all_seasons)]
+
+    return render_template(
+        "teams.html",
+        flight_groups=flight_groups,
+        search_data=search_data,
+        season=season,
+        season_slug=season_to_slug(season),
+        current_season_slug=season_to_slug(CURRENT_SEASON),
+        all_seasons=seasons_for_select,
+        home_path=home_path,
+        calibration_path=home_path + "calibration/",
+        flight_url_prefix=flight_url_prefix,
+        flight_previews=flight_previews,
+        season_nav_prefix=season_nav_prefix,
+        is_current_season=is_current,
+    )
+
+
+@app.route("/teams/")
+def teams_page():
+    return _render_teams(
+        season=CURRENT_SEASON,
+        home_path="../",
+        season_nav_prefix="../season/",
+        flight_url_prefix="../flight/",
+    )
+
+
+@app.route("/season/<season_slug>/teams/")
+def teams_page_historical(season_slug):
+    all_seasons = get_all_seasons()
+    season = slug_to_season(season_slug)
+    if season not in all_seasons:
+        season = CURRENT_SEASON
+    return _render_teams(
+        season=season,
+        home_path="../../",
+        season_nav_prefix="../../season/",
+        flight_url_prefix="../flight/",
     )
 
 

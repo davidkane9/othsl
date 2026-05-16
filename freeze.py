@@ -16,7 +16,10 @@ from urllib.request import Request, urlopen
 import app as app_module
 from app import (
     CURRENT_SEASON,
+    IMPORTANCE_SIM_RUNS,
     app,
+    build_flight_importance_fallback,
+    calculate_flight_importance,
     flight_slug,
     get_all_seasons,
     get_current_season_rows,
@@ -28,6 +31,7 @@ from app import (
     get_team_page_context,
     identify_playoff_visitors,
     season_to_slug,
+    simulate_flight_outlook,
 )
 from flask_frozen import Freezer
 
@@ -51,8 +55,24 @@ def flight_page():
         yield {"flight_slug_val": card["slug"]}
 
 @freezer.register_generator
+def flight_importance_page():
+    for card in get_flight_catalog():
+        yield {"flight_slug_val": card["slug"]}
+
+@freezer.register_generator
 def calibration_page():
     yield {}
+
+@freezer.register_generator
+def teams_page():
+    yield {}
+
+@freezer.register_generator
+def teams_page_historical():
+    for season in get_all_seasons():
+        if season == CURRENT_SEASON:
+            continue
+        yield {"season_slug": season_to_slug(season)}
 
 @freezer.register_generator
 def index_historical():
@@ -130,61 +150,35 @@ def _flight_prompt(fslug, season):
             return None
         sd = ctx["sim_data"]
         label = ctx["label"]
+        standings = ctx["standings"]
         teams = sd.get("teams", [])
         stats = sd.get("current_stats", {})
         pc = sd.get("promotion_cut", 2)
         rc = sd.get("relegation_cut", 2)
         n = len(teams)
-        srt = sorted(teams, key=lambda t: (-stats.get(t, {}).get("pts", 0), -stats.get(t, {}).get("gd", 0)))
-        standings_txt = "; ".join(
-            f"{i+1}. {t}: {stats.get(t,{}).get('gp',0)}GP "
-            f"{stats.get(t,{}).get('w',0)}W-{stats.get(t,{}).get('l',0)}L-{stats.get(t,{}).get('t',0)}T "
-            f"{stats.get(t,{}).get('pts',0)}pts GD{stats.get(t,{}).get('gd',0)}"
-            for i, t in enumerate(srt)
+        flight_outlook = simulate_flight_outlook(sd)
+        importance = calculate_flight_importance(sd, baseline_outlook=flight_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
+        top_game = next((g for g in importance.get("games", []) if g.get("date") != "TBD"), None)
+        rows_txt = "\n".join(
+            f"  {i+1}. {row['team']} - {row['pts']}pts, GD {row['gd']:+d}, "
+            f"{flight_outlook.get('team_stats', {}).get(row['team'], {}).get('promotion_probability', 0):.1f}% promo, "
+            f"{flight_outlook.get('team_stats', {}).get(row['team'], {}).get('relegation_probability', 0):.1f}% relegation"
+            for i, row in enumerate(standings)
         )
-        promo_zone = " & ".join(srt[:pc])
-        relg_zone  = " & ".join(srt[n - rc:]) if n > rc else ""
-        promo_gap  = (stats.get(srt[pc-1], {}).get("pts", 0) - stats.get(srt[pc], {}).get("pts", 0)) if len(srt) > pc else 0
-        relg_gap   = (stats.get(srt[n-rc-1], {}).get("pts", 0) - stats.get(srt[n-rc], {}).get("pts", 0)) if n > rc else 0
-        remaining  = sd.get("remaining_games", [])
-        weeks_left = len({g["date"] for g in remaining if g.get("date") and g["date"] != "TBD"})
-        # Find the flight's highest-leverage game: biggest point-differential matchup near a cutoff
-        def _game_effect(g):
-            if not g.get("date") or g["date"] == "TBD":
-                return 0
-            h, a = g["home"], g["away"]
-            hp, ap = stats.get(h, {}).get("pts", 0), stats.get(a, {}).get("pts", 0)
-            h_pos = srt.index(h) + 1 if h in srt else n
-            a_pos = srt.index(a) + 1 if a in srt else n
-            # Proximity to promo / relg border
-            promo_prox = min(abs(h_pos - pc), abs(a_pos - pc), abs(h_pos - pc-1), abs(a_pos - pc-1))
-            relg_prox  = min(abs(h_pos - (n-rc)), abs(a_pos - (n-rc))) if n > rc else 99
-            zone_score = max(0, 4 - min(promo_prox, relg_prox))
-            pts_close  = max(0, 7 - abs(hp - ap))
-            hwp        = g.get("home_win_prob", 0.5)
-            uncertainty = 1 - abs(hwp - 0.5) * 2
-            return zone_score * 3 + pts_close + uncertainty * 2
-        key_game = max((g for g in remaining if g.get("date") and g["date"] != "TBD"),
-                       key=_game_effect, default=None)
-        key_game_txt = (f"{key_game['home']} vs {key_game['away']} on {key_game['date']} "
-                        f"({round(key_game.get('home_win_prob',0.5)*100)}% home win probability)"
-                        if key_game else "none scheduled")
-        upcoming = "; ".join(
-            f"{g['home']} vs {g['away']} ({g['date']}, {round(g.get('home_win_prob',0.5)*100)}% HW)"
-            for g in remaining[:5] if g.get("date") and g["date"] != "TBD"
-        )
+        if not top_game:
+            return build_flight_importance_fallback(label, standings, sd, importance)
         return (
-            f"You are a sharp soccer analyst for an adult recreational league (OTHSL). "
-            f"Write 3 sentences analyzing the {label} flight this {season} season. "
-            f"Cover: (1) promotion race — who leads and how tight the gap is, "
-            f"(2) relegation danger — exact point gap from safety and who's most at risk, "
-            f"(3) the single most decisive upcoming game and why it could swing the table. "
-            f"Full standings ({weeks_left} week{'s' if weeks_left != 1 else ''} remaining): {standings_txt}. "
-            f"Promotion zone top {pc}: {promo_zone} (gap to 3rd: {promo_gap}pts). "
-            f"Relegation zone bottom {rc}: {relg_zone} (gap from safety: {relg_gap}pts). "
-            f"Key game: {key_game_txt}. "
-            f"All upcoming games: {upcoming or 'none scheduled'}. "
-            f"Use exact team names, points, and win percentages. Casual, confident tone. No fluff."
+            f"You are writing a single paragraph for the OTHSL website in clean, natural American English. "
+            f"Write 3 to 4 sentences on the {label} race in {season}. "
+            f"Use exact team names, point gaps, and promotion/relegation percentages from the simulation. "
+            f"Mention the biggest race at the top, the key danger at the bottom, and the single most important upcoming game. "
+            f"The importance model is: {importance.get('formula_words', '')}. "
+            f"Avoid hype, filler, and bullet formatting.\n\n"
+            f"Standings and simulation snapshot:\n{rows_txt}\n\n"
+            f"Promotion spots: top {pc}. Relegation spots: bottom {rc}.\n"
+            f"Top game: {top_game['home']} vs {top_game['away']} on {top_game['display_date']} "
+            f"(match score {top_game['total_effect']}, biggest branch {top_game['biggest_outcome']} at {top_game['biggest_outcome_swing']}, "
+            f"{round(top_game['home_win_prob'] * 100)}% home win, {round(top_game['draw_prob'] * 100)}% draw)."
         )
     return None
 

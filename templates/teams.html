@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Team | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+    --border: rgba(38,61,41,.15);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+
+  /* ── Nav ─────────────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97); backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand { color: #f7f2e8; font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a { color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem; padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s; }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 36px 20px 64px;
+  }
+
+  .page-header { margin-bottom: 22px; }
+  .page-header h1 { margin: 0 0 4px; font-size: 1.9rem; letter-spacing: -.03em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  /* ── Search ───────────────────────────────────────────────────────── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: 1.05rem; pointer-events: none;
+  }
+  #team-search {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: 0 2px 10px rgba(27,38,29,.06);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  #team-search:focus {
+    border-color: var(--field);
+    box-shadow: 0 4px 16px rgba(35,68,43,.1);
+  }
+  #team-search::placeholder { color: var(--muted); }
+
+  /* ── Search results ───────────────────────────────────────────────── */
+  #search-results { display: none; margin-bottom: 24px; }
+  #search-results.visible { display: block; }
+
+  .search-result-count {
+    font-size: .8rem; color: var(--muted); margin-bottom: 8px;
+  }
+
+  .result-list {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .result-card {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 11px 16px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+    text-decoration: none; color: var(--ink);
+    transition: border-color .13s, box-shadow .13s, background .13s;
+  }
+  .result-card:hover {
+    border-color: rgba(35,68,43,.3);
+    box-shadow: 0 4px 16px rgba(27,38,29,.09);
+    background: var(--panel-strong);
+  }
+  .result-name {
+    font-size: .97rem; font-weight: 700; margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .result-name mark {
+    background: rgba(198,138,43,.25); color: inherit;
+    border-radius: 2px; padding: 0 1px;
+  }
+  .result-flight { font-size: .8rem; color: var(--muted); }
+  .result-arrow { color: var(--muted); font-size: .95rem; flex-shrink: 0; }
+  .result-card:hover .result-arrow { color: var(--field); }
+  .no-results { color: var(--muted); font-size: .92rem; padding: 20px 0; text-align: center; }
+
+  /* ── Directory wrapper ────────────────────────────────────────────── */
+  #directory { }
+  #directory.hidden { display: none; }
+
+  /* ── Season selector ──────────────────────────────────────────────── */
+  .season-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .season-row label {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  #season-select {
+    font: inherit;
+    font-size: .88rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    color: var(--ink);
+    cursor: pointer;
+    outline: none;
+  }
+  #season-select:focus { border-color: var(--field); }
+
+  /* ── Directory table ──────────────────────────────────────────────── */
+  .dir-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: var(--panel-strong);
+    box-shadow: 0 4px 18px rgba(27,38,29,.07);
+  }
+
+  .dir-table-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: .01em;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    background: rgba(35,68,43,.05);
+  }
+
+  .dir-table td {
+    vertical-align: top;
+    width: 50%;
+    padding: 0;
+    border: 1px solid var(--border);
+  }
+
+  .ag-header {
+    font-weight: 700;
+    font-size: .88rem;
+    text-align: center;
+    padding: 7px 8px 5px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(35,68,43,.04);
+    letter-spacing: .01em;
+  }
+
+  .ag-body {
+    padding: 6px 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .div-row-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .dir-link {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--field);
+    text-decoration: none;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(35,68,43,.18);
+    background: transparent;
+    transition: all .12s;
+    white-space: nowrap;
+  }
+  .dir-link:hover {
+    background: var(--field);
+    color: #f7f2e8;
+    border-color: var(--field);
+  }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+
+  .flight-popup {
+    position: fixed;
+    z-index: 999;
+    width: 320px;
+    max-height: min(65vh, 520px);
+    overflow-y: auto;
+    background: var(--panel-strong);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 14px 40px rgba(27,38,29,.16);
+    padding: 16px;
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .flight-popup.visible { opacity: 1; transform: translateY(0); }
+  .flight-popup-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .flight-popup-note { font-size: .8rem; color: var(--muted); margin-bottom: 10px; }
+  .flight-popup-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(38,61,41,.08);
+    font-size: .84rem;
+  }
+  .flight-popup-row:last-child { border-bottom: none; }
+  .flight-popup-team { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .flight-popup-metrics { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="{{ home_path }}" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="{{ home_path }}">Home</a></li>
+      <li><a href="" class="active">Find Team</a></li>
+      <li><a href="{{ calibration_path }}">Model Calibration</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Find Your Team</h1>
+    <p>Search by name or browse by division.</p>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="search" id="team-search" placeholder="Search — e.g. Irish Village, Ashland…" autocomplete="off" autocorrect="off" spellcheck="false">
+  </div>
+
+  <div id="search-results">
+    <div class="search-result-count" id="result-count"></div>
+    <div class="result-list" id="result-list"></div>
+  </div>
+
+  <div id="directory">
+    <div class="season-row">
+      <label for="season-select">Season</label>
+      <select id="season-select">
+        {% for s in all_seasons %}
+        <option value="{{ s.slug }}" {% if s.slug == season_slug %}selected{% endif %}>{{ s.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <table class="dir-table">
+      <tr>
+        <td colspan="2" class="dir-table-title">Schedules and Standings</td>
+      </tr>
+      {% set flight_groups_list = flight_groups %}
+      {% for i in range(0, flight_groups_list|length, 2) %}
+      <tr>
+        {% for ag in flight_groups_list[i:i+2] %}
+        <td>
+          <div class="ag-header">{{ ag.age_group }}</div>
+          <div class="ag-body">
+            {% for div_row in ag.divisions %}
+            <div class="div-row-links">
+              {% for f in div_row.flights %}
+              <a href="{{ flight_url_prefix }}{{ f.slug }}/" class="dir-link" data-flight-slug="{{ f.slug }}">{{ div_row.div_num }}{{ f.geo_abbr }}</a>
+              {% endfor %}
+            </div>
+            {% endfor %}
+          </div>
+        </td>
+        {% endfor %}
+        {% if flight_groups_list[i:i+2]|length == 1 %}
+        <td></td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</main>
+
+<div class="flight-popup" id="flight-popup">
+  <div class="flight-popup-title" id="flight-popup-title"></div>
+  <div class="flight-popup-note">Standings preview</div>
+  <div id="flight-popup-body"></div>
+</div>
+
+<footer>
+  A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+  ELO ratings are model estimates, not official standings.
+</footer>
+
+<script>
+const TEAMS = {{ search_data | tojson }};
+const FLIGHT_URL_PREFIX = {{ flight_url_prefix | tojson }};
+const FLIGHT_PREVIEWS = {{ flight_previews | tojson }};
+const CURRENT_SEASON_SLUG = {{ current_season_slug | tojson }};
+const SEASON_NAV_PREFIX = {{ season_nav_prefix | tojson }};
+const THIS_SEASON_SLUG = {{ season_slug | tojson }};
+
+// ── Season selector navigation ────────────────────────────────────
+document.getElementById('season-select').addEventListener('change', function() {
+  const slug = this.value;
+  const dest = slug === CURRENT_SEASON_SLUG
+    ? SEASON_NAV_PREFIX.replace(/season\/$/, '') + 'teams/'
+    : SEASON_NAV_PREFIX + slug + '/teams/';
+  window.location.href = dest;
+});
+
+// ── Search ────────────────────────────────────────────────────────
+const searchEl    = document.getElementById('team-search');
+const resultsEl   = document.getElementById('search-results');
+const countEl     = document.getElementById('result-count');
+const listEl      = document.getElementById('result-list');
+const directoryEl = document.getElementById('directory');
+
+function highlight(text, query) {
+  if (!query) return text;
+  const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark>$1</mark>');
+}
+
+function doSearch(raw) {
+  const q = raw.trim().toLowerCase();
+  if (!q) {
+    resultsEl.classList.remove('visible');
+    directoryEl.style.display = '';
+    return;
+  }
+  directoryEl.style.display = 'none';
+  resultsEl.classList.add('visible');
+
+  const matches = TEAMS.filter(t => t.name.toLowerCase().includes(q));
+  countEl.textContent = matches.length
+    ? `${matches.length} team${matches.length === 1 ? '' : 's'} found`
+    : '';
+
+  if (!matches.length) {
+    listEl.innerHTML = `<div class="no-results">No teams match "<strong>${raw.trim()}</strong>"</div>`;
+    return;
+  }
+
+  listEl.innerHTML = matches.map(t => `
+    <a class="result-card" href="${FLIGHT_URL_PREFIX}${t.flight_slug}/" data-flight-slug="${t.flight_slug}">
+      <div style="flex:1;min-width:0">
+        <div class="result-name">${highlight(t.name, raw.trim())}</div>
+        <div class="result-flight">${t.flight_label}</div>
+      </div>
+      <span class="result-arrow">→</span>
+    </a>
+  `).join('');
+  bindFlightPreviewHover(listEl);
+}
+
+searchEl.addEventListener('input', () => doSearch(searchEl.value));
+searchEl.focus();
+
+const flightPopup = document.getElementById('flight-popup');
+const flightPopupTitle = document.getElementById('flight-popup-title');
+const flightPopupBody = document.getElementById('flight-popup-body');
+let flightPopupTimer = null;
+
+function hideFlightPopup() {
+  if (flightPopupTimer) {
+    clearTimeout(flightPopupTimer);
+    flightPopupTimer = null;
+  }
+  flightPopup.classList.remove('visible');
+}
+
+function scheduleFlightPopup(link) {
+  const slug = link.dataset.flightSlug;
+  if (!slug) return;
+  if (flightPopupTimer) clearTimeout(flightPopupTimer);
+  flightPopupTimer = setTimeout(() => renderFlightPopup(link, slug), 2000);
+}
+
+function renderFlightPopup(anchor, slug) {
+  const preview = FLIGHT_PREVIEWS[slug];
+  if (!preview) return;
+  flightPopupTitle.textContent = preview.label;
+  const standings = preview.standings || [];
+  flightPopupBody.innerHTML = standings.map((row, idx) => `
+    <div class="flight-popup-row">
+      <div class="flight-popup-team">${idx + 1}. ${row.team}</div>
+      <div class="flight-popup-metrics">${row.pts} pts · GD ${row.gd >= 0 ? '+' + row.gd : row.gd}</div>
+    </div>
+  `).join('');
+  flightPopup.classList.add('visible');
+
+  const rect = anchor.getBoundingClientRect();
+  const pw = flightPopup.offsetWidth || 320;
+  const ph = flightPopup.offsetHeight || 240;
+  const gap = 12;
+  let left = rect.right + gap;
+  let top = rect.top;
+  if (left + pw > window.innerWidth - 8) left = rect.left - pw - gap;
+  if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+  if (top < 8) top = 8;
+  flightPopup.style.left = `${left}px`;
+  flightPopup.style.top = `${top}px`;
+}
+
+function bindFlightPreviewHover(scope = document) {
+  scope.querySelectorAll('[data-flight-slug]').forEach(link => {
+    if (link.dataset.previewBound === '1') return;
+    link.dataset.previewBound = '1';
+    link.addEventListener('pointerenter', () => scheduleFlightPopup(link));
+    link.addEventListener('focus', () => scheduleFlightPopup(link));
+    link.addEventListener('pointerleave', (e) => {
+      if (flightPopup.contains(e.relatedTarget)) return;
+      hideFlightPopup();
+    });
+    link.addEventListener('blur', hideFlightPopup);
+  });
+}
+
+flightPopup.addEventListener('pointerenter', () => {
+  if (flightPopupTimer) {
+    clearTimeout(flightPopupTimer);
+    flightPopupTimer = null;
+  }
+});
+flightPopup.addEventListener('pointerleave', hideFlightPopup);
+
+bindFlightPreviewHover();
+
+document.querySelectorAll('[data-flight-slug]').forEach(link => {
+  if (link.dataset.mousePreviewBound === '1') return;
+  link.dataset.mousePreviewBound = '1';
+  link.addEventListener('mouseenter', () => scheduleFlightPopup(link));
+  link.addEventListener('mouseleave', (e) => {
+    if (flightPopup.contains(e.relatedTarget)) return;
+    hideFlightPopup();
+  });
+});
+</script>
+</body>
+</html>

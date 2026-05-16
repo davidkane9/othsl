@@ -429,7 +429,9 @@
   .team-popup {
     position: fixed;
     z-index: 999;
-    width: 260px;
+    width: 360px;
+    max-height: min(70vh, 560px);
+    overflow-y: auto;
     background: var(--panel-strong);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -467,6 +469,7 @@
   .team-popup .pop-game:last-child { border-bottom: none; }
   .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-section-label { font-size: .74rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin: 12px 0 6px; }
   .team-popup .pop-hint {
     font-size: .78rem;
     color: var(--muted);
@@ -622,6 +625,7 @@
     <a href="../../" class="nav-brand">OTHSL</a>
     <ul class="nav-links">
       <li><a href="../../">Home</a></li>
+      <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
     </ul>
   </div>
@@ -726,8 +730,7 @@
         <h2>Overall Outlook</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p id="ai-team-text" data-text="{{ ai_text | e }}"
-           style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">{{ ai_text }}</p>
       </div>
     </section>
     {% endif %}
@@ -844,7 +847,7 @@ const WORKER_SRC = `
     return base * (1 - reg) + 0.5 * reg;
   }
 
-  function simOnce(teams, baseStats, baseElos, games, overrides) {
+  function simOnce(teams, baseStats, baseElos, games, overrides, currentRegression) {
     const st = {}, el = {};
     for (const t of teams) {
       st[t] = { pts: baseStats[t].pts, gd: baseStats[t].gd, gf: baseStats[t].gf };
@@ -898,7 +901,7 @@ const WORKER_SRC = `
 
     // ── Main simulation ──────────────────────────────────────────
     for (let i = 0; i < totalRuns; i++) {
-      const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides);
+      const sorted = simOnce(teams, currentStats, currentElos, remainingGames, overrides, currentRegression);
       counts[sorted.indexOf(selectedTeam) + 1]++;
       for (let p = 0; p < sorted.length; p++) allCounts[sorted[p]][p + 1]++;
       if ((i + 1) % BATCH === 0 || i === totalRuns - 1) {
@@ -1431,23 +1434,38 @@ function showPopup(cell, teamName) {
   popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
 
   popGames.innerHTML = "";
-  const recent = card.recent || [];
-  if (!recent.length) {
-    popGames.innerHTML = '<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
-  } else {
-    recent.forEach(g => {
+  const played = card.played || [];
+  const nextGame = card.next_game || null;
+  if (nextGame) {
+    const label = document.createElement("div");
+    label.className = "pop-section-label";
+    label.textContent = "Next Match";
+    popGames.appendChild(label);
+    const div = document.createElement("div");
+    div.className = "pop-game";
+    div.innerHTML = `<span class="pop-opp">${nextGame.venue} ${nextGame.opponent}</span><span class="pop-score" style="font-weight:700">${nextGame.display_date}</span>`;
+    popGames.appendChild(div);
+  }
+  if (played.length) {
+    const label = document.createElement("div");
+    label.className = "pop-section-label";
+    label.textContent = "Played Games";
+    popGames.appendChild(label);
+    played.forEach(g => {
       const div = document.createElement("div");
       div.className = "pop-game";
       const c = g.result === "W" ? "var(--win)" : g.result === "L" ? "var(--loss)" : "var(--draw)";
-      div.innerHTML = `<span class="pop-opp">${g.opponent}</span>
+      div.innerHTML = `<span class="pop-opp">${g.display_date} - ${g.venue} ${g.opponent}</span>
         <span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
       popGames.appendChild(div);
     });
+  } else if (!nextGame) {
+    popGames.innerHTML = '<div style="font-size:.82rem;color:var(--muted)">No games scheduled or played yet.</div>';
   }
 
   popup.classList.add("visible");
-  const pw = popup.offsetWidth || 260;
-  const ph = popup.offsetHeight || 180;
+  const pw = popup.offsetWidth || 360;
+  const ph = popup.offsetHeight || 280;
   const gap = 10;
   const rect = cell.getBoundingClientRect();
   // popup is position:fixed — use viewport coords directly, no scroll offset
@@ -1531,20 +1549,6 @@ document.querySelectorAll("td.team-name-cell").forEach(cell => {
 //   });
 // })();
 
-// ── AI team insight typewriter ────────────────────────────────────
-(function() {
-  const el = document.getElementById('ai-team-text');
-  if (!el) return;
-  const text = el.dataset.text || '';
-  if (!text) return;
-  el.textContent = '';
-  (async () => {
-    for (const ch of text) {
-      el.textContent += ch;
-      await new Promise(r => setTimeout(r, 18));
-    }
-  })();
-})();
 </script>
 </body>
 </html>

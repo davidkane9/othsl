@@ -166,7 +166,9 @@
   .team-popup {
     position: fixed;
     z-index: 999;
-    width: 260px;
+    width: 360px;
+    max-height: min(70vh, 560px);
+    overflow-y: auto;
     background: var(--panel-strong);
     border: 1px solid var(--line);
     border-radius: 16px;
@@ -184,6 +186,7 @@
   .team-popup .pop-game:last-child { border-bottom: none; }
   .team-popup .pop-opp { color: var(--ink); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .team-popup .pop-score { margin-left: 8px; white-space: nowrap; }
+  .team-popup .pop-section-label { font-size: .74rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin: 12px 0 6px; }
   .team-popup .pop-hint { font-size: .78rem; color: var(--muted); margin-top: 10px; text-align: center; }
   td.team-name-cell { cursor: pointer; }
   td.team-name-cell:hover { text-decoration: underline; color: var(--field); }
@@ -266,6 +269,38 @@
   .nav-links a { color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem; padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s; }
   .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
   .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+  .page-header {
+    margin: 18px 0 32px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .page-header-main h1 { margin: 0 0 4px; font-size: 1.9rem; }
+  .page-header-main .sub { color: var(--muted); font-size: .95rem; }
+  .page-header-side {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .subpage-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255,250,241,.8);
+    color: var(--field);
+    text-decoration: none;
+    font-size: .82rem;
+    white-space: nowrap;
+  }
+  .subpage-link:hover {
+    background: rgba(35,68,43,.08);
+    color: var(--ink);
+  }
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
 <script>
@@ -281,6 +316,7 @@
     <a href="{{ home_path }}" class="nav-brand">OTHSL</a>
     <ul class="nav-links">
       <li><a href="{{ home_path }}">Home</a></li>
+      <li><a href="{{ home_path }}teams/">Find Team</a></li>
       <li><a href="{{ home_path }}calibration/">Model Calibration</a></li>
     </ul>
   </div>
@@ -295,8 +331,15 @@
   <a class="back-link page-link" href="../../">← Back to homepage</a>
 
   <div class="page-header">
-    <h1>{{ label }}</h1>
-    <div class="sub">{{ season }}</div>
+    <div class="page-header-main">
+      <h1>{{ label }}</h1>
+      <div class="sub">{{ season }}</div>
+    </div>
+    {% if not is_historical %}
+    <div class="page-header-side">
+      <a class="subpage-link page-link" href="importance/">Importance Formula And Game Table</a>
+    </div>
+    {% endif %}
     <!-- Historical season navigation parked for now.
     <select id="season-nav"></select>
     -->
@@ -393,8 +436,7 @@
     <div class="summary-stack">
       {% if ai_text %}
       <div class="panel" style="padding:18px 22px">
-        <p id="ai-flight-text" data-text="{{ ai_text | e }}"
-           style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0"></p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">{{ ai_text }}</p>
       </div>
       {% endif %}
       {% if ai_team_summaries %}
@@ -669,10 +711,8 @@ function updateSimHeader() {
       if (!IS_HISTORICAL) {
         cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
         cell.addEventListener('mouseleave',hidePopup);
-        cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-      } else {
-        cell.style.cursor='default';
       }
+      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
     });
   }
 
@@ -904,19 +944,33 @@ function showPopup(cell, teamName) {
   popName.textContent=teamName;
   popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
   popGames.innerHTML='';
-  const recent=card.recent||[];
-  if(!recent.length){
-    popGames.innerHTML='<div style="font-size:.82rem;color:var(--muted)">No games played yet.</div>';
-  } else {
-    recent.forEach(g=>{
+  const played=card.played||[];
+  const nextGame=card.next_game||null;
+  if(nextGame){
+    const label=document.createElement("div");
+    label.className="pop-section-label";
+    label.textContent="Next Match";
+    popGames.appendChild(label);
+    const div=document.createElement("div"); div.className="pop-game";
+    div.innerHTML=`<span class="pop-opp">${nextGame.venue} ${nextGame.opponent}</span><span class="pop-score" style="font-weight:700">${nextGame.display_date}</span>`;
+    popGames.appendChild(div);
+  }
+  if(played.length){
+    const label=document.createElement("div");
+    label.className="pop-section-label";
+    label.textContent="Played Games";
+    popGames.appendChild(label);
+    played.forEach(g=>{
       const div=document.createElement("div"); div.className="pop-game";
       const c=g.result==="W"?"var(--win)":g.result==="L"?"var(--loss)":"var(--draw)";
-      div.innerHTML=`<span class="pop-opp">${g.opponent}</span><span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
+      div.innerHTML=`<span class="pop-opp">${g.display_date} - ${g.venue} ${g.opponent}</span><span class="pop-score" style="color:${c};font-weight:700">${g.score} ${g.result}</span>`;
       popGames.appendChild(div);
     });
+  } else if (!nextGame) {
+    popGames.innerHTML='<div style="font-size:.82rem;color:var(--muted)">No games scheduled or played yet.</div>';
   }
   popup.classList.add("visible");
-  const pw=popup.offsetWidth||260,ph=popup.offsetHeight||180,gap=10;
+  const pw=popup.offsetWidth||360,ph=popup.offsetHeight||280,gap=10;
   const rect=cell.getBoundingClientRect();
   let left=rect.right+gap, top=rect.top+(rect.height/2)-(ph/2);
   if(left+pw>window.innerWidth-8) left=rect.left-pw-gap;
@@ -930,10 +984,8 @@ document.querySelectorAll("td.team-name-cell").forEach(cell=>{
   if (!IS_HISTORICAL) {
     cell.addEventListener("mouseenter",()=>showPopup(cell,cell.dataset.team));
     cell.addEventListener("mouseleave",hidePopup);
-    cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-  } else {
-    cell.style.cursor='default';
   }
+  cell.addEventListener("click",()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
 });
 
 // ── Feedback form ─────────────────────────────────────────────────────────
@@ -957,20 +1009,6 @@ document.querySelectorAll("td.team-name-cell").forEach(cell=>{
   });
 })();
 
-// ── AI flight outlook typewriter ──────────────────────────────────
-(function() {
-  const el = document.getElementById('ai-flight-text');
-  if (!el) return;
-  const text = el.dataset.text || '';
-  if (!text) return;
-  el.textContent = '';
-  (async () => {
-    for (const ch of text) {
-      el.textContent += ch;
-      await new Promise(r => setTimeout(r, 18));
-    }
-  })();
-})();
 </script>
 </body>
 </html>
