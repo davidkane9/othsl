@@ -61,6 +61,19 @@ def parse_game_cell(cell_text):
             "notes": "forfeit",
         }
 
+    # Reverse forfeit pattern: "Team forfeit -- 2 Other Team"
+    reverse_forfeit_match = re.search(
+        r"^(.+?)\s+(forfeit(?:NP)?)\s+--\s+(\d+)\s+(.+)$", text, re.IGNORECASE
+    )
+    if reverse_forfeit_match:
+        return {
+            "home_team": reverse_forfeit_match.group(1).strip(),
+            "home_score": reverse_forfeit_match.group(2),
+            "away_score": reverse_forfeit_match.group(3),
+            "away_team": reverse_forfeit_match.group(4).strip(),
+            "notes": "forfeit",
+        }
+
     # Reverse forfeit: "Team -- forfeit ... Other Team" (team being forfeited to)
     rev_forfeit = re.search(
         r"^(.+?)\s+(forfeit(?:NP)?)\s+lost by forfeit.*--\s*(forfeit(?:NP)?)\s+lost by forfeit.*\s+(.+)$",

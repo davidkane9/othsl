@@ -45,6 +45,7 @@ def main():
     logging.info(f"=== Refresh started ===")
 
     base = os.path.dirname(__file__)
+    season_cal_cache = os.path.join(base, "data", "season_outlook_cal.json")
 
     # 1. Download current season
     ok = run(os.path.join(base, "download_current", "download.py"))
@@ -56,6 +57,30 @@ def main():
     ok = run(os.path.join(base, "elo.py"))
     if not ok:
         logging.error("ELO calculation failed.")
+        return
+
+    # 3. Regenerate AI caches with updated data
+    logging.info("Regenerating AI caches...")
+    try:
+        sys.path.insert(0, base)
+        from app import build_ai_caches
+        build_ai_caches()
+        logging.info("AI caches regenerated successfully.")
+    except Exception as e:
+        logging.error(f"Failed to regenerate AI caches: {e}")
+
+    # 4. Refresh calibration cache when schema or historical aggregation changes
+    if os.path.exists(season_cal_cache):
+        try:
+            os.remove(season_cal_cache)
+            logging.info("Removed cached season outlook calibration data.")
+        except OSError as e:
+            logging.warning(f"Could not remove season outlook calibration cache: {e}")
+
+    # 5. Rebuild frozen site so docs/ reflects the latest data and copy
+    ok = run(os.path.join(base, "freeze.py"))
+    if not ok:
+        logging.error("Static site build failed.")
         return
 
     logging.info("=== Refresh complete ===\n")

@@ -1311,12 +1311,15 @@ startSim();
         if (!s[t]) s[t] = { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
       }
       if (r.forfeit) {
-        if (r.home_forfeit) {
-          s[r.away].w++; s[r.away].pts += 3; s[r.away].gp++;
-          s[r.home].l++; s[r.home].gp++;
+        if (r.home_forfeit && r.away_forfeit) {
+          s[r.home].l++; s[r.home].gp++; s[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+          s[r.away].l++; s[r.away].gp++; s[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+        } else if (r.home_forfeit) {
+          s[r.away].w++; s[r.away].pts += 3; s[r.away].gp++; s[r.away].gf += 3; s[r.away].gd += 3;
+          s[r.home].l++; s[r.home].gp++; s[r.home].gd -= 3; s[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
         } else {
-          s[r.home].w++; s[r.home].pts += 3; s[r.home].gp++;
-          s[r.away].l++; s[r.away].gp++;
+          s[r.home].w++; s[r.home].pts += 3; s[r.home].gp++; s[r.home].gf += 3; s[r.home].gd += 3;
+          s[r.away].l++; s[r.away].gp++; s[r.away].gd -= 3; s[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
         }
       } else {
         const hg = r.hg, ag = r.ag;

@@ -470,7 +470,7 @@
 <script>
 const IS_HISTORICAL    = true;
 const SIM_DATA         = {"current_elos": {"Everett Cobras": 1639.7, "FC Juventus": 1537.8}, "current_regression": 0.6666666666666667, "current_stats": {"Everett Cobras": {"gd": -1, "gf": 0, "gp": 1, "l": 1, "pts": 0, "t": 0, "w": 0}, "FC Juventus": {"gd": 1, "gf": 1, "gp": 1, "l": 0, "pts": 3, "t": 0, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 0, "remaining_games": [{"away": "Everett Cobras", "away_win_prob": 0.478, "date": "TBD", "draw_prob": 0.22, "home": "FC Juventus", "home_win_prob": 0.302, "id": "inferred|FC Juventus|Everett Cobras", "involves_team": false}], "schedule_inferred": true, "selected_team": "", "teams": ["FC Juventus", "Everett Cobras"], "total_teams": 2};
-const FLIGHT_RESULTS   = [{"ag": 1, "away": "FC Juventus", "date": "1997-05-18", "forfeit": false, "hg": 0, "home": "Everett Cobras", "home_forfeit": false}];
+const FLIGHT_RESULTS   = [{"ag": 1, "away": "FC Juventus", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "1997-05-18", "forfeit": false, "hg": 0, "home": "Everett Cobras", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const FLIGHT_CARDS     = {"Everett Cobras": {"next_game": null, "played": [{"date": "1997-05-18", "display_date": "Sunday, May 18", "opponent": "FC Juventus", "result": "L", "score": "0\u20131", "venue": "H"}], "recent": [{"date": "1997-05-18", "display_date": "Sunday, May 18", "opponent": "FC Juventus", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": ""}, "FC Juventus": {"next_game": null, "played": [{"date": "1997-05-18", "display_date": "Sunday, May 18", "opponent": "Everett Cobras", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "1997-05-18", "display_date": "Sunday, May 18", "opponent": "Everett Cobras", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": ""}};
 const IS_TOP_FLIGHT    = false;
 const IS_BOTTOM_FLIGHT = false;
@@ -641,8 +641,16 @@ function updateSimHeader() {
       if (r.date>upToDate) continue;
       for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
       if (r.forfeit) {
-        if (r.home_forfeit){ stats[r.away].w++;stats[r.away].pts+=3;stats[r.away].gp++;stats[r.home].l++;stats[r.home].gp++; }
-        else               { stats[r.home].w++;stats[r.home].pts+=3;stats[r.home].gp++;stats[r.away].l++;stats[r.away].gp++; }
+        if (r.home_forfeit && r.away_forfeit) {
+          stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+          stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+        } else if (r.home_forfeit) {
+          stats[r.away].w++; stats[r.away].pts+=3; stats[r.away].gp++; stats[r.away].gf+=3; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
+          stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga+=3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
+        } else {
+          stats[r.home].w++; stats[r.home].pts+=3; stats[r.home].gp++; stats[r.home].gf+=3; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
+          stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga+=3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
+        }
       } else {
         stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
         stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;

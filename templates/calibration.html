@@ -111,6 +111,14 @@
   .week-selector label { font-size: .9rem; white-space: nowrap; }
   #week-slider { flex: 1; max-width: 320px; accent-color: var(--field); cursor: pointer; }
   .week-data-info { font-size: .8rem; color: var(--muted); }
+  .flight-size-select {
+    padding: 6px 10px;
+    font-size: .85rem;
+    border: 1px solid rgba(38,61,41,0.3);
+    background: rgba(35,68,43,.05);
+    border-radius: 8px;
+    color: var(--ink);
+  }
   .outlook-charts {
     display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
   }
@@ -227,6 +235,13 @@
       <label>Week: <strong id="week-display">0</strong></label>
       <input type="range" id="week-slider" min="0" max="10" value="0" step="1">
       <span class="week-data-info" id="week-data-info"></span>
+      <label for="flight-size-filter">Flights:</label>
+      <select id="flight-size-filter" class="flight-size-select">
+        <option value="all">All sizes</option>
+        <option value="small">4-5 teams</option>
+        <option value="medium">6 teams</option>
+        <option value="large">7-9 teams</option>
+      </select>
     </div>
     <div class="outlook-charts">
       <div>
@@ -255,13 +270,28 @@
     <p style="font-family:monospace;font-size:.9rem;background:rgba(35,68,43,.07);padding:10px 14px;border-radius:8px;margin:0 0 12px">
       P(home wins) = 1 / (1 + 10<sup>(ELO_away − ELO_home) / 200</sup>)
     </p>
-    <p style="color:var(--muted);font-size:.88rem;margin:0">
+    <p style="color:var(--muted);font-size:.88rem;margin:0 0 12px">
       K-factor is 32. Ratings regress 40% toward 1500 between seasons to account for roster turnover.
       At the start of each season, win probabilities are additionally pulled {{ regression_max }}% toward 50%
       (pure coin flip) and this season-start regression fades linearly to 0% once teams have averaged
       {{ regression_gp_full }} games played — reflecting that early-season ELO ratings are less reliable.
       The season simulation uses these ratings plus a fixed 22% draw probability to run {{ simulation_runs | default(400) }} Monte Carlo trials per team.
     </p>
+    <h3 style="margin: 16px 0 8px; font-size: .95rem;">Goal Difference & Simulation</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin:0 0 12px">
+      In the what-if simulation, goal difference does change after every simulated result rather than staying frozen at today&rsquo;s value. Each simulated win adds +1 GD, each simulated loss subtracts 1, and each simulated draw leaves GD unchanged, so tie-breakers keep updating all the way through the Monte Carlo runs instead of using fixed current standings.<!--
+      each loss subtracts −1 GD (1 goal for + 2 against), and ties keep GD unchanged (1-1 score). This means the simulation assumes consistent team attacking and defensive patterns,
+      not the actual historical goal distributions. Goal difference is used only for tie-breaking; points determine placement.
+    --></p>
+    <h3 style="margin: 16px 0 8px; font-size: .95rem;">Forfeits & Card Points</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin:0">
+      <strong>Forfeits:</strong> Completed forfeits are treated as official 3&ndash;0 results in the standings data, with the forfeiting team also losing 2 standings points unless the result is marked <strong>forfeitNP</strong>. <strong>Card Points (CP):</strong> Existing card-point deductions are already baked into the current table, but the what-if model does not try to predict future cards or future forfeits, so every simulated remaining match is treated as a normal win, draw, or loss.<!--
+      <strong>Forfeits:</strong> A forfeit is treated as a 3–0 loss in standings (−2 points for the forfeiting team) and a 3–0 win for the opponent (+3 points).
+      Forfeits marked "ForFeitNP" (Forfeit No Penalties) do not incur the −2 point deduction.
+      In ELO calculations, a forfeit is treated as a standard win or loss.
+      <strong>Card Points (CP):</strong> These are accumulated separately and applied as deductions to standings points when teams exceed card thresholds.
+      Card points do not affect ELO calculations or the what-if simulation — only the final standings are adjusted. The simulation assumes no future cards or forfeits.
+    --></p>
   </div>
 </main>
 
@@ -405,6 +435,7 @@ const SEASON_CAL = {{ season_cal | tojson }};
   const slider  = document.getElementById('week-slider');
   const display = document.getElementById('week-display');
   const infoEl  = document.getElementById('week-data-info');
+  const flightSizeFilter = document.getElementById('flight-size-filter');
   const dpr = window.devicePixelRatio || 1;
   const W = 400, H = 280;
   const PAD = { top: 20, right: 20, bottom: 44, left: 50 };
@@ -475,7 +506,7 @@ const SEASON_CAL = {{ season_cal | tojson }};
     if (!points || !points.length) {
       ctx.fillStyle = 'rgba(95,105,95,0.5)'; ctx.font = '12px Georgia, serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('No data for this week', W / 2, H / 2);
+      ctx.fillText('No data for this flight size', W / 2, H / 2);
       ctx.textBaseline = 'alphabetic';
       return;
     }
@@ -502,7 +533,7 @@ const SEASON_CAL = {{ season_cal | tojson }};
       const mx = e.clientX - rect.left;
       const my = e.clientY - rect.top;
       const points = getPoints();
-      if (!points) { tooltipEl.style.opacity = '0'; return; }
+      if (!points || !points.length) { tooltipEl.style.opacity = '0'; return; }
       const maxN = Math.max(...points.map(p => p.n), 1);
       let hit = null;
       for (const pt of points) {
@@ -512,7 +543,7 @@ const SEASON_CAL = {{ season_cal | tojson }};
       }
       if (hit) {
         tooltipEl.style.opacity = '1';
-        tooltipEl.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> → ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} team-seasons</span>`;
+        tooltipEl.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> -> ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} team-seasons</span>`;
         const tw = tooltipEl.offsetWidth, th = tooltipEl.offsetHeight;
         let lx = mx + 14, ly = my - th / 2;
         if (lx + tw > W) lx = mx - tw - 14;
@@ -524,26 +555,44 @@ const SEASON_CAL = {{ season_cal | tojson }};
     canvas.addEventListener('mouseleave', () => { tooltipEl.style.opacity = '0'; });
   }
 
-  function update(week) {
-    const data = SEASON_CAL[String(week)] || { promo: [], relg: [] };
-    drawChart(promo, data.promo, '#237744', 'rgba(35,119,68,0.22)');
-    drawChart(relg,  data.relg,  '#a63f35', 'rgba(166,63,53,0.22)');
-    const np = data.promo.reduce((s, p) => s + p.n, 0);
-    const nr = data.relg.reduce((s, p) => s + p.n, 0);
-    infoEl.textContent = `${np.toLocaleString()} promo · ${nr.toLocaleString()} relg team-seasons`;
-  }
-
   let currentWeek = 0;
-  makeTooltip(promo.canvas, document.getElementById('promo-tooltip'), () => (SEASON_CAL[String(currentWeek)] || {}).promo);
-  makeTooltip(relg.canvas,  document.getElementById('relg-tooltip'),  () => (SEASON_CAL[String(currentWeek)] || {}).relg);
+  makeTooltip(promo.canvas, document.getElementById('promo-tooltip'), () => {
+    return getFlightSizeWeekData(currentWeek).promo;
+  });
+  makeTooltip(relg.canvas,  document.getElementById('relg-tooltip'), () => {
+    return getFlightSizeWeekData(currentWeek).relg;
+  });
 
   slider.addEventListener('input', () => {
     currentWeek = parseInt(slider.value, 10);
     display.textContent = currentWeek;
-    update(currentWeek);
+    updateFlightSizeCharts(currentWeek);
   });
 
-  update(0);
+  flightSizeFilter.addEventListener('change', () => {
+    updateFlightSizeCharts(currentWeek);
+  });
+
+  function getFlightSizeWeekData(week) {
+    const sizeKey = flightSizeFilter.value || 'all';
+    const weekData = (SEASON_CAL[String(week)] || {})[sizeKey] || { promo: [], relg: [] };
+    return {
+      promo: Array.isArray(weekData.promo) ? weekData.promo : [],
+      relg: Array.isArray(weekData.relg) ? weekData.relg : [],
+    };
+  }
+
+  function updateFlightSizeCharts(week) {
+    const data = getFlightSizeWeekData(week);
+    drawChart(promo, data.promo, '#237744', 'rgba(35,119,68,0.22)');
+    drawChart(relg,  data.relg,  '#a63f35', 'rgba(166,63,53,0.22)');
+    const np = data.promo.reduce((s, p) => s + p.n, 0);
+    const nr = data.relg.reduce((s, p) => s + p.n, 0);
+    const selectedLabel = flightSizeFilter.options[flightSizeFilter.selectedIndex].text;
+    infoEl.textContent = `${np.toLocaleString()} promo / ${nr.toLocaleString()} relg team-seasons - ${selectedLabel}`;
+  }
+
+  updateFlightSizeCharts(0);
 })();
 
 // ── Bucket bar chart ───────────────────────────────────────────────
