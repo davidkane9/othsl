@@ -63,6 +63,7 @@ Spring 2026,Over 30,1,South,2026-05-10,Torres FC,1,1,Boston Nigeria Eagles FC,
 Spring 2026,Over 30,1,South,2026-05-10,Southside F.C.,2,2,Plymouth FC,
 Spring 2026,Over 30,1,South,2026-05-10,Taunton Eagles Soccer Club,4,1,Shake-Shake FC,
 Spring 2026,Over 30,1,South,2026-05-17,Taunton Eagles Soccer Club,2,0,Plymouth FC,
+Spring 2026,Over 30,1,South,2026-05-17,Boston Celtic FC forfeit lost by,forfeit,2,Torres FC,forfeit
 Spring 2026,Over 30,1,South,2026-05-17,Shake-Shake FC,4,4,Southside F.C.,
 Spring 2026,Over 30,1,South,2026-05-20,Boston Nigeria Eagles FC,2,forfeit,Boston Celtic FC,forfeit
 Spring 2026,Over 30,1,South,2026-05-24,Os Amigos F.C.,,,Torres FC,scheduled
@@ -390,6 +391,7 @@ Spring 2026,Over 40,2,South,2026-04-05,Albania United Veterans,3,1,FUFC,
 Spring 2026,Over 40,2,South,2026-04-05,Crafty Veterans,4,7,Natick Rovers FC,
 Spring 2026,Over 40,2,South,2026-04-12,Taunton Eagles Soccer Club,3,1,Newton Brigada,
 Spring 2026,Over 40,2,South,2026-04-12,Celtic Masters,1,3,Framingham Persepolis,
+Spring 2026,Over 40,2,South,2026-04-12,Natick Rovers FC forfeit lost by,forfeit,2,Albania United Veterans,forfeit
 Spring 2026,Over 40,2,South,2026-04-12,FUFC,4,1,Crafty Veterans,
 Spring 2026,Over 40,2,South,2026-04-19,Newton Brigada,1,3,Framingham Persepolis,
 Spring 2026,Over 40,2,South,2026-04-19,Taunton Eagles Soccer Club,2,2,Celtic Masters,
@@ -523,6 +525,7 @@ Spring 2026,Over 40,4,North,2026-04-19,FC Littleton,2,2,Nashoba Masters,
 Spring 2026,Over 40,4,North,2026-04-19,Hopkinton Hotspur,4,1,MVFC,
 Spring 2026,Over 40,4,North,2026-04-19,Hurricane SC,2,2,New England International,
 Spring 2026,Over 40,4,North,2026-04-19,Sudbury United,2,4,Granite Coast F.C.,
+Spring 2026,Over 40,4,North,2026-04-22,Granite Coast F.C. forfeit lost by,forfeit,2,Hurricane SC,forfeit
 Spring 2026,Over 40,4,North,2026-04-26,MVFC,5,2,Sudbury United,
 Spring 2026,Over 40,4,North,2026-04-26,Nashoba Masters,4,0,Hurricane SC,
 Spring 2026,Over 40,4,North,2026-04-26,Granite Coast F.C.,0,2,Hopkinton Hotspur,
@@ -623,7 +626,6 @@ Spring 2026,Over 40,5,North,2026-05-17,Acton-Boxboro United,1,3,Wen Ham United F
 Spring 2026,Over 40,5,North,2026-05-17,FC Newburyport Brew,1,5,Wahooligans FC,
 Spring 2026,Over 40,5,North,2026-05-17,Bristol FC,4,0,Rebels,
 Spring 2026,Over 40,5,North,2026-05-17,FC Old Skool,2,4,Dirty Groton Scoundrels,
-Spring 2026,Over 40,5,North,2026-05-20,FC Newburyport Brew,,,Acton-Boxboro United,scheduled
 Spring 2026,Over 40,5,North,2026-05-31,Dirty Groton Scoundrels,,,Acton-Boxboro United,scheduled
 Spring 2026,Over 40,5,North,2026-05-31,Rebels,,,FC Newburyport Brew,scheduled
 Spring 2026,Over 40,5,North,2026-05-31,Wahooligans FC,,,Bristol FC,scheduled
@@ -633,6 +635,7 @@ Spring 2026,Over 40,5,North,2026-06-07,Rebels,,,Acton-Boxboro United,scheduled
 Spring 2026,Over 40,5,North,2026-06-07,FC Newburyport Brew,,,Dirty Groton Scoundrels,scheduled
 Spring 2026,Over 40,5,North,2026-06-07,Bristol FC,,,Wen Ham United FC,scheduled
 Spring 2026,Over 40,5,North,2026-06-07,Wahooligans FC,,,FC Old Skool,scheduled
+Spring 2026,Over 40,5,North,2026-06-10,FC Newburyport Brew,,,Acton-Boxboro United,scheduled
 Spring 2026,Over 40,5,North,2026-06-14,Acton-Boxboro United,,,FC Newburyport Brew,scheduled
 Spring 2026,Over 40,5,North,2026-06-14,Dirty Groton Scoundrels,,,Rebels,scheduled
 Spring 2026,Over 40,5,North,2026-06-14,Wen Ham United FC,,,Wahooligans FC,scheduled
@@ -683,6 +686,7 @@ Spring 2026,Over 40,5,South,2026-06-14,Irish Village White,,,FC Franklin II,sche
 Spring 2026,Over 40,5,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,5,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,5,South,2026-06-28,TBD,,,TBD,scheduled
+Spring 2026,Over 40,6,Central,2026-04-05,Island United FC forfeit lost by,forfeit,2,Harvard Blues FC,forfeit
 Spring 2026,Over 40,6,Central,2026-04-05,BNFC,1,4,Post-game Nomads,
 Spring 2026,Over 40,6,Central,2026-04-05,North Reading FC,0,4,Hampstead Hurricanes,
 Spring 2026,Over 40,6,Central,2026-04-12,Post-game Nomads,0,2,Island United FC,
@@ -1019,6 +1023,7 @@ Spring 2026,Over 48,4,South,2026-04-26,BNFC O48,1,4,Easton Legends,
 Spring 2026,Over 48,4,South,2026-04-26,NCLS Evergreen,5,2,Peru Sports FC Masters,
 Spring 2026,Over 48,4,South,2026-05-03,Easton Legends,4,1,Neponset Old Boys,
 Spring 2026,Over 48,4,South,2026-05-03,NCLS Evergreen,2,1,BNFC O48,
+Spring 2026,Over 48,4,South,2026-05-03,Peru Sports FC Masters forfeit lost by,forfeit,2,Norfolk FC,forfeit
 Spring 2026,Over 48,4,South,2026-05-10,Neponset Old Boys,1,3,Easton Legends,
 Spring 2026,Over 48,4,South,2026-05-10,BNFC O48,1,1,NCLS Evergreen,
 Spring 2026,Over 48,4,South,2026-05-10,Norfolk FC,5,0,Peru Sports FC Masters,
@@ -1255,7 +1260,7 @@ Spring 2026,Over 55,2,South,2026-05-03,Sudbury Thistle AC,3,1,FIMA O55,
 Spring 2026,Over 55,2,South,2026-05-10,Irish Village,1,1,Framingham United,
 Spring 2026,Over 55,2,South,2026-05-10,FIMA O55,3,1,Ashland,
 Spring 2026,Over 55,2,South,2026-05-10,Jamaica Plain FC 55,4,2,Sudbury Thistle AC,
-Spring 2026,Over 55,2,South,2026-05-10,AFC Medfield,forfeit,2,West Roxbury United 55,forfeit
+Spring 2026,Over 55,2,South,2026-05-10,AFC Medfield forfeit lost by,forfeit,2,West Roxbury United 55,forfeit
 Spring 2026,Over 55,2,South,2026-05-17,Irish Village,2,forfeit,Ashland,forfeit
 Spring 2026,Over 55,2,South,2026-05-17,AFC Medfield,3,5,Sudbury Thistle AC,
 Spring 2026,Over 55,2,South,2026-05-17,Framingham United,10,1,FIMA O55,
@@ -1438,7 +1443,7 @@ Spring 2026,Over 68,1,Central,2026-05-10,Harvard O-68,1,6,New England United FC,
 Spring 2026,Over 68,1,Central,2026-05-10,The Warthogs,4,1,Lexington o68,
 Spring 2026,Over 68,1,Central,2026-05-10,Sudbury FC Platinum,1,0,LFC Travelers,
 Spring 2026,Over 68,1,Central,2026-05-17,Lynnfield F.C. Pioneers,1,5,New England United FC,
-Spring 2026,Over 68,1,Central,2026-05-17,Sudbury FC Platinum,2,2,Lexington o68,
+Spring 2026,Over 68,1,Central,2026-05-17,Sudbury FC Platinum,1,3,Lexington o68,
 Spring 2026,Over 68,1,Central,2026-05-17,Everett Phoenix,5,1,Harvard O-68,
 Spring 2026,Over 68,1,Central,2026-05-17,LFC Travelers,1,4,The Warthogs,
 Spring 2026,Over 68,1,Central,2026-05-31,The Warthogs,,,Lynnfield F.C. Pioneers,scheduled
