@@ -23,7 +23,7 @@ Spring 2026,Over 30,1,North,2026-05-17,CDF Azzurri,6,1,Newburyport FC,
 Spring 2026,Over 30,1,North,2026-05-17,Massachusetts United,6,3,Cantona,
 Spring 2026,Over 30,1,North,2026-05-17,Kendall Wanderers,2,2,Eastern FC,
 Spring 2026,Over 30,1,North,2026-05-17,Meadowlark FC,0,0,Loco Gunners,
-Spring 2026,Over 30,1,North,2026-05-20,CDF Azzurri,,,Eastern FC,scheduled
+Spring 2026,Over 30,1,North,2026-05-20,CDF Azzurri,2,1,Eastern FC,
 Spring 2026,Over 30,1,North,2026-05-24,Kendall Wanderers,,,Massachusetts United,scheduled
 Spring 2026,Over 30,1,North,2026-05-31,Loco Gunners,,,CDF Azzurri,scheduled
 Spring 2026,Over 30,1,North,2026-05-31,Eastern FC,,,Massachusetts United,scheduled
@@ -412,7 +412,7 @@ Spring 2026,Over 40,2,South,2026-05-17,Newton Brigada,3,3,Albania United Veteran
 Spring 2026,Over 40,2,South,2026-05-17,Taunton Eagles Soccer Club,2,2,Natick Rovers FC,
 Spring 2026,Over 40,2,South,2026-05-17,FUFC,2,3,Celtic Masters,
 Spring 2026,Over 40,2,South,2026-05-17,Crafty Veterans,2,0,Framingham Persepolis,
-Spring 2026,Over 40,2,South,2026-05-20,Taunton Eagles Soccer Club,,,Crafty Veterans,scheduled
+Spring 2026,Over 40,2,South,2026-05-20,Taunton Eagles Soccer Club,1,0,Crafty Veterans,
 Spring 2026,Over 40,2,South,2026-05-31,Framingham Persepolis,,,Newton Brigada,scheduled
 Spring 2026,Over 40,2,South,2026-05-31,Celtic Masters,,,Taunton Eagles Soccer Club,scheduled
 Spring 2026,Over 40,2,South,2026-05-31,Natick Rovers FC,,,FUFC,scheduled
@@ -960,7 +960,7 @@ Spring 2026,Over 48,3,South,2026-05-10,Kendall Wanderers,2,1,FC Walpole O48,
 Spring 2026,Over 48,3,South,2026-05-10,Lexington Allin Eagles,4,2,West Roxbury United,
 Spring 2026,Over 48,3,South,2026-05-17,Newton Brigada II,2,forfeitNP,Dover Sherborn Hop Hunters,forfeit
 Spring 2026,Over 48,3,South,2026-05-17,Lexington Allin Eagles,4,0,FC Walpole O48,
-Spring 2026,Over 48,3,South,2026-05-17,Framingham Persepolis 48,3,2,Celtic Veterans,
+Spring 2026,Over 48,3,South,2026-05-17,Framingham Persepolis 48,3,1,Celtic Veterans,
 Spring 2026,Over 48,3,South,2026-05-17,West Roxbury United,4,5,Kendall Wanderers,
 Spring 2026,Over 48,3,South,2026-05-31,Kendall Wanderers,,,Newton Brigada II,scheduled
 Spring 2026,Over 48,3,South,2026-05-31,Celtic Veterans,,,Lexington Allin Eagles,scheduled
@@ -1233,10 +1233,10 @@ Spring 2026,Over 55,2,North,2026-06-14,Lexington Eagles O55,,,Pepperell Celtic,s
 Spring 2026,Over 55,2,North,2026-06-14,Medford Atomic o55,,,Peabody Gold,scheduled
 Spring 2026,Over 55,2,North,2026-06-14,Windham O55,,,Lynnfield F.C. Spartans,scheduled
 Spring 2026,Over 55,2,North,2026-06-14,Marblehead o55,,,Nashua IFC,scheduled
+Spring 2026,Over 55,2,North,2026-06-17,Lexington Eagles O55,,,Windham O55,scheduled
 Spring 2026,Over 55,2,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,2,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 55,2,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 55,2,North,TBD,Lexington Eagles O55,,,Windham O55,scheduled
 Spring 2026,Over 55,2,South,2026-04-05,Irish Village,2,2,FIMA O55,
 Spring 2026,Over 55,2,South,2026-04-05,Jamaica Plain FC 55,3,3,AFC Medfield,
 Spring 2026,Over 55,2,South,2026-04-05,Ashland,0,1,Framingham United,
