@@ -386,7 +386,7 @@
       {% if featured_plinko and featured_plinko.team_games %}
       <div class="plinko-panel">
         <div class="plinko-eyebrow">Season simulation</div>
-        <div class="plinko-team-name">{{ featured_plinko.team }}</div>
+        <div class="plinko-team-name" id="plinko-team-name">{{ featured_plinko.team }}</div>
         <div class="plinko-body">
           <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
           <div class="plinko-log" id="plinko-log"></div>
@@ -397,8 +397,8 @@
             <div class="plinko-stat-lbl">Promotion</div>
           </div>
           <div class="plinko-stat">
-            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)">{{ featured_plinko.n_teams }} teams</div>
-            <div class="plinko-stat-lbl">{{ featured_plinko.flight_label }}</div>
+            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)" id="plinko-team-count">{{ featured_plinko.n_teams }} teams</div>
+            <div class="plinko-stat-lbl" id="plinko-flight-label">{{ featured_plinko.flight_label }}</div>
           </div>
           <div class="plinko-stat">
             <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
@@ -413,6 +413,7 @@
         <div class="plinko-actions">
           <a class="plinko-link page-link" href="teams/">Find your team →</a>
           <button id="plinko-replay" class="plinko-link">↺ Replay</button>
+          <button id="plinko-next-team" class="plinko-link" {% if not featured_plinko_choices or featured_plinko_choices|length < 2 %}style="display:none"{% endif %}>Next team</button>
           <div class="plinko-speed-wrap">
             <label for="plinko-speed">Speed</label>
             <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
@@ -468,13 +469,41 @@
 (function() {
   const canvas = document.getElementById('plinko-canvas');
   if (!canvas) return;
-  const PLINKO = {{ featured_plinko | tojson if featured_plinko else 'null' }};
-  if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
-  const seasonSteps = PLINKO.season_steps || [];
-  const remainingGames = PLINKO.remaining_games || [];
-  const teamName = PLINKO.team;
+  {
+  const PLINKO_CHOICES = {{ featured_plinko_choices | tojson if featured_plinko_choices else '[]' }};
+  if (!PLINKO_CHOICES.length) return;
+  const teamNameEl = document.getElementById('plinko-team-name');
+  const teamCountEl = document.getElementById('plinko-team-count');
+  const flightLabelEl = document.getElementById('plinko-flight-label');
+  const logEl = document.getElementById('plinko-log');
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl = document.getElementById('plinko-relg-pct');
+  const howEl = document.getElementById('plinko-how');
+  const replayBtn = document.getElementById('plinko-replay');
+  const nextBtn = document.getElementById('plinko-next-team');
+  const speedSlider = document.getElementById('plinko-speed');
+  let speedMul = speedSlider ? (parseFloat(speedSlider.value) || 0.7) : 0.7;
+  if (speedSlider) {
+    speedSlider.addEventListener('input', () => {
+      speedMul = parseFloat(speedSlider.value) || speedMul;
+    });
+  }
 
-  if (seasonSteps.length) {
+  let frameToken = 0;
+  let currentIndex = Math.floor(Math.random() * PLINKO_CHOICES.length);
+
+  function renderPlinko(PLINKO) {
+    if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
+    const seasonSteps = PLINKO.season_steps || [];
+    const remainingGames = PLINKO.remaining_games || [];
+    const teamName = PLINKO.team;
+    if (!seasonSteps.length) return;
+
+    if (teamNameEl) teamNameEl.textContent = PLINKO.team;
+    if (teamCountEl) teamCountEl.textContent = `${PLINKO.n_teams} teams`;
+    if (flightLabelEl) flightLabelEl.textContent = PLINKO.flight_label;
+
+    const currentFrame = ++frameToken;
     const dpr = window.devicePixelRatio || 1;
     const N = PLINKO.n_teams;
     const G = seasonSteps.length;
@@ -494,33 +523,20 @@
     canvas.style.width = CW + 'px';
     canvas.style.height = CH + 'px';
     const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
     const laneW = CW / LANES;
     const binW = CW / N;
     const binTopY = (G + 1.55) * ROW_H;
 
-    const logEl = document.getElementById('plinko-log');
     if (logEl) logEl.style.height = CH + 'px';
-
-    const promoEl = document.getElementById('plinko-promo-pct');
-    const relgEl = document.getElementById('plinko-relg-pct');
-    const howEl = document.getElementById('plinko-how');
     if (howEl) {
       howEl.textContent =
-        `Each ball replays all ${seasonSteps.length} Irish Village league games. ` +
+        `Each ball replays all ${seasonSteps.length} ${PLINKO.team} league games. ` +
         `The first ${PLINKO.games_played || 0} rows are locked results, ` +
         `and the last ${PLINKO.games_remaining || 0} are simulated. ` +
         `Wins move left, losses move right, and ties stay centered before the drop into the final place bin.`;
-    }
-
-    let speedMul = 0.7;
-    const speedSlider = document.getElementById('plinko-speed');
-    if (speedSlider) {
-      speedMul = parseFloat(speedSlider.value) || speedMul;
-      speedSlider.addEventListener('input', () => {
-        speedMul = parseFloat(speedSlider.value) || speedMul;
-      });
     }
 
     function cloneStats(stats) {
@@ -745,6 +761,7 @@
 
     let lastSpawn = 0;
     function tick(ts) {
+      if (currentFrame !== frameToken) return;
       const spawnMs = 420 / speedMul;
       if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
         spawnBall();
@@ -804,10 +821,8 @@
 
     updateStats();
     requestAnimationFrame(tick);
-
-    const replayBtn = document.getElementById('plinko-replay');
     if (replayBtn) {
-      replayBtn.addEventListener('click', () => {
+      replayBtn.onclick = () => {
         balls = [];
         binCounts = new Array(N).fill(0);
         totalDropped = 0;
@@ -815,11 +830,19 @@
         if (logEl) logEl.innerHTML = '';
         if (howEl) howEl.style.display = 'none';
         updateStats();
-      });
+      };
     }
-
-    return;
   }
+  renderPlinko(PLINKO_CHOICES[currentIndex]);
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (PLINKO_CHOICES.length < 2) return;
+      currentIndex = (currentIndex + 1) % PLINKO_CHOICES.length;
+      renderPlinko(PLINKO_CHOICES[currentIndex]);
+    };
+  }
+  }
+  return;
 
   const dpr   = window.devicePixelRatio || 1;
   const N     = PLINKO.n_teams;

@@ -1388,11 +1388,10 @@ def get_top_teams(rows=None):
     return results[:15]
 
 
-def get_featured_plinko(rows=None):
-    """Homepage plinko teaser for Irish Village Over 55 Division 2 South."""
+def get_featured_plinko_choices(rows=None, limit=6):
+    """Build a small pool of homepage plinko teasers from the current season."""
     if rows is None:
         rows = get_current_season_rows()
-
 
     flight_rows = defaultdict(list)
     for r in rows:
@@ -1488,8 +1487,41 @@ def get_featured_plinko(rows=None):
             }
         return None
 
-    # Fixed featured team — consistent across refreshes
-    return _build("Irish Village", "Over 55", "2", "South")
+    team_candidates = []
+    for (ag, div, geo), rows_for_flight in flight_rows.items():
+        pv = identify_playoff_visitors(rows, ag, div, geo)
+        standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
+        if not standings:
+            continue
+        for row in standings:
+            team_candidates.append((row["team"], ag, div, geo))
+
+    random.shuffle(team_candidates)
+    featured = []
+    seen = set()
+    for team, ag, div, geo in team_candidates:
+        key = (team, ag, div, geo)
+        if key in seen:
+            continue
+        seen.add(key)
+        plinko = _build(team, ag, div, geo)
+        if not plinko:
+            continue
+        if len(plinko.get("season_steps", [])) < 4:
+            continue
+        if plinko.get("games_remaining", 0) < 1:
+            continue
+        featured.append(plinko)
+        if len(featured) >= limit:
+            break
+    return featured
+
+
+def get_featured_plinko(rows=None):
+    choices = get_featured_plinko_choices(rows, limit=6)
+    if not choices:
+        return None
+    return random.choice(choices)
 
 
 # ── AI-generated insight paragraphs ───────────────────────────────────────────
@@ -2370,6 +2402,8 @@ def _render_index(season, home_path, season_nav_prefix):
     is_current = (season == CURRENT_SEASON)
     rows = get_rows_for_season(season)
     key_games_mode, key_games = (get_key_games() if is_current else (None, []))
+    featured_plinko_choices = get_featured_plinko_choices(rows) if is_current else []
+    featured_plinko = random.choice(featured_plinko_choices) if featured_plinko_choices else None
     seasons_for_select = [
         {"name": s, "slug": season_to_slug(s)}
         for s in reversed(all_seasons)
@@ -2389,7 +2423,8 @@ def _render_index(season, home_path, season_nav_prefix):
         calibration_path=home_path + "calibration/",
         model_details_path=home_path + "model-details/",
         top_teams=get_top_teams(rows) if is_current else [],
-        featured_plinko=get_featured_plinko(rows),
+        featured_plinko=featured_plinko,
+        featured_plinko_choices=featured_plinko_choices,
         key_games=key_games,
         key_games_mode=key_games_mode,
     )
