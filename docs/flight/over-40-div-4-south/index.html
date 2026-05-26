@@ -318,6 +318,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -345,182 +346,27 @@
     -->
   </div>
 
-  <!-- Standings -->
   <section class="section">
-    <div class="section-title">
-      <h2>Standings</h2>
-      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px" id="sim-title">Standings And What If</h2>
+        <span class="sim-status" id="sim-status">Starting simulationâ€¦</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
+      </div>
     </div>
-
-    <!-- Matchweek timeline -->
     <div class="mw-selects" id="mw-controls">
       <select id="mw-week" class="mw-sel"></select>
       <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
     </div>
-
-    <div class="panel" style="padding: 0 0 2px">
-      <table class="standings-table">
-        <thead>
-          <tr>
-            <th class="pos">#</th>
-            <th>Team</th>
-            <th class="num">GP</th>
-            <th class="num">W</th>
-            <th class="num">L</th>
-            <th class="num">T</th>
-            <th class="num">Pts</th>
-            <th class="num">GD</th>
-            <th class="num">PPG</th>
-          </tr>
-        </thead>
-        <tbody id="standings-tbody">
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">1</td>
-            <td class="team-name-cell" data-team="Cabo Verde FC" data-slug="cabo-verde-fc-over-40-div-4-south">Cabo Verde FC</td>
-            <td class="num">6</td>
-            <td class="num">6</td>
-            <td class="num">0</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">18</td>
-            <td class="num gd-pos">
-              +13
-            </td>
-            <td class="num">3.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">2</td>
-            <td class="team-name-cell" data-team="FIMA FC" data-slug="fima-fc-over-40-div-4-south">FIMA FC</td>
-            <td class="num">7</td>
-            <td class="num">5</td>
-            <td class="num">2</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">15</td>
-            <td class="num gd-pos">
-              +13
-            </td>
-            <td class="num">2.14</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">3</td>
-            <td class="team-name-cell" data-team="FC Franklin" data-slug="fc-franklin-over-40-div-4-south">FC Franklin</td>
-            <td class="num">7</td>
-            <td class="num">4</td>
-            <td class="num">3</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">12</td>
-            <td class="num gd-pos">
-              +4
-            </td>
-            <td class="num">1.71</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">4</td>
-            <td class="team-name-cell" data-team="Wayland Wahoo" data-slug="wayland-wahoo-over-40-div-4-south">Wayland Wahoo</td>
-            <td class="num">7</td>
-            <td class="num">3</td>
-            <td class="num">4</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">9</td>
-            <td class="num gd-neg">
-              -2
-            </td>
-            <td class="num">1.29</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">5</td>
-            <td class="team-name-cell" data-team="Newport FC O40" data-slug="newport-fc-o40-over-40-div-4-south">Newport FC O40</td>
-            <td class="num">7</td>
-            <td class="num">2</td>
-            <td class="num">3</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">8</td>
-            <td class="num gd-neg">
-              -3
-            </td>
-            <td class="num">1.14</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">6</td>
-            <td class="team-name-cell" data-team="FC Needham United" data-slug="fc-needham-united-over-40-div-4-south">FC Needham United</td>
-            <td class="num">7</td>
-            <td class="num">2</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">7</td>
-            <td class="num gd-neg">
-              -7
-            </td>
-            <td class="num">1.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">7</td>
-            <td class="team-name-cell" data-team="Medway" data-slug="medway-over-40-div-4-south">Medway</td>
-            <td class="num">7</td>
-            <td class="num">2</td>
-            <td class="num">5</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">6</td>
-            <td class="num gd-neg">
-              -9
-            </td>
-            <td class="num">0.86</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">8</td>
-            <td class="team-name-cell" data-team="West Roxbury United" data-slug="west-roxbury-united-over-40-div-4-south">West Roxbury United</td>
-            <td class="num">6</td>
-            <td class="num">1</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">4</td>
-            <td class="num gd-neg">
-              -9
-            </td>
-            <td class="num">0.67</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
+      Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
     </div>
   </section>
 
@@ -530,12 +376,12 @@
   
   <section class="section" id="ai-flight-section">
     <div class="section-title">
-      <h2>Simulation Summary</h2>
+      <h2>Summary</h2>
     </div>
     <div class="summary-stack">
       
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Over 40 Division 4 South race for Spring 2026, Cabo Verde FC leads the standings with 18 points and a commanding 99% chance of promotion, closely followed by FIMA FC at 15 points, which has a 72.2% promotion likelihood. The most crucial upcoming match is West Roxbury United versus Medway on Sunday, May 31, where a Medway victory could significantly shift their promotion chances, currently at 0%, while West Roxbury is facing a tough 72.2% relegation risk. With a potential 57% margin for a Medway win, the stakes are high for both teams as they battle to avoid relegation and secure their futures in the league. Meanwhile, FC Franklin stands at 12 points and must fend off threats from below, as they hold a 26% chance of promotion amidst increasing pressure from teams like Wayland Wahoo.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Over 40 Division 4 South race for Spring 2026, Cabo Verde FC is leading with 21 points and a commanding goal difference of +15, ensuring a 100% chance of promotion. FIMA FC follows with 15 points, while FC Franklin sits in third with 12 points but faces a challenging 25.2% promotion chance. The most crucial upcoming match is between West Roxbury United and Medway on Sunday, May 31, where Medway&#39;s potential win could significantly impact both teams&#39; relegation chances, currently at 57.8% for Medway and 79.0% for West Roxbury United. As the season progresses, the key danger lies with the bottom teams, particularly West Roxbury United, who are at serious risk of relegation if they cannot turn their fortunes around.</p>
       </div>
       
       
@@ -544,56 +390,56 @@
         
         <article class="team-summary-card">
           <h3>Cabo Verde FC</h3>
-          <p>Cabo Verde FC is having an outstanding season in the Over 40 Div 4 South flight, currently sitting at the top of the table with a perfect record of 6 wins from 6 games, accumulating 18 points and a goal difference of +13. They are 12 points clear of the relegation zone, meaning they are almost certain to avoid relegation, with a 99.5% simulation likelihood for promotion. The upcoming match against FIMA FC on June 14 is crucial; with a 45% win probability, it could solidify their promotion status, especially since FIMA is a close competitor with 15 points and could pose a serious challenge to Cabo Verde&#39;s perfect streak.</p>
+          <p>Cabo Verde FC is having an exceptional season in the Over 40 Div 4 South flight, currently sitting at the top of the table with a perfect record of 7 wins from 7 games, totaling 21 points and a goal difference of +15, positioning them strongly for promotion with a significant 15-point buffer above relegation. With only three games remaining, they need to secure just 4 points to guarantee their promotion, while their closest competitor, FIMA FC, sits in second place with 15 points, creating a crucial gap in the standings. The most decisive upcoming match will be against FIMA FC on June 14, 2026; a victory would not only solidify Cabo Verde FC&#39;s dominance but also likely eliminate FIMA&#39;s chances of catching up, especially given the 48% win probability for this matchup.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FIMA FC</h3>
-          <p>FIMA FC is currently enjoying a strong season in the Over 40 Div 4 South flight, sitting in 2nd place with 15 points after 7 games, well within the promotion zone and 9 points clear of relegation. With a goal difference of +13, their performance has been solid, and they have a 76.8% chance of promotion based on simulations, making their upcoming matches critical for securing that spot. The most decisive game on the horizon is the clash against Cabo Verde FC on June 14, where FIMA FC faces a tough challenge with only a 33% win probability; a loss could not only diminish their promotion chances but also affect morale against a team that currently leads the standings with 18 points.</p>
+          <p>FIMA FC is currently riding high in the Over 40 Div 4 South flight, sitting in 2nd place with 15 points after 7 games, boasting an impressive goal difference of +13. With a comfortable 9-point cushion above the relegation zone and a 75% chance of promotion based on simulation data, they are well-positioned for the final stretch of the season. The crucial upcoming match against FC Needham United on May 31, where FIMA has a 54% win probability, will be pivotal; a win would further secure their promotion hopes while potentially pushing Needham closer to relegation.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FC Franklin</h3>
-          <p>FC Franklin is currently in a solid position in the Over 40 Div 4 South flight, sitting third in the standings with 12 points, just 3 points off the promotion spot while maintaining a comfortable 6-point cushion above relegation. The upcoming match against Wayland Wahoo on May 31, 2026, is pivotal; with a 50% win probability, a victory would solidify their position in the promotion race and create a larger gap from the relegation zone. Given that Wayland Wahoo is just below them with 9 points, this match is crucial for FC Franklin to assert dominance and capitalize on their current form to push for promotion.</p>
+          <p>FC Franklin is currently in a solid position in the Over 40 Div 4 South flight, sitting 3rd out of 8 teams with 12 points from 7 games, just 3 points shy of promotion and a comfortable 6 points above relegation. Their positive goal difference of +4 reflects a decent scoring ability, but consistency will be crucial as they navigate the final three weeks of the season. The most decisive upcoming match is against Wayland Wahoo on May 31, 2026, where a win is essential; with a 50% win probability and Wayland sitting at 9 points, this game could significantly impact FC Franklin&#39;s promotion hopes and help solidify their mid-table standing.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Wayland Wahoo</h3>
-          <p>Wayland Wahoo currently sits 4th in the Over 40 Div 4 South flight with 9 points after 7 games, but their form has been shaky, resulting in 3 wins and 4 losses, leaving them 6 points shy of promotion and just 3 points above the relegation zone. The critical match coming up is against Medway on June 14, where they hold a 47% win probability; this game is pivotal not only for cementing their position above relegation but also for any hopes of climbing toward the promotion spots. With only 4 weeks left in the season, securing a win against Medway is essential to either maintain momentum or stave off relegation fears, considering they also face tough opposition in their remaining matches against FC Franklin and West Roxbury United.</p>
+          <p>Wayland Wahoo is currently in 4th place in the Over 40 Div 4 South flight with 9 points, sitting 6 points off the promotion zone and 3 points clear of relegation after 7 games, with a goal difference of -2. With only three matches remaining, the most decisive game will be against Medway on June 14, where the Wahoos have a 47% win probability; a victory is crucial to maintain distance from relegation and potentially close the gap on promotion. Their upcoming matches against FC Franklin and West Roxbury United present challenging odds (28% and 45% win probabilities respectively), making the clash with Medway a must-win to solidify their standing in the league.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Newport FC O40</h3>
-          <p>Newport FC O40 is currently sitting 5th in the Over 40 Div 4 South flight with 8 points, 7 points adrift of promotion and just 2 points clear of relegation after 7 games. They face a critical juncture in their season, needing to bridge a 7-point gap to reach the promotion spots, while also keeping an eye on relegation as they are only 2 points above the drop zone. The key matchup ahead is against FC Needham United on June 14, 2026, where Newport has a 53% win probability; a victory in this game is crucial, as it could not only solidify their position above relegation but also set the tone for their final stretch of matches against tougher opponents like Cabo Verde FC and FIMA FC.</p>
+          <p>Newport FC O40 is currently positioned 5th in the Over 40 Div 4 South flight with 8 points, sitting 7 points off promotion and just 2 points above relegation after 7 games, showcasing a mixed performance with a goal difference of -3. The upcoming match against FC Needham United on June 14, where Newport has a favorable 53% win probability, is crucial; a victory would not only solidify their place above relegation but also help narrow the gap to the promotion spots. With only three matches left, including tough games against Cabo Verde FC and FIMA FC, this clash could be the turning point for Newport&#39;s season, making it imperative they capitalize on this opportunity to gain momentum.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FC Needham United</h3>
-          <p>FC Needham United is currently struggling in the Over 40 Div 4 South flight, sitting 6th out of 8 teams with just 7 points after 7 games, putting them 8 points off promotion and only 1 point above the relegation zone. With only 4 weeks left in the season, they must capitalize on their upcoming matches, particularly the critical game against Newport FC O40 on June 14, 2026, where they have a 25% win probability; a loss could see them slip into the relegation zone, while a win would bolster their chances of safety. Given the current standings and the potential for relegation looming, this match is pivotal, as it not only impacts their immediate points total but also significantly affects team morale and their trajectory for the remainder of the season.</p>
+          <p>FC Needham United is struggling in the Over 40 Div 4 South flight this season, currently sitting 6th out of 8 teams with just 7 points after 7 games, putting them 8 points off promotion and only 1 point above relegation. The upcoming match against Newport FC O40 on June 14, where they have a 25% win probability, is crucial as a loss could see them slip into the relegation zone, given that they are only 1 point ahead of Medway. With only three weeks left in the season and challenging matches against FIMA FC and Cabo Verde FC, FC Needham United must secure points against Newport to maintain their status and avoid a precarious end to the season.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Medway</h3>
-          <p>Medway&#39;s season in the Over 40 Div 4 South flight has been challenging, currently sitting 7th out of 8 teams with just 6 points after 7 games, and a goal difference of -9. They are 9 points off promotion and precariously close to relegation, with a 59.2% chance of dropping down a tier, highlighting the urgency for improvement in their upcoming matches. The key game looming for Medway is their away fixture against West Roxbury United on May 31, 2026, where with only a 33% win probability, a loss could solidify their position on the relegation line, making this clash a critical moment in their season.</p>
+          <p>Medway&#39;s season in the Over 40 Div 4 South flight has taken a troubling turn, currently sitting 7th out of 8 teams with just 6 points from 7 games, 9 points adrift of promotion and perilously close to relegation with a -9 goal differential. The team is facing a 57.5% chance of relegation, and they need to bridge a 3-point gap to safety, currently occupied by Newport FC O40, who have 8 points. The upcoming match against West Roxbury United on May 31, where they have a 36% win probability, is critical; a win would not only boost their points but also deal a significant blow to a direct rival struggling at the bottom of the table.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>West Roxbury United</h3>
-          <p>West Roxbury United is struggling at the bottom of the Over 40 Div 4 South flight, currently sitting in 8th place with just 4 points from 6 games and a goal difference of -9, leaving them 11 points adrift of promotion and firmly in the relegation zone, just 2 points from safety. The upcoming match against Medway on May 31, where they have a 45% win probability, is crucial; a victory could not only bring them level on points with Medway but also provide a much-needed boost in confidence against a direct competitor for survival. With only four weeks left in the season and daunting fixtures against the top teams, this game is a must-win if West Roxbury hopes to avoid relegation.</p>
+          <p>West Roxbury United is struggling in the Over 40 Div 4 South flight, currently sitting at the bottom of the standings with just 4 points from 7 games, which puts them 11 points off the promotion places and 2 points from safety. Their negative goal difference of -11 highlights their difficulties on both ends of the pitch, and the simulation indicates an alarming 80.2% chance of relegation without a turnaround. The upcoming match against Medway on May 31, where they have a 42% win probability, is crucial; a win would not only close the gap to safety, but also provide a much-needed morale boost to salvage their season.</p>
         </article>
         
         
@@ -602,26 +448,6 @@
     </div>
   </section>
   
-
-  <!-- Season Outlook / What If -->
-  <section class="section">
-    <div class="sim-header">
-      <div>
-        <h2 style="margin:0 0 4px" id="sim-title">Season Outlook</h2>
-        <span class="sim-status" id="sim-status">Starting simulation…</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
-        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
-      </div>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
-      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
-    </p>
-    <div class="panel" style="padding:14px 16px">
-      <div id="game-list"></div>
-    </div>
-  </section>
 
   <footer>
     A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
@@ -655,21 +481,21 @@
 
 <script>
 const IS_HISTORICAL    = false;
-const SIM_DATA         = {"current_elos": {"Cabo Verde FC": 1569.4, "FC Franklin": 1523.1, "FC Needham United": 1496.0, "FIMA FC": 1549.1, "Medway": 1454.4, "Newport FC O40": 1546.2, "Wayland Wahoo": 1483.6, "West Roxbury United": 1475.2}, "current_regression": 0.0, "current_stats": {"Cabo Verde FC": {"gd": 13, "gf": 17, "gp": 6, "l": 0, "pts": 18, "t": 0, "w": 6}, "FC Franklin": {"gd": 4, "gf": 18, "gp": 7, "l": 3, "pts": 12, "t": 0, "w": 4}, "FC Needham United": {"gd": -7, "gf": 8, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "FIMA FC": {"gd": 13, "gf": 19, "gp": 7, "l": 2, "pts": 15, "t": 0, "w": 5}, "Medway": {"gd": -9, "gf": 8, "gp": 7, "l": 5, "pts": 6, "t": 0, "w": 2}, "Newport FC O40": {"gd": -3, "gf": 11, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Wayland Wahoo": {"gd": -2, "gf": 14, "gp": 7, "l": 4, "pts": 9, "t": 0, "w": 3}, "West Roxbury United": {"gd": -9, "gf": 5, "gp": 6, "l": 4, "pts": 4, "t": 1, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "West Roxbury United", "away_win_prob": 0.143, "date": "2026-05-17", "draw_prob": 0.22, "home": "Cabo Verde FC", "home_win_prob": 0.637, "id": "2026-05-17|Cabo Verde FC|West Roxbury United", "involves_team": false}, {"away": "Wayland Wahoo", "away_win_prob": 0.278, "date": "2026-05-31", "draw_prob": 0.22, "home": "FC Franklin", "home_win_prob": 0.502, "id": "2026-05-31|FC Franklin|Wayland Wahoo", "involves_team": false}, {"away": "Medway", "away_win_prob": 0.33, "date": "2026-05-31", "draw_prob": 0.22, "home": "West Roxbury United", "home_win_prob": 0.45, "id": "2026-05-31|West Roxbury United|Medway", "involves_team": false}, {"away": "Cabo Verde FC", "away_win_prob": 0.456, "date": "2026-05-31", "draw_prob": 0.22, "home": "Newport FC O40", "home_win_prob": 0.324, "id": "2026-05-31|Newport FC O40|Cabo Verde FC", "involves_team": false}, {"away": "FIMA FC", "away_win_prob": 0.538, "date": "2026-05-31", "draw_prob": 0.22, "home": "FC Needham United", "home_win_prob": 0.242, "id": "2026-05-31|FC Needham United|FIMA FC", "involves_team": false}, {"away": "Wayland Wahoo", "away_win_prob": 0.414, "date": "2026-06-07", "draw_prob": 0.22, "home": "West Roxbury United", "home_win_prob": 0.366, "id": "2026-06-07|West Roxbury United|Wayland Wahoo", "involves_team": false}, {"away": "FC Franklin", "away_win_prob": 0.578, "date": "2026-06-07", "draw_prob": 0.22, "home": "Medway", "home_win_prob": 0.202, "id": "2026-06-07|Medway|FC Franklin", "involves_team": false}, {"away": "FC Needham United", "away_win_prob": 0.19, "date": "2026-06-07", "draw_prob": 0.22, "home": "Cabo Verde FC", "home_win_prob": 0.59, "id": "2026-06-07|Cabo Verde FC|FC Needham United", "involves_team": false}, {"away": "FIMA FC", "away_win_prob": 0.398, "date": "2026-06-07", "draw_prob": 0.22, "home": "Newport FC O40", "home_win_prob": 0.382, "id": "2026-06-07|Newport FC O40|FIMA FC", "involves_team": false}, {"away": "Medway", "away_win_prob": 0.307, "date": "2026-06-14", "draw_prob": 0.22, "home": "Wayland Wahoo", "home_win_prob": 0.473, "id": "2026-06-14|Wayland Wahoo|Medway", "involves_team": false}, {"away": "West Roxbury United", "away_win_prob": 0.256, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Franklin", "home_win_prob": 0.524, "id": "2026-06-14|FC Franklin|West Roxbury United", "involves_team": false}, {"away": "Newport FC O40", "away_win_prob": 0.531, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Needham United", "home_win_prob": 0.249, "id": "2026-06-14|FC Needham United|Newport FC O40", "involves_team": false}, {"away": "Cabo Verde FC", "away_win_prob": 0.448, "date": "2026-06-14", "draw_prob": 0.22, "home": "FIMA FC", "home_win_prob": 0.332, "id": "2026-06-14|FIMA FC|Cabo Verde FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Cabo Verde FC", "FIMA FC", "FC Franklin", "Wayland Wahoo", "Newport FC O40", "FC Needham United", "Medway", "West Roxbury United"], "total_teams": 8};
-const FLIGHT_RESULTS   = [{"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
-const FLIGHT_CARDS     = {"Cabo Verde FC": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "West Roxbury United", "venue": "vs"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland Wahoo", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medway", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Newport FC O40", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FIMA FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Needham United", "result": "W", "score": "3\u20130", "venue": "A"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland Wahoo", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medway", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": "cabo-verde-fc-over-40-div-4-south"}, "FC Franklin": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland Wahoo", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newport FC O40", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Needham United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Cabo Verde FC", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland Wahoo", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "West Roxbury United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Medway", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newport FC O40", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Needham United", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "fc-franklin-over-40-div-4-south"}, "FC Needham United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FIMA FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medway", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FIMA FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Newport FC O40", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "fc-needham-united-over-40-div-4-south"}, "FIMA FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Needham United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medway", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoo", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "West Roxbury United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Needham United", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Cabo Verde FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Newport FC O40", "result": "W", "score": "6\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medway", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoo", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "fima-fc-over-40-div-4-south"}, "Medway": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "West Roxbury United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newport FC O40", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Needham United", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "West Roxbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Franklin", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newport FC O40", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "medway-over-40-div-4-south"}, "Newport FC O40": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Cabo Verde FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medway", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "West Roxbury United", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Cabo Verde FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Needham United", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FIMA FC", "result": "L", "score": "0\u20136", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medway", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "West Roxbury United", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": "newport-fc-o40-over-40-div-4-south"}, "Wayland Wahoo": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Needham United", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Newport FC O40", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medway", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "West Roxbury United", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Needham United", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "wayland-wahoo-over-40-div-4-south"}, "West Roxbury United": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cabo Verde FC", "venue": "@"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Needham United", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newport FC O40", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FIMA FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medway", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Needham United", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newport FC O40", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FIMA FC", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "west-roxbury-united-over-40-div-4-south"}};
+const SIM_DATA         = {"current_elos": {"Cabo Verde FC": 1581.2, "FC Franklin": 1523.1, "FC Needham United": 1496.0, "FIMA FC": 1549.1, "Medway": 1454.4, "Newport FC O40": 1546.2, "Wayland Wahoo": 1483.6, "West Roxbury United": 1463.5}, "current_regression": 0.0, "current_stats": {"Cabo Verde FC": {"gd": 15, "gf": 19, "gp": 7, "l": 0, "pts": 21, "t": 0, "w": 7}, "FC Franklin": {"gd": 4, "gf": 18, "gp": 7, "l": 3, "pts": 12, "t": 0, "w": 4}, "FC Needham United": {"gd": -7, "gf": 8, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "FIMA FC": {"gd": 13, "gf": 19, "gp": 7, "l": 2, "pts": 15, "t": 0, "w": 5}, "Medway": {"gd": -9, "gf": 8, "gp": 7, "l": 5, "pts": 6, "t": 0, "w": 2}, "Newport FC O40": {"gd": -3, "gf": 11, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Wayland Wahoo": {"gd": -2, "gf": 14, "gp": 7, "l": 4, "pts": 9, "t": 0, "w": 3}, "West Roxbury United": {"gd": -11, "gf": 5, "gp": 7, "l": 5, "pts": 4, "t": 1, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Wayland Wahoo", "away_win_prob": 0.278, "date": "2026-05-31", "draw_prob": 0.22, "home": "FC Franklin", "home_win_prob": 0.502, "id": "2026-05-31|FC Franklin|Wayland Wahoo", "involves_team": false}, {"away": "Medway", "away_win_prob": 0.364, "date": "2026-05-31", "draw_prob": 0.22, "home": "West Roxbury United", "home_win_prob": 0.416, "id": "2026-05-31|West Roxbury United|Medway", "involves_team": false}, {"away": "Cabo Verde FC", "away_win_prob": 0.489, "date": "2026-05-31", "draw_prob": 0.22, "home": "Newport FC O40", "home_win_prob": 0.291, "id": "2026-05-31|Newport FC O40|Cabo Verde FC", "involves_team": false}, {"away": "FIMA FC", "away_win_prob": 0.538, "date": "2026-05-31", "draw_prob": 0.22, "home": "FC Needham United", "home_win_prob": 0.242, "id": "2026-05-31|FC Needham United|FIMA FC", "involves_team": false}, {"away": "Wayland Wahoo", "away_win_prob": 0.448, "date": "2026-06-07", "draw_prob": 0.22, "home": "West Roxbury United", "home_win_prob": 0.332, "id": "2026-06-07|West Roxbury United|Wayland Wahoo", "involves_team": false}, {"away": "FC Franklin", "away_win_prob": 0.578, "date": "2026-06-07", "draw_prob": 0.22, "home": "Medway", "home_win_prob": 0.202, "id": "2026-06-07|Medway|FC Franklin", "involves_team": false}, {"away": "FC Needham United", "away_win_prob": 0.163, "date": "2026-06-07", "draw_prob": 0.22, "home": "Cabo Verde FC", "home_win_prob": 0.617, "id": "2026-06-07|Cabo Verde FC|FC Needham United", "involves_team": false}, {"away": "FIMA FC", "away_win_prob": 0.398, "date": "2026-06-07", "draw_prob": 0.22, "home": "Newport FC O40", "home_win_prob": 0.382, "id": "2026-06-07|Newport FC O40|FIMA FC", "involves_team": false}, {"away": "Medway", "away_win_prob": 0.307, "date": "2026-06-14", "draw_prob": 0.22, "home": "Wayland Wahoo", "home_win_prob": 0.473, "id": "2026-06-14|Wayland Wahoo|Medway", "involves_team": false}, {"away": "West Roxbury United", "away_win_prob": 0.225, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Franklin", "home_win_prob": 0.555, "id": "2026-06-14|FC Franklin|West Roxbury United", "involves_team": false}, {"away": "Newport FC O40", "away_win_prob": 0.531, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Needham United", "home_win_prob": 0.249, "id": "2026-06-14|FC Needham United|Newport FC O40", "involves_team": false}, {"away": "Cabo Verde FC", "away_win_prob": 0.481, "date": "2026-06-14", "draw_prob": 0.22, "home": "FIMA FC", "home_win_prob": 0.299, "id": "2026-06-14|FIMA FC|Cabo Verde FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Cabo Verde FC", "FIMA FC", "FC Franklin", "Wayland Wahoo", "Newport FC O40", "FC Needham United", "Medway", "West Roxbury United"], "total_teams": 8};
+const FLIGHT_RESULTS   = [{"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "FC Needham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medway", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoo", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Newport FC O40", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Cabo Verde FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "West Roxbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "FC Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FIMA FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Needham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Wayland Wahoo", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Newport FC O40", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Medway", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "West Roxbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Cabo Verde FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "FIMA FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const FLIGHT_CARDS     = {"Cabo Verde FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Newport FC O40", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland Wahoo", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medway", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Newport FC O40", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FIMA FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Needham United", "result": "W", "score": "3\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland Wahoo", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medway", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "cabo-verde-fc-over-40-div-4-south"}, "FC Franklin": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland Wahoo", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newport FC O40", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Needham United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Cabo Verde FC", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland Wahoo", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "West Roxbury United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Medway", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newport FC O40", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Needham United", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "fc-franklin-over-40-div-4-south"}, "FC Needham United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FIMA FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medway", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FIMA FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Newport FC O40", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "West Roxbury United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "fc-needham-united-over-40-div-4-south"}, "FIMA FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Needham United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medway", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoo", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "West Roxbury United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Needham United", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Cabo Verde FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Newport FC O40", "result": "W", "score": "6\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medway", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoo", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "fima-fc-over-40-div-4-south"}, "Medway": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "West Roxbury United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newport FC O40", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Needham United", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "West Roxbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Franklin", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newport FC O40", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "medway-over-40-div-4-south"}, "Newport FC O40": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Cabo Verde FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medway", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "West Roxbury United", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland Wahoo", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Cabo Verde FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Needham United", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FIMA FC", "result": "L", "score": "0\u20136", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medway", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "West Roxbury United", "result": "D", "score": "1\u20131", "venue": "H"}], "slug": "newport-fc-o40-over-40-div-4-south"}, "Wayland Wahoo": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Needham United", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Newport FC O40", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medway", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "West Roxbury United", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Needham United", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "wayland-wahoo-over-40-div-4-south"}, "West Roxbury United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medway", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Needham United", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newport FC O40", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FIMA FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medway", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wayland Wahoo", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cabo Verde FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Needham United", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newport FC O40", "result": "D", "score": "1\u20131", "venue": "A"}], "slug": "west-roxbury-united-over-40-div-4-south"}};
 const IS_TOP_FLIGHT    = false;
 const IS_BOTTOM_FLIGHT = false;
 const SCHEDULE_INFERRED = false;
 const STANDINGS_MAP = {};
-STANDINGS_MAP["Cabo Verde FC"] = { w:6, l:0, t:0, gp:6 };
+STANDINGS_MAP["Cabo Verde FC"] = { w:7, l:0, t:0, gp:7 };
 STANDINGS_MAP["FIMA FC"] = { w:5, l:2, t:0, gp:7 };
 STANDINGS_MAP["FC Franklin"] = { w:4, l:3, t:0, gp:7 };
 STANDINGS_MAP["Wayland Wahoo"] = { w:3, l:4, t:0, gp:7 };
 STANDINGS_MAP["Newport FC O40"] = { w:2, l:3, t:2, gp:7 };
 STANDINGS_MAP["FC Needham United"] = { w:2, l:4, t:1, gp:7 };
 STANDINGS_MAP["Medway"] = { w:2, l:5, t:0, gp:7 };
-STANDINGS_MAP["West Roxbury United"] = { w:1, l:4, t:1, gp:6 };
+STANDINGS_MAP["West Roxbury United"] = { w:1, l:5, t:1, gp:7 };
 
 const TEAM_SLUGS = {};
 TEAM_SLUGS["Cabo Verde FC"] = "cabo-verde-fc-over-40-div-4-south";
@@ -754,18 +580,28 @@ let   teamStats = {};
 // Base stats and future games derived from viewDate
 function getBaseStats() {
   if (!viewDate) return current_stats;
+  if (viewDate === '__week0__') {
+    const stats = {};
+    for (const t of teams) stats[t] = { pts: 0, gd: 0, gf: 0 };
+    return stats;
+  }
   const stats = {};
   for (const t of teams) stats[t] = { pts:0, gd:0, gf:0 };
   for (const r of FLIGHT_RESULTS) {
     if (r.date > viewDate) continue;
     for (const t of [r.home, r.away]) if (!stats[t]) stats[t]={pts:0,gd:0,gf:0};
     if (r.forfeit) {
-      if (r.home_forfeit) {
-        stats[r.away].pts+=3; stats[r.away].gd++;  stats[r.away].gf+=2;
-        stats[r.home].gd--;  stats[r.home].gf++;
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].pts += 3; stats[r.away].gd += 3; stats[r.away].gf += 3;
+        stats[r.home].gd -= 3;
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
       } else {
-        stats[r.home].pts+=3; stats[r.home].gd++;  stats[r.home].gf+=2;
-        stats[r.away].gd--;  stats[r.away].gf++;
+        stats[r.home].pts += 3; stats[r.home].gd += 3; stats[r.home].gf += 3;
+        stats[r.away].gd -= 3;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
       }
     } else if (r.hg !== null && r.ag !== null) {
       stats[r.home].gf+=r.hg; stats[r.home].gd+=(r.hg-r.ag);
@@ -780,17 +616,83 @@ function getBaseStats() {
 
 function getFutureGames() {
   if (!viewDate) return remaining_games;
+  if (viewDate === '__week0__') return COMBINED_GAMES.slice();
   return COMBINED_GAMES.filter(g => g.date==='TBD' || g.date>viewDate);
+}
+
+function getBaseTableRows() {
+  if (!viewDate) {
+    return teams.map(team => {
+      const s = current_stats[team] || { gp: 0, w: 0, l: 0, t: 0, pts: 0, gd: 0, gf: 0 };
+      return {
+        team,
+        gp: s.gp || 0,
+        w: s.w || 0,
+        l: s.l || 0,
+        d: s.t || 0,
+        pts: s.pts || 0,
+        gd: s.gd || 0,
+        gf: s.gf || 0,
+        ppg: s.gp ? s.pts / s.gp : 0,
+      };
+    }).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  const stats = {};
+  for (const team of teams) stats[team] = { gp: 0, w: 0, l: 0, d: 0, pts: 0, gf: 0, ga: 0 };
+  if (viewDate === '__week0__') {
+    return Object.entries(stats).map(([team, s]) => ({ team, ...s, gd: 0, ppg: 0 }))
+      .sort((a, b) => a.team.localeCompare(b.team));
+  }
+
+  for (const r of FLIGHT_RESULTS) {
+    if (r.date > viewDate) continue;
+    if (r.forfeit) {
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].w++; stats[r.away].gp++; stats[r.away].pts += 3; stats[r.away].gf += 3;
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga += 3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+      } else {
+        stats[r.home].w++; stats[r.home].gp++; stats[r.home].pts += 3; stats[r.home].gf += 3;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga += 3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      }
+      continue;
+    }
+    stats[r.home].gf += r.hg; stats[r.home].ga += r.ag; stats[r.home].gp++;
+    stats[r.away].gf += r.ag; stats[r.away].ga += r.hg; stats[r.away].gp++;
+    if (r.hg > r.ag) {
+      stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++;
+    } else if (r.ag > r.hg) {
+      stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++;
+    } else {
+      stats[r.home].d++; stats[r.home].pts++;
+      stats[r.away].d++; stats[r.away].pts++;
+    }
+  }
+
+  return Object.entries(stats).map(([team, s]) => ({
+    team,
+    gp: s.gp,
+    w: s.w,
+    l: s.l,
+    d: s.d,
+    pts: s.pts,
+    gd: s.gf - s.ga,
+    gf: s.gf,
+    ppg: s.gp ? s.pts / s.gp : 0,
+  })).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
 }
 
 // Set viewDate and pre-fill overrides with actual results for games after that date.
 // This way the sim shows the real outcome by default; user can change to explore what-ifs.
 function setViewDate(date) {
-  viewDate = date;
+  viewDate = date || null;
   Object.keys(overrides).forEach(k=>delete overrides[k]);
-  if (date) {
+  if (viewDate && viewDate !== '__week0__') {
     for (const g of COMBINED_GAMES) {
-      if ((g.date==='TBD'||g.date>date) && HISTORICAL_RESULT[g.id]!==undefined) {
+      if ((g.date==='TBD'||g.date>viewDate) && HISTORICAL_RESULT[g.id]!==undefined) {
         overrides[g.id] = HISTORICAL_RESULT[g.id];
       }
     }
@@ -803,100 +705,73 @@ function setViewDate(date) {
 function updateSimHeader() {
   const title = document.getElementById('sim-title');
   const desc  = document.getElementById('sim-desc');
-  if (viewDate) {
-    if (title) title.textContent = 'What If?';
-    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> — games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
+  if (viewDate === '__week0__') {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>week 0</strong> - before any games were played. Every scheduled game is still open for simulation.`;
+  } else if (viewDate) {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> - games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
   } else {
-    if (title) title.textContent = 'Season Outlook';
-    if (desc)  desc.innerHTML = `Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
   }
 }
 
 // ── Matchweek timeline (single week dropdown) ─────────────────────────────
 (function() {
-  const tbody    = document.getElementById("standings-tbody");
   const mwLabel  = document.getElementById("mw-label");
   const selWeek  = document.getElementById("mw-week");
   const btnReset = document.getElementById("mw-reset");
 
-  const dates = [...new Set(FLIGHT_RESULTS.map(r=>r.date))].sort();
-  if (!dates.length) { document.getElementById('mw-controls').style.display='none'; return; }
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) {
+    document.getElementById('mw-controls').style.display = 'none';
+    return;
+  }
 
-  const multiYear = new Set(dates.map(d=>d.slice(0,4))).size > 1;
+  const currentOpt = document.createElement('option');
+  currentOpt.value = '';
+  currentOpt.textContent = 'Current';
+  selWeek.appendChild(currentOpt);
 
-  const ph = document.createElement('option');
-  ph.value = ''; ph.textContent = 'Full season'; selWeek.appendChild(ph);
+  const weekZeroOpt = document.createElement('option');
+  weekZeroOpt.value = '__week0__';
+  weekZeroOpt.textContent = 'Week 0';
+  selWeek.appendChild(weekZeroOpt);
+
+  const multiYear = new Set(dates.map(d => d.slice(0, 4))).size > 1;
   dates.forEach((d, i) => {
-    const o = document.createElement('option');
-    o.value = d;
-    o.textContent = multiYear ? `Wk ${i+1} · ${d.slice(5)} ${d.slice(0,4)}` : `Wk ${i+1} · ${d.slice(5)}`;
-    selWeek.appendChild(o);
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = multiYear ? `Wk ${i + 1} - ${d.slice(5)} ${d.slice(0, 4)}` : `Wk ${i + 1} - ${d.slice(5)}`;
+    selWeek.appendChild(opt);
   });
-
-  function buildStandingsFromResults(upToDate) {
-    const stats={};
-    for (const r of FLIGHT_RESULTS) {
-      if (r.date>upToDate) continue;
-      for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
-      if (r.forfeit) {
-        if (r.home_forfeit && r.away_forfeit) {
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
-        } else if (r.home_forfeit) {
-          stats[r.away].w++; stats[r.away].pts+=3; stats[r.away].gp++; stats[r.away].gf+=3; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga+=3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-        } else {
-          stats[r.home].w++; stats[r.home].pts+=3; stats[r.home].gp++; stats[r.home].gf+=3; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga+=3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-        }
-      } else {
-        stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
-        stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;
-        if(r.hg>r.ag){stats[r.home].w++;stats[r.home].pts+=3;stats[r.away].l++;}
-        else if(r.ag>r.hg){stats[r.away].w++;stats[r.away].pts+=3;stats[r.home].l++;}
-        else{stats[r.home].t++;stats[r.home].pts++;stats[r.away].t++;stats[r.away].pts++;}
-      }
-    }
-    return Object.entries(stats).map(([team,s])=>({team,...s,gd:s.gf-s.ga,ppg:s.gp?s.pts/s.gp:0}))
-      .sort((a,b)=>b.ppg-a.ppg||b.gd-a.gd||b.gf-a.gf||a.team.localeCompare(b.team));
-  }
-
-  function renderStandingsTable(table) {
-    const n=table.length, relegCut=n>=6?2:n>=4?1:0;
-    tbody.innerHTML=table.map((row,i)=>{
-      const pos=i+1, cls=pos<=2?'promo-row':pos>n-relegCut?'relg-row':'';
-      const gdStr=row.gd>0?`+${row.gd}`:String(row.gd);
-      const gdCls=row.gd>0?'gd-pos':row.gd<0?'gd-neg':'';
-      const slug=TEAM_SLUGS[row.team]||'';
-      return `<tr class="${cls}">
-        <td class="pos num">${pos}</td>
-        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
-        <td class="num">${row.gp}</td><td class="num">${row.w}</td><td class="num">${row.l}</td>
-        <td class="num">${row.t}</td><td class="num" style="font-weight:700">${row.pts}</td>
-        <td class="num ${gdCls}">${gdStr}</td>
-        <td class="num">${row.gp?(row.pts/row.gp).toFixed(2):'—'}</td>
-      </tr>`;
-    }).join('');
-    tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      if (!IS_HISTORICAL) {
-        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-        cell.addEventListener('mouseleave',hidePopup);
-      }
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-    });
-  }
 
   selWeek.addEventListener('change', () => {
     const date = selWeek.value;
-    if (date) {
-      mwLabel.textContent = `as of ${date}`; btnReset.style.display = '';
-      renderStandingsTable(buildStandingsFromResults(date));
-      setViewDate(date);
-    } else {
-      location.reload();
+    if (date === '__week0__') {
+      mwLabel.textContent = 'as of week 0';
+      btnReset.style.display = '';
+      setViewDate('__week0__');
+      return;
     }
+    if (date) {
+      mwLabel.textContent = `as of ${date}`;
+      btnReset.style.display = '';
+      setViewDate(date);
+      return;
+    }
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
   });
-  btnReset.addEventListener('click', () => location.reload());
+
+  btnReset.addEventListener('click', () => {
+    selWeek.value = '';
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
+  });
 })();
 
 document.querySelectorAll(".page-link").forEach(link=>{
@@ -999,109 +874,149 @@ function fmtDate(d) {
 function renderGrid() {
   const el = document.getElementById("game-list");
 
-  // "Past" cells = games in FLIGHT_RESULTS that are on/before viewDate (or all of them if no viewDate)
   const compByDT = {};
   for (const r of FLIGHT_RESULTS) {
-    if (viewDate && r.date > viewDate) continue;
-    if (!compByDT[r.date]) compByDT[r.date]={};
+    if (viewDate && viewDate !== '__week0__' && r.date > viewDate) continue;
+    if (viewDate === '__week0__') continue;
+    if (!compByDT[r.date]) compByDT[r.date] = {};
     let homeRes, awayRes, homeScore, awayScore;
     if (r.forfeit) {
-      homeRes=r.home_forfeit?'L':'W'; awayRes=r.home_forfeit?'W':'L'; homeScore=awayScore='F';
-    } else if (r.hg!==null&&r.ag!==null) {
-      homeRes=r.hg>r.ag?'W':r.hg<r.ag?'L':'D'; awayRes=r.ag>r.hg?'W':r.ag<r.hg?'L':'D';
-      homeScore=`${r.hg}–${r.ag}`; awayScore=`${r.ag}–${r.hg}`;
-    } else continue;
-    compByDT[r.date][r.home]={result:homeRes,opponent:r.away,score:homeScore};
-    compByDT[r.date][r.away]={result:awayRes,opponent:r.home,score:awayScore};
+      homeRes = r.home_forfeit ? 'L' : 'W';
+      awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}-${r.ag}`;
+      awayScore = `${r.ag}-${r.hg}`;
+    } else {
+      continue;
+    }
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
   }
 
-  // "Future" cells = getFutureGames() — includes historical games after viewDate with actual pre-fills
   const futureGames = getFutureGames();
-  const futureDates = [...new Set(futureGames.filter(g=>g.date!=='TBD').map(g=>g.date))].sort();
-  const hasTBD = futureGames.some(g=>g.date==='TBD');
+  const futureDates = [...new Set(futureGames.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD = futureGames.some(g => g.date === 'TBD');
   const compDates = Object.keys(compByDT).sort();
-  const allWeeks = [...new Set([...compDates,...futureDates])].sort();
+  const allWeeks = [...new Set([...compDates, ...futureDates])].sort();
   if (hasTBD) allWeeks.push('TBD');
 
   if (!allWeeks.length) {
-    el.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
     return;
   }
 
-  const byTW={};
-  for (const t of teams) byTW[t]={};
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
   for (const g of futureGames) {
-    if (byTW[g.home]) byTW[g.home][g.date]={...g,role:'home'};
-    if (byTW[g.away]) byTW[g.away][g.date]={...g,role:'away'};
+    if (byTW[g.home]) byTW[g.home][g.date] = { ...g, role: 'home' };
+    if (byTW[g.away]) byTW[g.away][g.date] = { ...g, role: 'away' };
   }
 
-  const promoLabel = IS_TOP_FLIGHT?'Playoff%':'Promo%';
-  const showRel    = !IS_BOTTOM_FLIGHT;
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel = !IS_BOTTOM_FLIGHT;
+  const baseRows = getBaseTableRows();
+  const promoCut = promotion_cut || 0;
+  const relegCut = relegation_cut || 0;
 
-  let html='<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
-  html+='<th class="col-team">ID</th>';
-  for (const w of allWeeks) html+=`<th class="col-week">${fmtDate(w)}</th>`;
-  html+=`<th class="col-stat">${promoLabel}</th>`;
-  if (showRel) html+='<th class="col-stat">Rel%</th>';
-  html+='<th class="col-stat">Pos</th>';
-  html+='</tr></thead><tbody>';
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-stat">#</th>';
+  html += '<th class="col-team">Team</th>';
+  html += '<th class="col-stat">GP</th>';
+  html += '<th class="col-stat">W</th>';
+  html += '<th class="col-stat">L</th>';
+  html += '<th class="col-stat">D</th>';
+  html += '<th class="col-stat">Pts</th>';
+  html += '<th class="col-stat">GD</th>';
+  html += '<th class="col-stat">PPG</th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
 
-  teams.forEach((t,idx)=>{
-    const tid = TEAM_IDS[t] || t.slice(0,4);
-    html+=`<tr data-idx="${idx}">`;
-    html+=`<td class="col-team" title="${t}">${tid}</td>`;
+  baseRows.forEach((row, idx) => {
+    const t = row.team;
+    const slug = TEAM_SLUGS[t] || '';
+    const isPromo = promoCut && idx < promoCut;
+    const isRelg = relegCut && idx >= baseRows.length - relegCut;
+    const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+    html += `<tr class="${isPromo ? 'promo-row' : isRelg ? 'relg-row' : ''}" data-idx="${idx}">`;
+    html += `<td class="col-stat">${idx + 1}</td>`;
+    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${t}</td>`;
+    html += `<td class="col-stat">${row.gp}</td>`;
+    html += `<td class="col-stat">${row.w}</td>`;
+    html += `<td class="col-stat">${row.l}</td>`;
+    html += `<td class="col-stat">${row.d}</td>`;
+    html += `<td class="col-stat" style="font-weight:700">${row.pts}</td>`;
+    html += `<td class="col-stat ${gdCls}">${row.gd > 0 ? '+' + row.gd : row.gd}</td>`;
+    html += `<td class="col-stat">${row.gp ? row.ppg.toFixed(2) : '&mdash;'}</td>`;
 
     for (const w of allWeeks) {
-      const comp=compByDT[w]?.[t];
+      const comp = compByDT[w]?.[t];
       if (comp) {
-        const c=comp.result==='W'?'var(--win)':comp.result==='L'?'var(--loss)':'var(--draw)';
-        const oppId=TEAM_IDS[comp.opponent]||comp.opponent.slice(0,4);
-        html+=`<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${oppId}</div>`;
-        html+=`<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
         continue;
       }
-      const entry=byTW[t][w];
-      if (!entry){html+='<td class="no-game">—</td>';continue;}
-      const isHome=entry.role==='home';
-      const opp=isHome?entry.away:entry.home;
-      const oppId=TEAM_IDS[opp]||opp.slice(0,4);
-      const ov=overrides[entry.id];
-      const teamOv=ov==='home'?(isHome?'W':'L'):ov==='draw'?'D':ov==='away'?(isHome?'L':'W'):null;
-      const winVal=isHome?'home':'away', lossVal=isHome?'away':'home';
-      const selCls=teamOv?` sel-${teamOv}`:'';
-      html+=`<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
-      html+=`<div class="cell-opp" title="${opp}">${oppId}</div>`;
-      html+=`<select class="ov-select${selCls}">`;
-      html+=`<option value="?">?</option>`;
-      html+=`<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
-      html+=`<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
-      html+=`<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
-      html+=`</select></td>`;
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">&mdash;</td>'; continue; }
+      const isHome = entry.role === 'home';
+      const opp = isHome ? entry.away : entry.home;
+      const ov = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L') : ov === 'draw' ? 'D' : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv === 'W' ? ' selected' : ''}>W</option>`;
+      html += `<option value="D"${teamOv === 'D' ? ' selected' : ''}>D</option>`;
+      html += `<option value="L"${teamOv === 'L' ? ' selected' : ''}>L</option>`;
+      html += `</select></td>`;
     }
 
-    const st=teamStats[t]||{};
-    html+=`<td class="col-stat stat-promo">${st.promo!=null?st.promo+'%':'—'}</td>`;
-    if(showRel) html+=`<td class="col-stat stat-rel">${st.relg!=null?st.relg+'%':'—'}</td>`;
-    html+=`<td class="col-stat stat-pos">${st.modal!=null?posLabel(st.modal):'—'}</td>`;
-    html+='</tr>';
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '&mdash;'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '&mdash;'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '&mdash;'}</td>`;
+    html += '</tr>';
   });
 
-  html+='</tbody></table></div>';
-  el.innerHTML=html;
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
 
-  el.querySelectorAll('.game-cell').forEach(cell=>{
-    const gid=cell.dataset.gid,winV=cell.dataset.win,lossV=cell.dataset.loss;
-    cell.querySelector('.ov-select').addEventListener('change',function(){
-      const v=this.value;
-      if(v==='?') delete overrides[gid];
-      else overrides[gid]=v==='W'?winV:v==='L'?lossV:'draw';
-      renderGrid(); startSim();
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid = cell.dataset.gid;
+    const winV = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    cell.querySelector('.ov-select').addEventListener('change', function() {
+      const v = this.value;
+      if (v === '?') delete overrides[gid];
+      else overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      renderGrid();
+      startSim();
+    });
+  });
+
+  el.querySelectorAll('.team-name-cell').forEach(cell => {
+    const team = cell.dataset.team;
+    if (!IS_HISTORICAL) {
+      cell.addEventListener('mouseenter', () => showPopup(cell, team));
+      cell.addEventListener('mouseleave', hidePopup);
+    }
+    cell.addEventListener('click', () => {
+      if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
     });
   });
 }
 
-renderGrid();
-startSim();
+renderGrid(); startSim();
 
 // ── Team popup ────────────────────────────────────────────────────────────
 const popup=document.getElementById("team-popup");
@@ -1112,7 +1027,7 @@ const popGames=document.getElementById("pop-games");
 function showPopup(cell, teamName) {
   const card=FLIGHT_CARDS[teamName]||{}, standing=STANDINGS_MAP[teamName]||{};
   popName.textContent=teamName;
-  popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
+  popRecord.textContent=`${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
   popGames.innerHTML='';
   const played=card.played||[];
   const nextGame=card.next_game||null;

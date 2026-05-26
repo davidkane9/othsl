@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -653,7 +649,7 @@
         <span class="chip">ELO 1480</span>
         
         
-        <span class="chip">Current place: 6</span>
+        <span class="chip">Current place: 7</span>
         
         <span class="chip">Record 2-3-2</span>
       </div>
@@ -732,6 +728,14 @@
               </tr>
               
               <tr>
+                <td class="team-name-cell" data-team="Milton FC">Milton FC</td>
+                <td>7</td>
+                <td>9</td>
+                <td>+1</td>
+                <td>1.29</td>
+              </tr>
+              
+              <tr>
                 <td class="team-name-cell" data-team="Irish Village White">Irish Village White</td>
                 <td>7</td>
                 <td>9</td>
@@ -756,19 +760,11 @@
               </tr>
               
               <tr>
-                <td class="team-name-cell" data-team="Milton FC">Milton FC</td>
-                <td>6</td>
-                <td>6</td>
-                <td>-3</td>
-                <td>1.00</td>
-              </tr>
-              
-              <tr>
                 <td class="team-name-cell" data-team="Canary Square Veterans">Canary Square Veterans</td>
-                <td>6</td>
+                <td>7</td>
                 <td>2</td>
-                <td>-11</td>
-                <td>0.33</td>
+                <td>-15</td>
+                <td>0.29</td>
               </tr>
               
             </tbody>
@@ -783,10 +779,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Hogs FC&#39;s season in the Over 40 Div 5 South flight has been a mixed bag, as they currently sit 6th out of 8 teams with 8 points after 7 games, just 4 points off promotion and 2 points above relegation, with a goal differential of -3. The upcoming match against Milton FC on June 14, 2026, is crucial; with a win probability of 47%, securing three points here could create a significant buffer against relegation while also keeping promotion within reach, as Milton currently has 6 points and is struggling to find form. Hogs FC needs to capitalize on their favorable schedule, especially with a winnable game against the last-placed Canary Square Veterans before facing the tougher challenge of FC Walpole.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Hogs FC&#39;s current form reflects a struggle, sitting 7th out of 8 in the Over 40 Div 5 South flight with just 8 points from 7 games, trailing 4 points behind promotion and precariously close to relegation. They need to bridge a 4-point gap to reach the promotion zone while also keeping a keen eye on relegation, as the team is only 2 points above the relegation line occupied by Canary Square Veterans. The upcoming match against Milton FC on June 14 is critical; with a 42% win probability, a victory not only provides a vital 3 points but also significantly impacts both Hogs FC&#39;s standings and Milton&#39;s bid for safety.</p>
       </div>
     </section>
     
@@ -873,8 +869,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Canary Square Veterans": 1414.1, "FC Franklin II": 1419.8, "FC Walpole": 1527.5, "HTK FC": 1498.3, "Hogs FC": 1480.4, "Irish Village White": 1452.6, "Medfield": 1521.0, "Milton FC": 1454.3}, "current_regression": 0.0, "current_stats": {"Canary Square Veterans": {"gd": -11, "gf": 5, "gp": 6, "l": 4, "pts": 2, "t": 2, "w": 0}, "FC Franklin II": {"gd": -1, "gf": 16, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "FC Walpole": {"gd": 12, "gf": 18, "gp": 7, "l": 0, "pts": 15, "t": 3, "w": 4}, "HTK FC": {"gd": -2, "gf": 12, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "Hogs FC": {"gd": -3, "gf": 8, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Irish Village White": {"gd": -2, "gf": 15, "gp": 7, "l": 2, "pts": 9, "t": 3, "w": 2}, "Medfield": {"gd": 10, "gf": 20, "gp": 7, "l": 1, "pts": 12, "t": 3, "w": 3}, "Milton FC": {"gd": -3, "gf": 11, "gp": 6, "l": 2, "pts": 6, "t": 3, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Canary Square Veterans", "away_win_prob": 0.276, "date": "2026-05-24", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.504, "id": "2026-05-24|Milton FC|Canary Square Veterans", "involves_team": false}, {"away": "FC Walpole", "away_win_prob": 0.589, "date": "2026-05-31", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.191, "id": "2026-05-31|Milton FC|FC Walpole", "involves_team": false}, {"away": "Canary Square Veterans", "away_win_prob": 0.208, "date": "2026-05-31", "draw_prob": 0.22, "home": "Hogs FC", "home_win_prob": 0.572, "id": "2026-05-31|Hogs FC|Canary Square Veterans", "involves_team": true}, {"away": "FC Franklin II", "away_win_prob": 0.178, "date": "2026-05-31", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.602, "id": "2026-05-31|HTK FC|FC Franklin II", "involves_team": false}, {"away": "Irish Village White", "away_win_prob": 0.203, "date": "2026-05-31", "draw_prob": 0.22, "home": "Medfield", "home_win_prob": 0.577, "id": "2026-05-31|Medfield|Irish Village White", "involves_team": false}, {"away": "FC Walpole", "away_win_prob": 0.522, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hogs FC", "home_win_prob": 0.258, "id": "2026-06-07|Hogs FC|FC Walpole", "involves_team": true}, {"away": "Milton FC", "away_win_prob": 0.504, "date": "2026-06-07", "draw_prob": 0.22, "home": "Canary Square Veterans", "home_win_prob": 0.276, "id": "2026-06-07|Canary Square Veterans|Milton FC", "involves_team": false}, {"away": "Medfield", "away_win_prob": 0.652, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Franklin II", "home_win_prob": 0.128, "id": "2026-06-07|FC Franklin II|Medfield", "involves_team": false}, {"away": "Irish Village White", "away_win_prob": 0.261, "date": "2026-06-07", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.519, "id": "2026-06-07|HTK FC|Irish Village White", "involves_team": false}, {"away": "Canary Square Veterans", "away_win_prob": 0.103, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Walpole", "home_win_prob": 0.677, "id": "2026-06-14|FC Walpole|Canary Square Veterans", "involves_team": false}, {"away": "Hogs FC", "away_win_prob": 0.465, "date": "2026-06-14", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.315, "id": "2026-06-14|Milton FC|Hogs FC", "involves_team": true}, {"away": "HTK FC", "away_win_prob": 0.325, "date": "2026-06-14", "draw_prob": 0.22, "home": "Medfield", "home_win_prob": 0.455, "id": "2026-06-14|Medfield|HTK FC", "involves_team": false}, {"away": "FC Franklin II", "away_win_prob": 0.297, "date": "2026-06-14", "draw_prob": 0.22, "home": "Irish Village White", "home_win_prob": 0.483, "id": "2026-06-14|Irish Village White|FC Franklin II", "involves_team": false}], "schedule_inferred": false, "selected_team": "Hogs FC", "teams": ["FC Walpole", "Medfield", "HTK FC", "Irish Village White", "FC Franklin II", "Hogs FC", "Milton FC", "Canary Square Veterans"], "total_teams": 8};
-const FLIGHT_RESULTS  = [{"ag": 2, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 2, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 7, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Milton FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Canary Square Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 6, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Canary Square Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 4, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Milton FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"Canary Square Veterans": 1400.0, "FC Franklin II": 1419.8, "FC Walpole": 1527.5, "HTK FC": 1498.3, "Hogs FC": 1480.4, "Irish Village White": 1452.6, "Medfield": 1521.0, "Milton FC": 1468.5}, "current_regression": 0.0, "current_stats": {"Canary Square Veterans": {"gd": -15, "gf": 5, "gp": 7, "l": 5, "pts": 2, "t": 2, "w": 0}, "FC Franklin II": {"gd": -1, "gf": 16, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "FC Walpole": {"gd": 12, "gf": 18, "gp": 7, "l": 0, "pts": 15, "t": 3, "w": 4}, "HTK FC": {"gd": -2, "gf": 12, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "Hogs FC": {"gd": -3, "gf": 8, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Irish Village White": {"gd": -2, "gf": 15, "gp": 7, "l": 2, "pts": 9, "t": 3, "w": 2}, "Medfield": {"gd": 10, "gf": 20, "gp": 7, "l": 1, "pts": 12, "t": 3, "w": 3}, "Milton FC": {"gd": 1, "gf": 15, "gp": 7, "l": 2, "pts": 9, "t": 3, "w": 2}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "FC Walpole", "away_win_prob": 0.554, "date": "2026-05-31", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.226, "id": "2026-05-31|Milton FC|FC Walpole", "involves_team": false}, {"away": "Canary Square Veterans", "away_win_prob": 0.174, "date": "2026-05-31", "draw_prob": 0.22, "home": "Hogs FC", "home_win_prob": 0.606, "id": "2026-05-31|Hogs FC|Canary Square Veterans", "involves_team": true}, {"away": "FC Franklin II", "away_win_prob": 0.178, "date": "2026-05-31", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.602, "id": "2026-05-31|HTK FC|FC Franklin II", "involves_team": false}, {"away": "Irish Village White", "away_win_prob": 0.203, "date": "2026-05-31", "draw_prob": 0.22, "home": "Medfield", "home_win_prob": 0.577, "id": "2026-05-31|Medfield|Irish Village White", "involves_team": false}, {"away": "FC Walpole", "away_win_prob": 0.522, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hogs FC", "home_win_prob": 0.258, "id": "2026-06-07|Hogs FC|FC Walpole", "involves_team": true}, {"away": "Milton FC", "away_win_prob": 0.578, "date": "2026-06-07", "draw_prob": 0.22, "home": "Canary Square Veterans", "home_win_prob": 0.202, "id": "2026-06-07|Canary Square Veterans|Milton FC", "involves_team": false}, {"away": "Medfield", "away_win_prob": 0.652, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Franklin II", "home_win_prob": 0.128, "id": "2026-06-07|FC Franklin II|Medfield", "involves_team": false}, {"away": "Irish Village White", "away_win_prob": 0.261, "date": "2026-06-07", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.519, "id": "2026-06-07|HTK FC|Irish Village White", "involves_team": false}, {"away": "Canary Square Veterans", "away_win_prob": 0.077, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Walpole", "home_win_prob": 0.703, "id": "2026-06-14|FC Walpole|Canary Square Veterans", "involves_team": false}, {"away": "Hogs FC", "away_win_prob": 0.424, "date": "2026-06-14", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.356, "id": "2026-06-14|Milton FC|Hogs FC", "involves_team": true}, {"away": "HTK FC", "away_win_prob": 0.325, "date": "2026-06-14", "draw_prob": 0.22, "home": "Medfield", "home_win_prob": 0.455, "id": "2026-06-14|Medfield|HTK FC", "involves_team": false}, {"away": "FC Franklin II", "away_win_prob": 0.297, "date": "2026-06-14", "draw_prob": 0.22, "home": "Irish Village White", "home_win_prob": 0.483, "id": "2026-06-14|Irish Village White|FC Franklin II", "involves_team": false}], "schedule_inferred": false, "selected_team": "Hogs FC", "teams": ["FC Walpole", "Medfield", "HTK FC", "Milton FC", "Irish Village White", "FC Franklin II", "Hogs FC", "Canary Square Veterans"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 2, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 2, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 7, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Milton FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Canary Square Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 6, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Medfield", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Canary Square Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Walpole", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Franklin II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 4, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Milton FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Irish Village White", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "FC Walpole", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Canary Square Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "FC Franklin II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Milton FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Irish Village White", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Canary Square Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-24", "forfeit": false, "hg": 4, "home": "Milton FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = false;
@@ -1341,10 +1337,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1406,8 +1405,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1429,29 +1431,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1471,7 +1481,7 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Canary Square Veterans": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Milton FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village White", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin II", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hogs FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Walpole", "result": "T", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village White", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin II", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "canary-square-veterans-over-40-div-5-south"}, "FC Franklin II": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "HTK FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Canary Square Veterans", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Milton FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "HTK FC", "result": "W", "score": "7\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village White", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Medfield", "result": "T", "score": "2\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Canary Square Veterans", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": "fc-franklin-ii-over-40-div-5-south"}, "FC Walpole": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Milton FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin II", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village White", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "HTK FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Canary Square Veterans", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hogs FC", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin II", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village White", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "fc-walpole-over-40-div-5-south"}, "HTK FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin II", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hogs FC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Walpole", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin II", "result": "L", "score": "3\u20137", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village White", "result": "T", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hogs FC", "result": "T", "score": "0\u20130", "venue": "H"}], "slug": "htk-fc-over-40-div-5-south"}, "Hogs FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Canary Square Veterans", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin II", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "HTK FC", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village White", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Milton FC", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin II", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "HTK FC", "result": "T", "score": "0\u20130", "venue": "A"}], "slug": "hogs-fc-over-40-div-5-south"}, "Irish Village White": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Canary Square Veterans", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Walpole", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hogs FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin II", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "HTK FC", "result": "T", "score": "3\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Canary Square Veterans", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Walpole", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": "irish-village-white-over-40-div-5-south"}, "Medfield": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Irish Village White", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Walpole", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton FC", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Canary Square Veterans", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village White", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "HTK FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "FC Franklin II", "result": "T", "score": "2\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Walpole", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton FC", "result": "T", "score": "3\u20133", "venue": "H"}], "slug": "medfield-over-40-div-5-south"}, "Milton FC": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Canary Square Veterans", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village White", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "HTK FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin II", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Walpole", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hogs FC", "result": "T", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village White", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "HTK FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield", "result": "T", "score": "3\u20133", "venue": "A"}], "slug": "milton-fc-over-40-div-5-south"}};
+const FLIGHT_CARDS = {"Canary Square Veterans": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hogs FC", "venue": "@"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Milton FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village White", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin II", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hogs FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Walpole", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Milton FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village White", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": "canary-square-veterans-over-40-div-5-south"}, "FC Franklin II": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "HTK FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Canary Square Veterans", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Milton FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "HTK FC", "result": "W", "score": "7\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village White", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Medfield", "result": "D", "score": "2\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Canary Square Veterans", "result": "D", "score": "2\u20132", "venue": "H"}], "slug": "fc-franklin-ii-over-40-div-5-south"}, "FC Walpole": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Milton FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin II", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village White", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "HTK FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Canary Square Veterans", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hogs FC", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Franklin II", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village White", "result": "D", "score": "2\u20132", "venue": "A"}], "slug": "fc-walpole-over-40-div-5-south"}, "HTK FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin II", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hogs FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Walpole", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin II", "result": "L", "score": "3\u20137", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village White", "result": "D", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hogs FC", "result": "D", "score": "0\u20130", "venue": "H"}], "slug": "htk-fc-over-40-div-5-south"}, "Hogs FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Canary Square Veterans", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin II", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "HTK FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village White", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Canary Square Veterans", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Milton FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Walpole", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin II", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "HTK FC", "result": "D", "score": "0\u20130", "venue": "A"}], "slug": "hogs-fc-over-40-div-5-south"}, "Irish Village White": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Canary Square Veterans", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Walpole", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hogs FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin II", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "HTK FC", "result": "D", "score": "3\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Canary Square Veterans", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Walpole", "result": "D", "score": "2\u20132", "venue": "H"}], "slug": "irish-village-white-over-40-div-5-south"}, "Medfield": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Irish Village White", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Walpole", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Canary Square Veterans", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village White", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "HTK FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "FC Franklin II", "result": "D", "score": "2\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Walpole", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hogs FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton FC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "medfield-over-40-div-5-south"}, "Milton FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Walpole", "venue": "vs"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Canary Square Veterans", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village White", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "HTK FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin II", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Walpole", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hogs FC", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Canary Square Veterans", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village White", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "HTK FC", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": "milton-fc-over-40-div-5-south"}};
 const STANDINGS_MAP = {};
 
 STANDINGS_MAP["FC Walpole"] = { w: 4, l: 0, t: 3, gp: 7 };
@@ -1480,15 +1490,15 @@ STANDINGS_MAP["Medfield"] = { w: 3, l: 1, t: 3, gp: 7 };
 
 STANDINGS_MAP["HTK FC"] = { w: 3, l: 2, t: 2, gp: 7 };
 
+STANDINGS_MAP["Milton FC"] = { w: 2, l: 2, t: 3, gp: 7 };
+
 STANDINGS_MAP["Irish Village White"] = { w: 2, l: 2, t: 3, gp: 7 };
 
 STANDINGS_MAP["FC Franklin II"] = { w: 2, l: 3, t: 2, gp: 7 };
 
 STANDINGS_MAP["Hogs FC"] = { w: 2, l: 3, t: 2, gp: 7 };
 
-STANDINGS_MAP["Milton FC"] = { w: 1, l: 2, t: 3, gp: 6 };
-
-STANDINGS_MAP["Canary Square Veterans"] = { w: 0, l: 4, t: 2, gp: 6 };
+STANDINGS_MAP["Canary Square Veterans"] = { w: 0, l: 5, t: 2, gp: 7 };
 
 
 const popup     = document.getElementById("team-popup");
@@ -1500,7 +1510,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];

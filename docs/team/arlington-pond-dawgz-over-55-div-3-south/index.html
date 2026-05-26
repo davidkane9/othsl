@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -767,10 +763,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">The Arlington Pond Dawgz are currently sitting in 4th place in the Over 55 Div 3 South flight, with 12 points from 6 games, just 1 point shy of the promotion spots and a comfortable 5 points above the relegation zone. Their goal differential is even at 0, indicating a balanced performance thus far, but they will need to capitalize on their remaining matches to secure a better standing, particularly with a 46.0% chance of promotion looming. The most critical upcoming game is against Western Mass Lusitanos on June 7, 2026, as a win (with a 36% probability) could not only leapfrog Arlington into the promotion race but also significantly boost their confidence heading into the final stretch of the season.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">The Arlington Pond Dawgz are currently in 4th place in the Over 55 Div 3 South flight with 12 points after 6 games, just 1 point shy of promotion and 5 points clear of relegation, demonstrating solid form with 4 wins and a goal difference of 0. With four weeks left in the season, their most crucial match looms against the Western Mass Lusitanos on June 7, where a win would not only boost their promotion hopes but significantly challenge Lusitanos, who currently sit 1st with 13 points. Given their 36% win probability in that game, capitalizing on this key fixture could dramatically shift their trajectory, potentially securing a promotion spot and solidifying their competitive standing in the league.</p>
       </div>
     </section>
     
@@ -852,7 +848,7 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Arlington Pond Dawgz": 1453.6, "F.C. Westwood": 1476.4, "FC Franklin Seniors": 1329.8, "Fernandes O55++": 1459.8, "Warthog Legends": 1510.9, "Western Mass Lusitanos": 1464.7}, "current_regression": 0.0, "current_stats": {"Arlington Pond Dawgz": {"gd": 0, "gf": 11, "gp": 6, "l": 2, "pts": 12, "t": 0, "w": 4}, "F.C. Westwood": {"gd": 12, "gf": 22, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "FC Franklin Seniors": {"gd": -23, "gf": 3, "gp": 6, "l": 6, "pts": 0, "t": 0, "w": 0}, "Fernandes O55++": {"gd": -3, "gf": 11, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Warthog Legends": {"gd": 2, "gf": 16, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "Western Mass Lusitanos": {"gd": 12, "gf": 23, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "FC Franklin Seniors", "away_win_prob": 0.05, "date": "2026-05-31", "draw_prob": 0.22, "home": "F.C. Westwood", "home_win_prob": 0.734, "id": "2026-05-31|F.C. Westwood|FC Franklin Seniors", "involves_team": false}, {"away": "Arlington Pond Dawgz", "away_win_prob": 0.231, "date": "2026-05-31", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.549, "id": "2026-05-31|Warthog Legends|Arlington Pond Dawgz", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.376, "date": "2026-05-31", "draw_prob": 0.22, "home": "Western Mass Lusitanos", "home_win_prob": 0.404, "id": "2026-05-31|Western Mass Lusitanos|Fernandes O55++", "involves_team": false}, {"away": "Warthog Legends", "away_win_prob": 0.488, "date": "2026-06-07", "draw_prob": 0.22, "home": "F.C. Westwood", "home_win_prob": 0.292, "id": "2026-06-07|F.C. Westwood|Warthog Legends", "involves_team": false}, {"away": "Western Mass Lusitanos", "away_win_prob": 0.422, "date": "2026-06-07", "draw_prob": 0.22, "home": "Arlington Pond Dawgz", "home_win_prob": 0.358, "id": "2026-06-07|Arlington Pond Dawgz|Western Mass Lusitanos", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.707, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Franklin Seniors", "home_win_prob": 0.073, "id": "2026-06-07|FC Franklin Seniors|Fernandes O55++", "involves_team": false}, {"away": "F.C. Westwood", "away_win_prob": 0.424, "date": "2026-06-14", "draw_prob": 0.22, "home": "Western Mass Lusitanos", "home_win_prob": 0.356, "id": "2026-06-14|Western Mass Lusitanos|F.C. Westwood", "involves_team": false}, {"away": "FC Franklin Seniors", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.779, "id": "2026-06-14|Warthog Legends|FC Franklin Seniors", "involves_team": false}, {"away": "Arlington Pond Dawgz", "away_win_prob": 0.372, "date": "2026-06-14", "draw_prob": 0.22, "home": "Fernandes O55++", "home_win_prob": 0.408, "id": "2026-06-14|Fernandes O55++|Arlington Pond Dawgz", "involves_team": true}, {"away": "FC Franklin Seniors", "away_win_prob": 0.084, "date": "TBD", "draw_prob": 0.22, "home": "Arlington Pond Dawgz", "home_win_prob": 0.696, "id": "TBD|Arlington Pond Dawgz|FC Franklin Seniors", "involves_team": true}], "schedule_inferred": false, "selected_team": "Arlington Pond Dawgz", "teams": ["Arlington Pond Dawgz", "Western Mass Lusitanos", "F.C. Westwood", "Warthog Legends", "Fernandes O55++", "FC Franklin Seniors"], "total_teams": 6};
+const SIM_DATA        = {"current_elos": {"Arlington Pond Dawgz": 1453.6, "F.C. Westwood": 1476.4, "FC Franklin Seniors": 1329.8, "Fernandes O55++": 1459.8, "Warthog Legends": 1510.9, "Western Mass Lusitanos": 1464.7}, "current_regression": 0.0, "current_stats": {"Arlington Pond Dawgz": {"gd": 0, "gf": 11, "gp": 6, "l": 2, "pts": 12, "t": 0, "w": 4}, "F.C. Westwood": {"gd": 12, "gf": 22, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "FC Franklin Seniors": {"gd": -23, "gf": 3, "gp": 6, "l": 6, "pts": 0, "t": 0, "w": 0}, "Fernandes O55++": {"gd": -3, "gf": 11, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Warthog Legends": {"gd": 2, "gf": 16, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "Western Mass Lusitanos": {"gd": 12, "gf": 23, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "FC Franklin Seniors", "away_win_prob": 0.084, "date": "2026-05-27", "draw_prob": 0.22, "home": "Arlington Pond Dawgz", "home_win_prob": 0.696, "id": "2026-05-27|Arlington Pond Dawgz|FC Franklin Seniors", "involves_team": true}, {"away": "FC Franklin Seniors", "away_win_prob": 0.05, "date": "2026-05-31", "draw_prob": 0.22, "home": "F.C. Westwood", "home_win_prob": 0.734, "id": "2026-05-31|F.C. Westwood|FC Franklin Seniors", "involves_team": false}, {"away": "Arlington Pond Dawgz", "away_win_prob": 0.231, "date": "2026-05-31", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.549, "id": "2026-05-31|Warthog Legends|Arlington Pond Dawgz", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.376, "date": "2026-05-31", "draw_prob": 0.22, "home": "Western Mass Lusitanos", "home_win_prob": 0.404, "id": "2026-05-31|Western Mass Lusitanos|Fernandes O55++", "involves_team": false}, {"away": "Warthog Legends", "away_win_prob": 0.488, "date": "2026-06-07", "draw_prob": 0.22, "home": "F.C. Westwood", "home_win_prob": 0.292, "id": "2026-06-07|F.C. Westwood|Warthog Legends", "involves_team": false}, {"away": "Western Mass Lusitanos", "away_win_prob": 0.422, "date": "2026-06-07", "draw_prob": 0.22, "home": "Arlington Pond Dawgz", "home_win_prob": 0.358, "id": "2026-06-07|Arlington Pond Dawgz|Western Mass Lusitanos", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.707, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Franklin Seniors", "home_win_prob": 0.073, "id": "2026-06-07|FC Franklin Seniors|Fernandes O55++", "involves_team": false}, {"away": "F.C. Westwood", "away_win_prob": 0.424, "date": "2026-06-14", "draw_prob": 0.22, "home": "Western Mass Lusitanos", "home_win_prob": 0.356, "id": "2026-06-14|Western Mass Lusitanos|F.C. Westwood", "involves_team": false}, {"away": "FC Franklin Seniors", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.779, "id": "2026-06-14|Warthog Legends|FC Franklin Seniors", "involves_team": false}, {"away": "Arlington Pond Dawgz", "away_win_prob": 0.372, "date": "2026-06-14", "draw_prob": 0.22, "home": "Fernandes O55++", "home_win_prob": 0.408, "id": "2026-06-14|Fernandes O55++|Arlington Pond Dawgz", "involves_team": true}], "schedule_inferred": false, "selected_team": "Arlington Pond Dawgz", "teams": ["Arlington Pond Dawgz", "Western Mass Lusitanos", "F.C. Westwood", "Warthog Legends", "Fernandes O55++", "FC Franklin Seniors"], "total_teams": 6};
 const FLIGHT_RESULTS  = [{"ag": 1, "away": "FC Franklin Seniors", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-03-29", "forfeit": false, "hg": 4, "home": "Fernandes O55++", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "F.C. Westwood", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 2, "home": "Warthog Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Western Mass Lusitanos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Western Mass Lusitanos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 4, "home": "F.C. Westwood", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Warthog Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "FC Franklin Seniors", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Fernandes O55++", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "F.C. Westwood", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "FC Franklin Seniors", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Warthog Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Western Mass Lusitanos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Fernandes O55++", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 8, "home": "F.C. Westwood", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Fernandes O55++", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Warthog Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Franklin Seniors", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 8, "home": "Western Mass Lusitanos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "F.C. Westwood", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Fernandes O55++", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Warthog Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Western Mass Lusitanos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "FC Franklin Seniors", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Fernandes O55++", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "F.C. Westwood", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Western Mass Lusitanos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Warthog Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "F.C. Westwood", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Warthog Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 3, "home": "Fernandes O55++", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Western Mass Lusitanos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "FC Franklin Seniors", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
@@ -1320,10 +1316,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1385,8 +1384,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1408,29 +1410,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1450,7 +1460,7 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Arlington Pond Dawgz": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Warthog Legends", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "F.C. Westwood", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin Seniors", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Warthog Legends", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Fernandes O55++", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Western Mass Lusitanos", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "F.C. Westwood", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin Seniors", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": "arlington-pond-dawgz-over-55-div-3-south"}, "F.C. Westwood": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin Seniors", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes O55++", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin Seniors", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Western Mass Lusitanos", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Warthog Legends", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes O55++", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "f-c-westwood-over-55-div-3-south"}, "FC Franklin Seniors": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "F.C. Westwood", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "F.C. Westwood", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Warthog Legends", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-03-29", "display_date": "Sunday, March 29", "opponent": "Fernandes O55++", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": "fc-franklin-seniors-over-55-div-3-south"}, "Fernandes O55++": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Western Mass Lusitanos", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Warthog Legends", "result": "L", "score": "3\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "F.C. Westwood", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Warthog Legends", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-03-29", "display_date": "Sunday, March 29", "opponent": "FC Franklin Seniors", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Warthog Legends", "result": "L", "score": "3\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "F.C. Westwood", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": "fernandes-o55-over-55-div-3-south"}, "Warthog Legends": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Arlington Pond Dawgz", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes O55++", "result": "W", "score": "4\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitanos", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Fernandes O55++", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin Seniors", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "F.C. Westwood", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes O55++", "result": "W", "score": "4\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitanos", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": "warthog-legends-over-55-div-3-south"}, "Western Mass Lusitanos": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Fernandes O55++", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin Seniors", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Warthog Legends", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Warthog Legends", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin Seniors", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "F.C. Westwood", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin Seniors", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Warthog Legends", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Warthog Legends", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "western-mass-lusitanos-over-55-div-3-south"}};
+const FLIGHT_CARDS = {"Arlington Pond Dawgz": {"next_game": {"date": "2026-05-27", "display_date": "Wednesday, May 27", "opponent": "FC Franklin Seniors", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "F.C. Westwood", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin Seniors", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Warthog Legends", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Fernandes O55++", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Western Mass Lusitanos", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "F.C. Westwood", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Franklin Seniors", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": "arlington-pond-dawgz-over-55-div-3-south"}, "F.C. Westwood": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Franklin Seniors", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes O55++", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Franklin Seniors", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Western Mass Lusitanos", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Warthog Legends", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes O55++", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "f-c-westwood-over-55-div-3-south"}, "FC Franklin Seniors": {"next_game": {"date": "2026-05-27", "display_date": "Wednesday, May 27", "opponent": "Arlington Pond Dawgz", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "F.C. Westwood", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Warthog Legends", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-03-29", "display_date": "Sunday, March 29", "opponent": "Fernandes O55++", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitanos", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": "fc-franklin-seniors-over-55-div-3-south"}, "Fernandes O55++": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Western Mass Lusitanos", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Warthog Legends", "result": "L", "score": "3\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "F.C. Westwood", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Warthog Legends", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-03-29", "display_date": "Sunday, March 29", "opponent": "FC Franklin Seniors", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Warthog Legends", "result": "L", "score": "3\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "F.C. Westwood", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "F.C. Westwood", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": "fernandes-o55-over-55-div-3-south"}, "Warthog Legends": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Arlington Pond Dawgz", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes O55++", "result": "W", "score": "4\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitanos", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Fernandes O55++", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Arlington Pond Dawgz", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Franklin Seniors", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "F.C. Westwood", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes O55++", "result": "W", "score": "4\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitanos", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitanos", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": "warthog-legends-over-55-div-3-south"}, "Western Mass Lusitanos": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Fernandes O55++", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin Seniors", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Warthog Legends", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Warthog Legends", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Franklin Seniors", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Fernandes O55++", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "F.C. Westwood", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Franklin Seniors", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Warthog Legends", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Warthog Legends", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "western-mass-lusitanos-over-55-div-3-south"}};
 const STANDINGS_MAP = {};
 
 STANDINGS_MAP["Arlington Pond Dawgz"] = { w: 4, l: 2, t: 0, gp: 6 };
@@ -1475,7 +1485,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];

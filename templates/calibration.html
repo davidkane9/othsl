@@ -168,6 +168,7 @@
       <li><a href="{{ home_path }}">Home</a></li>
       <li><a href="{{ home_path }}teams/">Find Team</a></li>
       <li><a href="./" class="active">Model Calibration</a></li>
+      <li><a href="{{ home_path }}model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -179,6 +180,10 @@
       How accurate are the ELO-based win probability estimates?
       Each game's pre-match ELO ratings are used to predict the outcome, then compared to what actually happened
       across {{ cal.total | default(0) }} historical games.
+    </p>
+    <p style="margin-top:8px">
+      For the full explanation of goal difference, forfeits, card points, and the season simulator, see
+      <a href="{{ home_path }}model-details/" style="color:var(--field)">Model Details</a>.
     </p>
   </div>
 
@@ -261,38 +266,6 @@
     </div>
   </div>
 
-  <div class="panel">
-    <h2>How It Works</h2>
-    <p class="section-sub" style="margin-bottom:12px">
-      ELO ratings are maintained per (team, age-group) pair. Before each game, each team has a rating; the expected
-      win probability for the home side is:
-    </p>
-    <p style="font-family:monospace;font-size:.9rem;background:rgba(35,68,43,.07);padding:10px 14px;border-radius:8px;margin:0 0 12px">
-      P(home wins) = 1 / (1 + 10<sup>(ELO_away − ELO_home) / 200</sup>)
-    </p>
-    <p style="color:var(--muted);font-size:.88rem;margin:0 0 12px">
-      K-factor is 32. Ratings regress 40% toward 1500 between seasons to account for roster turnover.
-      At the start of each season, win probabilities are additionally pulled {{ regression_max }}% toward 50%
-      (pure coin flip) and this season-start regression fades linearly to 0% once teams have averaged
-      {{ regression_gp_full }} games played — reflecting that early-season ELO ratings are less reliable.
-      The season simulation uses these ratings plus a fixed 22% draw probability to run {{ simulation_runs | default(400) }} Monte Carlo trials per team.
-    </p>
-    <h3 style="margin: 16px 0 8px; font-size: .95rem;">Goal Difference & Simulation</h3>
-    <p style="color:var(--muted);font-size:.88rem;margin:0 0 12px">
-      In the what-if simulation, goal difference does change after every simulated result rather than staying frozen at today&rsquo;s value. Each simulated win adds +1 GD, each simulated loss subtracts 1, and each simulated draw leaves GD unchanged, so tie-breakers keep updating all the way through the Monte Carlo runs instead of using fixed current standings.<!--
-      each loss subtracts −1 GD (1 goal for + 2 against), and ties keep GD unchanged (1-1 score). This means the simulation assumes consistent team attacking and defensive patterns,
-      not the actual historical goal distributions. Goal difference is used only for tie-breaking; points determine placement.
-    --></p>
-    <h3 style="margin: 16px 0 8px; font-size: .95rem;">Forfeits & Card Points</h3>
-    <p style="color:var(--muted);font-size:.88rem;margin:0">
-      <strong>Forfeits:</strong> Completed forfeits are treated as official 3&ndash;0 results in the standings data, with the forfeiting team also losing 2 standings points unless the result is marked <strong>forfeitNP</strong>. <strong>Card Points (CP):</strong> Existing card-point deductions are already baked into the current table, but the what-if model does not try to predict future cards or future forfeits, so every simulated remaining match is treated as a normal win, draw, or loss.<!--
-      <strong>Forfeits:</strong> A forfeit is treated as a 3–0 loss in standings (−2 points for the forfeiting team) and a 3–0 win for the opponent (+3 points).
-      Forfeits marked "ForFeitNP" (Forfeit No Penalties) do not incur the −2 point deduction.
-      In ELO calculations, a forfeit is treated as a standard win or loss.
-      <strong>Card Points (CP):</strong> These are accumulated separately and applied as deductions to standings points when teams exceed card thresholds.
-      Card points do not affect ELO calculations or the what-if simulation — only the final standings are adjusted. The simulation assumes no future cards or forfeits.
-    --></p>
-  </div>
 </main>
 
 <footer>

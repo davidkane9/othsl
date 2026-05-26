@@ -64,6 +64,10 @@ def calibration_page():
     yield {}
 
 @freezer.register_generator
+def model_details_page():
+    yield {}
+
+@freezer.register_generator
 def teams_page():
     yield {}
 

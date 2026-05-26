@@ -318,6 +318,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -345,197 +346,69 @@
     -->
   </div>
 
-  <!-- Standings -->
   <section class="section">
-    <div class="section-title">
-      <h2>Standings</h2>
-      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px" id="sim-title">Standings And What If</h2>
+        <span class="sim-status" id="sim-status">Starting simulationâ€¦</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
+      </div>
     </div>
-
-    <!-- Matchweek timeline -->
     <div class="mw-selects" id="mw-controls">
       <select id="mw-week" class="mw-sel"></select>
       <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
     </div>
-
-    <div class="panel" style="padding: 0 0 2px">
-      <table class="standings-table">
-        <thead>
-          <tr>
-            <th class="pos">#</th>
-            <th>Team</th>
-            <th class="num">GP</th>
-            <th class="num">W</th>
-            <th class="num">L</th>
-            <th class="num">T</th>
-            <th class="num">Pts</th>
-            <th class="num">GD</th>
-            <th class="num">PPG</th>
-          </tr>
-        </thead>
-        <tbody id="standings-tbody">
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">1</td>
-            <td class="team-name-cell" data-team="Granite Coast F.C." data-slug="granite-coast-f-c-over-40-div-4-north">Granite Coast F.C.</td>
-            <td class="num">6</td>
-            <td class="num">5</td>
-            <td class="num">1</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">15</td>
-            <td class="num gd-pos">
-              +10
-            </td>
-            <td class="num">2.50</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">2</td>
-            <td class="team-name-cell" data-team="Hopkinton Hotspur" data-slug="hopkinton-hotspur-over-40-div-4-north">Hopkinton Hotspur</td>
-            <td class="num">7</td>
-            <td class="num">5</td>
-            <td class="num">1</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">16</td>
-            <td class="num gd-pos">
-              +11
-            </td>
-            <td class="num">2.29</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">3</td>
-            <td class="team-name-cell" data-team="Hurricane SC" data-slug="hurricane-sc-over-40-div-4-north">Hurricane SC</td>
-            <td class="num">6</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">13</td>
-            <td class="num gd-pos">
-              +5
-            </td>
-            <td class="num">2.17</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">4</td>
-            <td class="team-name-cell" data-team="Nashoba Masters" data-slug="nashoba-masters-over-40-div-4-north">Nashoba Masters</td>
-            <td class="num">6</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">8</td>
-            <td class="num gd-neg">
-              -5
-            </td>
-            <td class="num">1.33</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">5</td>
-            <td class="team-name-cell" data-team="New England International" data-slug="new-england-international-over-40-div-4-north">New England International</td>
-            <td class="num">7</td>
-            <td class="num">1</td>
-            <td class="num">2</td>
-            <td class="num">4</td>
-            <td class="num" style="font-weight:700">7</td>
-            <td class="num gd-pos">
-              +1
-            </td>
-            <td class="num">1.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">6</td>
-            <td class="team-name-cell" data-team="FC Littleton" data-slug="fc-littleton-over-40-div-4-north">FC Littleton</td>
-            <td class="num">7</td>
-            <td class="num">1</td>
-            <td class="num">4</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">5</td>
-            <td class="num gd-neg">
-              -5
-            </td>
-            <td class="num">0.71</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">7</td>
-            <td class="team-name-cell" data-team="Sudbury United" data-slug="sudbury-united-over-40-div-4-north">Sudbury United</td>
-            <td class="num">6</td>
-            <td class="num">1</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">4</td>
-            <td class="num gd-neg">
-              -6
-            </td>
-            <td class="num">0.67</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">8</td>
-            <td class="team-name-cell" data-team="MVFC" data-slug="mvfc-over-40-div-4-north">MVFC</td>
-            <td class="num">7</td>
-            <td class="num">1</td>
-            <td class="num">5</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">4</td>
-            <td class="num gd-neg">
-              -11
-            </td>
-            <td class="num">0.57</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
+      Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
     </div>
   </section>
 
   <!-- Playoffs -->
   
+  <section class="section">
+    <h2 style="margin:0 0 4px;font-size:1.35rem;letter-spacing:-.03em">Playoffs</h2>
+    <p style="margin:0 0 16px;font-size:.88rem;color:var(--muted)">
+      These cross-geography playoff matches are not counted in the standings above.
+    </p>
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Home</th>
+          <th style="text-align:center">Score</th>
+          <th>Away</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td style="color:var(--muted);font-size:.83rem;white-space:nowrap">2026-04-22</td>
+          <td style="font-weight:600">Granite Coast F.C. forfeit lost by</td>
+          <td style="text-align:center;font-variant-numeric:tabular-nums;font-weight:700">F</td>
+          <td style="font-weight:600">Hurricane SC</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </section>
+  
 
   
   <section class="section" id="ai-flight-section">
     <div class="section-title">
-      <h2>Simulation Summary</h2>
+      <h2>Summary</h2>
     </div>
     <div class="summary-stack">
       
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Spring 2026 Over 40 Division 4 North race, the top match to watch is Hurricane SC facing Granite Coast F.C. on Sunday, June 07, which holds significant implications for both teams as Hurricane SC seeks to improve its 36.8% promotion chances against the strong Granite Coast F.C., currently at 76.0%. With Hopkinton Hotspur leading the standings at 16 points and a promising 85.8% promotion likelihood, every game is crucial, especially for the struggling Nashoba Masters, who sit at 8 points with only a 1.5% chance of promotion and a 7.0% risk of relegation. The most pivotal upcoming game will be between Sudbury United and New England International, as Sudbury faces a daunting 73.5% relegation threat and New England looks to escape its 18.5% relegation chance, making this battle a key point in the fight to avoid dropping out of the division</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Over 40 Division 4 North race for Spring 2026, the top match to watch is the upcoming showdown between Hurricane SC and Granite Coast F.C. on Sunday, June 7, which carries significant implications for both teams. Granite Coast currently sits at 15 points with a strong goal difference, holding a 71.2% chance of promotion, while Hurricane SC trails with 13 points and a 39.0% promotion chance. With Hurricane SC needing a win to remain competitive, the stakes are high, as a victory could significantly boost their promotion hopes. The key danger lies with Sudbury United, who are facing a daunting 90.0% relegation risk and must find a way to turn their fortunes around to avoid dropping to the lower division.</p>
       </div>
       
       
@@ -544,56 +417,56 @@
         
         <article class="team-summary-card">
           <h3>Granite Coast F.C.</h3>
-          <p>Granite Coast F.C. is enjoying a strong season in the Over 40 Div 4 North flight, currently sitting in 2nd place with 15 points from 6 games, demonstrating excellent form with 5 wins and a positive goal difference of +10. With a comfortable 11-point cushion above relegation and a 71.5% chance of promotion based on simulation data, they are well-positioned as they approach the final stretch of the season. The key matchup ahead is against Hurricane SC on June 7, 2026, where a win (with only a 39% probability) would solidify their promotion hopes and further distance themselves from the chasing pack, making this game pivotal for their season trajectory.</p>
+          <p>Granite Coast F.C. is currently in solid form, sitting 3rd in the Over 40 Div 4 North flight with 15 points after 6 games and a strong goal difference of +10, just 1 point shy of promotion. With a comfortable 11-point cushion above relegation, their focus should be on securing points in the upcoming matches, particularly the crucial game against Hurricane SC on June 7, where they face a tough challenge with only a 35% win probability. Winning this match is vital not only for a direct promotion push but also to maintain momentum against a team currently tied with them at 16 points, making it the most decisive contest of the season.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Hopkinton Hotspur</h3>
-          <p>The Hopkinton Hotspur are enjoying a strong season in the Over 40 Div 4 North flight, currently sitting at the top of the standings with 16 points from 7 games, including a solid goal difference of +11. With a comfortable 12-point cushion above the relegation zone and a staggering 89.2% chance of promotion according to simulations, their path looks promising as they push for the top spot. The upcoming match against MVFC on May 31, where they have a 55% win probability, is crucial; securing a victory would not only solidify their promotion hopes but also deal a significant blow to MVFC, who are struggling at the bottom with just 4 points.</p>
+          <p>Hopkinton Hotspur is having an impressive season in the Over 40 Div 4 North flight, currently sitting at the top of the standings with 16 points from 7 games and a solid goal difference of +11. They are 12 points clear of the relegation zone, firmly in promotion contention with a 72.5% chance of moving up. The most decisive upcoming game is against MVFC on May 31, 2026; with a 55% win probability and MVFC struggling at the bottom of the table with just 4 points, a victory here would solidify Hopkinton&#39;s promotion aspirations significantly.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Hurricane SC</h3>
-          <p>Hurricane SC is currently in solid form, sitting 3rd in the Over 40 Div 4 North flight with 13 points from 6 games, just 2 points shy of the promotion spots and a comfortable 9 points clear of relegation. The crucial upcoming match against Granite Coast F.C. on June 7, where they face a 39% win probability, will be pivotal; a win could significantly boost their chances of promotion, while a loss could tighten the race as Granite is currently 2nd with 15 points. With four weeks left and a favorable matchup against Sudbury United (70% win probability) after facing Granite, Hurricane SC has the opportunity to capitalize on their remaining schedule, making every point critical in their bid for promotion.</p>
+          <p>Hurricane SC is having a solid season in the Over 40 Div 4 North flight, currently sitting in 2nd place with 16 points from 7 games and a goal difference of +8, putting them well within the promotion zone. They are 12 points clear of the relegation zone, meaning they are safely out of danger, but the race for promotion is tight, with only a few points separating them from both 1st place Hopkinton Hotspur and 3rd place Granite Coast F.C., who are just 1 point behind. The upcoming match against Granite Coast F.C. on June 7th is crucial; with a 43% win probability, it&#39;s a must-win to maintain their promotion aspirations and fend off any momentum from their closest competitors.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Nashoba Masters</h3>
-          <p>Nashoba Masters currently sit 4th in the Over 40 Div 4 North flight with 8 points after 6 games, but their form is concerning, with just 2 wins, 2 losses, and 2 draws, leaving them 7 points off promotion and 4 points above relegation. With only a 2.2% chance of promotion and a 4.5% risk of relegation, every match is crucial, and the upcoming game against Sudbury United on May 17 is pivotal; a win would provide a significant buffer against relegation while boosting their chances of closing the gap to promotion, especially given the 49% win probability in that matchup. If Nashoba can secure a victory against Sudbury, it would not only improve their standings but also shift momentum in their favor, making subsequent matches against FC Littleton and MVFC vital for their season&#39;s success.</p>
+          <p>Nashoba Masters currently sits 4th in the Over 40 Div 4 North flight with 11 points, five points off promotion and seven points above relegation. Their mixed form, with three wins, two losses, and two draws, leaves them with a goal differential of -1, highlighting the need for more consistent performances as they approach the final three games. The decisive clash ahead is their away match against Hopkinton Hotspur on June 7, where they face a challenging 32% win probability; losing this game could significantly diminish their slim promotion hopes, while a win could reignite their chances in a tight playoff race.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>New England International</h3>
-          <p>New England International is currently in a precarious position in the Over 40 Div 4 North flight, sitting 5th with 7 points after 7 games, which puts them 8 points off promotion and just 3 points clear of relegation. With a goal differential of +1, they need to improve their form—currently 1 win, 2 losses, and 4 draws—if they want to avoid falling into the relegation zone, especially considering their simulation shows a 14.5% chance of relegation. The upcoming match against Sudbury United on June 7, where they hold a 51% win probability, could be the most decisive; a victory would solidify their safety from relegation while also allowing them to capitalize on a struggling opponent with only 4 points this season.</p>
+          <p>New England International is currently sitting 5th in the Over 40 Div 4 North flight with a record of 1W-2L-4T, totaling 7 points and a goal difference of +1. They find themselves 9 points off promotion and just 3 points above the relegation zone, highlighting the urgent need for victories in their remaining three games to secure their position in the league. The upcoming match against Sudbury United on June 7, 2026, is pivotal, as New England holds a 55% win probability; a win here not only solidifies their safety but could provide the momentum needed for their final stretch, while a loss could plunge them closer to relegation.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FC Littleton</h3>
-          <p>FC Littleton is currently struggling in the Over 40 Div 4 North flight, sitting 6th out of 8 teams with just 5 points after 7 games, trailing 10 points behind promotion and only 1 point above relegation. Their current form, with 1 win, 4 losses, and 2 draws, has left them with a goal difference of -5, and simulations indicate a concerning 41.5% chance of relegation if performance doesn’t improve. The upcoming match against MVFC on June 7, 2026, is crucial, as they have a 42% win probability against a team with only 4 points themselves; a victory could create significant distance from the relegation zone and provide much-needed momentum for the final stretch of the season.</p>
+          <p>FC Littleton&#39;s current form in the Over 40 Div 4 North flight is concerning, sitting at 6th place with just 5 points after 7 games, which leaves them 11 points adrift of promotion and only 1 point above relegation. The team faces a critical challenge ahead, particularly with the upcoming match against MVFC, where they hold a 42% win probability; a loss could see them drop into the relegation zone given the proximity of Sudbury United below them. Securing a victory on June 7th is pivotal, as it not only boosts their chances of climbing the table but also provides much-needed momentum to tackle their final matches against tougher opponents like Nashoba Masters and Hopkinton Hotspur.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Sudbury United</h3>
-          <p>Sudbury United is struggling in the Over 40 Div 4 North flight this season, currently sitting 7th out of 8 teams with just 4 points after 6 games, and a goal differential of -6. They are 11 points shy of promotion and precariously close to relegation, with the relegation line looming just above them as they share the same points as MVFC but have a worse goal differential. The most pivotal upcoming match will be against New England International on June 7, 2026; with a mere 27% win probability, a loss could push Sudbury closer to relegation, while a win could provide a much-needed boost in confidence and points as they look to avoid the drop.</p>
+          <p>Sudbury United&#39;s season in the Over 40 Div 4 North flight has been challenging, currently sitting 7th out of 9 teams with just 4 points from 7 games, and a goal differential of -10. They are 12 points adrift of promotion and precariously close to relegation, sitting right on the relegation line, with a 58.2% chance of dropping down a division. The pivotal upcoming match against New England International on June 7, 2026, holds significant weight; with a win probability of only 23%, this game is critical for Sudbury as a loss could further entrench them in relegation trouble, while a win could provide a much-needed boost in confidence and standings.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>MVFC</h3>
-          <p>MVFC is struggling in the Over 40 Div 4 North flight this season, sitting at the bottom of the table with only 4 points from 7 games, and a goal difference of -11. They are currently 11 points off promotion and right at the relegation line, making their upcoming match against FC Littleton on June 7 a critical must-win, especially since Littleton has only 5 points themselves and a 36% win probability. With just four weeks left and matches against tough opponents like Hopkinton Hotspur (23% win) and Nashoba Masters (34% win), this game against FC Littleton represents their best chance to claw back into contention and avoid relegation.</p>
+          <p>MVFC is struggling in the Over 40 Div 4 North flight this season, currently sitting at 8th place with only 4 points from 7 games, putting them 12 points away from promotion and precariously close to relegation, with a -11 goal differential. They face an uphill battle with a 34.8% chance of relegation looming over them; they must secure points in their upcoming matches, particularly against FC Littleton, who they’ll meet on June 7, 2026, where they have a 36% win probability. This match is critical not just for points but also for morale, as a victory would provide a much-needed boost and could potentially help them leapfrog FC Littleton and ease relegation concerns.</p>
         </article>
         
         
@@ -602,26 +475,6 @@
     </div>
   </section>
   
-
-  <!-- Season Outlook / What If -->
-  <section class="section">
-    <div class="sim-header">
-      <div>
-        <h2 style="margin:0 0 4px" id="sim-title">Season Outlook</h2>
-        <span class="sim-status" id="sim-status">Starting simulation…</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
-        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
-      </div>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
-      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
-    </p>
-    <div class="panel" style="padding:14px 16px">
-      <div id="game-list"></div>
-    </div>
-  </section>
 
   <footer>
     A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
@@ -655,9 +508,9 @@
 
 <script>
 const IS_HISTORICAL    = false;
-const SIM_DATA         = {"current_elos": {"FC Littleton": 1450.6, "Granite Coast F.C.": 1545.6, "Hopkinton Hotspur": 1496.6, "Hurricane SC": 1546.3, "MVFC": 1439.8, "Nashoba Masters": 1456.2, "New England International": 1464.6, "Sudbury United": 1422.1}, "current_regression": 0.0, "current_stats": {"FC Littleton": {"gd": -5, "gf": 9, "gp": 7, "l": 4, "pts": 5, "t": 2, "w": 1}, "Granite Coast F.C.": {"gd": 10, "gf": 14, "gp": 6, "l": 1, "pts": 15, "t": 0, "w": 5}, "Hopkinton Hotspur": {"gd": 11, "gf": 17, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}, "Hurricane SC": {"gd": 5, "gf": 12, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}, "MVFC": {"gd": -11, "gf": 10, "gp": 7, "l": 5, "pts": 4, "t": 1, "w": 1}, "Nashoba Masters": {"gd": -5, "gf": 10, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "New England International": {"gd": 1, "gf": 10, "gp": 7, "l": 2, "pts": 7, "t": 4, "w": 1}, "Sudbury United": {"gd": -6, "gf": 10, "gp": 6, "l": 4, "pts": 4, "t": 1, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Nashoba Masters", "away_win_prob": 0.487, "date": "2026-05-17", "draw_prob": 0.22, "home": "Sudbury United", "home_win_prob": 0.293, "id": "2026-05-17|Sudbury United|Nashoba Masters", "involves_team": false}, {"away": "FC Littleton", "away_win_prob": 0.374, "date": "2026-05-31", "draw_prob": 0.22, "home": "Nashoba Masters", "home_win_prob": 0.406, "id": "2026-05-31|Nashoba Masters|FC Littleton", "involves_team": false}, {"away": "Hopkinton Hotspur", "away_win_prob": 0.548, "date": "2026-05-31", "draw_prob": 0.22, "home": "MVFC", "home_win_prob": 0.232, "id": "2026-05-31|MVFC|Hopkinton Hotspur", "involves_team": false}, {"away": "Hurricane SC", "away_win_prob": 0.609, "date": "2026-05-31", "draw_prob": 0.22, "home": "New England International", "home_win_prob": 0.171, "id": "2026-05-31|New England International|Hurricane SC", "involves_team": false}, {"away": "Sudbury United", "away_win_prob": 0.084, "date": "2026-05-31", "draw_prob": 0.22, "home": "Granite Coast F.C.", "home_win_prob": 0.696, "id": "2026-05-31|Granite Coast F.C.|Sudbury United", "involves_team": false}, {"away": "FC Littleton", "away_win_prob": 0.421, "date": "2026-06-07", "draw_prob": 0.22, "home": "MVFC", "home_win_prob": 0.359, "id": "2026-06-07|MVFC|FC Littleton", "involves_team": false}, {"away": "Nashoba Masters", "away_win_prob": 0.276, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hopkinton Hotspur", "home_win_prob": 0.504, "id": "2026-06-07|Hopkinton Hotspur|Nashoba Masters", "involves_team": false}, {"away": "Granite Coast F.C.", "away_win_prob": 0.388, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hurricane SC", "home_win_prob": 0.392, "id": "2026-06-07|Hurricane SC|Granite Coast F.C.", "involves_team": false}, {"away": "Sudbury United", "away_win_prob": 0.27, "date": "2026-06-07", "draw_prob": 0.22, "home": "New England International", "home_win_prob": 0.51, "id": "2026-06-07|New England International|Sudbury United", "involves_team": false}, {"away": "Hopkinton Hotspur", "away_win_prob": 0.519, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Littleton", "home_win_prob": 0.261, "id": "2026-06-14|FC Littleton|Hopkinton Hotspur", "involves_team": false}, {"away": "MVFC", "away_win_prob": 0.343, "date": "2026-06-14", "draw_prob": 0.22, "home": "Nashoba Masters", "home_win_prob": 0.437, "id": "2026-06-14|Nashoba Masters|MVFC", "involves_team": false}, {"away": "New England International", "away_win_prob": 0.172, "date": "2026-06-14", "draw_prob": 0.22, "home": "Granite Coast F.C.", "home_win_prob": 0.608, "id": "2026-06-14|Granite Coast F.C.|New England International", "involves_team": false}, {"away": "Hurricane SC", "away_win_prob": 0.697, "date": "2026-06-14", "draw_prob": 0.22, "home": "Sudbury United", "home_win_prob": 0.083, "id": "2026-06-14|Sudbury United|Hurricane SC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Granite Coast F.C.", "Hopkinton Hotspur", "Hurricane SC", "Nashoba Masters", "New England International", "FC Littleton", "Sudbury United", "MVFC"], "total_teams": 8};
-const FLIGHT_RESULTS   = [{"ag": 0, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 5, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hurricane SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Granite Coast F.C.", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 6, "home": "Granite Coast F.C.", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Hurricane SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
-const FLIGHT_CARDS     = {"FC Littleton": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Nashoba Masters", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricane SC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Sudbury United", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England International", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Nashoba Masters", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hopkinton Hotspur", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "MVFC", "result": "W", "score": "5\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricane SC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Sudbury United", "result": "T", "score": "2\u20132", "venue": "A"}], "slug": "fc-littleton-over-40-div-4-north"}, "Granite Coast F.C.": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Sudbury United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Littleton", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hopkinton Hotspur", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Sudbury United", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "New England International", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Littleton", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20130", "venue": "H"}], "slug": "granite-coast-f-c-over-40-div-4-north"}, "Hopkinton Hotspur": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "MVFC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England International", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Sudbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Granite Coast F.C.", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "MVFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Littleton", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England International", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Sudbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "hopkinton-hotspur-over-40-div-4-north"}, "Hurricane SC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "New England International", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Littleton", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hopkinton Hotspur", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Nashoba Masters", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "New England International", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Sudbury United", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Littleton", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hopkinton Hotspur", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": "hurricane-sc-over-40-div-4-north"}, "MVFC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hopkinton Hotspur", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England International", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Sudbury United", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Nashoba Masters", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Littleton", "result": "L", "score": "0\u20135", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England International", "result": "T", "score": "3\u20133", "venue": "A"}], "slug": "mvfc-over-40-div-4-north"}, "Nashoba Masters": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Sudbury United", "venue": "@"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England International", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hurricane SC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Littleton", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "MVFC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20136", "venue": "H"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England International", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hurricane SC", "result": "W", "score": "4\u20130", "venue": "H"}], "slug": "nashoba-masters-over-40-div-4-north"}, "New England International": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hurricane SC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hopkinton Hotspur", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashoba Masters", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MVFC", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Littleton", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hurricane SC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Sudbury United", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hopkinton Hotspur", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashoba Masters", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MVFC", "result": "T", "score": "3\u20133", "venue": "H"}], "slug": "new-england-international-over-40-div-4-north"}, "Sudbury United": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Nashoba Masters", "venue": "vs"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Littleton", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "MVFC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Granite Coast F.C.", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hurricane SC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "New England International", "result": "W", "score": "2\u20130", "venue": "H"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Littleton", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "MVFC", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": "sudbury-united-over-40-div-4-north"}};
+const SIM_DATA         = {"current_elos": {"FC Littleton": 1451.2, "Granite Coast F.C.": 1545.7, "Hopkinton Hotspur": 1497.2, "Hurricane SC": 1558.7, "MVFC": 1440.3, "Nashoba Masters": 1471.2, "New England International": 1464.7, "Sudbury United": 1407.7}, "current_regression": 0.0, "current_stats": {"FC Littleton": {"gd": -5, "gf": 9, "gp": 7, "l": 4, "pts": 5, "t": 2, "w": 1}, "Granite Coast F.C.": {"gd": 10, "gf": 14, "gp": 6, "l": 1, "pts": 15, "t": 0, "w": 5}, "Hopkinton Hotspur": {"gd": 11, "gf": 17, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}, "Hurricane SC": {"gd": 5, "gf": 12, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}, "MVFC": {"gd": -11, "gf": 10, "gp": 7, "l": 5, "pts": 4, "t": 1, "w": 1}, "Nashoba Masters": {"gd": -1, "gf": 14, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "New England International": {"gd": 1, "gf": 10, "gp": 7, "l": 2, "pts": 7, "t": 4, "w": 1}, "Sudbury United": {"gd": -10, "gf": 10, "gp": 7, "l": 5, "pts": 4, "t": 1, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "FC Littleton", "away_win_prob": 0.333, "date": "2026-05-31", "draw_prob": 0.22, "home": "Nashoba Masters", "home_win_prob": 0.447, "id": "2026-05-31|Nashoba Masters|FC Littleton", "involves_team": false}, {"away": "Hopkinton Hotspur", "away_win_prob": 0.548, "date": "2026-05-31", "draw_prob": 0.22, "home": "MVFC", "home_win_prob": 0.232, "id": "2026-05-31|MVFC|Hopkinton Hotspur", "involves_team": false}, {"away": "Hurricane SC", "away_win_prob": 0.637, "date": "2026-05-31", "draw_prob": 0.22, "home": "New England International", "home_win_prob": 0.143, "id": "2026-05-31|New England International|Hurricane SC", "involves_team": false}, {"away": "Sudbury United", "away_win_prob": 0.06, "date": "2026-05-31", "draw_prob": 0.22, "home": "Granite Coast F.C.", "home_win_prob": 0.72, "id": "2026-05-31|Granite Coast F.C.|Sudbury United", "involves_team": false}, {"away": "FC Littleton", "away_win_prob": 0.421, "date": "2026-06-07", "draw_prob": 0.22, "home": "MVFC", "home_win_prob": 0.359, "id": "2026-06-07|MVFC|FC Littleton", "involves_team": false}, {"away": "Nashoba Masters", "away_win_prob": 0.316, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hopkinton Hotspur", "home_win_prob": 0.464, "id": "2026-06-07|Hopkinton Hotspur|Nashoba Masters", "involves_team": false}, {"away": "Granite Coast F.C.", "away_win_prob": 0.353, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hurricane SC", "home_win_prob": 0.427, "id": "2026-06-07|Hurricane SC|Granite Coast F.C.", "involves_team": false}, {"away": "Sudbury United", "away_win_prob": 0.232, "date": "2026-06-07", "draw_prob": 0.22, "home": "New England International", "home_win_prob": 0.548, "id": "2026-06-07|New England International|Sudbury United", "involves_team": false}, {"away": "Hopkinton Hotspur", "away_win_prob": 0.519, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Littleton", "home_win_prob": 0.261, "id": "2026-06-14|FC Littleton|Hopkinton Hotspur", "involves_team": false}, {"away": "MVFC", "away_win_prob": 0.302, "date": "2026-06-14", "draw_prob": 0.22, "home": "Nashoba Masters", "home_win_prob": 0.478, "id": "2026-06-14|Nashoba Masters|MVFC", "involves_team": false}, {"away": "New England International", "away_win_prob": 0.172, "date": "2026-06-14", "draw_prob": 0.22, "home": "Granite Coast F.C.", "home_win_prob": 0.608, "id": "2026-06-14|Granite Coast F.C.|New England International", "involves_team": false}, {"away": "Hurricane SC", "away_win_prob": 0.73, "date": "2026-06-14", "draw_prob": 0.22, "home": "Sudbury United", "home_win_prob": 0.05, "id": "2026-06-14|Sudbury United|Hurricane SC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Granite Coast F.C.", "Hopkinton Hotspur", "Hurricane SC", "Nashoba Masters", "New England International", "FC Littleton", "Sudbury United", "MVFC"], "total_teams": 8};
+const FLIGHT_RESULTS   = [{"ag": 0, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 5, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hurricane SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Granite Coast F.C.", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 6, "home": "Granite Coast F.C.", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hopkinton Hotspur", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Littleton", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "New England International", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Hurricane SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "MVFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Nashoba Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Sudbury United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Granite Coast F.C.", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "FC Littleton", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "New England International", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Hopkinton Hotspur", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "MVFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Hurricane SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Nashoba Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Sudbury United", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const FLIGHT_CARDS     = {"FC Littleton": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Nashoba Masters", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricane SC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Sudbury United", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England International", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Nashoba Masters", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hopkinton Hotspur", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "MVFC", "result": "W", "score": "5\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricane SC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Sudbury United", "result": "D", "score": "2\u20132", "venue": "A"}], "slug": "fc-littleton-over-40-div-4-north"}, "Granite Coast F.C.": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Sudbury United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Littleton", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hopkinton Hotspur", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Sudbury United", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "New England International", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Littleton", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20130", "venue": "H"}], "slug": "granite-coast-f-c-over-40-div-4-north"}, "Hopkinton Hotspur": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "MVFC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England International", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Sudbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Granite Coast F.C.", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "MVFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Littleton", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Nashoba Masters", "result": "W", "score": "6\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England International", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Sudbury United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "hopkinton-hotspur-over-40-div-4-north"}, "Hurricane SC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "New England International", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Littleton", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hopkinton Hotspur", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Nashoba Masters", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "New England International", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Sudbury United", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MVFC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Littleton", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hopkinton Hotspur", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": "hurricane-sc-over-40-div-4-north"}, "MVFC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hopkinton Hotspur", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England International", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Sudbury United", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Nashoba Masters", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Littleton", "result": "L", "score": "0\u20135", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricane SC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England International", "result": "D", "score": "3\u20133", "venue": "A"}], "slug": "mvfc-over-40-div-4-north"}, "Nashoba Masters": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Littleton", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Sudbury United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England International", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hurricane SC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Littleton", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "MVFC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20136", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Sudbury United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England International", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20136", "venue": "A"}], "slug": "nashoba-masters-over-40-div-4-north"}, "New England International": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hurricane SC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hopkinton Hotspur", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashoba Masters", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MVFC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Littleton", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hurricane SC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Granite Coast F.C.", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Sudbury United", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hopkinton Hotspur", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashoba Masters", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MVFC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "new-england-international-over-40-div-4-north"}, "Sudbury United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Granite Coast F.C.", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Nashoba Masters", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Littleton", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "MVFC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Granite Coast F.C.", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hurricane SC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "New England International", "result": "W", "score": "2\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Nashoba Masters", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Littleton", "result": "D", "score": "2\u20132", "venue": "H"}], "slug": "sudbury-united-over-40-div-4-north"}};
 const IS_TOP_FLIGHT    = false;
 const IS_BOTTOM_FLIGHT = false;
 const SCHEDULE_INFERRED = false;
@@ -665,10 +518,10 @@ const STANDINGS_MAP = {};
 STANDINGS_MAP["Granite Coast F.C."] = { w:5, l:1, t:0, gp:6 };
 STANDINGS_MAP["Hopkinton Hotspur"] = { w:5, l:1, t:1, gp:7 };
 STANDINGS_MAP["Hurricane SC"] = { w:4, l:1, t:1, gp:6 };
-STANDINGS_MAP["Nashoba Masters"] = { w:2, l:2, t:2, gp:6 };
+STANDINGS_MAP["Nashoba Masters"] = { w:3, l:2, t:2, gp:7 };
 STANDINGS_MAP["New England International"] = { w:1, l:2, t:4, gp:7 };
 STANDINGS_MAP["FC Littleton"] = { w:1, l:4, t:2, gp:7 };
-STANDINGS_MAP["Sudbury United"] = { w:1, l:4, t:1, gp:6 };
+STANDINGS_MAP["Sudbury United"] = { w:1, l:5, t:1, gp:7 };
 STANDINGS_MAP["MVFC"] = { w:1, l:5, t:1, gp:7 };
 
 const TEAM_SLUGS = {};
@@ -754,18 +607,28 @@ let   teamStats = {};
 // Base stats and future games derived from viewDate
 function getBaseStats() {
   if (!viewDate) return current_stats;
+  if (viewDate === '__week0__') {
+    const stats = {};
+    for (const t of teams) stats[t] = { pts: 0, gd: 0, gf: 0 };
+    return stats;
+  }
   const stats = {};
   for (const t of teams) stats[t] = { pts:0, gd:0, gf:0 };
   for (const r of FLIGHT_RESULTS) {
     if (r.date > viewDate) continue;
     for (const t of [r.home, r.away]) if (!stats[t]) stats[t]={pts:0,gd:0,gf:0};
     if (r.forfeit) {
-      if (r.home_forfeit) {
-        stats[r.away].pts+=3; stats[r.away].gd++;  stats[r.away].gf+=2;
-        stats[r.home].gd--;  stats[r.home].gf++;
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].pts += 3; stats[r.away].gd += 3; stats[r.away].gf += 3;
+        stats[r.home].gd -= 3;
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
       } else {
-        stats[r.home].pts+=3; stats[r.home].gd++;  stats[r.home].gf+=2;
-        stats[r.away].gd--;  stats[r.away].gf++;
+        stats[r.home].pts += 3; stats[r.home].gd += 3; stats[r.home].gf += 3;
+        stats[r.away].gd -= 3;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
       }
     } else if (r.hg !== null && r.ag !== null) {
       stats[r.home].gf+=r.hg; stats[r.home].gd+=(r.hg-r.ag);
@@ -780,17 +643,83 @@ function getBaseStats() {
 
 function getFutureGames() {
   if (!viewDate) return remaining_games;
+  if (viewDate === '__week0__') return COMBINED_GAMES.slice();
   return COMBINED_GAMES.filter(g => g.date==='TBD' || g.date>viewDate);
+}
+
+function getBaseTableRows() {
+  if (!viewDate) {
+    return teams.map(team => {
+      const s = current_stats[team] || { gp: 0, w: 0, l: 0, t: 0, pts: 0, gd: 0, gf: 0 };
+      return {
+        team,
+        gp: s.gp || 0,
+        w: s.w || 0,
+        l: s.l || 0,
+        d: s.t || 0,
+        pts: s.pts || 0,
+        gd: s.gd || 0,
+        gf: s.gf || 0,
+        ppg: s.gp ? s.pts / s.gp : 0,
+      };
+    }).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  const stats = {};
+  for (const team of teams) stats[team] = { gp: 0, w: 0, l: 0, d: 0, pts: 0, gf: 0, ga: 0 };
+  if (viewDate === '__week0__') {
+    return Object.entries(stats).map(([team, s]) => ({ team, ...s, gd: 0, ppg: 0 }))
+      .sort((a, b) => a.team.localeCompare(b.team));
+  }
+
+  for (const r of FLIGHT_RESULTS) {
+    if (r.date > viewDate) continue;
+    if (r.forfeit) {
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].w++; stats[r.away].gp++; stats[r.away].pts += 3; stats[r.away].gf += 3;
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga += 3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+      } else {
+        stats[r.home].w++; stats[r.home].gp++; stats[r.home].pts += 3; stats[r.home].gf += 3;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga += 3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      }
+      continue;
+    }
+    stats[r.home].gf += r.hg; stats[r.home].ga += r.ag; stats[r.home].gp++;
+    stats[r.away].gf += r.ag; stats[r.away].ga += r.hg; stats[r.away].gp++;
+    if (r.hg > r.ag) {
+      stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++;
+    } else if (r.ag > r.hg) {
+      stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++;
+    } else {
+      stats[r.home].d++; stats[r.home].pts++;
+      stats[r.away].d++; stats[r.away].pts++;
+    }
+  }
+
+  return Object.entries(stats).map(([team, s]) => ({
+    team,
+    gp: s.gp,
+    w: s.w,
+    l: s.l,
+    d: s.d,
+    pts: s.pts,
+    gd: s.gf - s.ga,
+    gf: s.gf,
+    ppg: s.gp ? s.pts / s.gp : 0,
+  })).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
 }
 
 // Set viewDate and pre-fill overrides with actual results for games after that date.
 // This way the sim shows the real outcome by default; user can change to explore what-ifs.
 function setViewDate(date) {
-  viewDate = date;
+  viewDate = date || null;
   Object.keys(overrides).forEach(k=>delete overrides[k]);
-  if (date) {
+  if (viewDate && viewDate !== '__week0__') {
     for (const g of COMBINED_GAMES) {
-      if ((g.date==='TBD'||g.date>date) && HISTORICAL_RESULT[g.id]!==undefined) {
+      if ((g.date==='TBD'||g.date>viewDate) && HISTORICAL_RESULT[g.id]!==undefined) {
         overrides[g.id] = HISTORICAL_RESULT[g.id];
       }
     }
@@ -803,100 +732,73 @@ function setViewDate(date) {
 function updateSimHeader() {
   const title = document.getElementById('sim-title');
   const desc  = document.getElementById('sim-desc');
-  if (viewDate) {
-    if (title) title.textContent = 'What If?';
-    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> — games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
+  if (viewDate === '__week0__') {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>week 0</strong> - before any games were played. Every scheduled game is still open for simulation.`;
+  } else if (viewDate) {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> - games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
   } else {
-    if (title) title.textContent = 'Season Outlook';
-    if (desc)  desc.innerHTML = `Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
   }
 }
 
 // ── Matchweek timeline (single week dropdown) ─────────────────────────────
 (function() {
-  const tbody    = document.getElementById("standings-tbody");
   const mwLabel  = document.getElementById("mw-label");
   const selWeek  = document.getElementById("mw-week");
   const btnReset = document.getElementById("mw-reset");
 
-  const dates = [...new Set(FLIGHT_RESULTS.map(r=>r.date))].sort();
-  if (!dates.length) { document.getElementById('mw-controls').style.display='none'; return; }
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) {
+    document.getElementById('mw-controls').style.display = 'none';
+    return;
+  }
 
-  const multiYear = new Set(dates.map(d=>d.slice(0,4))).size > 1;
+  const currentOpt = document.createElement('option');
+  currentOpt.value = '';
+  currentOpt.textContent = 'Current';
+  selWeek.appendChild(currentOpt);
 
-  const ph = document.createElement('option');
-  ph.value = ''; ph.textContent = 'Full season'; selWeek.appendChild(ph);
+  const weekZeroOpt = document.createElement('option');
+  weekZeroOpt.value = '__week0__';
+  weekZeroOpt.textContent = 'Week 0';
+  selWeek.appendChild(weekZeroOpt);
+
+  const multiYear = new Set(dates.map(d => d.slice(0, 4))).size > 1;
   dates.forEach((d, i) => {
-    const o = document.createElement('option');
-    o.value = d;
-    o.textContent = multiYear ? `Wk ${i+1} · ${d.slice(5)} ${d.slice(0,4)}` : `Wk ${i+1} · ${d.slice(5)}`;
-    selWeek.appendChild(o);
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = multiYear ? `Wk ${i + 1} - ${d.slice(5)} ${d.slice(0, 4)}` : `Wk ${i + 1} - ${d.slice(5)}`;
+    selWeek.appendChild(opt);
   });
-
-  function buildStandingsFromResults(upToDate) {
-    const stats={};
-    for (const r of FLIGHT_RESULTS) {
-      if (r.date>upToDate) continue;
-      for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
-      if (r.forfeit) {
-        if (r.home_forfeit && r.away_forfeit) {
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
-        } else if (r.home_forfeit) {
-          stats[r.away].w++; stats[r.away].pts+=3; stats[r.away].gp++; stats[r.away].gf+=3; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga+=3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-        } else {
-          stats[r.home].w++; stats[r.home].pts+=3; stats[r.home].gp++; stats[r.home].gf+=3; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga+=3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-        }
-      } else {
-        stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
-        stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;
-        if(r.hg>r.ag){stats[r.home].w++;stats[r.home].pts+=3;stats[r.away].l++;}
-        else if(r.ag>r.hg){stats[r.away].w++;stats[r.away].pts+=3;stats[r.home].l++;}
-        else{stats[r.home].t++;stats[r.home].pts++;stats[r.away].t++;stats[r.away].pts++;}
-      }
-    }
-    return Object.entries(stats).map(([team,s])=>({team,...s,gd:s.gf-s.ga,ppg:s.gp?s.pts/s.gp:0}))
-      .sort((a,b)=>b.ppg-a.ppg||b.gd-a.gd||b.gf-a.gf||a.team.localeCompare(b.team));
-  }
-
-  function renderStandingsTable(table) {
-    const n=table.length, relegCut=n>=6?2:n>=4?1:0;
-    tbody.innerHTML=table.map((row,i)=>{
-      const pos=i+1, cls=pos<=2?'promo-row':pos>n-relegCut?'relg-row':'';
-      const gdStr=row.gd>0?`+${row.gd}`:String(row.gd);
-      const gdCls=row.gd>0?'gd-pos':row.gd<0?'gd-neg':'';
-      const slug=TEAM_SLUGS[row.team]||'';
-      return `<tr class="${cls}">
-        <td class="pos num">${pos}</td>
-        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
-        <td class="num">${row.gp}</td><td class="num">${row.w}</td><td class="num">${row.l}</td>
-        <td class="num">${row.t}</td><td class="num" style="font-weight:700">${row.pts}</td>
-        <td class="num ${gdCls}">${gdStr}</td>
-        <td class="num">${row.gp?(row.pts/row.gp).toFixed(2):'—'}</td>
-      </tr>`;
-    }).join('');
-    tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      if (!IS_HISTORICAL) {
-        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-        cell.addEventListener('mouseleave',hidePopup);
-      }
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-    });
-  }
 
   selWeek.addEventListener('change', () => {
     const date = selWeek.value;
-    if (date) {
-      mwLabel.textContent = `as of ${date}`; btnReset.style.display = '';
-      renderStandingsTable(buildStandingsFromResults(date));
-      setViewDate(date);
-    } else {
-      location.reload();
+    if (date === '__week0__') {
+      mwLabel.textContent = 'as of week 0';
+      btnReset.style.display = '';
+      setViewDate('__week0__');
+      return;
     }
+    if (date) {
+      mwLabel.textContent = `as of ${date}`;
+      btnReset.style.display = '';
+      setViewDate(date);
+      return;
+    }
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
   });
-  btnReset.addEventListener('click', () => location.reload());
+
+  btnReset.addEventListener('click', () => {
+    selWeek.value = '';
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
+  });
 })();
 
 document.querySelectorAll(".page-link").forEach(link=>{
@@ -999,109 +901,149 @@ function fmtDate(d) {
 function renderGrid() {
   const el = document.getElementById("game-list");
 
-  // "Past" cells = games in FLIGHT_RESULTS that are on/before viewDate (or all of them if no viewDate)
   const compByDT = {};
   for (const r of FLIGHT_RESULTS) {
-    if (viewDate && r.date > viewDate) continue;
-    if (!compByDT[r.date]) compByDT[r.date]={};
+    if (viewDate && viewDate !== '__week0__' && r.date > viewDate) continue;
+    if (viewDate === '__week0__') continue;
+    if (!compByDT[r.date]) compByDT[r.date] = {};
     let homeRes, awayRes, homeScore, awayScore;
     if (r.forfeit) {
-      homeRes=r.home_forfeit?'L':'W'; awayRes=r.home_forfeit?'W':'L'; homeScore=awayScore='F';
-    } else if (r.hg!==null&&r.ag!==null) {
-      homeRes=r.hg>r.ag?'W':r.hg<r.ag?'L':'D'; awayRes=r.ag>r.hg?'W':r.ag<r.hg?'L':'D';
-      homeScore=`${r.hg}–${r.ag}`; awayScore=`${r.ag}–${r.hg}`;
-    } else continue;
-    compByDT[r.date][r.home]={result:homeRes,opponent:r.away,score:homeScore};
-    compByDT[r.date][r.away]={result:awayRes,opponent:r.home,score:awayScore};
+      homeRes = r.home_forfeit ? 'L' : 'W';
+      awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}-${r.ag}`;
+      awayScore = `${r.ag}-${r.hg}`;
+    } else {
+      continue;
+    }
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
   }
 
-  // "Future" cells = getFutureGames() — includes historical games after viewDate with actual pre-fills
   const futureGames = getFutureGames();
-  const futureDates = [...new Set(futureGames.filter(g=>g.date!=='TBD').map(g=>g.date))].sort();
-  const hasTBD = futureGames.some(g=>g.date==='TBD');
+  const futureDates = [...new Set(futureGames.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD = futureGames.some(g => g.date === 'TBD');
   const compDates = Object.keys(compByDT).sort();
-  const allWeeks = [...new Set([...compDates,...futureDates])].sort();
+  const allWeeks = [...new Set([...compDates, ...futureDates])].sort();
   if (hasTBD) allWeeks.push('TBD');
 
   if (!allWeeks.length) {
-    el.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
     return;
   }
 
-  const byTW={};
-  for (const t of teams) byTW[t]={};
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
   for (const g of futureGames) {
-    if (byTW[g.home]) byTW[g.home][g.date]={...g,role:'home'};
-    if (byTW[g.away]) byTW[g.away][g.date]={...g,role:'away'};
+    if (byTW[g.home]) byTW[g.home][g.date] = { ...g, role: 'home' };
+    if (byTW[g.away]) byTW[g.away][g.date] = { ...g, role: 'away' };
   }
 
-  const promoLabel = IS_TOP_FLIGHT?'Playoff%':'Promo%';
-  const showRel    = !IS_BOTTOM_FLIGHT;
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel = !IS_BOTTOM_FLIGHT;
+  const baseRows = getBaseTableRows();
+  const promoCut = promotion_cut || 0;
+  const relegCut = relegation_cut || 0;
 
-  let html='<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
-  html+='<th class="col-team">ID</th>';
-  for (const w of allWeeks) html+=`<th class="col-week">${fmtDate(w)}</th>`;
-  html+=`<th class="col-stat">${promoLabel}</th>`;
-  if (showRel) html+='<th class="col-stat">Rel%</th>';
-  html+='<th class="col-stat">Pos</th>';
-  html+='</tr></thead><tbody>';
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-stat">#</th>';
+  html += '<th class="col-team">Team</th>';
+  html += '<th class="col-stat">GP</th>';
+  html += '<th class="col-stat">W</th>';
+  html += '<th class="col-stat">L</th>';
+  html += '<th class="col-stat">D</th>';
+  html += '<th class="col-stat">Pts</th>';
+  html += '<th class="col-stat">GD</th>';
+  html += '<th class="col-stat">PPG</th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
 
-  teams.forEach((t,idx)=>{
-    const tid = TEAM_IDS[t] || t.slice(0,4);
-    html+=`<tr data-idx="${idx}">`;
-    html+=`<td class="col-team" title="${t}">${tid}</td>`;
+  baseRows.forEach((row, idx) => {
+    const t = row.team;
+    const slug = TEAM_SLUGS[t] || '';
+    const isPromo = promoCut && idx < promoCut;
+    const isRelg = relegCut && idx >= baseRows.length - relegCut;
+    const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+    html += `<tr class="${isPromo ? 'promo-row' : isRelg ? 'relg-row' : ''}" data-idx="${idx}">`;
+    html += `<td class="col-stat">${idx + 1}</td>`;
+    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${t}</td>`;
+    html += `<td class="col-stat">${row.gp}</td>`;
+    html += `<td class="col-stat">${row.w}</td>`;
+    html += `<td class="col-stat">${row.l}</td>`;
+    html += `<td class="col-stat">${row.d}</td>`;
+    html += `<td class="col-stat" style="font-weight:700">${row.pts}</td>`;
+    html += `<td class="col-stat ${gdCls}">${row.gd > 0 ? '+' + row.gd : row.gd}</td>`;
+    html += `<td class="col-stat">${row.gp ? row.ppg.toFixed(2) : '&mdash;'}</td>`;
 
     for (const w of allWeeks) {
-      const comp=compByDT[w]?.[t];
+      const comp = compByDT[w]?.[t];
       if (comp) {
-        const c=comp.result==='W'?'var(--win)':comp.result==='L'?'var(--loss)':'var(--draw)';
-        const oppId=TEAM_IDS[comp.opponent]||comp.opponent.slice(0,4);
-        html+=`<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${oppId}</div>`;
-        html+=`<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
         continue;
       }
-      const entry=byTW[t][w];
-      if (!entry){html+='<td class="no-game">—</td>';continue;}
-      const isHome=entry.role==='home';
-      const opp=isHome?entry.away:entry.home;
-      const oppId=TEAM_IDS[opp]||opp.slice(0,4);
-      const ov=overrides[entry.id];
-      const teamOv=ov==='home'?(isHome?'W':'L'):ov==='draw'?'D':ov==='away'?(isHome?'L':'W'):null;
-      const winVal=isHome?'home':'away', lossVal=isHome?'away':'home';
-      const selCls=teamOv?` sel-${teamOv}`:'';
-      html+=`<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
-      html+=`<div class="cell-opp" title="${opp}">${oppId}</div>`;
-      html+=`<select class="ov-select${selCls}">`;
-      html+=`<option value="?">?</option>`;
-      html+=`<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
-      html+=`<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
-      html+=`<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
-      html+=`</select></td>`;
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">&mdash;</td>'; continue; }
+      const isHome = entry.role === 'home';
+      const opp = isHome ? entry.away : entry.home;
+      const ov = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L') : ov === 'draw' ? 'D' : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv === 'W' ? ' selected' : ''}>W</option>`;
+      html += `<option value="D"${teamOv === 'D' ? ' selected' : ''}>D</option>`;
+      html += `<option value="L"${teamOv === 'L' ? ' selected' : ''}>L</option>`;
+      html += `</select></td>`;
     }
 
-    const st=teamStats[t]||{};
-    html+=`<td class="col-stat stat-promo">${st.promo!=null?st.promo+'%':'—'}</td>`;
-    if(showRel) html+=`<td class="col-stat stat-rel">${st.relg!=null?st.relg+'%':'—'}</td>`;
-    html+=`<td class="col-stat stat-pos">${st.modal!=null?posLabel(st.modal):'—'}</td>`;
-    html+='</tr>';
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '&mdash;'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '&mdash;'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '&mdash;'}</td>`;
+    html += '</tr>';
   });
 
-  html+='</tbody></table></div>';
-  el.innerHTML=html;
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
 
-  el.querySelectorAll('.game-cell').forEach(cell=>{
-    const gid=cell.dataset.gid,winV=cell.dataset.win,lossV=cell.dataset.loss;
-    cell.querySelector('.ov-select').addEventListener('change',function(){
-      const v=this.value;
-      if(v==='?') delete overrides[gid];
-      else overrides[gid]=v==='W'?winV:v==='L'?lossV:'draw';
-      renderGrid(); startSim();
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid = cell.dataset.gid;
+    const winV = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    cell.querySelector('.ov-select').addEventListener('change', function() {
+      const v = this.value;
+      if (v === '?') delete overrides[gid];
+      else overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      renderGrid();
+      startSim();
+    });
+  });
+
+  el.querySelectorAll('.team-name-cell').forEach(cell => {
+    const team = cell.dataset.team;
+    if (!IS_HISTORICAL) {
+      cell.addEventListener('mouseenter', () => showPopup(cell, team));
+      cell.addEventListener('mouseleave', hidePopup);
+    }
+    cell.addEventListener('click', () => {
+      if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
     });
   });
 }
 
-renderGrid();
-startSim();
+renderGrid(); startSim();
 
 // ── Team popup ────────────────────────────────────────────────────────────
 const popup=document.getElementById("team-popup");
@@ -1112,7 +1054,7 @@ const popGames=document.getElementById("pop-games");
 function showPopup(cell, teamName) {
   const card=FLIGHT_CARDS[teamName]||{}, standing=STANDINGS_MAP[teamName]||{};
   popName.textContent=teamName;
-  popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
+  popRecord.textContent=`${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
   popGames.innerHTML='';
   const played=card.played||[];
   const nextGame=card.next_game||null;

@@ -36,7 +36,7 @@ CURRENT_SEASON = "Spring 2026"
 DEFAULT_ELO = 1500
 SIMULATION_RUNS = 400
 IMPORTANCE_SIM_RUNS = 220
-REGRESSION_MAX  = 0.80   # blend win_expectation 80% toward 0.5 at season start
+REGRESSION_MAX  = 0.65   # blend win_expectation 65% toward 0.5 at season start
 REGRESSION_GP_FULL = 6   # regression reaches 0 once avg games played reaches this
 DRAW_PROBABILITY = 0.22
 
@@ -56,6 +56,7 @@ def slugify(value):
 
 def clean_team_name(team):
     team = (team or "").strip()
+    team = re.sub(r"\s+forfeit\s+lost\s+by\s*$", "", team, flags=re.IGNORECASE).strip()
     team = re.sub(r"\s*#\s*review referee\s*$", "", team, flags=re.IGNORECASE).strip()
     team = re.sub(r"\s*(?:#\s*)?crossover\s*$", "", team, flags=re.IGNORECASE).strip()
     return team
@@ -312,6 +313,85 @@ def probability_after(base, delta):
     return max(0.0, min(100.0, round(base + delta, 1)))
 
 
+def is_material_delta(delta, threshold=0.1):
+    return abs(delta) >= threshold
+
+
+def best_metric_change(base_promo, base_relg, promo_delta, relg_delta):
+    candidates = []
+    if is_material_delta(promo_delta):
+        candidates.append({
+            "metric": "promotion",
+            "base": base_promo,
+            "after": probability_after(base_promo, promo_delta),
+            "delta": promo_delta,
+        })
+    if is_material_delta(relg_delta):
+        candidates.append({
+            "metric": "relegation",
+            "base": base_relg,
+            "after": probability_after(base_relg, relg_delta),
+            "delta": relg_delta,
+        })
+    if not candidates:
+        return None
+    return max(candidates, key=lambda item: abs(item["delta"]))
+
+
+def get_team_probability_statuses(standings, sim_data):
+    teams = [row["team"] for row in standings]
+    pts_map = {row["team"]: row.get("pts", 0) for row in standings}
+    remaining_counts = {team: 0 for team in teams}
+    for game in sim_data.get("remaining_games", []):
+        if game.get("home") in remaining_counts:
+            remaining_counts[game["home"]] += 1
+        if game.get("away") in remaining_counts:
+            remaining_counts[game["away"]] += 1
+
+    max_pts = {team: pts_map[team] + 3 * remaining_counts.get(team, 0) for team in teams}
+    promo_cut = sim_data.get("promotion_cut", 0)
+    relg_cut = sim_data.get("relegation_cut", 0)
+    safe_line = max(0, len(teams) - relg_cut)
+    statuses = {}
+
+    for team in teams:
+        cur_pts = pts_map[team]
+        team_max = max_pts[team]
+        others = [other for other in teams if other != team]
+
+        promotion_certain = promo_cut > 0 and sum(1 for other in others if max_pts[other] >= cur_pts) < promo_cut
+        promotion_impossible = promo_cut > 0 and sum(1 for other in others if pts_map[other] > team_max) >= promo_cut
+
+        relegation_certain = relg_cut > 0 and sum(1 for other in others if pts_map[other] > team_max) >= safe_line
+        relegation_impossible = relg_cut == 0 or sum(1 for other in others if max_pts[other] < cur_pts) >= relg_cut
+
+        stay_certain = promotion_impossible and relegation_impossible
+        stay_impossible = promotion_certain or relegation_certain
+
+        statuses[team] = {
+            "promotion_certain": promotion_certain,
+            "promotion_impossible": promotion_impossible,
+            "relegation_certain": relegation_certain,
+            "relegation_impossible": relegation_impossible,
+            "stay_certain": stay_certain,
+            "stay_impossible": stay_impossible,
+        }
+    return statuses
+
+
+def format_probability_display(probability, certain=False, impossible=False):
+    if certain:
+        return 100
+    if impossible:
+        return 0
+    rounded = int(round(probability))
+    if rounded >= 100:
+        return 99
+    if rounded <= 0:
+        return 1
+    return rounded
+
+
 def has_played_score(row):
     return (
         row["date"] != "TBD"
@@ -547,7 +627,7 @@ def get_team_results(rows, team_info):
             elif gf < ga:
                 result = "L"
             else:
-                result = "T"
+                result = "D"
 
         opponent = away_team if is_home else home_team
         venue = "H" if is_home else "A"
@@ -871,6 +951,39 @@ def simulate_team_outlook(team_info, standings, rows):
     }
 
 
+def build_team_simulation_from_outlook(team, sim_data, flight_outlook):
+    team_stats = flight_outlook["team_stats"].get(team)
+    if not team_stats:
+        return {
+            "future_game_count": len(sim_data.get("remaining_games", [])),
+            "place_probabilities": [],
+            "promotion_probability": 0.0,
+            "relegation_probability": 0.0,
+            "stay_probability": 0.0,
+            "summary": f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight.",
+        }
+    place_probabilities = [
+        {"place": place, "probability": round(100 * count / SIMULATION_RUNS, 1)}
+        for place, count in enumerate(team_stats["place_counts"])
+        if place and count
+    ]
+    summary = (
+        "No remaining scheduled games are in the dataset, so the current table is treated as final."
+        if not sim_data.get("remaining_games")
+        else f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight."
+    )
+    return {
+        "future_game_count": len(sim_data.get("remaining_games", [])),
+        "place_probabilities": place_probabilities,
+        "promotion_probability": team_stats["promotion_probability"],
+        "relegation_probability": team_stats["relegation_probability"],
+        "stay_probability": team_stats["stay_probability"],
+        "summary": summary,
+        "expected_place": team_stats["expected_place"],
+        "modal_place": team_stats["modal_place"],
+    }
+
+
 def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
     """For each team in the flight return their slug, full played history, and next game."""
     age_group = team_info["age_group"]
@@ -948,7 +1061,7 @@ def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
             else:
                 hg_i, ag_i = int(hg), int(ag)
                 gf, ga = (hg_i, ag_i) if is_home else (ag_i, hg_i)
-                res   = "W" if gf > ga else ("L" if gf < ga else "T")
+                res   = "W" if gf > ga else ("L" if gf < ga else "D")
                 score = f"{gf}–{ga}"
             played_history.append({
                 "date": r["date"],
@@ -1115,13 +1228,19 @@ def get_team_page_context(team_slug, season=None):
         selected_team=team_info["team"],
     )
     elo_history = get_team_elo_history(team_info)
-    simulation = simulate_team_outlook(team_info, standings, rows)
     sim_data = get_flight_sim_data(team_info, standings, rows)
+    flight_outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    simulation = build_team_simulation_from_outlook(team_info["team"], sim_data, flight_outlook)
+    flight_importance = get_flight_importance_report(
+        flight_slug(team_info["age_group"], team_info["division"], team_info["geography"]),
+        sim_data,
+        baseline_outlook=flight_outlook,
+    )
     flight_team_cards = get_flight_team_cards(team_info, standings, rows)
 
     w = sum(1 for g in games if g["result"] == "W")
     l = sum(1 for g in games if g["result"] == "L")
-    t = sum(1 for g in games if g["result"] == "T")
+    t = sum(1 for g in games if g["result"] == "D")
     season_elo_history = [point for point in elo_history if point["season"] == season]
     current_elo = season_elo_history[-1]["elo"] if season_elo_history else None
     standing = next((i + 1 for i, row in enumerate(standings) if row["is_selected"]), None)
@@ -1179,6 +1298,8 @@ def get_team_page_context(team_slug, season=None):
         "elo_seasons": seasons_seen,
         "simulation": simulation,
         "sim_data": sim_data,
+        "flight_outlook": flight_outlook,
+        "flight_importance": flight_importance,
         "flight_team_cards": flight_team_cards,
         "flight_results": flight_results,
         "is_top_flight": is_top_flight,
@@ -1335,7 +1456,7 @@ def get_featured_plinko(rows=None):
                         hg_i = int(hg)
                         ag_i = int(ag_goals)
                         gf, ga = (hg_i, ag_i) if is_home else (ag_i, hg_i)
-                        step["result"] = "W" if gf > ga else ("L" if gf < ga else "T")
+                        step["result"] = "W" if gf > ga else ("L" if gf < ga else "D")
                         step["score"] = f"{gf}-{ga}"
                     step["fixed"] = True
                 else:
@@ -1476,26 +1597,45 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
 
         for team in (game["home"], game["away"]):
             best = top_games_by_team.get(team)
-            if best is None or team_effects.get(team, 0.0) > best["team_effect"]:
-                team_wp = game["home_win_prob"] if team == game["home"] else game["away_win_prob"]
-                win_outcome = "home" if team == game["home"] else "away"
-                loss_outcome = "away" if team == game["home"] else "home"
-                top_games_by_team[team] = {
-                    "id": game["id"],
-                    "opponent": game["away"] if team == game["home"] else game["home"],
-                    "date": game["date"],
-                    "display_date": format_game_date(game["date"]),
-                    "venue": "vs" if team == game["home"] else "@",
-                    "win_probability": round(100 * team_wp),
-                    "draw_probability": round(100 * game.get("draw_prob", DRAW_PROBABILITY)),
-                    "team_effect": round(team_effects.get(team, 0.0), 2),
-                    "win_promotion_delta": team_probability_changes[team].get(win_outcome, {}).get("promotion_delta", 0.0),
-                    "win_relegation_delta": team_probability_changes[team].get(win_outcome, {}).get("relegation_delta", 0.0),
-                    "draw_promotion_delta": team_probability_changes[team].get("draw", {}).get("promotion_delta", 0.0),
-                    "draw_relegation_delta": team_probability_changes[team].get("draw", {}).get("relegation_delta", 0.0),
-                    "loss_promotion_delta": team_probability_changes[team].get(loss_outcome, {}).get("promotion_delta", 0.0),
-                    "loss_relegation_delta": team_probability_changes[team].get(loss_outcome, {}).get("relegation_delta", 0.0),
-                }
+            team_wp = game["home_win_prob"] if team == game["home"] else game["away_win_prob"]
+            win_outcome = "home" if team == game["home"] else "away"
+            loss_outcome = "away" if team == game["home"] else "home"
+            win_promo_delta = team_probability_changes[team].get(win_outcome, {}).get("promotion_delta", 0.0)
+            win_relegation_delta = team_probability_changes[team].get(win_outcome, {}).get("relegation_delta", 0.0)
+            loss_promo_delta = team_probability_changes[team].get(loss_outcome, {}).get("promotion_delta", 0.0)
+            loss_relegation_delta = team_probability_changes[team].get(loss_outcome, {}).get("relegation_delta", 0.0)
+            practical_effect = max(
+                abs(win_promo_delta),
+                abs(win_relegation_delta),
+                abs(loss_promo_delta),
+                abs(loss_relegation_delta),
+            )
+            candidate = {
+                "id": game["id"],
+                "opponent": game["away"] if team == game["home"] else game["home"],
+                "date": game["date"],
+                "display_date": format_game_date(game["date"]),
+                "venue": "vs" if team == game["home"] else "@",
+                "win_probability": round(100 * team_wp),
+                "draw_probability": round(100 * game.get("draw_prob", DRAW_PROBABILITY)),
+                "team_effect": round(team_effects.get(team, 0.0), 2),
+                "practical_effect": round(practical_effect, 2),
+                "win_promotion_delta": win_promo_delta,
+                "win_relegation_delta": win_relegation_delta,
+                "draw_promotion_delta": team_probability_changes[team].get("draw", {}).get("promotion_delta", 0.0),
+                "draw_relegation_delta": team_probability_changes[team].get("draw", {}).get("relegation_delta", 0.0),
+                "loss_promotion_delta": loss_promo_delta,
+                "loss_relegation_delta": loss_relegation_delta,
+            }
+            if (
+                best is None
+                or candidate["practical_effect"] > best.get("practical_effect", 0.0)
+                or (
+                    candidate["practical_effect"] == best.get("practical_effect", 0.0)
+                    and candidate["team_effect"] > best.get("team_effect", 0.0)
+                )
+            ):
+                top_games_by_team[team] = candidate
 
     game_reports.sort(key=lambda report: (-report["total_effect"], report["date"], report["home"], report["away"]))
     return {
@@ -1508,56 +1648,140 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
     }
 
 
-def build_flight_importance_fallback(label, standings, sim_data, importance):
+def build_flight_importance_fallback(label, standings, sim_data, importance, base_outlook=None):
     top_game = next((g for g in importance.get("games", []) if g.get("date") != "TBD"), None)
     if not top_game:
         return f"{label} has no remaining scheduled games, so the current table is effectively the final picture for promotion and relegation."
 
     promo_cut = sim_data.get("promotion_cut", 2)
     relg_cut = sim_data.get("relegation_cut", 0)
-    base_outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    base_outlook = base_outlook or simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
     base_stats = base_outlook.get("team_stats", {})
+    statuses = get_team_probability_statuses(standings, sim_data)
     team_changes = top_game.get("team_probability_changes", {})
     home_changes = team_changes.get(top_game["home"], {})
     away_changes = team_changes.get(top_game["away"], {})
     leader_names = ", ".join(row["team"] for row in standings[:promo_cut])
     danger_names = ", ".join(row["team"] for row in standings[len(standings) - relg_cut:]) if relg_cut else "none"
     home_base_promo = base_stats.get(top_game["home"], {}).get("promotion_probability", 0.0)
-    away_base_relg = base_stats.get(top_game["away"], {}).get("relegation_probability", 0.0)
-    away_base_promo = base_stats.get(top_game["away"], {}).get("promotion_probability", 0.0)
     home_base_relg = base_stats.get(top_game["home"], {}).get("relegation_probability", 0.0)
-    home_win_home_promo = probability_after(home_base_promo, home_changes.get("home", {}).get("promotion_delta", 0.0))
-    home_win_away_relg = probability_after(away_base_relg, away_changes.get("home", {}).get("relegation_delta", 0.0))
-    away_win_away_promo = probability_after(away_base_promo, away_changes.get("away", {}).get("promotion_delta", 0.0))
-    away_win_home_relg = probability_after(home_base_relg, home_changes.get("away", {}).get("relegation_delta", 0.0))
+    away_base_promo = base_stats.get(top_game["away"], {}).get("promotion_probability", 0.0)
+    away_base_relg = base_stats.get(top_game["away"], {}).get("relegation_probability", 0.0)
+    home_win_change = best_metric_change(
+        home_base_promo,
+        home_base_relg,
+        home_changes.get("home", {}).get("promotion_delta", 0.0),
+        home_changes.get("home", {}).get("relegation_delta", 0.0),
+    )
+    away_win_change = best_metric_change(
+        away_base_promo,
+        away_base_relg,
+        away_changes.get("away", {}).get("promotion_delta", 0.0),
+        away_changes.get("away", {}).get("relegation_delta", 0.0),
+    )
+    if not home_win_change:
+        home_win_change = {
+            "metric": "promotion",
+            "base": home_base_promo,
+            "after": probability_after(home_base_promo, home_changes.get("home", {}).get("promotion_delta", 0.0)),
+        }
+    if not away_win_change:
+        away_win_change = {
+            "metric": "promotion",
+            "base": away_base_promo,
+            "after": probability_after(away_base_promo, away_changes.get("away", {}).get("promotion_delta", 0.0)),
+        }
+    home_base_display = format_probability_display(
+        home_win_change["base"],
+        certain=statuses.get(top_game["home"], {}).get(f"{home_win_change['metric']}_certain", False),
+        impossible=statuses.get(top_game["home"], {}).get(f"{home_win_change['metric']}_impossible", False),
+    )
+    away_base_display = format_probability_display(
+        away_win_change["base"],
+        certain=statuses.get(top_game["away"], {}).get(f"{away_win_change['metric']}_certain", False),
+        impossible=statuses.get(top_game["away"], {}).get(f"{away_win_change['metric']}_impossible", False),
+    )
+    home_after_display = format_probability_display(home_win_change["after"])
+    away_after_display = format_probability_display(away_win_change["after"])
     return (
         f"{label} is still being shaped by both ends of the table, with {leader_names} currently in the promotion spots and {danger_names} under the most relegation pressure. "
-        f"The biggest remaining game is {top_game['home']} vs {top_game['away']} on {top_game['display_date']}: a {top_game['home']} win moves {top_game['home']}'s promotion odds from {home_base_promo:.1f}% to {home_win_home_promo:.1f}% and {top_game['away']}'s relegation odds from {away_base_relg:.1f}% to {home_win_away_relg:.1f}%, while a {top_game['away']} win moves {top_game['away']}'s promotion odds from {away_base_promo:.1f}% to {away_win_away_promo:.1f}% and {top_game['home']}'s relegation odds from {home_base_relg:.1f}% to {away_win_home_relg:.1f}%."
+        f"The biggest remaining game is {top_game['home']} vs {top_game['away']} on {top_game['display_date']}: a {top_game['home']} win moves {top_game['home']}'s {home_win_change['metric']} odds from {home_base_display}% to {home_after_display}%, while a {top_game['away']} win moves {top_game['away']}'s {away_win_change['metric']} odds from {away_base_display}% to {away_after_display}%."
     )
 
 
-def build_team_insight_fallback(team, standings, simulation, top_game, recent_games):
+def build_team_insight_fallback(team, standings, simulation, top_game, recent_games, sim_data=None):
     pos = next((i + 1 for i, row in enumerate(standings) if row["team"] == team), None)
     row = next((item for item in standings if item["team"] == team), {})
     promo_prob = simulation.get("promotion_probability", 0.0)
     relg_prob = simulation.get("relegation_probability", 0.0)
     stay_prob = simulation.get("stay_probability", 0.0)
+    statuses = get_team_probability_statuses(standings, sim_data) if sim_data else {}
+    team_status = statuses.get(team, {})
+    promo_display = format_probability_display(
+        promo_prob,
+        certain=team_status.get("promotion_certain", False),
+        impossible=team_status.get("promotion_impossible", False),
+    )
+    relg_display = format_probability_display(
+        relg_prob,
+        certain=team_status.get("relegation_certain", False),
+        impossible=team_status.get("relegation_impossible", False),
+    )
+    stay_display = format_probability_display(
+        stay_prob,
+        certain=team_status.get("stay_certain", False),
+        impossible=team_status.get("stay_impossible", False),
+    )
     modal_place = simulation.get("modal_place", pos or 0)
     expected_place = simulation.get("expected_place", pos or 0)
-    if top_game:
-        win_promo_after = probability_after(promo_prob, top_game.get("win_promotion_delta", 0.0))
-        win_relg_after = probability_after(relg_prob, top_game.get("win_relegation_delta", 0.0))
-        loss_promo_after = probability_after(promo_prob, top_game.get("loss_promotion_delta", 0.0))
-        loss_relg_after = probability_after(relg_prob, top_game.get("loss_relegation_delta", 0.0))
-        game_txt = (
-            f"The most important remaining match is {top_game['venue']} {top_game['opponent']} on {top_game['display_date']}: "
-            f"if {team} win, their promotion odds go from {promo_prob:.1f}% to {win_promo_after:.1f}% and their relegation odds go from {relg_prob:.1f}% to {win_relg_after:.1f}%; "
-            f"if they lose, their promotion odds go from {promo_prob:.1f}% to {loss_promo_after:.1f}% and their relegation odds go from {relg_prob:.1f}% to {loss_relg_after:.1f}%."
+    if top_game and top_game.get("practical_effect", 0.0) >= 0.1:
+        win_change = best_metric_change(
+            promo_prob,
+            relg_prob,
+            top_game.get("win_promotion_delta", 0.0),
+            top_game.get("win_relegation_delta", 0.0),
         )
+        loss_change = best_metric_change(
+            promo_prob,
+            relg_prob,
+            top_game.get("loss_promotion_delta", 0.0),
+            top_game.get("loss_relegation_delta", 0.0),
+        )
+        clauses = []
+        if win_change:
+            win_base_display = format_probability_display(
+                win_change["base"],
+                certain=team_status.get(f"{win_change['metric']}_certain", False),
+                impossible=team_status.get(f"{win_change['metric']}_impossible", False),
+            )
+            win_after_display = format_probability_display(win_change["after"])
+            if win_base_display != win_after_display:
+                clauses.append(
+                    f"if {team} win, their {win_change['metric']} odds go from {win_base_display}% to {win_after_display}%"
+                )
+        if loss_change:
+            loss_base_display = format_probability_display(
+                loss_change["base"],
+                certain=team_status.get(f"{loss_change['metric']}_certain", False),
+                impossible=team_status.get(f"{loss_change['metric']}_impossible", False),
+            )
+            loss_after_display = format_probability_display(loss_change["after"])
+            if loss_base_display != loss_after_display:
+                clauses.append(
+                    f"if they lose, their {loss_change['metric']} odds go from {loss_base_display}% to {loss_after_display}%"
+                )
+        if clauses:
+            game_txt = (
+                f"The most important remaining match is {top_game['venue']} {top_game['opponent']} on {top_game['display_date']}: "
+                + "; ".join(clauses)
+                + "."
+            )
+        else:
+            game_txt = "They do not have a scheduled remaining match that materially changes their promotion or relegation outlook right now."
     else:
         game_txt = "They do not have a scheduled remaining match that materially changes their promotion or relegation outlook right now."
     return (
-        f"{team} are {ordinal(pos)} with {row.get('pts', 0)} points and {promo_prob:.1f}% promotion, {stay_prob:.1f}% stay, and {relg_prob:.1f}% relegation odds, with the model centering them around {ordinal(modal_place)} place (expected {expected_place:.2f}). "
+        f"{team} are {ordinal(pos)} with {row.get('pts', 0)} points and {promo_display}% promotion, {stay_display}% stay, and {relg_display}% relegation odds, with the model centering them around {ordinal(modal_place)} place (expected {expected_place:.2f}). "
         f"{game_txt}"
     )
 
@@ -1708,6 +1932,7 @@ def generate_ai_flight_outlook_v2(age_group, division, geography, standings, sim
         f"Write exactly 2 sentences about the {age_group} Division {division} {geography} race in {CURRENT_SEASON}. "
         f"Sentence 1 should summarize the top race and the relegation fight using exact team names and percentages. "
         f"Sentence 2 should name the most important remaining game and explain what the different results would mean for the race overall, using 'from X% to Y%' language instead of only percentage-point deltas. "
+        f"Only mention changes that are materially different; do not write any '0.0% to 0.0%' style changes. "
         f"Do not mention match scores, formulas, or generic hype.\n\n"
         f"Standings snapshot:\n{rows_txt}\n\n"
         f"Promotion spots: top {promo_cut}. Relegation spots: bottom {relg_cut}.\n"
@@ -1752,7 +1977,8 @@ def generate_ai_team_insight_v2(team, age_group, standings, sim_data, team_outlo
     prompt = (
         f"You are a soccer analyst for the OTHSL. Write exactly 2 sentences about {team}'s outlook in {age_group} {CURRENT_SEASON}. "
         f"Sentence 1 should state their position using the correct ordinal form like 1st, 2nd, 3rd, 4th and their promotion, stay, and relegation percentages. "
-        f"Sentence 2 should name their most important upcoming game and explain what it means specifically for {team}, using 'from X% to Y%' language for both promotion and relegation if they win and if they lose. "
+        f"Sentence 2 should name their most important upcoming game and explain what it means specifically for {team}, using 'from X% to Y%' language. "
+        f"Only mention the biggest practically meaningful change for a win and the biggest practically meaningful change for a loss; do not mention anything that stays at 0.0% to 0.0%. "
         f"Do not mention scorelines, formulas, or generic hype.\n\n"
         f"{team} are {ordinal(pos)} of {n} with {pts} points (GD {gd:+d}). "
         f"Simulation gives them {promo_prob:.1f}% promotion, {100 - promo_prob - relg_prob:.1f}% stay, and {relg_prob:.1f}% relegation. "
@@ -1795,7 +2021,13 @@ def build_ai_caches(rows=None):
         print(f"  Flight {sl}…", end=" ", flush=True)
         outlook = generate_ai_flight_outlook_v2(ag, div, geo, standings, flight_sim, flight_outlook, importance)
         if not outlook:
-            outlook = build_flight_importance_fallback(f"{ag} Division {div} {geo}", standings, flight_sim, importance)
+            outlook = build_flight_importance_fallback(
+                f"{ag} Division {div} {geo}",
+                standings,
+                flight_sim,
+                importance,
+                base_outlook=flight_outlook,
+            )
         flight_cache[sl] = outlook
         print("done")
 
@@ -1817,6 +2049,7 @@ def build_ai_caches(rows=None):
                     flight_outlook["team_stats"].get(row["team"], {}),
                     importance["top_games_by_team"].get(row["team"]),
                     [],
+                    flight_sim,
                 )
             team_cache[slug] = insight
             print("done")
@@ -2154,6 +2387,7 @@ def _render_index(season, home_path, season_nav_prefix):
         home_path=home_path,
         season_nav_prefix=season_nav_prefix,
         calibration_path=home_path + "calibration/",
+        model_details_path=home_path + "model-details/",
         top_teams=get_top_teams(rows) if is_current else [],
         featured_plinko=get_featured_plinko(rows),
         key_games=key_games,
@@ -2191,16 +2425,14 @@ def team_page(team_slug):
         abort(404)
     ti = context["team_info"]
     team_fslug = flight_slug(ti["age_group"], ti["division"], ti["geography"])
-    team_ai_text = _ai_team_texts.get(team_slug, "")
-    if not team_ai_text:
-        importance = get_flight_importance_report(team_fslug, context["sim_data"])
-        team_ai_text = build_team_insight_fallback(
-            ti["team"],
-            context["standings"],
-            context["simulation"],
-            importance.get("top_games_by_team", {}).get(ti["team"]),
-            context["games"],
-        )
+    team_ai_text = build_team_insight_fallback(
+        ti["team"],
+        context["standings"],
+        context["simulation"],
+        context["flight_importance"].get("top_games_by_team", {}).get(ti["team"]),
+        context["games"],
+        context["sim_data"],
+    )
     return render_template("team.html", season=CURRENT_SEASON,
                            ai_text=team_ai_text,
                            team_flight_slug=team_fslug, **context)
@@ -2316,28 +2548,28 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
         ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
         ai_team_summaries = []
         if season == CURRENT_SEASON:
-            needs_fallback_context = (not ai_text) or any(not _ai_team_texts.get(row["slug"], "") for row in context["standings"])
-            flight_outlook = None
-            importance = None
-            if needs_fallback_context:
-                flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
-                importance = get_flight_importance_report(flight_slug_val, context["sim_data"], baseline_outlook=flight_outlook)
-            if not ai_text:
-                ai_text = build_flight_importance_fallback(context["label"], context["standings"], context["sim_data"], importance)
+            flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
+            importance = get_flight_importance_report(
+                flight_slug_val,
+                context["sim_data"],
+                baseline_outlook=flight_outlook,
+            )
+            ai_text = build_flight_importance_fallback(
+                context["label"],
+                context["standings"],
+                context["sim_data"],
+                importance,
+                base_outlook=flight_outlook,
+            )
             for row in context["standings"]:
-                text = _ai_team_texts.get(row["slug"], "")
-                if not text:
-                    if flight_outlook is None:
-                        flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
-                    if importance is None:
-                        importance = get_flight_importance_report(flight_slug_val, context["sim_data"], baseline_outlook=flight_outlook)
-                    text = build_team_insight_fallback(
-                        row["team"],
-                        context["standings"],
-                        flight_outlook["team_stats"].get(row["team"], {}),
-                        importance.get("top_games_by_team", {}).get(row["team"]),
-                        context["flight_team_cards"].get(row["team"], {}).get("played", []),
-                    )
+                text = build_team_insight_fallback(
+                    row["team"],
+                    context["standings"],
+                    flight_outlook["team_stats"].get(row["team"], {}),
+                    importance.get("top_games_by_team", {}).get(row["team"]),
+                    context["flight_team_cards"].get(row["team"], {}).get("played", []),
+                    context["sim_data"],
+                )
                 ai_team_summaries.append({
                     "team": row["team"],
                     "slug": row["slug"],
@@ -2437,6 +2669,19 @@ def calibration_page():
     )
 
 
+@app.route("/model-details/")
+def model_details_page():
+    return render_template(
+        "model_details.html",
+        home_path="../",
+        regression_max=int(REGRESSION_MAX * 100),
+        regression_gp_full=REGRESSION_GP_FULL,
+        draw_probability=int(DRAW_PROBABILITY * 100),
+        default_elo=DEFAULT_ELO,
+        simulation_runs=SIMULATION_RUNS,
+    )
+
+
 def _render_teams(season, home_path, season_nav_prefix, flight_url_prefix):
     all_seasons = get_all_seasons()
     is_current = (season == CURRENT_SEASON)
@@ -2475,6 +2720,7 @@ def _render_teams(season, home_path, season_nav_prefix, flight_url_prefix):
         all_seasons=seasons_for_select,
         home_path=home_path,
         calibration_path=home_path + "calibration/",
+        model_details_path=home_path + "model-details/",
         flight_url_prefix=flight_url_prefix,
         flight_previews=flight_previews,
         season_nav_prefix=season_nav_prefix,

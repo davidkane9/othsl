@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -650,7 +646,7 @@
 
       <div class="chips">
         
-        <span class="chip">ELO 1461</span>
+        <span class="chip">ELO 1462</span>
         
         
         <span class="chip">Current place: 5</span>
@@ -708,18 +704,18 @@
             <tbody id="standings-tbody">
               
               <tr>
+                <td class="team-name-cell" data-team="Norfolk FC">Norfolk FC</td>
+                <td>7</td>
+                <td>18</td>
+                <td>+15</td>
+                <td>2.57</td>
+              </tr>
+              
+              <tr>
                 <td class="team-name-cell" data-team="Easton Legends">Easton Legends</td>
                 <td>6</td>
                 <td>15</td>
                 <td>+14</td>
-                <td>2.50</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Norfolk FC">Norfolk FC</td>
-                <td>6</td>
-                <td>15</td>
-                <td>+12</td>
                 <td>2.50</td>
               </tr>
               
@@ -755,6 +751,14 @@
                 <td>0.14</td>
               </tr>
               
+              <tr>
+                <td class="team-name-cell" data-team="Peru Sports FC Masters forfeit lost by">Peru Sports FC Masters forfeit lost by</td>
+                <td>1</td>
+                <td>-2</td>
+                <td>-3</td>
+                <td>-2.00</td>
+              </tr>
+              
             </tbody>
           </table>
         </div>
@@ -767,10 +771,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Peru Sports FC Masters is struggling in the Over 48 Div 4 South flight, currently sitting 5th out of 6 teams with only 3 points from 5 games, leaving them 12 points adrift of promotion and precariously close to relegation with a goal difference of -9. With BNFC O48 at their heels, they must secure at least 4 points from their remaining three matches to have a fighting chance of avoiding relegation, as they are only 2 points above the relegation line held by BNFC, who has 1 point. The most crucial match ahead is against BNFC O48 on June 14, 2026, where they have a 55% win probability; winning this game could significantly elevate them above the relegation zone and provide a much-needed boost in confidence for the remaining fixtures.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Peru Sports FC Masters is currently struggling in the Over 48 Div 4 South flight, sitting 5th out of 7 teams with just 3 points after 5 games, putting them 12 points off promotion and only 2 points above relegation. Their -9 goal difference reflects a challenging season, and with only three games left, they face a critical need to improve their form to avoid slipping into relegation, particularly with a 55% win probability against BNFC O48, who are yet to secure a win this season. The upcoming match on June 14 against BNFC O48 is pivotal; a victory could not only boost their points but also significantly dent BNFC&#39;s hopes, ensuring that Peru Sports FC Masters remain above the relegation zone.</p>
       </div>
     </section>
     
@@ -857,8 +861,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"BNFC O48": 1403.5, "Easton Legends": 1556.1, "NCLS Evergreen": 1498.5, "Neponset Old Boys": 1489.0, "Norfolk FC": 1507.1, "Peru Sports FC Masters": 1461.2}, "current_regression": 0.0, "current_stats": {"BNFC O48": {"gd": -15, "gf": 5, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Easton Legends": {"gd": 14, "gf": 21, "gp": 6, "l": 1, "pts": 15, "t": 0, "w": 5}, "NCLS Evergreen": {"gd": 1, "gf": 15, "gp": 7, "l": 3, "pts": 10, "t": 1, "w": 3}, "Neponset Old Boys": {"gd": -3, "gf": 15, "gp": 7, "l": 3, "pts": 12, "t": 0, "w": 4}, "Norfolk FC": {"gd": 12, "gf": 19, "gp": 6, "l": 1, "pts": 15, "t": 0, "w": 5}, "Peru Sports FC Masters": {"gd": -9, "gf": 9, "gp": 5, "l": 4, "pts": 3, "t": 0, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Peru Sports FC Masters", "away_win_prob": 0.311, "date": "2026-05-31", "draw_prob": 0.22, "home": "Neponset Old Boys", "home_win_prob": 0.469, "id": "2026-05-31|Neponset Old Boys|Peru Sports FC Masters", "involves_team": true}, {"away": "Norfolk FC", "away_win_prob": 0.657, "date": "2026-05-31", "draw_prob": 0.22, "home": "BNFC O48", "home_win_prob": 0.123, "id": "2026-05-31|BNFC O48|Norfolk FC", "involves_team": false}, {"away": "Easton Legends", "away_win_prob": 0.55, "date": "2026-05-31", "draw_prob": 0.22, "home": "NCLS Evergreen", "home_win_prob": 0.23, "id": "2026-05-31|NCLS Evergreen|Easton Legends", "involves_team": false}, {"away": "BNFC O48", "away_win_prob": 0.162, "date": "2026-06-07", "draw_prob": 0.22, "home": "Neponset Old Boys", "home_win_prob": 0.618, "id": "2026-06-07|Neponset Old Boys|BNFC O48", "involves_team": false}, {"away": "NCLS Evergreen", "away_win_prob": 0.365, "date": "2026-06-07", "draw_prob": 0.22, "home": "Norfolk FC", "home_win_prob": 0.415, "id": "2026-06-07|Norfolk FC|NCLS Evergreen", "involves_team": false}, {"away": "Easton Legends", "away_win_prob": 0.639, "date": "2026-06-07", "draw_prob": 0.22, "home": "Peru Sports FC Masters", "home_win_prob": 0.141, "id": "2026-06-07|Peru Sports FC Masters|Easton Legends", "involves_team": true}, {"away": "Neponset Old Boys", "away_win_prob": 0.363, "date": "2026-06-14", "draw_prob": 0.22, "home": "NCLS Evergreen", "home_win_prob": 0.417, "id": "2026-06-14|NCLS Evergreen|Neponset Old Boys", "involves_team": false}, {"away": "Peru Sports FC Masters", "away_win_prob": 0.55, "date": "2026-06-14", "draw_prob": 0.22, "home": "BNFC O48", "home_win_prob": 0.23, "id": "2026-06-14|BNFC O48|Peru Sports FC Masters", "involves_team": true}, {"away": "Norfolk FC", "away_win_prob": 0.253, "date": "2026-06-14", "draw_prob": 0.22, "home": "Easton Legends", "home_win_prob": 0.527, "id": "2026-06-14|Easton Legends|Norfolk FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "Peru Sports FC Masters", "teams": ["Easton Legends", "Norfolk FC", "Neponset Old Boys", "NCLS Evergreen", "Peru Sports FC Masters", "BNFC O48"], "total_teams": 6};
-const FLIGHT_RESULTS  = [{"ag": 3, "away": "Norfolk FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-09", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Norfolk FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Peru Sports FC Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Peru Sports FC Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"BNFC O48": 1403.5, "Easton Legends": 1556.1, "NCLS Evergreen": 1498.6, "Neponset Old Boys": 1489.8, "Norfolk FC": 1522.8, "Peru Sports FC Masters": 1461.9, "Peru Sports FC Masters forfeit lost by": 1482.8}, "current_regression": 0.030952380952380915, "current_stats": {"BNFC O48": {"gd": -15, "gf": 5, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Easton Legends": {"gd": 14, "gf": 21, "gp": 6, "l": 1, "pts": 15, "t": 0, "w": 5}, "NCLS Evergreen": {"gd": 1, "gf": 15, "gp": 7, "l": 3, "pts": 10, "t": 1, "w": 3}, "Neponset Old Boys": {"gd": -3, "gf": 15, "gp": 7, "l": 3, "pts": 12, "t": 0, "w": 4}, "Norfolk FC": {"gd": 15, "gf": 22, "gp": 7, "l": 1, "pts": 18, "t": 0, "w": 6}, "Peru Sports FC Masters": {"gd": -9, "gf": 9, "gp": 5, "l": 4, "pts": 3, "t": 0, "w": 1}, "Peru Sports FC Masters forfeit lost by": {"gd": -3, "gf": 0, "gp": 1, "l": 1, "pts": -2, "t": 0, "w": 0}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Peru Sports FC Masters", "away_win_prob": 0.313, "date": "2026-05-31", "draw_prob": 0.22, "home": "Neponset Old Boys", "home_win_prob": 0.467, "id": "2026-05-31|Neponset Old Boys|Peru Sports FC Masters", "involves_team": true}, {"away": "Norfolk FC", "away_win_prob": 0.679, "date": "2026-05-31", "draw_prob": 0.22, "home": "BNFC O48", "home_win_prob": 0.101, "id": "2026-05-31|BNFC O48|Norfolk FC", "involves_team": false}, {"away": "Easton Legends", "away_win_prob": 0.545, "date": "2026-05-31", "draw_prob": 0.22, "home": "NCLS Evergreen", "home_win_prob": 0.235, "id": "2026-05-31|NCLS Evergreen|Easton Legends", "involves_team": false}, {"away": "BNFC O48", "away_win_prob": 0.167, "date": "2026-06-07", "draw_prob": 0.22, "home": "Neponset Old Boys", "home_win_prob": 0.613, "id": "2026-06-07|Neponset Old Boys|BNFC O48", "involves_team": false}, {"away": "NCLS Evergreen", "away_win_prob": 0.323, "date": "2026-06-07", "draw_prob": 0.22, "home": "Norfolk FC", "home_win_prob": 0.457, "id": "2026-06-07|Norfolk FC|NCLS Evergreen", "involves_team": false}, {"away": "Easton Legends", "away_win_prob": 0.63, "date": "2026-06-07", "draw_prob": 0.22, "home": "Peru Sports FC Masters", "home_win_prob": 0.15, "id": "2026-06-07|Peru Sports FC Masters|Easton Legends", "involves_team": true}, {"away": "Neponset Old Boys", "away_win_prob": 0.365, "date": "2026-06-14", "draw_prob": 0.22, "home": "NCLS Evergreen", "home_win_prob": 0.415, "id": "2026-06-14|NCLS Evergreen|Neponset Old Boys", "involves_team": false}, {"away": "Peru Sports FC Masters", "away_win_prob": 0.547, "date": "2026-06-14", "draw_prob": 0.22, "home": "BNFC O48", "home_win_prob": 0.233, "id": "2026-06-14|BNFC O48|Peru Sports FC Masters", "involves_team": true}, {"away": "Norfolk FC", "away_win_prob": 0.298, "date": "2026-06-14", "draw_prob": 0.22, "home": "Easton Legends", "home_win_prob": 0.482, "id": "2026-06-14|Easton Legends|Norfolk FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "Peru Sports FC Masters", "teams": ["Norfolk FC", "Easton Legends", "Neponset Old Boys", "NCLS Evergreen", "Peru Sports FC Masters", "BNFC O48", "Peru Sports FC Masters forfeit lost by"], "total_teams": 7};
+const FLIGHT_RESULTS  = [{"ag": 3, "away": "Norfolk FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-09", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Norfolk FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Peru Sports FC Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "NCLS Evergreen", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Norfolk FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": true, "hg": null, "home": "Peru Sports FC Masters forfeit lost by", "home_forfeit": true, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Easton Legends", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Neponset Old Boys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Peru Sports FC Masters", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Neponset Old Boys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Norfolk FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Easton Legends", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "NCLS Evergreen", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Peru Sports FC Masters", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = false;
@@ -1325,10 +1329,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1390,8 +1397,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1413,29 +1423,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1455,12 +1473,12 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"BNFC O48": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Norfolk FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Easton Legends", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "NCLS Evergreen", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "NCLS Evergreen", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Norfolk FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Peru Sports FC Masters", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-09", "display_date": "Thursday, April 09", "opponent": "Neponset Old Boys", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Easton Legends", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "NCLS Evergreen", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "NCLS Evergreen", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "bnfc-o48-over-48-div-4-south"}, "Easton Legends": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "NCLS Evergreen", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Neponset Old Boys", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "BNFC O48", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "NCLS Evergreen", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Norfolk FC", "result": "L", "score": "2\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Neponset Old Boys", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "easton-legends-over-48-div-4-south"}, "NCLS Evergreen": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Easton Legends", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC Masters", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC O48", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Easton Legends", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Norfolk FC", "result": "L", "score": "1\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC Masters", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC O48", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "ncls-evergreen-over-48-div-4-south"}, "Neponset Old Boys": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Peru Sports FC Masters", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Norfolk FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Easton Legends", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Norfolk FC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Peru Sports FC Masters", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "NCLS Evergreen", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-09", "display_date": "Thursday, April 09", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Norfolk FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Easton Legends", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": "neponset-old-boys-over-48-div-4-south"}, "Norfolk FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "BNFC O48", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "BNFC O48", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Easton Legends", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "NCLS Evergreen", "result": "W", "score": "3\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": "norfolk-fc-over-48-div-4-south"}, "Peru Sports FC Masters": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Neponset Old Boys", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Norfolk FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "BNFC O48", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Norfolk FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": "peru-sports-fc-masters-over-48-div-4-south"}};
+const FLIGHT_CARDS = {"BNFC O48": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Norfolk FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Easton Legends", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "NCLS Evergreen", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "NCLS Evergreen", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Norfolk FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Peru Sports FC Masters", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-09", "display_date": "Thursday, April 09", "opponent": "Neponset Old Boys", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Easton Legends", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "NCLS Evergreen", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "NCLS Evergreen", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "bnfc-o48-over-48-div-4-south"}, "Easton Legends": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "NCLS Evergreen", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Neponset Old Boys", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "BNFC O48", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "NCLS Evergreen", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Norfolk FC", "result": "L", "score": "2\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Neponset Old Boys", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "easton-legends-over-48-div-4-south"}, "NCLS Evergreen": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Easton Legends", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC Masters", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC O48", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Easton Legends", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Norfolk FC", "result": "L", "score": "1\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC Masters", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC O48", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "ncls-evergreen-over-48-div-4-south"}, "Neponset Old Boys": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Peru Sports FC Masters", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Norfolk FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Easton Legends", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Norfolk FC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Peru Sports FC Masters", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "NCLS Evergreen", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-09", "display_date": "Thursday, April 09", "opponent": "BNFC O48", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Norfolk FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Easton Legends", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Easton Legends", "result": "L", "score": "1\u20134", "venue": "A"}], "slug": "neponset-old-boys-over-48-div-4-south"}, "Norfolk FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "BNFC O48", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC Masters forfeit lost by", "result": "W", "score": "F", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "BNFC O48", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Easton Legends", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "NCLS Evergreen", "result": "W", "score": "3\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Neponset Old Boys", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC Masters", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC Masters forfeit lost by", "result": "W", "score": "F", "venue": "A"}], "slug": "norfolk-fc-over-48-div-4-south"}, "Peru Sports FC Masters": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Neponset Old Boys", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Norfolk FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Neponset Old Boys", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "BNFC O48", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Norfolk FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "NCLS Evergreen", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": "peru-sports-fc-masters-over-48-div-4-south"}, "Peru Sports FC Masters forfeit lost by": {"next_game": null, "played": [{"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Norfolk FC", "result": "L", "score": "F", "venue": "H"}], "recent": [{"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Norfolk FC", "result": "L", "score": "F", "venue": "H"}], "slug": "peru-sports-fc-masters-forfeit-lost-by-over-48-div-4-south"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Easton Legends"] = { w: 5, l: 1, t: 0, gp: 6 };
+STANDINGS_MAP["Norfolk FC"] = { w: 6, l: 1, t: 0, gp: 7 };
 
-STANDINGS_MAP["Norfolk FC"] = { w: 5, l: 1, t: 0, gp: 6 };
+STANDINGS_MAP["Easton Legends"] = { w: 5, l: 1, t: 0, gp: 6 };
 
 STANDINGS_MAP["Neponset Old Boys"] = { w: 4, l: 3, t: 0, gp: 7 };
 
@@ -1469,6 +1487,8 @@ STANDINGS_MAP["NCLS Evergreen"] = { w: 3, l: 3, t: 1, gp: 7 };
 STANDINGS_MAP["Peru Sports FC Masters"] = { w: 1, l: 4, t: 0, gp: 5 };
 
 STANDINGS_MAP["BNFC O48"] = { w: 0, l: 6, t: 1, gp: 7 };
+
+STANDINGS_MAP["Peru Sports FC Masters forfeit lost by"] = { w: 0, l: 1, t: 0, gp: 1 };
 
 
 const popup     = document.getElementById("team-popup");
@@ -1480,7 +1500,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];

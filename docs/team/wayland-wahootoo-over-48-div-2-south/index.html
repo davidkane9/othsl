@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -783,10 +779,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Wayland wahootoo is currently positioned third in the Over 48 Div 2 South flight with 11 points, just 1 point shy of promotion and 5 points clear of relegation, showcasing a solid goal difference of +8 after 7 games. Their upcoming match against Western Mass Lusitano on May 31, where they have a 36% win probability, is crucial; a win could solidify their standing and increase their chances of promotion, while a loss could tighten the race for safety. With only four weeks left in the season and tough matches ahead, including a daunting encounter against league leaders Fernandes FC O50 (5% win probability), securing points in this key matchup is essential for Wayland wahootoo&#39;s aspirations.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Wayland wahootoo is currently sitting in 3rd place in the Over 48 Div 2 South flight with 11 points from 7 games, just 1 point off the promotion zone and a comfortable 5 points above relegation. With a goal difference of +8, their solid offensive and defensive play has kept them competitive, but they need to capitalize on their remaining fixtures to secure a promotion spot, particularly given their 7.8% promotion simulation odds. The most critical match ahead is against Western Mass Lusitano on May 31, where despite a challenging 36% win probability, a win would not only give them a crucial 3 points but also create a gap against a direct competitor, strengthening their promotion push.</p>
       </div>
     </section>
     
@@ -1341,10 +1337,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1406,8 +1405,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1429,29 +1431,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1471,7 +1481,7 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Albanian United Veterans": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Fernandes FC O50", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC O50", "result": "T", "score": "4\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village 48", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Taunton Eagles", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "United Intl FC", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland wahootoo", "result": "T", "score": "4\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Western Mass Lusitano", "result": "T", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC O50", "result": "T", "score": "4\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village 48", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Taunton Eagles", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "albanian-united-veterans-over-48-div-2-south"}, "FIMA FC O50": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Taunton Eagles", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Albanian United Veterans", "result": "T", "score": "4\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitano", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland wahootoo", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Taunton Eagles", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "United Intl FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village 48", "result": "L", "score": "1\u20134", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Albanian United Veterans", "result": "T", "score": "4\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitano", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "fima-fc-o50-over-48-div-2-south"}, "Fernandes FC O50": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Albanian United Veterans", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Taunton Eagles", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "United Intl FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC O50", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village 48", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Albanian United Veterans", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Western Mass Lusitano", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Wayland wahootoo", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Taunton Eagles", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "United Intl FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC O50", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "fernandes-fc-o50-over-48-div-2-south"}, "Irish Village 48": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "United Intl FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitano", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Albanian United Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Fernandes FC O50", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "United Intl FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Taunton Eagles", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FIMA FC O50", "result": "W", "score": "4\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitano", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Albanian United Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": "irish-village-48-over-48-div-2-south"}, "Taunton Eagles": {"next_game": {"date": "2026-05-25", "display_date": "Monday, May 25", "opponent": "United Intl FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes FC O50", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland wahootoo", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Albanian United Veterans", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitano", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FIMA FC O50", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village 48", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes FC O50", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland wahootoo", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Albanian United Veterans", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "taunton-eagles-over-48-div-2-south"}, "United Intl FC": {"next_game": {"date": "2026-05-25", "display_date": "Monday, May 25", "opponent": "Taunton Eagles", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland wahootoo", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitano", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Albanian United Veterans", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village 48", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FIMA FC O50", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland wahootoo", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitano", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "united-intl-fc-over-48-div-2-south"}, "Wayland wahootoo": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Western Mass Lusitano", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "United Intl FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Taunton Eagles", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village 48", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Western Mass Lusitano", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Albanian United Veterans", "result": "T", "score": "4\u20134", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "United Intl FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Taunton Eagles", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village 48", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "wayland-wahootoo-over-48-div-2-south"}, "Western Mass Lusitano": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland wahootoo", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village 48", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "United Intl FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Taunton Eagles", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland wahootoo", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Albanian United Veterans", "result": "T", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village 48", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "United Intl FC", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "western-mass-lusitano-over-48-div-2-south"}};
+const FLIGHT_CARDS = {"Albanian United Veterans": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Fernandes FC O50", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC O50", "result": "D", "score": "4\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village 48", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Taunton Eagles", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "United Intl FC", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland wahootoo", "result": "D", "score": "4\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Western Mass Lusitano", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FIMA FC O50", "result": "D", "score": "4\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village 48", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Taunton Eagles", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "albanian-united-veterans-over-48-div-2-south"}, "FIMA FC O50": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Taunton Eagles", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Albanian United Veterans", "result": "D", "score": "4\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitano", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland wahootoo", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Taunton Eagles", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "United Intl FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village 48", "result": "L", "score": "1\u20134", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Albanian United Veterans", "result": "D", "score": "4\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Western Mass Lusitano", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "fima-fc-o50-over-48-div-2-south"}, "Fernandes FC O50": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Albanian United Veterans", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Taunton Eagles", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "United Intl FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC O50", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village 48", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Albanian United Veterans", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Western Mass Lusitano", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Wayland wahootoo", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Taunton Eagles", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "United Intl FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FIMA FC O50", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "fernandes-fc-o50-over-48-div-2-south"}, "Irish Village 48": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "United Intl FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitano", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Albanian United Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Fernandes FC O50", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "United Intl FC", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Taunton Eagles", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FIMA FC O50", "result": "W", "score": "4\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Western Mass Lusitano", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Albanian United Veterans", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland wahootoo", "result": "W", "score": "2\u20130", "venue": "H"}], "slug": "irish-village-48-over-48-div-2-south"}, "Taunton Eagles": {"next_game": {"date": "2026-05-25", "display_date": "Monday, May 25", "opponent": "United Intl FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes FC O50", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland wahootoo", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Albanian United Veterans", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Western Mass Lusitano", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FIMA FC O50", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village 48", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Fernandes FC O50", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wayland wahootoo", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Albanian United Veterans", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "taunton-eagles-over-48-div-2-south"}, "United Intl FC": {"next_game": {"date": "2026-05-25", "display_date": "Monday, May 25", "opponent": "Taunton Eagles", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland wahootoo", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitano", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Albanian United Veterans", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village 48", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FIMA FC O50", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland wahootoo", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Fernandes FC O50", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Western Mass Lusitano", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "united-intl-fc-over-48-div-2-south"}, "Wayland wahootoo": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Western Mass Lusitano", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "United Intl FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Taunton Eagles", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village 48", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Western Mass Lusitano", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Albanian United Veterans", "result": "D", "score": "4\u20134", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "United Intl FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Taunton Eagles", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village 48", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "wayland-wahootoo-over-48-div-2-south"}, "Western Mass Lusitano": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland wahootoo", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village 48", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "United Intl FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Taunton Eagles", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland wahootoo", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Fernandes FC O50", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Albanian United Veterans", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village 48", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FIMA FC O50", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "United Intl FC", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "western-mass-lusitano-over-48-div-2-south"}};
 const STANDINGS_MAP = {};
 
 STANDINGS_MAP["Fernandes FC O50"] = { w: 6, l: 0, t: 1, gp: 7 };
@@ -1500,7 +1510,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];

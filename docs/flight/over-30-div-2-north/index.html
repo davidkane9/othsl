@@ -318,6 +318,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -345,182 +346,27 @@
     -->
   </div>
 
-  <!-- Standings -->
   <section class="section">
-    <div class="section-title">
-      <h2>Standings</h2>
-      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px" id="sim-title">Standings And What If</h2>
+        <span class="sim-status" id="sim-status">Starting simulationâ€¦</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
+      </div>
     </div>
-
-    <!-- Matchweek timeline -->
     <div class="mw-selects" id="mw-controls">
       <select id="mw-week" class="mw-sel"></select>
       <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
     </div>
-
-    <div class="panel" style="padding: 0 0 2px">
-      <table class="standings-table">
-        <thead>
-          <tr>
-            <th class="pos">#</th>
-            <th>Team</th>
-            <th class="num">GP</th>
-            <th class="num">W</th>
-            <th class="num">L</th>
-            <th class="num">T</th>
-            <th class="num">Pts</th>
-            <th class="num">GD</th>
-            <th class="num">PPG</th>
-          </tr>
-        </thead>
-        <tbody id="standings-tbody">
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">1</td>
-            <td class="team-name-cell" data-team="Groton House FC" data-slug="groton-house-fc-over-30-div-2-north">Groton House FC</td>
-            <td class="num">6</td>
-            <td class="num">4</td>
-            <td class="num">0</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">14</td>
-            <td class="num gd-pos">
-              +12
-            </td>
-            <td class="num">2.33</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">2</td>
-            <td class="team-name-cell" data-team="Ferruginha FC" data-slug="ferruginha-fc-over-30-div-2-north">Ferruginha FC</td>
-            <td class="num">4</td>
-            <td class="num">2</td>
-            <td class="num">0</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">8</td>
-            <td class="num gd-pos">
-              +5
-            </td>
-            <td class="num">2.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">3</td>
-            <td class="team-name-cell" data-team="Essex Football Club" data-slug="essex-football-club-over-30-div-2-north">Essex Football Club</td>
-            <td class="num">7</td>
-            <td class="num">4</td>
-            <td class="num">2</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">13</td>
-            <td class="num gd-pos">
-              +4
-            </td>
-            <td class="num">1.86</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">4</td>
-            <td class="team-name-cell" data-team="Harvard" data-slug="harvard-over-30-div-2-north">Harvard</td>
-            <td class="num">6</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">8</td>
-            <td class="num gd-neg">
-              -1
-            </td>
-            <td class="num">1.33</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">5</td>
-            <td class="team-name-cell" data-team="Lexington Eagles FC" data-slug="lexington-eagles-fc-over-30-div-2-north">Lexington Eagles FC</td>
-            <td class="num">7</td>
-            <td class="num">2</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">7</td>
-            <td class="num gd-neg">
-              -11
-            </td>
-            <td class="num">1.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">6</td>
-            <td class="team-name-cell" data-team="Irish Village" data-slug="irish-village-over-30-div-2-north">Irish Village</td>
-            <td class="num">6</td>
-            <td class="num">1</td>
-            <td class="num">3</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">5</td>
-            <td class="num gd-neg">
-              -1
-            </td>
-            <td class="num">0.83</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">7</td>
-            <td class="team-name-cell" data-team="Lynnfield FC" data-slug="lynnfield-fc-over-30-div-2-north">Lynnfield FC</td>
-            <td class="num">6</td>
-            <td class="num">1</td>
-            <td class="num">3</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">5</td>
-            <td class="num gd-neg">
-              -4
-            </td>
-            <td class="num">0.83</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">8</td>
-            <td class="team-name-cell" data-team="New England Elite FC" data-slug="new-england-elite-fc-over-30-div-2-north">New England Elite FC</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num">3</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">3</td>
-            <td class="num gd-neg">
-              -4
-            </td>
-            <td class="num">0.75</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
+      Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
     </div>
   </section>
 
@@ -530,12 +376,12 @@
   
   <section class="section" id="ai-flight-section">
     <div class="section-title">
-      <h2>Simulation Summary</h2>
+      <h2>Summary</h2>
     </div>
     <div class="summary-stack">
       
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Spring 2026 Over 30 Division 2 North race, Groton House FC leads with 14 points and an impressive promotion chance of 96.2%, while Essex Football Club closely follows with 13 points and a 45.0% chance of promotion. The upcoming match between Essex Football Club and Ferruginha FC on Sunday, June 07, is crucial, as it represents the most significant opportunity for Essex to strengthen their position, with a projected score of 131.2 and a 67.4% likelihood of an Essex victory. Meanwhile, Lynnfield FC poses a serious threat at the bottom of the standings, sitting on just 5 points with a troubling 70.5% chance of relegation.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Spring 2026 Over 30 Division 2 North race, Groton House FC leads the standings with 17 points and an impressive goal difference of +16, boasting a near-certain 99.8% chance of promotion. Essex Football Club, holding 13 points, faces a critical matchup against Ferruginha FC on Sunday, June 07, where the stakes are high; a win for Essex could significantly bolster their 49.5% promotion chance. Meanwhile, Ferruginha FC, currently at 9 points, will be fighting to improve their 40.8% promotion odds and avoid slipping into relegation territory. With Lynnfield FC and New England Elite FC both struggling at the bottom, the danger of relegation looms prominently, with New England Elite facing a daunting 96.2% chance of dropping down.</p>
       </div>
       
       
@@ -544,56 +390,56 @@
         
         <article class="team-summary-card">
           <h3>Groton House FC</h3>
-          <p>Groton House FC is having an impressive season in the Over 30 Div 2 North flight, currently sitting at the top of the table with 14 points from 6 games, boasting an excellent goal difference of +12 and a solid record of 4 wins, 2 draws, and no losses. They are firmly in the promotion zone, sitting 9 points clear of the relegation zone, and with a 98.0% simulation probability of promotion, their ascent looks promising. The key upcoming match against Lexington Eagles FC on June 7, 2026, is pivotal; with a 55% win probability, it presents a crucial opportunity to maintain momentum against a team struggling at 7 points, potentially solidifying Groton&#39;s position at the top.</p>
-        </article>
-        
-        
-        
-        <article class="team-summary-card">
-          <h3>Ferruginha FC</h3>
-          <p>Ferruginha FC has shown solid form early in the season with a record of 2 wins, 2 ties, and no losses, currently sitting 3rd in the Over 30 Div 2 North flight with 8 points—just 5 points off the promotion spots but also only 3 points above relegation. The key matchup that will likely define their season is against Harvard on June 14, 2026, where Ferruginha holds a 57% win probability; winning this match is critical not only for maintaining pressure on the promotion race but also for solidifying a safe position above relegation. With five games left, they need to capitalize on favorable matchups against Irish Village and Lynnfield FC to build momentum leading into this decisive fixture.</p>
+          <p>Groton House FC is having an impressive season in the Over 30 Div 2 North flight, currently sitting at the top of the table with 17 points from 7 games, boasting an impressive goal difference of +16. With a solid 12-point cushion over the relegation zone, they are 4 points clear of second-place Essex Football Club, putting them firmly in the promotion zone with a staggering 99.5% probability of promotion based on simulation data. The most decisive upcoming game will be against Lynnfield FC on June 14, 2026, where Groton House FC has a 72% win probability; a victory would not only solidify their position at the top but also push Lynnfield FC further towards relegation, making it a critical match for both teams.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Essex Football Club</h3>
-          <p>Essex Football Club is having a solid season in the Over 30 Div 2 North flight, currently sitting in second place with 13 points after 7 games, boasting a positive goal difference of +4, and firmly in the promotion zone with an impressive 43.2% chance of moving up. They are 8 points clear of relegation, making their position quite secure, but they need to maintain their form to ensure promotion remains within reach. The upcoming match against Harvard on May 31, 2026, is crucial; with a 49% win probability and Harvard sitting at 8 points, a win would not only solidify Essex&#39;s promotion bid but also create significant distance from their nearest rivals, potentially putting them in a commanding position as the season winds down.</p>
+          <p>Essex Football Club is currently sitting in second place in the Over 30 Div 2 North flight, holding 13 points after 7 games and showing solid form with 4 wins, 2 losses, and 1 draw, while also maintaining a goal differential of +4. They are 4 points clear of the relegation zone and only 4 points behind Groton House FC for the top spot, indicating a strong chance for promotion with a 47.8% simulation likelihood. The upcoming match against Harvard on May 31, where they have a 45% win probability, is crucial; a win would solidify their position in the promotion race while keeping Harvard at bay, as they currently sit only 2 points behind Essex with 11 points.</p>
+        </article>
+        
+        
+        
+        <article class="team-summary-card">
+          <h3>Ferruginha FC</h3>
+          <p>Ferruginha FC is currently sitting in 4th place in the Over 30 Div 2 North flight with 9 points after 5 games, which puts them 4 points off promotion and 4 points clear of relegation safety. With a solid goal difference of +5, their form shows promise, highlighted by their ability to secure draws, but they need to convert those into wins to close the gap to the promotion spots. The most decisive upcoming game is against Harvard on June 14, where a win could significantly boost their chances of promotion given Harvard&#39;s current 11 points and a 53% win probability for Ferruginha FC—this match could be a turning point in their season.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Harvard</h3>
-          <p>Harvard&#39;s season in the Over 30 Div 2 North flight has been a mixed bag, currently sitting 4th with 8 points from 6 games, just 5 points off promotion and 3 points above relegation. Their goal difference of -1 reflects some struggles, particularly in defense, and the upcoming matches will be crucial for maintaining their safety, especially with 3 points separating them from relegation. The most decisive game is against Ferruginha FC on June 14, where they have only a 21% win probability; losing this match could drastically impact their chances of safety, given Ferruginha&#39;s current form and 8 points on the board.</p>
+          <p>Harvard is currently holding steady in 3rd place in the Over 30 Div 2 North flight with 11 points after 7 games, just 2 points off promotion and a comfortable 6 points clear of relegation. The upcoming match against Essex Football Club on May 31, 2026, is pivotal; with a win probability of only 33%, securing points against the second-place team is crucial for maintaining their promotion chase. A loss could jeopardize their momentum, especially with a tough matchup against Ferruginha FC looming, where they have just a 25% chance of victory, making this game a must-win to bolster their promotion hopes.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Lexington Eagles FC</h3>
-          <p>Lexington Eagles FC&#39;s season in the Over 30 Div 2 North flight has been a struggle, sitting 5th with 7 points after 7 games and a goal differential of -11, leaving them 6 points off promotion and just 2 points above relegation. The most decisive upcoming match will be against Lynnfield FC on May 31, 2026, where a win is crucial; with a 56% probability of victory, this game could help solidify their position above the relegation zone and close the gap on promotion. Given the standings, a loss would not only jeopardize their safety (as Lynnfield is just 2 points behind) but also significantly diminish their chances of climbing the table, making this match a must-win.</p>
+          <p>Lexington Eagles FC&#39;s season in the Over 30 Div 2 North flight has been rocky, currently sitting 5th out of 8 teams with 7 points after 7 games, and a goal difference of -11. They are 6 points shy of promotion while only 2 points above relegation, making their upcoming matches crucial for avoiding a potential drop. The most decisive game will be against Lynnfield FC on May 31, 2026, where they hold a 56% win probability; winning this match could significantly bolster their standing and ease relegation fears, while a loss could tighten the noose as Lynnfield trails closely behind.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Irish Village</h3>
-          <p>Irish Village is currently struggling in the Over 30 Div 2 North flight, sitting 6th out of 8 teams with just 5 points from 6 games, and they are 8 points adrift of promotion while teetering on the edge of relegation, sitting only 1 point above Lynnfield FC. The immediate challenge is their crucial upcoming match against Lynnfield FC on June 7, 2026, where a win is paramount; with a 53% win probability, this match could either bolster their chances of avoiding relegation or plunge them deeper into the battle for survival. Given their remaining fixtures, particularly the low win probabilities against Ferruginha FC (23%) and Groton House FC (20%), this match against Lynnfield represents a pivotal moment for Irish Village to reclaim momentum and secure their place in the league.</p>
+          <p>Irish Village&#39;s season in the Over 30 Div 2 North flight has been a struggle, currently sitting 6th out of 8 teams with just 6 points after 7 games, which puts them 7 points away from promotion and only 1 point above relegation danger. With a goal difference of -1, their form shows a single win, three losses, and three draws, highlighting a need for more decisive victories as they face a pivotal stretch of matches. The upcoming game against Lynnfield FC on June 7, where they hold a 54% win probability, is crucial; a victory would solidify their position above relegation while keeping them in reach of the mid-table, making it a definitive turning point in their season.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Lynnfield FC</h3>
-          <p>Lynnfield FC is struggling in the Over 30 Div 2 North flight this season, currently sitting 7th out of 8 teams with just 5 points from 6 games, putting them 8 points off promotion and perilously close to relegation. With a simulation indicating a 68.5% chance of relegation, they need to close the 3-point gap to safety, currently occupied by Harvard and Ferruginha FC, to avoid dropping down a division. The upcoming match against Irish Village on June 7, where they hold a 25% win probability, is crucial; a win could be a turning point, allowing Lynnfield to leapfrog their opponents and potentially set the stage for a late-season resurgence.</p>
+          <p>Lynnfield FC is struggling in the Over 30 Div 2 North flight this season, currently sitting 7th out of 8 teams with just 5 points after 6 matches, and a goal difference of -4. They are 8 points adrift from promotion and teetering dangerously close to relegation, with a 65.2% chance of dropping down a division based on simulation runs. The most crucial upcoming match is against Irish Village on June 7, 2026, where Lynnfield has a 24% chance of winning; a loss could solidify their relegation fears, while a win might reignite hopes for a late-season resurgence.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>New England Elite FC</h3>
-          <p>New England Elite FC is currently struggling in the Over 30 Div 2 North flight, sitting at the bottom of the table with only 3 points after 4 games, putting them 10 points off promotion and just 2 points from safety in the relegation zone. Their goal difference of -4 highlights the team&#39;s defensive vulnerabilities, which will need addressing if they aim to stave off relegation with five games left in the season. The most crucial upcoming match is against Harvard on May 24, 2026; with a 31% win probability, this game presents a pivotal opportunity for New England Elite FC to gain ground, as a win could bring them level on points with Harvard and significantly boost their chances of avoiding relegation.</p>
+          <p>New England Elite FC is struggling in the Over 30 Div 2 North flight this season, currently sitting at the bottom of the table with only 3 points from 6 games, a dismal record of 1 win and 5 losses, and a goal difference of -9. With a daunting 10-point gap from promotion and only 2 points from safety, time is running out for them to turn things around as they face a tough schedule ahead. The most critical match will be their upcoming clash against Ferruginha FC on May 31, 2026, where they have a mere 10% win probability; a loss could further solidify their relegation fate, while a win is crucial to keep their hopes alive.</p>
         </article>
         
         
@@ -602,26 +448,6 @@
     </div>
   </section>
   
-
-  <!-- Season Outlook / What If -->
-  <section class="section">
-    <div class="sim-header">
-      <div>
-        <h2 style="margin:0 0 4px" id="sim-title">Season Outlook</h2>
-        <span class="sim-status" id="sim-status">Starting simulation…</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
-        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
-      </div>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
-      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
-    </p>
-    <div class="panel" style="padding:14px 16px">
-      <div id="game-list"></div>
-    </div>
-  </section>
 
   <footer>
     A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
@@ -655,26 +481,26 @@
 
 <script>
 const IS_HISTORICAL    = false;
-const SIM_DATA         = {"current_elos": {"Essex Football Club": 1497.4, "Ferruginha FC": 1528.3, "Groton House FC": 1542.5, "Harvard": 1461.1, "Irish Village": 1470.3, "Lexington Eagles FC": 1481.3, "Lynnfield FC": 1419.2, "New England Elite FC": 1433.5}, "current_regression": 0.033333333333333305, "current_stats": {"Essex Football Club": {"gd": 4, "gf": 16, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "Ferruginha FC": {"gd": 5, "gf": 7, "gp": 4, "l": 0, "pts": 8, "t": 2, "w": 2}, "Groton House FC": {"gd": 12, "gf": 14, "gp": 6, "l": 0, "pts": 14, "t": 2, "w": 4}, "Harvard": {"gd": -1, "gf": 11, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "Irish Village": {"gd": -1, "gf": 12, "gp": 6, "l": 3, "pts": 5, "t": 2, "w": 1}, "Lexington Eagles FC": {"gd": -11, "gf": 9, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Lynnfield FC": {"gd": -4, "gf": 8, "gp": 6, "l": 3, "pts": 5, "t": 2, "w": 1}, "New England Elite FC": {"gd": -4, "gf": 8, "gp": 4, "l": 3, "pts": 3, "t": 0, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Ferruginha FC", "away_win_prob": 0.546, "date": "2026-05-17", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.234, "id": "2026-05-17|Irish Village|Ferruginha FC", "involves_team": false}, {"away": "Groton House FC", "away_win_prob": 0.659, "date": "2026-05-17", "draw_prob": 0.22, "home": "New England Elite FC", "home_win_prob": 0.121, "id": "2026-05-17|New England Elite FC|Groton House FC", "involves_team": false}, {"away": "Harvard", "away_win_prob": 0.466, "date": "2026-05-24", "draw_prob": 0.22, "home": "New England Elite FC", "home_win_prob": 0.314, "id": "2026-05-24|New England Elite FC|Harvard", "involves_team": false}, {"away": "Ferruginha FC", "away_win_prob": 0.659, "date": "2026-05-24", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.121, "id": "2026-05-24|Lynnfield FC|Ferruginha FC", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.2, "date": "2026-05-31", "draw_prob": 0.22, "home": "Groton House FC", "home_win_prob": 0.58, "id": "2026-05-31|Groton House FC|Irish Village", "involves_team": false}, {"away": "Lexington Eagles FC", "away_win_prob": 0.556, "date": "2026-05-31", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.224, "id": "2026-05-31|Lynnfield FC|Lexington Eagles FC", "involves_team": false}, {"away": "Essex Football Club", "away_win_prob": 0.49, "date": "2026-05-31", "draw_prob": 0.22, "home": "Harvard", "home_win_prob": 0.29, "id": "2026-05-31|Harvard|Essex Football Club", "involves_team": false}, {"away": "New England Elite FC", "away_win_prob": 0.15, "date": "2026-05-31", "draw_prob": 0.22, "home": "Ferruginha FC", "home_win_prob": 0.63, "id": "2026-05-31|Ferruginha FC|New England Elite FC", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.528, "date": "2026-06-07", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.252, "id": "2026-06-07|Lynnfield FC|Irish Village", "involves_team": false}, {"away": "Groton House FC", "away_win_prob": 0.554, "date": "2026-06-07", "draw_prob": 0.22, "home": "Lexington Eagles FC", "home_win_prob": 0.226, "id": "2026-06-07|Lexington Eagles FC|Groton House FC", "involves_team": false}, {"away": "Ferruginha FC", "away_win_prob": 0.475, "date": "2026-06-07", "draw_prob": 0.22, "home": "Essex Football Club", "home_win_prob": 0.305, "id": "2026-06-07|Essex Football Club|Ferruginha FC", "involves_team": false}, {"away": "New England Elite FC", "away_win_prob": 0.314, "date": "2026-06-07", "draw_prob": 0.22, "home": "Harvard", "home_win_prob": 0.466, "id": "2026-06-07|Harvard|New England Elite FC", "involves_team": false}, {"away": "Lexington Eagles FC", "away_win_prob": 0.421, "date": "2026-06-14", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.359, "id": "2026-06-14|Irish Village|Lexington Eagles FC", "involves_team": false}, {"away": "Lynnfield FC", "away_win_prob": 0.095, "date": "2026-06-14", "draw_prob": 0.22, "home": "Groton House FC", "home_win_prob": 0.685, "id": "2026-06-14|Groton House FC|Lynnfield FC", "involves_team": false}, {"away": "Harvard", "away_win_prob": 0.212, "date": "2026-06-14", "draw_prob": 0.22, "home": "Ferruginha FC", "home_win_prob": 0.568, "id": "2026-06-14|Ferruginha FC|Harvard", "involves_team": false}, {"away": "Essex Football Club", "away_win_prob": 0.56, "date": "2026-06-14", "draw_prob": 0.22, "home": "New England Elite FC", "home_win_prob": 0.22, "id": "2026-06-14|New England Elite FC|Essex Football Club", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Groton House FC", "Ferruginha FC", "Essex Football Club", "Harvard", "Lexington Eagles FC", "Irish Village", "Lynnfield FC", "New England Elite FC"], "total_teams": 8};
-const FLIGHT_RESULTS   = [{"ag": 1, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 0, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Ferruginha FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 5, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "New England Elite FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-14", "forfeit": false, "hg": 3, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}];
-const FLIGHT_CARDS     = {"Essex Football Club": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Groton House FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Harvard", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "New England Elite FC", "result": "W", "score": "1\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": "essex-football-club-over-30-div-2-north"}, "Ferruginha FC": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village", "venue": "@"}, "played": [{"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Essex Football Club", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Groton House FC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Harvard", "result": "T", "score": "0\u20130", "venue": "A"}], "recent": [{"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Essex Football Club", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Groton House FC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles FC", "result": "W", "score": "4\u20131", "venue": "H"}], "slug": "ferruginha-fc-over-30-div-2-north"}, "Groton House FC": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England Elite FC", "venue": "@"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Ferruginha FC", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Essex Football Club", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lynnfield FC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Lexington Eagles FC", "result": "W", "score": "3\u20130", "venue": "H"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Ferruginha FC", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Essex Football Club", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": "groton-house-fc-over-30-div-2-north"}, "Harvard": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "New England Elite FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lynnfield FC", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Essex Football Club", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Ferruginha FC", "result": "T", "score": "0\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lynnfield FC", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": "harvard-over-30-div-2-north"}, "Irish Village": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Ferruginha FC", "venue": "vs"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Essex Football Club", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England Elite FC", "result": "W", "score": "6\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lexington Eagles FC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Lynnfield FC", "result": "L", "score": "0\u20131", "venue": "H"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Essex Football Club", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England Elite FC", "result": "W", "score": "6\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard", "result": "L", "score": "3\u20134", "venue": "A"}], "slug": "irish-village-over-30-div-2-north"}, "Lexington Eagles FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Lynnfield FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England Elite FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Essex Football Club", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Lynnfield FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Groton House FC", "result": "L", "score": "0\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England Elite FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Essex Football Club", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": "lexington-eagles-fc-over-30-div-2-north"}, "Lynnfield FC": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Ferruginha FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Essex Football Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England Elite FC", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Lexington Eagles FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Groton House FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Irish Village", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Essex Football Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England Elite FC", "result": "L", "score": "2\u20134", "venue": "H"}], "slug": "lynnfield-fc-over-30-div-2-north"}, "New England Elite FC": {"next_game": {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Groton House FC", "venue": "vs"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village", "result": "L", "score": "3\u20136", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Essex Football Club", "result": "L", "score": "0\u20131", "venue": "A"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village", "result": "L", "score": "3\u20136", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "A"}], "slug": "new-england-elite-fc-over-30-div-2-north"}};
+const SIM_DATA         = {"current_elos": {"Essex Football Club": 1497.4, "Ferruginha FC": 1525.6, "Groton House FC": 1553.7, "Harvard": 1475.3, "Irish Village": 1473.0, "Lexington Eagles FC": 1481.3, "Lynnfield FC": 1419.2, "New England Elite FC": 1408.2}, "current_regression": 0.0, "current_stats": {"Essex Football Club": {"gd": 4, "gf": 16, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "Ferruginha FC": {"gd": 5, "gf": 10, "gp": 5, "l": 0, "pts": 9, "t": 3, "w": 2}, "Groton House FC": {"gd": 16, "gf": 20, "gp": 7, "l": 0, "pts": 17, "t": 2, "w": 5}, "Harvard": {"gd": 0, "gf": 14, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "Irish Village": {"gd": -1, "gf": 15, "gp": 7, "l": 3, "pts": 6, "t": 3, "w": 1}, "Lexington Eagles FC": {"gd": -11, "gf": 9, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Lynnfield FC": {"gd": -4, "gf": 8, "gp": 6, "l": 3, "pts": 5, "t": 2, "w": 1}, "New England Elite FC": {"gd": -9, "gf": 12, "gp": 6, "l": 5, "pts": 3, "t": 0, "w": 1}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Ferruginha FC", "away_win_prob": 0.663, "date": "2026-05-24", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.117, "id": "2026-05-24|Lynnfield FC|Ferruginha FC", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.173, "date": "2026-05-31", "draw_prob": 0.22, "home": "Groton House FC", "home_win_prob": 0.607, "id": "2026-05-31|Groton House FC|Irish Village", "involves_team": false}, {"away": "Lexington Eagles FC", "away_win_prob": 0.561, "date": "2026-05-31", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.219, "id": "2026-05-31|Lynnfield FC|Lexington Eagles FC", "involves_team": false}, {"away": "Essex Football Club", "away_win_prob": 0.453, "date": "2026-05-31", "draw_prob": 0.22, "home": "Harvard", "home_win_prob": 0.327, "id": "2026-05-31|Harvard|Essex Football Club", "involves_team": false}, {"away": "New England Elite FC", "away_win_prob": 0.096, "date": "2026-05-31", "draw_prob": 0.22, "home": "Ferruginha FC", "home_win_prob": 0.684, "id": "2026-05-31|Ferruginha FC|New England Elite FC", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.54, "date": "2026-06-07", "draw_prob": 0.22, "home": "Lynnfield FC", "home_win_prob": 0.24, "id": "2026-06-07|Lynnfield FC|Irish Village", "involves_team": false}, {"away": "Groton House FC", "away_win_prob": 0.587, "date": "2026-06-07", "draw_prob": 0.22, "home": "Lexington Eagles FC", "home_win_prob": 0.193, "id": "2026-06-07|Lexington Eagles FC|Groton House FC", "involves_team": false}, {"away": "Ferruginha FC", "away_win_prob": 0.47, "date": "2026-06-07", "draw_prob": 0.22, "home": "Essex Football Club", "home_win_prob": 0.31, "id": "2026-06-07|Essex Football Club|Ferruginha FC", "involves_team": false}, {"away": "New England Elite FC", "away_win_prob": 0.206, "date": "2026-06-07", "draw_prob": 0.22, "home": "Harvard", "home_win_prob": 0.574, "id": "2026-06-07|Harvard|New England Elite FC", "involves_team": false}, {"away": "Lexington Eagles FC", "away_win_prob": 0.414, "date": "2026-06-14", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.366, "id": "2026-06-14|Irish Village|Lexington Eagles FC", "involves_team": false}, {"away": "Lynnfield FC", "away_win_prob": 0.065, "date": "2026-06-14", "draw_prob": 0.22, "home": "Groton House FC", "home_win_prob": 0.715, "id": "2026-06-14|Groton House FC|Lynnfield FC", "involves_team": false}, {"away": "Harvard", "away_win_prob": 0.249, "date": "2026-06-14", "draw_prob": 0.22, "home": "Ferruginha FC", "home_win_prob": 0.531, "id": "2026-06-14|Ferruginha FC|Harvard", "involves_team": false}, {"away": "Essex Football Club", "away_win_prob": 0.626, "date": "2026-06-14", "draw_prob": 0.22, "home": "New England Elite FC", "home_win_prob": 0.154, "id": "2026-06-14|New England Elite FC|Essex Football Club", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Groton House FC", "Essex Football Club", "Ferruginha FC", "Harvard", "Lexington Eagles FC", "Irish Village", "Lynnfield FC", "New England Elite FC"], "total_teams": 8};
+const FLIGHT_RESULTS   = [{"ag": 1, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 0, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Ferruginha FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 4, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Lynnfield FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 5, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Lexington Eagles FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 5, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Irish Village", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "New England Elite FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Harvard", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Groton House FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "New England Elite FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Essex Football Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-14", "forfeit": false, "hg": 3, "home": "Ferruginha FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Ferruginha FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 3, "home": "Irish Village", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Lexington Eagles FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Lynnfield FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Essex Football Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Groton House FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "New England Elite FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Harvard", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-24", "forfeit": false, "hg": 2, "home": "New England Elite FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const FLIGHT_CARDS     = {"Essex Football Club": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Groton House FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Harvard", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "New England Elite FC", "result": "W", "score": "1\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village", "result": "D", "score": "1\u20131", "venue": "A"}], "slug": "essex-football-club-over-30-div-2-north"}, "Ferruginha FC": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Lynnfield FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Essex Football Club", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Groton House FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles FC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Harvard", "result": "D", "score": "0\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-14", "display_date": "Thursday, May 14", "opponent": "Essex Football Club", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Groton House FC", "result": "D", "score": "0\u20130", "venue": "H"}], "slug": "ferruginha-fc-over-30-div-2-north"}, "Groton House FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Irish Village", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England Elite FC", "result": "W", "score": "6\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Ferruginha FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Essex Football Club", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lynnfield FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Lexington Eagles FC", "result": "W", "score": "3\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "New England Elite FC", "result": "W", "score": "6\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Ferruginha FC", "result": "D", "score": "0\u20130", "venue": "A"}], "slug": "groton-house-fc-over-30-div-2-north"}, "Harvard": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Essex Football Club", "venue": "vs"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "New England Elite FC", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lynnfield FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Essex Football Club", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Ferruginha FC", "result": "D", "score": "0\u20130", "venue": "H"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "New England Elite FC", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "harvard-over-30-div-2-north"}, "Irish Village": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Groton House FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Ferruginha FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Essex Football Club", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England Elite FC", "result": "W", "score": "6\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Groton House FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lexington Eagles FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Lynnfield FC", "result": "L", "score": "0\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Ferruginha FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Essex Football Club", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "New England Elite FC", "result": "W", "score": "6\u20133", "venue": "A"}], "slug": "irish-village-over-30-div-2-north"}, "Lexington Eagles FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Lynnfield FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England Elite FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Essex Football Club", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Ferruginha FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Lynnfield FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Groton House FC", "result": "L", "score": "0\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "New England Elite FC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Essex Football Club", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": "lexington-eagles-fc-over-30-div-2-north"}, "Lynnfield FC": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Ferruginha FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Essex Football Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England Elite FC", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Lexington Eagles FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Groton House FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Irish Village", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Essex Football Club", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "New England Elite FC", "result": "L", "score": "2\u20134", "venue": "H"}], "slug": "lynnfield-fc-over-30-div-2-north"}, "New England Elite FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Ferruginha FC", "venue": "@"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Harvard", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Groton House FC", "result": "L", "score": "2\u20136", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village", "result": "L", "score": "3\u20136", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lynnfield FC", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Essex Football Club", "result": "L", "score": "0\u20131", "venue": "A"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Harvard", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Groton House FC", "result": "L", "score": "2\u20136", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles FC", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": "new-england-elite-fc-over-30-div-2-north"}};
 const IS_TOP_FLIGHT    = false;
 const IS_BOTTOM_FLIGHT = false;
 const SCHEDULE_INFERRED = false;
 const STANDINGS_MAP = {};
-STANDINGS_MAP["Groton House FC"] = { w:4, l:0, t:2, gp:6 };
-STANDINGS_MAP["Ferruginha FC"] = { w:2, l:0, t:2, gp:4 };
+STANDINGS_MAP["Groton House FC"] = { w:5, l:0, t:2, gp:7 };
 STANDINGS_MAP["Essex Football Club"] = { w:4, l:2, t:1, gp:7 };
-STANDINGS_MAP["Harvard"] = { w:2, l:2, t:2, gp:6 };
+STANDINGS_MAP["Ferruginha FC"] = { w:2, l:0, t:3, gp:5 };
+STANDINGS_MAP["Harvard"] = { w:3, l:2, t:2, gp:7 };
 STANDINGS_MAP["Lexington Eagles FC"] = { w:2, l:4, t:1, gp:7 };
-STANDINGS_MAP["Irish Village"] = { w:1, l:3, t:2, gp:6 };
+STANDINGS_MAP["Irish Village"] = { w:1, l:3, t:3, gp:7 };
 STANDINGS_MAP["Lynnfield FC"] = { w:1, l:3, t:2, gp:6 };
-STANDINGS_MAP["New England Elite FC"] = { w:1, l:3, t:0, gp:4 };
+STANDINGS_MAP["New England Elite FC"] = { w:1, l:5, t:0, gp:6 };
 
 const TEAM_SLUGS = {};
 TEAM_SLUGS["Groton House FC"] = "groton-house-fc-over-30-div-2-north";
-TEAM_SLUGS["Ferruginha FC"] = "ferruginha-fc-over-30-div-2-north";
 TEAM_SLUGS["Essex Football Club"] = "essex-football-club-over-30-div-2-north";
+TEAM_SLUGS["Ferruginha FC"] = "ferruginha-fc-over-30-div-2-north";
 TEAM_SLUGS["Harvard"] = "harvard-over-30-div-2-north";
 TEAM_SLUGS["Lexington Eagles FC"] = "lexington-eagles-fc-over-30-div-2-north";
 TEAM_SLUGS["Irish Village"] = "irish-village-over-30-div-2-north";
@@ -754,18 +580,28 @@ let   teamStats = {};
 // Base stats and future games derived from viewDate
 function getBaseStats() {
   if (!viewDate) return current_stats;
+  if (viewDate === '__week0__') {
+    const stats = {};
+    for (const t of teams) stats[t] = { pts: 0, gd: 0, gf: 0 };
+    return stats;
+  }
   const stats = {};
   for (const t of teams) stats[t] = { pts:0, gd:0, gf:0 };
   for (const r of FLIGHT_RESULTS) {
     if (r.date > viewDate) continue;
     for (const t of [r.home, r.away]) if (!stats[t]) stats[t]={pts:0,gd:0,gf:0};
     if (r.forfeit) {
-      if (r.home_forfeit) {
-        stats[r.away].pts+=3; stats[r.away].gd++;  stats[r.away].gf+=2;
-        stats[r.home].gd--;  stats[r.home].gf++;
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].pts += 3; stats[r.away].gd += 3; stats[r.away].gf += 3;
+        stats[r.home].gd -= 3;
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
       } else {
-        stats[r.home].pts+=3; stats[r.home].gd++;  stats[r.home].gf+=2;
-        stats[r.away].gd--;  stats[r.away].gf++;
+        stats[r.home].pts += 3; stats[r.home].gd += 3; stats[r.home].gf += 3;
+        stats[r.away].gd -= 3;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
       }
     } else if (r.hg !== null && r.ag !== null) {
       stats[r.home].gf+=r.hg; stats[r.home].gd+=(r.hg-r.ag);
@@ -780,17 +616,83 @@ function getBaseStats() {
 
 function getFutureGames() {
   if (!viewDate) return remaining_games;
+  if (viewDate === '__week0__') return COMBINED_GAMES.slice();
   return COMBINED_GAMES.filter(g => g.date==='TBD' || g.date>viewDate);
+}
+
+function getBaseTableRows() {
+  if (!viewDate) {
+    return teams.map(team => {
+      const s = current_stats[team] || { gp: 0, w: 0, l: 0, t: 0, pts: 0, gd: 0, gf: 0 };
+      return {
+        team,
+        gp: s.gp || 0,
+        w: s.w || 0,
+        l: s.l || 0,
+        d: s.t || 0,
+        pts: s.pts || 0,
+        gd: s.gd || 0,
+        gf: s.gf || 0,
+        ppg: s.gp ? s.pts / s.gp : 0,
+      };
+    }).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  const stats = {};
+  for (const team of teams) stats[team] = { gp: 0, w: 0, l: 0, d: 0, pts: 0, gf: 0, ga: 0 };
+  if (viewDate === '__week0__') {
+    return Object.entries(stats).map(([team, s]) => ({ team, ...s, gd: 0, ppg: 0 }))
+      .sort((a, b) => a.team.localeCompare(b.team));
+  }
+
+  for (const r of FLIGHT_RESULTS) {
+    if (r.date > viewDate) continue;
+    if (r.forfeit) {
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].w++; stats[r.away].gp++; stats[r.away].pts += 3; stats[r.away].gf += 3;
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga += 3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+      } else {
+        stats[r.home].w++; stats[r.home].gp++; stats[r.home].pts += 3; stats[r.home].gf += 3;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga += 3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      }
+      continue;
+    }
+    stats[r.home].gf += r.hg; stats[r.home].ga += r.ag; stats[r.home].gp++;
+    stats[r.away].gf += r.ag; stats[r.away].ga += r.hg; stats[r.away].gp++;
+    if (r.hg > r.ag) {
+      stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++;
+    } else if (r.ag > r.hg) {
+      stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++;
+    } else {
+      stats[r.home].d++; stats[r.home].pts++;
+      stats[r.away].d++; stats[r.away].pts++;
+    }
+  }
+
+  return Object.entries(stats).map(([team, s]) => ({
+    team,
+    gp: s.gp,
+    w: s.w,
+    l: s.l,
+    d: s.d,
+    pts: s.pts,
+    gd: s.gf - s.ga,
+    gf: s.gf,
+    ppg: s.gp ? s.pts / s.gp : 0,
+  })).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
 }
 
 // Set viewDate and pre-fill overrides with actual results for games after that date.
 // This way the sim shows the real outcome by default; user can change to explore what-ifs.
 function setViewDate(date) {
-  viewDate = date;
+  viewDate = date || null;
   Object.keys(overrides).forEach(k=>delete overrides[k]);
-  if (date) {
+  if (viewDate && viewDate !== '__week0__') {
     for (const g of COMBINED_GAMES) {
-      if ((g.date==='TBD'||g.date>date) && HISTORICAL_RESULT[g.id]!==undefined) {
+      if ((g.date==='TBD'||g.date>viewDate) && HISTORICAL_RESULT[g.id]!==undefined) {
         overrides[g.id] = HISTORICAL_RESULT[g.id];
       }
     }
@@ -803,100 +705,73 @@ function setViewDate(date) {
 function updateSimHeader() {
   const title = document.getElementById('sim-title');
   const desc  = document.getElementById('sim-desc');
-  if (viewDate) {
-    if (title) title.textContent = 'What If?';
-    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> — games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
+  if (viewDate === '__week0__') {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>week 0</strong> - before any games were played. Every scheduled game is still open for simulation.`;
+  } else if (viewDate) {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> - games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
   } else {
-    if (title) title.textContent = 'Season Outlook';
-    if (desc)  desc.innerHTML = `Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
   }
 }
 
 // ── Matchweek timeline (single week dropdown) ─────────────────────────────
 (function() {
-  const tbody    = document.getElementById("standings-tbody");
   const mwLabel  = document.getElementById("mw-label");
   const selWeek  = document.getElementById("mw-week");
   const btnReset = document.getElementById("mw-reset");
 
-  const dates = [...new Set(FLIGHT_RESULTS.map(r=>r.date))].sort();
-  if (!dates.length) { document.getElementById('mw-controls').style.display='none'; return; }
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) {
+    document.getElementById('mw-controls').style.display = 'none';
+    return;
+  }
 
-  const multiYear = new Set(dates.map(d=>d.slice(0,4))).size > 1;
+  const currentOpt = document.createElement('option');
+  currentOpt.value = '';
+  currentOpt.textContent = 'Current';
+  selWeek.appendChild(currentOpt);
 
-  const ph = document.createElement('option');
-  ph.value = ''; ph.textContent = 'Full season'; selWeek.appendChild(ph);
+  const weekZeroOpt = document.createElement('option');
+  weekZeroOpt.value = '__week0__';
+  weekZeroOpt.textContent = 'Week 0';
+  selWeek.appendChild(weekZeroOpt);
+
+  const multiYear = new Set(dates.map(d => d.slice(0, 4))).size > 1;
   dates.forEach((d, i) => {
-    const o = document.createElement('option');
-    o.value = d;
-    o.textContent = multiYear ? `Wk ${i+1} · ${d.slice(5)} ${d.slice(0,4)}` : `Wk ${i+1} · ${d.slice(5)}`;
-    selWeek.appendChild(o);
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = multiYear ? `Wk ${i + 1} - ${d.slice(5)} ${d.slice(0, 4)}` : `Wk ${i + 1} - ${d.slice(5)}`;
+    selWeek.appendChild(opt);
   });
-
-  function buildStandingsFromResults(upToDate) {
-    const stats={};
-    for (const r of FLIGHT_RESULTS) {
-      if (r.date>upToDate) continue;
-      for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
-      if (r.forfeit) {
-        if (r.home_forfeit && r.away_forfeit) {
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
-        } else if (r.home_forfeit) {
-          stats[r.away].w++; stats[r.away].pts+=3; stats[r.away].gp++; stats[r.away].gf+=3; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga+=3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-        } else {
-          stats[r.home].w++; stats[r.home].pts+=3; stats[r.home].gp++; stats[r.home].gf+=3; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga+=3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-        }
-      } else {
-        stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
-        stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;
-        if(r.hg>r.ag){stats[r.home].w++;stats[r.home].pts+=3;stats[r.away].l++;}
-        else if(r.ag>r.hg){stats[r.away].w++;stats[r.away].pts+=3;stats[r.home].l++;}
-        else{stats[r.home].t++;stats[r.home].pts++;stats[r.away].t++;stats[r.away].pts++;}
-      }
-    }
-    return Object.entries(stats).map(([team,s])=>({team,...s,gd:s.gf-s.ga,ppg:s.gp?s.pts/s.gp:0}))
-      .sort((a,b)=>b.ppg-a.ppg||b.gd-a.gd||b.gf-a.gf||a.team.localeCompare(b.team));
-  }
-
-  function renderStandingsTable(table) {
-    const n=table.length, relegCut=n>=6?2:n>=4?1:0;
-    tbody.innerHTML=table.map((row,i)=>{
-      const pos=i+1, cls=pos<=2?'promo-row':pos>n-relegCut?'relg-row':'';
-      const gdStr=row.gd>0?`+${row.gd}`:String(row.gd);
-      const gdCls=row.gd>0?'gd-pos':row.gd<0?'gd-neg':'';
-      const slug=TEAM_SLUGS[row.team]||'';
-      return `<tr class="${cls}">
-        <td class="pos num">${pos}</td>
-        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
-        <td class="num">${row.gp}</td><td class="num">${row.w}</td><td class="num">${row.l}</td>
-        <td class="num">${row.t}</td><td class="num" style="font-weight:700">${row.pts}</td>
-        <td class="num ${gdCls}">${gdStr}</td>
-        <td class="num">${row.gp?(row.pts/row.gp).toFixed(2):'—'}</td>
-      </tr>`;
-    }).join('');
-    tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      if (!IS_HISTORICAL) {
-        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-        cell.addEventListener('mouseleave',hidePopup);
-      }
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-    });
-  }
 
   selWeek.addEventListener('change', () => {
     const date = selWeek.value;
-    if (date) {
-      mwLabel.textContent = `as of ${date}`; btnReset.style.display = '';
-      renderStandingsTable(buildStandingsFromResults(date));
-      setViewDate(date);
-    } else {
-      location.reload();
+    if (date === '__week0__') {
+      mwLabel.textContent = 'as of week 0';
+      btnReset.style.display = '';
+      setViewDate('__week0__');
+      return;
     }
+    if (date) {
+      mwLabel.textContent = `as of ${date}`;
+      btnReset.style.display = '';
+      setViewDate(date);
+      return;
+    }
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
   });
-  btnReset.addEventListener('click', () => location.reload());
+
+  btnReset.addEventListener('click', () => {
+    selWeek.value = '';
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
+  });
 })();
 
 document.querySelectorAll(".page-link").forEach(link=>{
@@ -999,109 +874,149 @@ function fmtDate(d) {
 function renderGrid() {
   const el = document.getElementById("game-list");
 
-  // "Past" cells = games in FLIGHT_RESULTS that are on/before viewDate (or all of them if no viewDate)
   const compByDT = {};
   for (const r of FLIGHT_RESULTS) {
-    if (viewDate && r.date > viewDate) continue;
-    if (!compByDT[r.date]) compByDT[r.date]={};
+    if (viewDate && viewDate !== '__week0__' && r.date > viewDate) continue;
+    if (viewDate === '__week0__') continue;
+    if (!compByDT[r.date]) compByDT[r.date] = {};
     let homeRes, awayRes, homeScore, awayScore;
     if (r.forfeit) {
-      homeRes=r.home_forfeit?'L':'W'; awayRes=r.home_forfeit?'W':'L'; homeScore=awayScore='F';
-    } else if (r.hg!==null&&r.ag!==null) {
-      homeRes=r.hg>r.ag?'W':r.hg<r.ag?'L':'D'; awayRes=r.ag>r.hg?'W':r.ag<r.hg?'L':'D';
-      homeScore=`${r.hg}–${r.ag}`; awayScore=`${r.ag}–${r.hg}`;
-    } else continue;
-    compByDT[r.date][r.home]={result:homeRes,opponent:r.away,score:homeScore};
-    compByDT[r.date][r.away]={result:awayRes,opponent:r.home,score:awayScore};
+      homeRes = r.home_forfeit ? 'L' : 'W';
+      awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}-${r.ag}`;
+      awayScore = `${r.ag}-${r.hg}`;
+    } else {
+      continue;
+    }
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
   }
 
-  // "Future" cells = getFutureGames() — includes historical games after viewDate with actual pre-fills
   const futureGames = getFutureGames();
-  const futureDates = [...new Set(futureGames.filter(g=>g.date!=='TBD').map(g=>g.date))].sort();
-  const hasTBD = futureGames.some(g=>g.date==='TBD');
+  const futureDates = [...new Set(futureGames.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD = futureGames.some(g => g.date === 'TBD');
   const compDates = Object.keys(compByDT).sort();
-  const allWeeks = [...new Set([...compDates,...futureDates])].sort();
+  const allWeeks = [...new Set([...compDates, ...futureDates])].sort();
   if (hasTBD) allWeeks.push('TBD');
 
   if (!allWeeks.length) {
-    el.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
     return;
   }
 
-  const byTW={};
-  for (const t of teams) byTW[t]={};
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
   for (const g of futureGames) {
-    if (byTW[g.home]) byTW[g.home][g.date]={...g,role:'home'};
-    if (byTW[g.away]) byTW[g.away][g.date]={...g,role:'away'};
+    if (byTW[g.home]) byTW[g.home][g.date] = { ...g, role: 'home' };
+    if (byTW[g.away]) byTW[g.away][g.date] = { ...g, role: 'away' };
   }
 
-  const promoLabel = IS_TOP_FLIGHT?'Playoff%':'Promo%';
-  const showRel    = !IS_BOTTOM_FLIGHT;
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel = !IS_BOTTOM_FLIGHT;
+  const baseRows = getBaseTableRows();
+  const promoCut = promotion_cut || 0;
+  const relegCut = relegation_cut || 0;
 
-  let html='<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
-  html+='<th class="col-team">ID</th>';
-  for (const w of allWeeks) html+=`<th class="col-week">${fmtDate(w)}</th>`;
-  html+=`<th class="col-stat">${promoLabel}</th>`;
-  if (showRel) html+='<th class="col-stat">Rel%</th>';
-  html+='<th class="col-stat">Pos</th>';
-  html+='</tr></thead><tbody>';
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-stat">#</th>';
+  html += '<th class="col-team">Team</th>';
+  html += '<th class="col-stat">GP</th>';
+  html += '<th class="col-stat">W</th>';
+  html += '<th class="col-stat">L</th>';
+  html += '<th class="col-stat">D</th>';
+  html += '<th class="col-stat">Pts</th>';
+  html += '<th class="col-stat">GD</th>';
+  html += '<th class="col-stat">PPG</th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
 
-  teams.forEach((t,idx)=>{
-    const tid = TEAM_IDS[t] || t.slice(0,4);
-    html+=`<tr data-idx="${idx}">`;
-    html+=`<td class="col-team" title="${t}">${tid}</td>`;
+  baseRows.forEach((row, idx) => {
+    const t = row.team;
+    const slug = TEAM_SLUGS[t] || '';
+    const isPromo = promoCut && idx < promoCut;
+    const isRelg = relegCut && idx >= baseRows.length - relegCut;
+    const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+    html += `<tr class="${isPromo ? 'promo-row' : isRelg ? 'relg-row' : ''}" data-idx="${idx}">`;
+    html += `<td class="col-stat">${idx + 1}</td>`;
+    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${t}</td>`;
+    html += `<td class="col-stat">${row.gp}</td>`;
+    html += `<td class="col-stat">${row.w}</td>`;
+    html += `<td class="col-stat">${row.l}</td>`;
+    html += `<td class="col-stat">${row.d}</td>`;
+    html += `<td class="col-stat" style="font-weight:700">${row.pts}</td>`;
+    html += `<td class="col-stat ${gdCls}">${row.gd > 0 ? '+' + row.gd : row.gd}</td>`;
+    html += `<td class="col-stat">${row.gp ? row.ppg.toFixed(2) : '&mdash;'}</td>`;
 
     for (const w of allWeeks) {
-      const comp=compByDT[w]?.[t];
+      const comp = compByDT[w]?.[t];
       if (comp) {
-        const c=comp.result==='W'?'var(--win)':comp.result==='L'?'var(--loss)':'var(--draw)';
-        const oppId=TEAM_IDS[comp.opponent]||comp.opponent.slice(0,4);
-        html+=`<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${oppId}</div>`;
-        html+=`<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
         continue;
       }
-      const entry=byTW[t][w];
-      if (!entry){html+='<td class="no-game">—</td>';continue;}
-      const isHome=entry.role==='home';
-      const opp=isHome?entry.away:entry.home;
-      const oppId=TEAM_IDS[opp]||opp.slice(0,4);
-      const ov=overrides[entry.id];
-      const teamOv=ov==='home'?(isHome?'W':'L'):ov==='draw'?'D':ov==='away'?(isHome?'L':'W'):null;
-      const winVal=isHome?'home':'away', lossVal=isHome?'away':'home';
-      const selCls=teamOv?` sel-${teamOv}`:'';
-      html+=`<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
-      html+=`<div class="cell-opp" title="${opp}">${oppId}</div>`;
-      html+=`<select class="ov-select${selCls}">`;
-      html+=`<option value="?">?</option>`;
-      html+=`<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
-      html+=`<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
-      html+=`<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
-      html+=`</select></td>`;
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">&mdash;</td>'; continue; }
+      const isHome = entry.role === 'home';
+      const opp = isHome ? entry.away : entry.home;
+      const ov = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L') : ov === 'draw' ? 'D' : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv === 'W' ? ' selected' : ''}>W</option>`;
+      html += `<option value="D"${teamOv === 'D' ? ' selected' : ''}>D</option>`;
+      html += `<option value="L"${teamOv === 'L' ? ' selected' : ''}>L</option>`;
+      html += `</select></td>`;
     }
 
-    const st=teamStats[t]||{};
-    html+=`<td class="col-stat stat-promo">${st.promo!=null?st.promo+'%':'—'}</td>`;
-    if(showRel) html+=`<td class="col-stat stat-rel">${st.relg!=null?st.relg+'%':'—'}</td>`;
-    html+=`<td class="col-stat stat-pos">${st.modal!=null?posLabel(st.modal):'—'}</td>`;
-    html+='</tr>';
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '&mdash;'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '&mdash;'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '&mdash;'}</td>`;
+    html += '</tr>';
   });
 
-  html+='</tbody></table></div>';
-  el.innerHTML=html;
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
 
-  el.querySelectorAll('.game-cell').forEach(cell=>{
-    const gid=cell.dataset.gid,winV=cell.dataset.win,lossV=cell.dataset.loss;
-    cell.querySelector('.ov-select').addEventListener('change',function(){
-      const v=this.value;
-      if(v==='?') delete overrides[gid];
-      else overrides[gid]=v==='W'?winV:v==='L'?lossV:'draw';
-      renderGrid(); startSim();
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid = cell.dataset.gid;
+    const winV = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    cell.querySelector('.ov-select').addEventListener('change', function() {
+      const v = this.value;
+      if (v === '?') delete overrides[gid];
+      else overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      renderGrid();
+      startSim();
+    });
+  });
+
+  el.querySelectorAll('.team-name-cell').forEach(cell => {
+    const team = cell.dataset.team;
+    if (!IS_HISTORICAL) {
+      cell.addEventListener('mouseenter', () => showPopup(cell, team));
+      cell.addEventListener('mouseleave', hidePopup);
+    }
+    cell.addEventListener('click', () => {
+      if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
     });
   });
 }
 
-renderGrid();
-startSim();
+renderGrid(); startSim();
 
 // ── Team popup ────────────────────────────────────────────────────────────
 const popup=document.getElementById("team-popup");
@@ -1112,7 +1027,7 @@ const popGames=document.getElementById("pop-games");
 function showPopup(cell, teamName) {
   const card=FLIGHT_CARDS[teamName]||{}, standing=STANDINGS_MAP[teamName]||{};
   popName.textContent=teamName;
-  popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
+  popRecord.textContent=`${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
   popGames.innerHTML='';
   const played=card.played||[];
   const nextGame=card.next_game||null;

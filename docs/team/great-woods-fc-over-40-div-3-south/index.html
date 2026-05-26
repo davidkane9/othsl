@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -783,10 +779,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Great Woods FC currently sits 6th in the Over 40 Div 3 South flight with 9 points after 7 games, trailing promotion by 6 points while maintaining a 4-point cushion above relegation. With a goal difference of -5, they need to improve their form, especially considering their upcoming matches, which present a mixed bag of challenges; the key game will be against Chelsea FC on June 14, where they have a 48% win probability and a crucial opportunity to solidify their position. Winning that match could not only distance them further from relegation but also provide momentum for their remaining fixtures, particularly as they face the bottom-dwelling Mansfield United just a week prior.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Great Woods FC&#39;s season in the Over 40 Div 3 South flight has been a mixed bag so far, currently sitting 6th out of 8 teams with 9 points after 7 games, and a goal difference of -5, indicating they&#39;ve struggled defensively. They are 6 points adrift of promotion and a comfortable 4 points above the relegation zone, but with only three weeks left, every match is crucial. The most decisive game on the horizon is their away fixture against Chelsea FC on June 14, 2026, where they hold a 48% win probability; a victory there could solidify their position and potentially push them toward safety, while a loss could put them in jeopardy of slipping closer to relegation.</p>
       </div>
     </section>
     
@@ -1341,10 +1337,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1406,8 +1405,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1429,29 +1431,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1471,7 +1481,7 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Chelsea FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Mansfield United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton International", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village Green", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Great Woods FC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Vineyard FC", "result": "T", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton International", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "chelsea-fc-over-40-div-3-south"}, "Great Woods FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Vineyard FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village Green", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton International", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Vineyard FC", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Chelsea FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village Green", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton International", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": "great-woods-fc-over-40-div-3-south"}, "Irish Village Green": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Peru Sports FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Great Woods FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Mansfield United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Chelsea FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Peru Sports FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield FC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Milton International", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Great Woods FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Mansfield United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": "irish-village-green-over-40-div-3-south"}, "Mansfield United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Chelsea FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton International", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village Green", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Chelsea FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Great Woods FC", "result": "L", "score": "1\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton International", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village Green", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield FC", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "mansfield-united-over-40-div-3-south"}, "Medfield FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Milton International", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Chelsea FC", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Vineyard FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Mansfield United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Great Woods FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Milton International", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village Green", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Peru Sports FC", "result": "W", "score": "5\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Chelsea FC", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Vineyard FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Mansfield United", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "medfield-fc-over-40-div-3-south"}, "Milton International": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Mansfield United", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Great Woods FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Chelsea FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Vineyard FC", "result": "T", "score": "5\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Peru Sports FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village Green", "result": "W", "score": "4\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Mansfield United", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Great Woods FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Chelsea FC", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "milton-international-over-40-div-3-south"}, "Peru Sports FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Irish Village Green", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Vineyard FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Chelsea FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Great Woods FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Mansfield United", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village Green", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Milton International", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Vineyard FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Chelsea FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Great Woods FC", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": "peru-sports-fc-over-40-div-3-south"}, "Vineyard FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Great Woods FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village Green", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Milton International", "result": "T", "score": "5\u20135", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Great Woods FC", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Chelsea FC", "result": "T", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village Green", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": "vineyard-fc-over-40-div-3-south"}};
+const FLIGHT_CARDS = {"Chelsea FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Mansfield United", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton International", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Irish Village Green", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Great Woods FC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Vineyard FC", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Peru Sports FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Milton International", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "chelsea-fc-over-40-div-3-south"}, "Great Woods FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Vineyard FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village Green", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton International", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Vineyard FC", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Chelsea FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Irish Village Green", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Milton International", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": "great-woods-fc-over-40-div-3-south"}, "Irish Village Green": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Peru Sports FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Great Woods FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Mansfield United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Chelsea FC", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Peru Sports FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield FC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Milton International", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Great Woods FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Mansfield United", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "H"}], "slug": "irish-village-green-over-40-div-3-south"}, "Mansfield United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Chelsea FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton International", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village Green", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Peru Sports FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Chelsea FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Vineyard FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Great Woods FC", "result": "L", "score": "1\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Milton International", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Irish Village Green", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield FC", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "mansfield-united-over-40-div-3-south"}, "Medfield FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Milton International", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Chelsea FC", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Vineyard FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Mansfield United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Great Woods FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Milton International", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Irish Village Green", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Peru Sports FC", "result": "W", "score": "5\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Chelsea FC", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Vineyard FC", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Mansfield United", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "medfield-fc-over-40-div-3-south"}, "Milton International": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Mansfield United", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Great Woods FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Chelsea FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Vineyard FC", "result": "D", "score": "5\u20135", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Peru Sports FC", "result": "W", "score": "7\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Irish Village Green", "result": "W", "score": "4\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Mansfield United", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Great Woods FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Chelsea FC", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "milton-international-over-40-div-3-south"}, "Peru Sports FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Irish Village Green", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Vineyard FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Chelsea FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Great Woods FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Mansfield United", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Irish Village Green", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Milton International", "result": "L", "score": "1\u20137", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Medfield FC", "result": "L", "score": "3\u20135", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Vineyard FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Chelsea FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Great Woods FC", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": "peru-sports-fc-over-40-div-3-south"}, "Vineyard FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Great Woods FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village Green", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Milton International", "result": "D", "score": "5\u20135", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Great Woods FC", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Mansfield United", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Chelsea FC", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Peru Sports FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Irish Village Green", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": "vineyard-fc-over-40-div-3-south"}};
 const STANDINGS_MAP = {};
 
 STANDINGS_MAP["Milton International"] = { w: 5, l: 0, t: 2, gp: 7 };
@@ -1500,7 +1510,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];

@@ -318,6 +318,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -345,182 +346,27 @@
     -->
   </div>
 
-  <!-- Standings -->
   <section class="section">
-    <div class="section-title">
-      <h2>Standings</h2>
-      <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+    <div class="sim-header">
+      <div>
+        <h2 style="margin:0 0 4px" id="sim-title">Standings And What If</h2>
+        <span class="sim-status" id="sim-status">Starting simulationâ€¦</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end">
+        <span id="mw-label" style="font-size:.82rem;color:var(--muted)"></span>
+        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
+        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
+      </div>
     </div>
-
-    <!-- Matchweek timeline -->
     <div class="mw-selects" id="mw-controls">
       <select id="mw-week" class="mw-sel"></select>
       <button class="reset-btn" id="mw-reset" style="display:none">Current</button>
     </div>
-
-    <div class="panel" style="padding: 0 0 2px">
-      <table class="standings-table">
-        <thead>
-          <tr>
-            <th class="pos">#</th>
-            <th>Team</th>
-            <th class="num">GP</th>
-            <th class="num">W</th>
-            <th class="num">L</th>
-            <th class="num">T</th>
-            <th class="num">Pts</th>
-            <th class="num">GD</th>
-            <th class="num">PPG</th>
-          </tr>
-        </thead>
-        <tbody id="standings-tbody">
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">1</td>
-            <td class="team-name-cell" data-team="Wen Ham United FC" data-slug="wen-ham-united-fc-over-40-div-5-north">Wen Ham United FC</td>
-            <td class="num">7</td>
-            <td class="num">5</td>
-            <td class="num">1</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">16</td>
-            <td class="num gd-pos">
-              +7
-            </td>
-            <td class="num">2.29</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="promo-row">
-            <td class="pos num">2</td>
-            <td class="team-name-cell" data-team="FC Old Skool" data-slug="fc-old-skool-over-40-div-5-north">FC Old Skool</td>
-            <td class="num">6</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">13</td>
-            <td class="num gd-pos">
-              +5
-            </td>
-            <td class="num">2.17</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">3</td>
-            <td class="team-name-cell" data-team="Bristol FC" data-slug="bristol-fc-over-40-div-5-north">Bristol FC</td>
-            <td class="num">7</td>
-            <td class="num">5</td>
-            <td class="num">2</td>
-            <td class="num">0</td>
-            <td class="num" style="font-weight:700">15</td>
-            <td class="num gd-pos">
-              +18
-            </td>
-            <td class="num">2.14</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">4</td>
-            <td class="team-name-cell" data-team="Wahooligans FC" data-slug="wahooligans-fc-over-40-div-5-north">Wahooligans FC</td>
-            <td class="num">6</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num">2</td>
-            <td class="num" style="font-weight:700">8</td>
-            <td class="num gd-neg">
-              -3
-            </td>
-            <td class="num">1.33</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">5</td>
-            <td class="team-name-cell" data-team="Acton-Boxboro United" data-slug="acton-boxboro-united-over-40-div-5-north">Acton-Boxboro United</td>
-            <td class="num">6</td>
-            <td class="num">2</td>
-            <td class="num">3</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">7</td>
-            <td class="num gd-pos">
-              +1
-            </td>
-            <td class="num">1.17</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="">
-            <td class="pos num">6</td>
-            <td class="team-name-cell" data-team="Dirty Groton Scoundrels" data-slug="dirty-groton-scoundrels-over-40-div-5-north">Dirty Groton Scoundrels</td>
-            <td class="num">7</td>
-            <td class="num">2</td>
-            <td class="num">4</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">7</td>
-            <td class="num gd-neg">
-              -7
-            </td>
-            <td class="num">1.00</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">7</td>
-            <td class="team-name-cell" data-team="Rebels" data-slug="rebels-over-40-div-5-north">Rebels</td>
-            <td class="num">7</td>
-            <td class="num">1</td>
-            <td class="num">3</td>
-            <td class="num">3</td>
-            <td class="num" style="font-weight:700">6</td>
-            <td class="num gd-neg">
-              -6
-            </td>
-            <td class="num">0.86</td>
-          </tr>
-          
-          
-          
-          
-          
-          <tr class="relg-row">
-            <td class="pos num">8</td>
-            <td class="team-name-cell" data-team="FC Newburyport Brew" data-slug="fc-newburyport-brew-over-40-div-5-north">FC Newburyport Brew</td>
-            <td class="num">6</td>
-            <td class="num">0</td>
-            <td class="num">5</td>
-            <td class="num">1</td>
-            <td class="num" style="font-weight:700">1</td>
-            <td class="num gd-neg">
-              -15
-            </td>
-            <td class="num">0.17</td>
-          </tr>
-          
-        </tbody>
-      </table>
+    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
+      Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.
+    </p>
+    <div class="panel" style="padding:14px 16px">
+      <div id="game-list"></div>
     </div>
   </section>
 
@@ -530,12 +376,12 @@
   
   <section class="section" id="ai-flight-section">
     <div class="section-title">
-      <h2>Simulation Summary</h2>
+      <h2>Summary</h2>
     </div>
     <div class="summary-stack">
       
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">In the Over 40 Division 5 North race for Spring 2026, the most critical matchup is set for Sunday, June 14, when FC Old Skool faces off against Bristol FC, a game that could significantly impact their promotion chances. Currently, Wen Ham United FC leads the standings with 16 points and a strong 82.0% chance of promotion, while Bristol FC sits in third with 15 points and a 67.2% promotion likelihood. The looming danger for teams like Wahooligans FC, who are currently at 8 points with a 1.2% chance of promotion and a 27.8% risk of relegation, emphasizes the stakes in the final matches of the season. With the potential outcomes of the upcoming games being crucial, FC Old Skool&#39;s performance against Bristol FC could either solidify their promotion hopes or dampen their momentum significantly.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">As the Over 40 Division 5 North race heats up in Spring 2026, the pivotal match on Sunday, June 14, between FC Old Skool and Bristol FC stands out, boasting a score of 116.4 in our simulation. This game is crucial for FC Old Skool, who currently sit in second place with 13 points, as a win could significantly boost their promotion chances, while Bristol FC, in third with 15 points, is eager to solidify their position. Wen Ham United FC leads the standings with 16 points and an impressive 84.2% chance of promotion, while the bottom teams face dire prospects; FC Newburyport Brew is at a staggering 93.2% relegation risk, making them a key danger in the race.</p>
       </div>
       
       
@@ -544,56 +390,56 @@
         
         <article class="team-summary-card">
           <h3>Wen Ham United FC</h3>
-          <p>Wen Ham United FC is having a solid season in the Over 40 Div 5 North flight, currently sitting at the top of the standings with 16 points after 7 games, showcasing a strong form with 5 wins, 1 loss, and 1 draw, and a goal difference of +7. They are 10 points clear of the relegation zone, demonstrating their safety, while also being on the brink of promotion, with simulations indicating a 79.8% chance of moving up. The most crucial upcoming game is against Bristol FC on June 7, 2026, where a win (with a 45% probability) would not only help solidify their promotion hopes but also put significant distance between themselves and their closest rivals, given that Bristol is just 1 point behind with 15 points.</p>
+          <p>Wen Ham United FC is having a strong season in the Over 40 Div 5 North flight, currently sitting at the top of the table with 16 points from 7 games, boasting a solid +7 goal difference. They are 10 points clear of the relegation zone and have an 83.8% chance of promotion, making their position quite secure. The most decisive upcoming match will be against Bristol FC on June 7, 2026, where a win is crucial; with a 45% win probability, securing points in this fixture could solidify their promotion hopes, especially since Bristol is just a point behind them in the standings.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FC Old Skool</h3>
-          <p>FC Old Skool is currently in solid form, sitting 3rd in the Over 40 Div 5 North flight with 13 points from 6 games, just 2 points off promotion but comfortably 7 points clear of relegation, boasting a positive goal difference of +5. With five weeks left in the season, the team needs to focus on closing the gap to Bristol FC and their 15 points, particularly with a crucial matchup against them on June 14, where they currently have a 35% win probability. This game is pivotal; a win could propel FC Old Skool into promotion contention, while a loss risks losing ground to both Bristol and Wen Ham United FC, who have already established themselves at the top of the table.</p>
+          <p>FC Old Skool is currently in solid form, sitting 3rd in the Over 40 Div 5 North with 13 points after 6 games, just 2 points shy of promotion and a healthy 7 points clear of relegation, showcasing a goal difference of +5. The upcoming match against Bristol FC on June 14 is crucial; with a 35% win probability, the stakes are high as Bristol sits in 2nd place with 15 points, making this a direct battle for promotion momentum. Securing a win in this clash would not only boost their promotion odds but also serve as a significant psychological advantage moving into the final stretch of the season.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Bristol FC</h3>
-          <p>Bristol FC is having a standout season in the Over 40 Div 5 North flight, currently sitting in second place with 15 points from 7 games and a strong goal difference of +18. With a comfortable 9-point cushion above the relegation zone and a 65% chance of promotion, they are well-positioned for success moving forward. The upcoming match against Wen Ham United FC on June 7, where they have a 33% win probability, will be crucial; a victory could solidify their promotion hopes and allow them to overtake Wen Ham, who currently lead with 16 points.</p>
+          <p>Bristol FC is having a strong season in the Over 40 Div 5 North flight, currently sitting in second place with 15 points after 7 games, boasting an impressive goal difference of +18. They are 9 points clear of relegation, and with a 62.5% chance of promotion, they are well-positioned for a successful finish. The key matchup coming up is against Wen Ham United FC on June 7, 2026; with a win probability of just 33%, this game is crucial as Wen Ham is in first place with 16 points, and a loss could tighten the race for promotion significantly.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Wahooligans FC</h3>
-          <p>Wahooligans FC is currently sitting 4th in the Over 40 Div 5 North flight with 8 points from 6 games, demonstrating a mixed form of 2 wins, 2 losses, and 2 draws. They are 7 points off promotion and just 2 points clear of relegation, meaning the upcoming matches are crucial for their season&#39;s outcome. The most decisive game ahead is their away match against FC Old Skool on June 3, 2026, where they have a mere 20% win probability; a loss could jeopardize their safety above relegation, while a win would keep their slim promotion hopes alive.</p>
+          <p>Wahooligans FC currently sits 4th in the Over 40 Div 5 North flight with 8 points, trailing promotion by 7 points and sitting just 2 points above relegation, putting them in a precarious position after 6 games with a goal difference of -3. Their upcoming match against FC Old Skool on June 3rd is critical; with a 20% win probability, a loss could see them slip closer to the relegation zone, while a win could help close the 5-point gap to FC Old Skool, who currently have 13 points. Additionally, their subsequent match against Bristol FC on May 31st (16% win probability) poses another significant challenge, as both games will be pivotal in determining their season&#39;s trajectory amid a 29.5% relegation simulation rate.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Acton-Boxboro United</h3>
-          <p>Acton-Boxboro United&#39;s season in the Over 40 Div 5 North flight has been a challenging one, currently sitting 5th with 7 points from 6 games and just 1 point above relegation, indicating they need to improve their consistency if they hope to stay clear of danger. They are 8 points off promotion, meaning they would need a significant turnaround to even enter the conversation for a higher division, especially with only 5 weeks remaining in the season. The most decisive upcoming game is against the Dirty Groton Scoundrels on May 31, where Acton-Boxboro has a 42% win probability; winning this match is crucial as it would not only help solidify their position above relegation but could also create some breathing room against a direct competitor in the standings.</p>
+          <p>Acton-Boxboro United currently sits 5th in the Over 40 Div 5 North flight with 7 points after 6 games, putting them 8 points off promotion and just 1 point above relegation. Their form has been shaky with 2 wins, 3 losses, and 1 draw, but a positive goal difference of +1 suggests they are competitive in matches, albeit inconsistent. The upcoming game against the Dirty Groton Scoundrels on May 31, where they hold a 42% win probability, is crucial; a win would not only potentially create a gap above relegation but also keep their slim hopes of promotion alive, given that they are currently tied on points with the Scoundrels.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Dirty Groton Scoundrels</h3>
-          <p>Dirty Groton Scoundrels are struggling in the Over 40 Div 5 North flight, currently sitting 6th out of 8 teams with just 7 points from 7 games, putting them 8 points off promotion and precariously 1 point above relegation. With a goal difference of -7, their position is concerning, especially given the simulation data indicating a 34.8% chance of relegation, making their upcoming matches critical for survival. The most decisive game on the horizon is against Acton-Boxboro United on May 31, 2026, where a victory is crucial; with a 36% win probability, this match could either bolster their chances of climbing the table or deepen their relegation fears.</p>
+          <p>The Dirty Groton Scoundrels are currently struggling in the Over 40 Div 5 North flight, sitting 6th out of 8 teams with only 7 points from 7 games, which puts them just 1 point above relegation and a disappointing 8 points off promotion. With a goal difference of -7, their current form reflects a team in dire need of improvement, especially with a grim simulation predicting a 34.5% chance of relegation. The upcoming match against Acton-Boxboro United on May 31, 2026, is pivotal; with only a 36% win probability, a loss could plunge them deeper into the relegation battle, while a victory would provide crucial momentum and a chance to pull away from the danger zone.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>Rebels</h3>
-          <p>The Rebels are struggling in the Over 40 Div 5 North flight this season, currently sitting 7th out of 8 teams with just 6 points after 7 games, well off the promotion pace at 9 points behind and dangerously close to relegation, with a 28.2% chance of dropping down. They need to bridge a 9-point gap to reach promotion while also keeping an eye on the relegation line; with Dirty Groton Scoundrels just 1 point ahead, their upcoming match against them on June 14 is pivotal. This key game has a 49% win probability for the Rebels, and a victory could not only boost their points total but also put them in a better position to avoid relegation, making it a must-win scenario.</p>
+          <p>The Rebels are currently struggling in the Over 40 Div 5 North flight, sitting in 7th place with just 6 points from 7 matches, which puts them 9 points adrift of promotion and perilously close to relegation with only 1 point separating them from FC Newburyport Brew below. Their goal difference of -6 reflects their difficulties in both scoring and defending, and with a 32.8% chance of relegation looming, they need to turn their form around urgently. The most decisive upcoming game is against the Dirty Groton Scoundrels on June 14, 2026; with a 49% win probability, a victory would not only help the Rebels climb out of the relegation zone but also create crucial distance between them and the bottom of the table.</p>
         </article>
         
         
         
         <article class="team-summary-card">
           <h3>FC Newburyport Brew</h3>
-          <p>FC Newburyport Brew&#39;s season in the Over 40 Div 5 North flight has been dismal, as they currently sit at the bottom of the table with just 1 point after 6 games, and a goal difference of -15, putting them 14 points off promotion and firmly in the relegation zone, trailing safety by 5 points. With only one win probability above 30% in their remaining fixtures, the upcoming match against Rebels on May 31 is critical; a loss could virtually seal their fate, as they stand at just a 21% chance of winning and need to capitalize on this opportunity to claw back into contention. Given their dire situation and the statistical likelihood of relegation at 92.5%, every point is crucial, and failing to secure a result against the Rebels could make it nearly impossible to avoid dropping down a division.</p>
+          <p>FC Newburyport Brew is struggling in the Over 40 Div 5 North flight this season, currently sitting at the bottom of the table with just 1 point after 6 games, 14 points adrift of the promotion zone and firmly in the relegation zone, 5 points from safety with a goal difference of -15. With their prospects looking bleak, the most critical match ahead is against the Rebels on May 31, 2026, where they have only a 21% win probability; this game could significantly impact their chances of escaping relegation. If Newburyport Brew fails to secure points in this match, their path to safety will become even more challenging, as they will face teams like Dirty Groton Scoundrels and Acton-Boxboro United, who also pose tough competition.</p>
         </article>
         
         
@@ -602,26 +448,6 @@
     </div>
   </section>
   
-
-  <!-- Season Outlook / What If -->
-  <section class="section">
-    <div class="sim-header">
-      <div>
-        <h2 style="margin:0 0 4px" id="sim-title">Season Outlook</h2>
-        <span class="sim-status" id="sim-status">Starting simulation…</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span class="sim-counter" id="sim-counter">0 <span style="opacity:.45">/ 10,000</span></span>
-        <button id="reset-btn" class="reset-btn">Clear What Ifs</button>
-      </div>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);margin:0 0 10px" id="sim-desc">
-      Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.
-    </p>
-    <div class="panel" style="padding:14px 16px">
-      <div id="game-list"></div>
-    </div>
-  </section>
 
   <footer>
     A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
@@ -655,9 +481,9 @@
 
 <script>
 const IS_HISTORICAL    = false;
-const SIM_DATA         = {"current_elos": {"Acton-Boxboro United": 1477.9, "Bristol FC": 1534.2, "Dirty Groton Scoundrels": 1466.0, "FC Newburyport Brew": 1435.0, "FC Old Skool": 1521.1, "Rebels": 1500.1, "Wahooligans FC": 1449.5, "Wen Ham United FC": 1555.0}, "current_regression": 0.0, "current_stats": {"Acton-Boxboro United": {"gd": 1, "gf": 11, "gp": 6, "l": 3, "pts": 7, "t": 1, "w": 2}, "Bristol FC": {"gd": 18, "gf": 25, "gp": 7, "l": 2, "pts": 15, "t": 0, "w": 5}, "Dirty Groton Scoundrels": {"gd": -7, "gf": 14, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "FC Newburyport Brew": {"gd": -15, "gf": 5, "gp": 6, "l": 5, "pts": 1, "t": 1, "w": 0}, "FC Old Skool": {"gd": 5, "gf": 13, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}, "Rebels": {"gd": -6, "gf": 5, "gp": 7, "l": 3, "pts": 6, "t": 3, "w": 1}, "Wahooligans FC": {"gd": -3, "gf": 11, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "Wen Ham United FC": {"gd": 7, "gf": 15, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Acton-Boxboro United", "away_win_prob": 0.511, "date": "2026-05-20", "draw_prob": 0.22, "home": "FC Newburyport Brew", "home_win_prob": 0.269, "id": "2026-05-20|FC Newburyport Brew|Acton-Boxboro United", "involves_team": false}, {"away": "Acton-Boxboro United", "away_win_prob": 0.424, "date": "2026-05-31", "draw_prob": 0.22, "home": "Dirty Groton Scoundrels", "home_win_prob": 0.356, "id": "2026-05-31|Dirty Groton Scoundrels|Acton-Boxboro United", "involves_team": false}, {"away": "FC Newburyport Brew", "away_win_prob": 0.211, "date": "2026-05-31", "draw_prob": 0.22, "home": "Rebels", "home_win_prob": 0.569, "id": "2026-05-31|Rebels|FC Newburyport Brew", "involves_team": false}, {"away": "Bristol FC", "away_win_prob": 0.616, "date": "2026-05-31", "draw_prob": 0.22, "home": "Wahooligans FC", "home_win_prob": 0.164, "id": "2026-05-31|Wahooligans FC|Bristol FC", "involves_team": false}, {"away": "FC Old Skool", "away_win_prob": 0.294, "date": "2026-05-31", "draw_prob": 0.22, "home": "Wen Ham United FC", "home_win_prob": 0.486, "id": "2026-05-31|Wen Ham United FC|FC Old Skool", "involves_team": false}, {"away": "Wahooligans FC", "away_win_prob": 0.195, "date": "2026-06-03", "draw_prob": 0.22, "home": "FC Old Skool", "home_win_prob": 0.585, "id": "2026-06-03|FC Old Skool|Wahooligans FC", "involves_team": false}, {"away": "Acton-Boxboro United", "away_win_prob": 0.326, "date": "2026-06-07", "draw_prob": 0.22, "home": "Rebels", "home_win_prob": 0.454, "id": "2026-06-07|Rebels|Acton-Boxboro United", "involves_team": false}, {"away": "Dirty Groton Scoundrels", "away_win_prob": 0.478, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Newburyport Brew", "home_win_prob": 0.302, "id": "2026-06-07|FC Newburyport Brew|Dirty Groton Scoundrels", "involves_team": false}, {"away": "Wen Ham United FC", "away_win_prob": 0.45, "date": "2026-06-07", "draw_prob": 0.22, "home": "Bristol FC", "home_win_prob": 0.33, "id": "2026-06-07|Bristol FC|Wen Ham United FC", "involves_team": false}, {"away": "FC Old Skool", "away_win_prob": 0.585, "date": "2026-06-07", "draw_prob": 0.22, "home": "Wahooligans FC", "home_win_prob": 0.195, "id": "2026-06-07|Wahooligans FC|FC Old Skool", "involves_team": false}, {"away": "FC Newburyport Brew", "away_win_prob": 0.269, "date": "2026-06-14", "draw_prob": 0.22, "home": "Acton-Boxboro United", "home_win_prob": 0.511, "id": "2026-06-14|Acton-Boxboro United|FC Newburyport Brew", "involves_team": false}, {"away": "Rebels", "away_win_prob": 0.487, "date": "2026-06-14", "draw_prob": 0.22, "home": "Dirty Groton Scoundrels", "home_win_prob": 0.293, "id": "2026-06-14|Dirty Groton Scoundrels|Rebels", "involves_team": false}, {"away": "Wahooligans FC", "away_win_prob": 0.119, "date": "2026-06-14", "draw_prob": 0.22, "home": "Wen Ham United FC", "home_win_prob": 0.661, "id": "2026-06-14|Wen Ham United FC|Wahooligans FC", "involves_team": false}, {"away": "Bristol FC", "away_win_prob": 0.428, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Old Skool", "home_win_prob": 0.352, "id": "2026-06-14|FC Old Skool|Bristol FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Wen Ham United FC", "FC Old Skool", "Bristol FC", "Wahooligans FC", "Acton-Boxboro United", "Dirty Groton Scoundrels", "Rebels", "FC Newburyport Brew"], "total_teams": 8};
+const SIM_DATA         = {"current_elos": {"Acton-Boxboro United": 1477.9, "Bristol FC": 1534.2, "Dirty Groton Scoundrels": 1466.0, "FC Newburyport Brew": 1435.0, "FC Old Skool": 1521.1, "Rebels": 1500.1, "Wahooligans FC": 1449.5, "Wen Ham United FC": 1555.0}, "current_regression": 0.0, "current_stats": {"Acton-Boxboro United": {"gd": 1, "gf": 11, "gp": 6, "l": 3, "pts": 7, "t": 1, "w": 2}, "Bristol FC": {"gd": 18, "gf": 25, "gp": 7, "l": 2, "pts": 15, "t": 0, "w": 5}, "Dirty Groton Scoundrels": {"gd": -7, "gf": 14, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "FC Newburyport Brew": {"gd": -15, "gf": 5, "gp": 6, "l": 5, "pts": 1, "t": 1, "w": 0}, "FC Old Skool": {"gd": 5, "gf": 13, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}, "Rebels": {"gd": -6, "gf": 5, "gp": 7, "l": 3, "pts": 6, "t": 3, "w": 1}, "Wahooligans FC": {"gd": -3, "gf": 11, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "Wen Ham United FC": {"gd": 7, "gf": 15, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Acton-Boxboro United", "away_win_prob": 0.424, "date": "2026-05-31", "draw_prob": 0.22, "home": "Dirty Groton Scoundrels", "home_win_prob": 0.356, "id": "2026-05-31|Dirty Groton Scoundrels|Acton-Boxboro United", "involves_team": false}, {"away": "FC Newburyport Brew", "away_win_prob": 0.211, "date": "2026-05-31", "draw_prob": 0.22, "home": "Rebels", "home_win_prob": 0.569, "id": "2026-05-31|Rebels|FC Newburyport Brew", "involves_team": false}, {"away": "Bristol FC", "away_win_prob": 0.616, "date": "2026-05-31", "draw_prob": 0.22, "home": "Wahooligans FC", "home_win_prob": 0.164, "id": "2026-05-31|Wahooligans FC|Bristol FC", "involves_team": false}, {"away": "FC Old Skool", "away_win_prob": 0.294, "date": "2026-05-31", "draw_prob": 0.22, "home": "Wen Ham United FC", "home_win_prob": 0.486, "id": "2026-05-31|Wen Ham United FC|FC Old Skool", "involves_team": false}, {"away": "Wahooligans FC", "away_win_prob": 0.195, "date": "2026-06-03", "draw_prob": 0.22, "home": "FC Old Skool", "home_win_prob": 0.585, "id": "2026-06-03|FC Old Skool|Wahooligans FC", "involves_team": false}, {"away": "Acton-Boxboro United", "away_win_prob": 0.326, "date": "2026-06-07", "draw_prob": 0.22, "home": "Rebels", "home_win_prob": 0.454, "id": "2026-06-07|Rebels|Acton-Boxboro United", "involves_team": false}, {"away": "Dirty Groton Scoundrels", "away_win_prob": 0.478, "date": "2026-06-07", "draw_prob": 0.22, "home": "FC Newburyport Brew", "home_win_prob": 0.302, "id": "2026-06-07|FC Newburyport Brew|Dirty Groton Scoundrels", "involves_team": false}, {"away": "Wen Ham United FC", "away_win_prob": 0.45, "date": "2026-06-07", "draw_prob": 0.22, "home": "Bristol FC", "home_win_prob": 0.33, "id": "2026-06-07|Bristol FC|Wen Ham United FC", "involves_team": false}, {"away": "FC Old Skool", "away_win_prob": 0.585, "date": "2026-06-07", "draw_prob": 0.22, "home": "Wahooligans FC", "home_win_prob": 0.195, "id": "2026-06-07|Wahooligans FC|FC Old Skool", "involves_team": false}, {"away": "Acton-Boxboro United", "away_win_prob": 0.511, "date": "2026-06-10", "draw_prob": 0.22, "home": "FC Newburyport Brew", "home_win_prob": 0.269, "id": "2026-06-10|FC Newburyport Brew|Acton-Boxboro United", "involves_team": false}, {"away": "FC Newburyport Brew", "away_win_prob": 0.269, "date": "2026-06-14", "draw_prob": 0.22, "home": "Acton-Boxboro United", "home_win_prob": 0.511, "id": "2026-06-14|Acton-Boxboro United|FC Newburyport Brew", "involves_team": false}, {"away": "Rebels", "away_win_prob": 0.487, "date": "2026-06-14", "draw_prob": 0.22, "home": "Dirty Groton Scoundrels", "home_win_prob": 0.293, "id": "2026-06-14|Dirty Groton Scoundrels|Rebels", "involves_team": false}, {"away": "Wahooligans FC", "away_win_prob": 0.119, "date": "2026-06-14", "draw_prob": 0.22, "home": "Wen Ham United FC", "home_win_prob": 0.661, "id": "2026-06-14|Wen Ham United FC|Wahooligans FC", "involves_team": false}, {"away": "Bristol FC", "away_win_prob": 0.428, "date": "2026-06-14", "draw_prob": 0.22, "home": "FC Old Skool", "home_win_prob": 0.352, "id": "2026-06-14|FC Old Skool|Bristol FC", "involves_team": false}], "schedule_inferred": false, "selected_team": "", "teams": ["Wen Ham United FC", "FC Old Skool", "Bristol FC", "Wahooligans FC", "Acton-Boxboro United", "Dirty Groton Scoundrels", "Rebels", "FC Newburyport Brew"], "total_teams": 8};
 const FLIGHT_RESULTS   = [{"ag": 0, "away": "Rebels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-04", "forfeit": false, "hg": 2, "home": "Acton-Boxboro United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "FC Newburyport Brew", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Dirty Groton Scoundrels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Bristol FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Wen Ham United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Dirty Groton Scoundrels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Rebels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Wen Ham United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Wahooligans FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Old Skool", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Bristol FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Dirty Groton Scoundrels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 6, "home": "Acton-Boxboro United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Rebels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "FC Newburyport Brew", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wahooligans FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 7, "home": "Bristol FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wen Ham United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "FC Old Skool", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Old Skool", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 2, "home": "Rebels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Bristol FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Dirty Groton Scoundrels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Newburyport Brew", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Wen Ham United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Acton-Boxboro United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Wahooligans FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Dirty Groton Scoundrels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Wen Ham United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Newburyport Brew", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 7, "home": "Bristol FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Acton-Boxboro United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "FC Old Skool", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Rebels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Wahooligans FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Bristol FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Acton-Boxboro United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wen Ham United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Rebels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wahooligans FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Dirty Groton Scoundrels", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "FC Old Skool", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "FC Newburyport Brew", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Wen Ham United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Acton-Boxboro United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Wahooligans FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "FC Newburyport Brew", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Rebels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Bristol FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Dirty Groton Scoundrels", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "FC Old Skool", "home_forfeit": false, "home_forfeit_no_penalty": false}];
-const FLIGHT_CARDS     = {"Acton-Boxboro United": {"next_game": {"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "FC Newburyport Brew", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Bristol FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Old Skool", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wahooligans FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Rebels", "result": "W", "score": "2\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Bristol FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Old Skool", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "acton-boxboro-united-over-40-div-5-north"}, "Bristol FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wahooligans FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Rebels", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Acton-Boxboro United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Newburyport Brew", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wahooligans FC", "result": "W", "score": "7\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Old Skool", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wen Ham United FC", "result": "L", "score": "2\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Rebels", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Acton-Boxboro United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Newburyport Brew", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": "bristol-fc-over-40-div-5-north"}, "Dirty Groton Scoundrels": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Acton-Boxboro United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Old Skool", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wen Ham United FC", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Bristol FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Acton-Boxboro United", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Rebels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Newburyport Brew", "result": "T", "score": "3\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Old Skool", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wen Ham United FC", "result": "L", "score": "3\u20134", "venue": "A"}], "slug": "dirty-groton-scoundrels-over-40-div-5-north"}, "FC Newburyport Brew": {"next_game": {"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "Acton-Boxboro United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Old Skool", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Bristol FC", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wen Ham United FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Rebels", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Dirty Groton Scoundrels", "result": "T", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Old Skool", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Bristol FC", "result": "L", "score": "0\u20137", "venue": "A"}], "slug": "fc-newburyport-brew-over-40-div-5-north"}, "FC Old Skool": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wen Ham United FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Newburyport Brew", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Rebels", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wen Ham United FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Bristol FC", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Newburyport Brew", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "fc-old-skool-over-40-div-5-north"}, "Rebels": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Newburyport Brew", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Bristol FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wen Ham United FC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wahooligans FC", "result": "T", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Old Skool", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Newburyport Brew", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Acton-Boxboro United", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Bristol FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wen Ham United FC", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wahooligans FC", "result": "T", "score": "1\u20131", "venue": "A"}], "slug": "rebels-over-40-div-5-north"}, "Wahooligans FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Bristol FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Newburyport Brew", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Rebels", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Acton-Boxboro United", "result": "T", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Bristol FC", "result": "L", "score": "2\u20137", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wen Ham United FC", "result": "L", "score": "0\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Newburyport Brew", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Rebels", "result": "T", "score": "1\u20131", "venue": "H"}], "slug": "wahooligans-fc-over-40-div-5-north"}, "Wen Ham United FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Old Skool", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Rebels", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Newburyport Brew", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Old Skool", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wahooligans FC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Bristol FC", "result": "W", "score": "3\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Rebels", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "4\u20133", "venue": "H"}], "slug": "wen-ham-united-fc-over-40-div-5-north"}};
+const FLIGHT_CARDS     = {"Acton-Boxboro United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Dirty Groton Scoundrels", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Bristol FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Old Skool", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wahooligans FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Rebels", "result": "W", "score": "2\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Bristol FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Old Skool", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "acton-boxboro-united-over-40-div-5-north"}, "Bristol FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wahooligans FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Rebels", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Acton-Boxboro United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Newburyport Brew", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wahooligans FC", "result": "W", "score": "7\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "FC Old Skool", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wen Ham United FC", "result": "L", "score": "2\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Rebels", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Acton-Boxboro United", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "FC Newburyport Brew", "result": "W", "score": "7\u20130", "venue": "H"}], "slug": "bristol-fc-over-40-div-5-north"}, "Dirty Groton Scoundrels": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Acton-Boxboro United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Old Skool", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wen Ham United FC", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Bristol FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Acton-Boxboro United", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Rebels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "FC Newburyport Brew", "result": "D", "score": "3\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Old Skool", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wen Ham United FC", "result": "L", "score": "3\u20134", "venue": "A"}], "slug": "dirty-groton-scoundrels-over-40-div-5-north"}, "FC Newburyport Brew": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Rebels", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Old Skool", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Bristol FC", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wen Ham United FC", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Rebels", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Dirty Groton Scoundrels", "result": "D", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wahooligans FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Old Skool", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Bristol FC", "result": "L", "score": "0\u20137", "venue": "A"}], "slug": "fc-newburyport-brew-over-40-div-5-north"}, "FC Old Skool": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wen Ham United FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Newburyport Brew", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Rebels", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wen Ham United FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Bristol FC", "result": "W", "score": "1\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "FC Newburyport Brew", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "fc-old-skool-over-40-div-5-north"}, "Rebels": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Newburyport Brew", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Bristol FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wen Ham United FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wahooligans FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Old Skool", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Newburyport Brew", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Dirty Groton Scoundrels", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-04", "display_date": "Saturday, April 04", "opponent": "Acton-Boxboro United", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Bristol FC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wen Ham United FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wahooligans FC", "result": "D", "score": "1\u20131", "venue": "A"}], "slug": "rebels-over-40-div-5-north"}, "Wahooligans FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Bristol FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Newburyport Brew", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Rebels", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Acton-Boxboro United", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Bristol FC", "result": "L", "score": "2\u20137", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wen Ham United FC", "result": "L", "score": "0\u20133", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "FC Newburyport Brew", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Rebels", "result": "D", "score": "1\u20131", "venue": "H"}], "slug": "wahooligans-fc-over-40-div-5-north"}, "Wen Ham United FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "FC Old Skool", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Rebels", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "FC Newburyport Brew", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "FC Old Skool", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wahooligans FC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Bristol FC", "result": "W", "score": "3\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Acton-Boxboro United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Rebels", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Dirty Groton Scoundrels", "result": "W", "score": "4\u20133", "venue": "H"}], "slug": "wen-ham-united-fc-over-40-div-5-north"}};
 const IS_TOP_FLIGHT    = false;
 const IS_BOTTOM_FLIGHT = false;
 const SCHEDULE_INFERRED = false;
@@ -754,18 +580,28 @@ let   teamStats = {};
 // Base stats and future games derived from viewDate
 function getBaseStats() {
   if (!viewDate) return current_stats;
+  if (viewDate === '__week0__') {
+    const stats = {};
+    for (const t of teams) stats[t] = { pts: 0, gd: 0, gf: 0 };
+    return stats;
+  }
   const stats = {};
   for (const t of teams) stats[t] = { pts:0, gd:0, gf:0 };
   for (const r of FLIGHT_RESULTS) {
     if (r.date > viewDate) continue;
     for (const t of [r.home, r.away]) if (!stats[t]) stats[t]={pts:0,gd:0,gf:0};
     if (r.forfeit) {
-      if (r.home_forfeit) {
-        stats[r.away].pts+=3; stats[r.away].gd++;  stats[r.away].gf+=2;
-        stats[r.home].gd--;  stats[r.home].gf++;
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].pts += 3; stats[r.away].gd += 3; stats[r.away].gf += 3;
+        stats[r.home].gd -= 3;
+        stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
       } else {
-        stats[r.home].pts+=3; stats[r.home].gd++;  stats[r.home].gf+=2;
-        stats[r.away].gd--;  stats[r.away].gf++;
+        stats[r.home].pts += 3; stats[r.home].gd += 3; stats[r.home].gf += 3;
+        stats[r.away].gd -= 3;
+        stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
       }
     } else if (r.hg !== null && r.ag !== null) {
       stats[r.home].gf+=r.hg; stats[r.home].gd+=(r.hg-r.ag);
@@ -780,17 +616,83 @@ function getBaseStats() {
 
 function getFutureGames() {
   if (!viewDate) return remaining_games;
+  if (viewDate === '__week0__') return COMBINED_GAMES.slice();
   return COMBINED_GAMES.filter(g => g.date==='TBD' || g.date>viewDate);
+}
+
+function getBaseTableRows() {
+  if (!viewDate) {
+    return teams.map(team => {
+      const s = current_stats[team] || { gp: 0, w: 0, l: 0, t: 0, pts: 0, gd: 0, gf: 0 };
+      return {
+        team,
+        gp: s.gp || 0,
+        w: s.w || 0,
+        l: s.l || 0,
+        d: s.t || 0,
+        pts: s.pts || 0,
+        gd: s.gd || 0,
+        gf: s.gf || 0,
+        ppg: s.gp ? s.pts / s.gp : 0,
+      };
+    }).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
+  }
+
+  const stats = {};
+  for (const team of teams) stats[team] = { gp: 0, w: 0, l: 0, d: 0, pts: 0, gf: 0, ga: 0 };
+  if (viewDate === '__week0__') {
+    return Object.entries(stats).map(([team, s]) => ({ team, ...s, gd: 0, ppg: 0 }))
+      .sort((a, b) => a.team.localeCompare(b.team));
+  }
+
+  for (const r of FLIGHT_RESULTS) {
+    if (r.date > viewDate) continue;
+    if (r.forfeit) {
+      if (r.home_forfeit && r.away_forfeit) {
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      } else if (r.home_forfeit) {
+        stats[r.away].w++; stats[r.away].gp++; stats[r.away].pts += 3; stats[r.away].gf += 3;
+        stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga += 3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
+      } else {
+        stats[r.home].w++; stats[r.home].gp++; stats[r.home].pts += 3; stats[r.home].gf += 3;
+        stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga += 3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
+      }
+      continue;
+    }
+    stats[r.home].gf += r.hg; stats[r.home].ga += r.ag; stats[r.home].gp++;
+    stats[r.away].gf += r.ag; stats[r.away].ga += r.hg; stats[r.away].gp++;
+    if (r.hg > r.ag) {
+      stats[r.home].w++; stats[r.home].pts += 3; stats[r.away].l++;
+    } else if (r.ag > r.hg) {
+      stats[r.away].w++; stats[r.away].pts += 3; stats[r.home].l++;
+    } else {
+      stats[r.home].d++; stats[r.home].pts++;
+      stats[r.away].d++; stats[r.away].pts++;
+    }
+  }
+
+  return Object.entries(stats).map(([team, s]) => ({
+    team,
+    gp: s.gp,
+    w: s.w,
+    l: s.l,
+    d: s.d,
+    pts: s.pts,
+    gd: s.gf - s.ga,
+    gf: s.gf,
+    ppg: s.gp ? s.pts / s.gp : 0,
+  })).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
 }
 
 // Set viewDate and pre-fill overrides with actual results for games after that date.
 // This way the sim shows the real outcome by default; user can change to explore what-ifs.
 function setViewDate(date) {
-  viewDate = date;
+  viewDate = date || null;
   Object.keys(overrides).forEach(k=>delete overrides[k]);
-  if (date) {
+  if (viewDate && viewDate !== '__week0__') {
     for (const g of COMBINED_GAMES) {
-      if ((g.date==='TBD'||g.date>date) && HISTORICAL_RESULT[g.id]!==undefined) {
+      if ((g.date==='TBD'||g.date>viewDate) && HISTORICAL_RESULT[g.id]!==undefined) {
         overrides[g.id] = HISTORICAL_RESULT[g.id];
       }
     }
@@ -803,100 +705,73 @@ function setViewDate(date) {
 function updateSimHeader() {
   const title = document.getElementById('sim-title');
   const desc  = document.getElementById('sim-desc');
-  if (viewDate) {
-    if (title) title.textContent = 'What If?';
-    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> — games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
+  if (viewDate === '__week0__') {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>week 0</strong> - before any games were played. Every scheduled game is still open for simulation.`;
+  } else if (viewDate) {
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Viewing from <strong>${viewDate}</strong> - games after this date are pre-filled with actual results. Change any outcome to explore counterfactuals.`;
   } else {
-    if (title) title.textContent = 'Season Outlook';
-    if (desc)  desc.innerHTML = `Click W / D / L to lock a result. Left border: <span style="color:var(--win)">green = promotion zone</span>, <span style="color:var(--loss)">red = relegation zone</span>.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
+    if (title) title.textContent = 'Standings And What If';
+    if (desc)  desc.innerHTML = `Use the same table for the standings and the what-if simulation. Pick W / D / L on any remaining game to lock an outcome and update the race live.${SCHEDULE_INFERRED?' <span style="color:#8a6020">Schedule estimated from round-robin.</span>':''}`;
   }
 }
 
 // ── Matchweek timeline (single week dropdown) ─────────────────────────────
 (function() {
-  const tbody    = document.getElementById("standings-tbody");
   const mwLabel  = document.getElementById("mw-label");
   const selWeek  = document.getElementById("mw-week");
   const btnReset = document.getElementById("mw-reset");
 
-  const dates = [...new Set(FLIGHT_RESULTS.map(r=>r.date))].sort();
-  if (!dates.length) { document.getElementById('mw-controls').style.display='none'; return; }
+  const dates = [...new Set(FLIGHT_RESULTS.map(r => r.date))].sort();
+  if (!dates.length) {
+    document.getElementById('mw-controls').style.display = 'none';
+    return;
+  }
 
-  const multiYear = new Set(dates.map(d=>d.slice(0,4))).size > 1;
+  const currentOpt = document.createElement('option');
+  currentOpt.value = '';
+  currentOpt.textContent = 'Current';
+  selWeek.appendChild(currentOpt);
 
-  const ph = document.createElement('option');
-  ph.value = ''; ph.textContent = 'Full season'; selWeek.appendChild(ph);
+  const weekZeroOpt = document.createElement('option');
+  weekZeroOpt.value = '__week0__';
+  weekZeroOpt.textContent = 'Week 0';
+  selWeek.appendChild(weekZeroOpt);
+
+  const multiYear = new Set(dates.map(d => d.slice(0, 4))).size > 1;
   dates.forEach((d, i) => {
-    const o = document.createElement('option');
-    o.value = d;
-    o.textContent = multiYear ? `Wk ${i+1} · ${d.slice(5)} ${d.slice(0,4)}` : `Wk ${i+1} · ${d.slice(5)}`;
-    selWeek.appendChild(o);
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = multiYear ? `Wk ${i + 1} - ${d.slice(5)} ${d.slice(0, 4)}` : `Wk ${i + 1} - ${d.slice(5)}`;
+    selWeek.appendChild(opt);
   });
-
-  function buildStandingsFromResults(upToDate) {
-    const stats={};
-    for (const r of FLIGHT_RESULTS) {
-      if (r.date>upToDate) continue;
-      for (const t of [r.home,r.away]) if (!stats[t]) stats[t]={gp:0,w:0,l:0,t:0,pts:0,gf:0,ga:0};
-      if (r.forfeit) {
-        if (r.home_forfeit && r.away_forfeit) {
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2;
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2;
-        } else if (r.home_forfeit) {
-          stats[r.away].w++; stats[r.away].pts+=3; stats[r.away].gp++; stats[r.away].gf+=3; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-          stats[r.home].l++; stats[r.home].gp++; stats[r.home].ga+=3; stats[r.home].pts -= r.home_forfeit_no_penalty ? 0 : 2; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-        } else {
-          stats[r.home].w++; stats[r.home].pts+=3; stats[r.home].gp++; stats[r.home].gf+=3; stats[r.home].gd=(stats[r.home].gf-stats[r.home].ga);
-          stats[r.away].l++; stats[r.away].gp++; stats[r.away].ga+=3; stats[r.away].pts -= r.away_forfeit_no_penalty ? 0 : 2; stats[r.away].gd=(stats[r.away].gf-stats[r.away].ga);
-        }
-      } else {
-        stats[r.home].gf+=r.hg;stats[r.home].ga+=r.ag;stats[r.home].gp++;
-        stats[r.away].gf+=r.ag;stats[r.away].ga+=r.hg;stats[r.away].gp++;
-        if(r.hg>r.ag){stats[r.home].w++;stats[r.home].pts+=3;stats[r.away].l++;}
-        else if(r.ag>r.hg){stats[r.away].w++;stats[r.away].pts+=3;stats[r.home].l++;}
-        else{stats[r.home].t++;stats[r.home].pts++;stats[r.away].t++;stats[r.away].pts++;}
-      }
-    }
-    return Object.entries(stats).map(([team,s])=>({team,...s,gd:s.gf-s.ga,ppg:s.gp?s.pts/s.gp:0}))
-      .sort((a,b)=>b.ppg-a.ppg||b.gd-a.gd||b.gf-a.gf||a.team.localeCompare(b.team));
-  }
-
-  function renderStandingsTable(table) {
-    const n=table.length, relegCut=n>=6?2:n>=4?1:0;
-    tbody.innerHTML=table.map((row,i)=>{
-      const pos=i+1, cls=pos<=2?'promo-row':pos>n-relegCut?'relg-row':'';
-      const gdStr=row.gd>0?`+${row.gd}`:String(row.gd);
-      const gdCls=row.gd>0?'gd-pos':row.gd<0?'gd-neg':'';
-      const slug=TEAM_SLUGS[row.team]||'';
-      return `<tr class="${cls}">
-        <td class="pos num">${pos}</td>
-        <td class="team-name-cell" data-team="${row.team}" data-slug="${slug}">${row.team}</td>
-        <td class="num">${row.gp}</td><td class="num">${row.w}</td><td class="num">${row.l}</td>
-        <td class="num">${row.t}</td><td class="num" style="font-weight:700">${row.pts}</td>
-        <td class="num ${gdCls}">${gdStr}</td>
-        <td class="num">${row.gp?(row.pts/row.gp).toFixed(2):'—'}</td>
-      </tr>`;
-    }).join('');
-    tbody.querySelectorAll('td.team-name-cell').forEach(cell=>{
-      if (!IS_HISTORICAL) {
-        cell.addEventListener('mouseenter',()=>showPopup(cell,cell.dataset.team));
-        cell.addEventListener('mouseleave',hidePopup);
-      }
-      cell.addEventListener('click',()=>{ if(cell.dataset.slug) window.location.href=`../../team/${cell.dataset.slug}/`; });
-    });
-  }
 
   selWeek.addEventListener('change', () => {
     const date = selWeek.value;
-    if (date) {
-      mwLabel.textContent = `as of ${date}`; btnReset.style.display = '';
-      renderStandingsTable(buildStandingsFromResults(date));
-      setViewDate(date);
-    } else {
-      location.reload();
+    if (date === '__week0__') {
+      mwLabel.textContent = 'as of week 0';
+      btnReset.style.display = '';
+      setViewDate('__week0__');
+      return;
     }
+    if (date) {
+      mwLabel.textContent = `as of ${date}`;
+      btnReset.style.display = '';
+      setViewDate(date);
+      return;
+    }
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
   });
-  btnReset.addEventListener('click', () => location.reload());
+
+  btnReset.addEventListener('click', () => {
+    selWeek.value = '';
+    mwLabel.textContent = '';
+    btnReset.style.display = 'none';
+    setViewDate(null);
+  });
 })();
 
 document.querySelectorAll(".page-link").forEach(link=>{
@@ -999,109 +874,149 @@ function fmtDate(d) {
 function renderGrid() {
   const el = document.getElementById("game-list");
 
-  // "Past" cells = games in FLIGHT_RESULTS that are on/before viewDate (or all of them if no viewDate)
   const compByDT = {};
   for (const r of FLIGHT_RESULTS) {
-    if (viewDate && r.date > viewDate) continue;
-    if (!compByDT[r.date]) compByDT[r.date]={};
+    if (viewDate && viewDate !== '__week0__' && r.date > viewDate) continue;
+    if (viewDate === '__week0__') continue;
+    if (!compByDT[r.date]) compByDT[r.date] = {};
     let homeRes, awayRes, homeScore, awayScore;
     if (r.forfeit) {
-      homeRes=r.home_forfeit?'L':'W'; awayRes=r.home_forfeit?'W':'L'; homeScore=awayScore='F';
-    } else if (r.hg!==null&&r.ag!==null) {
-      homeRes=r.hg>r.ag?'W':r.hg<r.ag?'L':'D'; awayRes=r.ag>r.hg?'W':r.ag<r.hg?'L':'D';
-      homeScore=`${r.hg}–${r.ag}`; awayScore=`${r.ag}–${r.hg}`;
-    } else continue;
-    compByDT[r.date][r.home]={result:homeRes,opponent:r.away,score:homeScore};
-    compByDT[r.date][r.away]={result:awayRes,opponent:r.home,score:awayScore};
+      homeRes = r.home_forfeit ? 'L' : 'W';
+      awayRes = r.home_forfeit ? 'W' : 'L';
+      homeScore = awayScore = 'F';
+    } else if (r.hg !== null && r.ag !== null) {
+      homeRes = r.hg > r.ag ? 'W' : r.hg < r.ag ? 'L' : 'D';
+      awayRes = r.ag > r.hg ? 'W' : r.ag < r.hg ? 'L' : 'D';
+      homeScore = `${r.hg}-${r.ag}`;
+      awayScore = `${r.ag}-${r.hg}`;
+    } else {
+      continue;
+    }
+    compByDT[r.date][r.home] = { result: homeRes, opponent: r.away, score: homeScore };
+    compByDT[r.date][r.away] = { result: awayRes, opponent: r.home, score: awayScore };
   }
 
-  // "Future" cells = getFutureGames() — includes historical games after viewDate with actual pre-fills
   const futureGames = getFutureGames();
-  const futureDates = [...new Set(futureGames.filter(g=>g.date!=='TBD').map(g=>g.date))].sort();
-  const hasTBD = futureGames.some(g=>g.date==='TBD');
+  const futureDates = [...new Set(futureGames.filter(g => g.date !== 'TBD').map(g => g.date))].sort();
+  const hasTBD = futureGames.some(g => g.date === 'TBD');
   const compDates = Object.keys(compByDT).sort();
-  const allWeeks = [...new Set([...compDates,...futureDates])].sort();
+  const allWeeks = [...new Set([...compDates, ...futureDates])].sort();
   if (hasTBD) allWeeks.push('TBD');
 
   if (!allWeeks.length) {
-    el.innerHTML='<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
+    el.innerHTML = '<p style="font-size:.85rem;color:var(--muted);padding:8px 0">No games in this flight.</p>';
     return;
   }
 
-  const byTW={};
-  for (const t of teams) byTW[t]={};
+  const byTW = {};
+  for (const t of teams) byTW[t] = {};
   for (const g of futureGames) {
-    if (byTW[g.home]) byTW[g.home][g.date]={...g,role:'home'};
-    if (byTW[g.away]) byTW[g.away][g.date]={...g,role:'away'};
+    if (byTW[g.home]) byTW[g.home][g.date] = { ...g, role: 'home' };
+    if (byTW[g.away]) byTW[g.away][g.date] = { ...g, role: 'away' };
   }
 
-  const promoLabel = IS_TOP_FLIGHT?'Playoff%':'Promo%';
-  const showRel    = !IS_BOTTOM_FLIGHT;
+  const promoLabel = IS_TOP_FLIGHT ? 'Playoff%' : 'Promo%';
+  const showRel = !IS_BOTTOM_FLIGHT;
+  const baseRows = getBaseTableRows();
+  const promoCut = promotion_cut || 0;
+  const relegCut = relegation_cut || 0;
 
-  let html='<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
-  html+='<th class="col-team">ID</th>';
-  for (const w of allWeeks) html+=`<th class="col-week">${fmtDate(w)}</th>`;
-  html+=`<th class="col-stat">${promoLabel}</th>`;
-  if (showRel) html+='<th class="col-stat">Rel%</th>';
-  html+='<th class="col-stat">Pos</th>';
-  html+='</tr></thead><tbody>';
+  let html = '<div class="whatif-table-wrap"><table class="whatif-table"><thead><tr>';
+  html += '<th class="col-stat">#</th>';
+  html += '<th class="col-team">Team</th>';
+  html += '<th class="col-stat">GP</th>';
+  html += '<th class="col-stat">W</th>';
+  html += '<th class="col-stat">L</th>';
+  html += '<th class="col-stat">D</th>';
+  html += '<th class="col-stat">Pts</th>';
+  html += '<th class="col-stat">GD</th>';
+  html += '<th class="col-stat">PPG</th>';
+  for (const w of allWeeks) html += `<th class="col-week">${fmtDate(w)}</th>`;
+  html += `<th class="col-stat">${promoLabel}</th>`;
+  if (showRel) html += '<th class="col-stat">Rel%</th>';
+  html += '<th class="col-stat">Pos</th>';
+  html += '</tr></thead><tbody>';
 
-  teams.forEach((t,idx)=>{
-    const tid = TEAM_IDS[t] || t.slice(0,4);
-    html+=`<tr data-idx="${idx}">`;
-    html+=`<td class="col-team" title="${t}">${tid}</td>`;
+  baseRows.forEach((row, idx) => {
+    const t = row.team;
+    const slug = TEAM_SLUGS[t] || '';
+    const isPromo = promoCut && idx < promoCut;
+    const isRelg = relegCut && idx >= baseRows.length - relegCut;
+    const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
+    html += `<tr class="${isPromo ? 'promo-row' : isRelg ? 'relg-row' : ''}" data-idx="${idx}">`;
+    html += `<td class="col-stat">${idx + 1}</td>`;
+    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${t}</td>`;
+    html += `<td class="col-stat">${row.gp}</td>`;
+    html += `<td class="col-stat">${row.w}</td>`;
+    html += `<td class="col-stat">${row.l}</td>`;
+    html += `<td class="col-stat">${row.d}</td>`;
+    html += `<td class="col-stat" style="font-weight:700">${row.pts}</td>`;
+    html += `<td class="col-stat ${gdCls}">${row.gd > 0 ? '+' + row.gd : row.gd}</td>`;
+    html += `<td class="col-stat">${row.gp ? row.ppg.toFixed(2) : '&mdash;'}</td>`;
 
     for (const w of allWeeks) {
-      const comp=compByDT[w]?.[t];
+      const comp = compByDT[w]?.[t];
       if (comp) {
-        const c=comp.result==='W'?'var(--win)':comp.result==='L'?'var(--loss)':'var(--draw)';
-        const oppId=TEAM_IDS[comp.opponent]||comp.opponent.slice(0,4);
-        html+=`<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${oppId}</div>`;
-        html+=`<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
+        const c = comp.result === 'W' ? 'var(--win)' : comp.result === 'L' ? 'var(--loss)' : 'var(--draw)';
+        html += `<td class="past-cell"><div class="cell-opp" title="${comp.opponent}">${comp.opponent}</div>`;
+        html += `<div class="cell-result" style="color:${c}">${comp.score} ${comp.result}</div></td>`;
         continue;
       }
-      const entry=byTW[t][w];
-      if (!entry){html+='<td class="no-game">—</td>';continue;}
-      const isHome=entry.role==='home';
-      const opp=isHome?entry.away:entry.home;
-      const oppId=TEAM_IDS[opp]||opp.slice(0,4);
-      const ov=overrides[entry.id];
-      const teamOv=ov==='home'?(isHome?'W':'L'):ov==='draw'?'D':ov==='away'?(isHome?'L':'W'):null;
-      const winVal=isHome?'home':'away', lossVal=isHome?'away':'home';
-      const selCls=teamOv?` sel-${teamOv}`:'';
-      html+=`<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
-      html+=`<div class="cell-opp" title="${opp}">${oppId}</div>`;
-      html+=`<select class="ov-select${selCls}">`;
-      html+=`<option value="?">?</option>`;
-      html+=`<option value="W"${teamOv==='W'?' selected':''}>W</option>`;
-      html+=`<option value="D"${teamOv==='D'?' selected':''}>D</option>`;
-      html+=`<option value="L"${teamOv==='L'?' selected':''}>L</option>`;
-      html+=`</select></td>`;
+      const entry = byTW[t][w];
+      if (!entry) { html += '<td class="no-game">&mdash;</td>'; continue; }
+      const isHome = entry.role === 'home';
+      const opp = isHome ? entry.away : entry.home;
+      const ov = overrides[entry.id];
+      const teamOv = ov === 'home' ? (isHome ? 'W' : 'L') : ov === 'draw' ? 'D' : ov === 'away' ? (isHome ? 'L' : 'W') : null;
+      const winVal = isHome ? 'home' : 'away';
+      const lossVal = isHome ? 'away' : 'home';
+      const selCls = teamOv ? ` sel-${teamOv}` : '';
+      html += `<td class="game-cell" data-gid="${entry.id}" data-win="${winVal}" data-loss="${lossVal}">`;
+      html += `<div class="cell-opp" title="${opp}">${opp}</div>`;
+      html += `<select class="ov-select${selCls}">`;
+      html += `<option value="?">?</option>`;
+      html += `<option value="W"${teamOv === 'W' ? ' selected' : ''}>W</option>`;
+      html += `<option value="D"${teamOv === 'D' ? ' selected' : ''}>D</option>`;
+      html += `<option value="L"${teamOv === 'L' ? ' selected' : ''}>L</option>`;
+      html += `</select></td>`;
     }
 
-    const st=teamStats[t]||{};
-    html+=`<td class="col-stat stat-promo">${st.promo!=null?st.promo+'%':'—'}</td>`;
-    if(showRel) html+=`<td class="col-stat stat-rel">${st.relg!=null?st.relg+'%':'—'}</td>`;
-    html+=`<td class="col-stat stat-pos">${st.modal!=null?posLabel(st.modal):'—'}</td>`;
-    html+='</tr>';
+    const st = teamStats[t] || {};
+    html += `<td class="col-stat stat-promo">${st.promo != null ? st.promo + '%' : '&mdash;'}</td>`;
+    if (showRel) html += `<td class="col-stat stat-rel">${st.relg != null ? st.relg + '%' : '&mdash;'}</td>`;
+    html += `<td class="col-stat stat-pos">${st.modal != null ? posLabel(st.modal) : '&mdash;'}</td>`;
+    html += '</tr>';
   });
 
-  html+='</tbody></table></div>';
-  el.innerHTML=html;
+  html += '</tbody></table></div>';
+  el.innerHTML = html;
 
-  el.querySelectorAll('.game-cell').forEach(cell=>{
-    const gid=cell.dataset.gid,winV=cell.dataset.win,lossV=cell.dataset.loss;
-    cell.querySelector('.ov-select').addEventListener('change',function(){
-      const v=this.value;
-      if(v==='?') delete overrides[gid];
-      else overrides[gid]=v==='W'?winV:v==='L'?lossV:'draw';
-      renderGrid(); startSim();
+  el.querySelectorAll('.game-cell').forEach(cell => {
+    const gid = cell.dataset.gid;
+    const winV = cell.dataset.win;
+    const lossV = cell.dataset.loss;
+    cell.querySelector('.ov-select').addEventListener('change', function() {
+      const v = this.value;
+      if (v === '?') delete overrides[gid];
+      else overrides[gid] = v === 'W' ? winV : v === 'L' ? lossV : 'draw';
+      renderGrid();
+      startSim();
+    });
+  });
+
+  el.querySelectorAll('.team-name-cell').forEach(cell => {
+    const team = cell.dataset.team;
+    if (!IS_HISTORICAL) {
+      cell.addEventListener('mouseenter', () => showPopup(cell, team));
+      cell.addEventListener('mouseleave', hidePopup);
+    }
+    cell.addEventListener('click', () => {
+      if (cell.dataset.slug) window.location.href = `../../team/${cell.dataset.slug}/`;
     });
   });
 }
 
-renderGrid();
-startSim();
+renderGrid(); startSim();
 
 // ── Team popup ────────────────────────────────────────────────────────────
 const popup=document.getElementById("team-popup");
@@ -1112,7 +1027,7 @@ const popGames=document.getElementById("pop-games");
 function showPopup(cell, teamName) {
   const card=FLIGHT_CARDS[teamName]||{}, standing=STANDINGS_MAP[teamName]||{};
   popName.textContent=teamName;
-  popRecord.textContent=`${standing.gp??0} GP · ${standing.w??0}W  ${standing.l??0}L  ${standing.t??0}T`;
+  popRecord.textContent=`${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
   popGames.innerHTML='';
   const played=card.played||[];
   const nextGame=card.next_game||null;

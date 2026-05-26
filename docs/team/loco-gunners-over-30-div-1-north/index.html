@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 34px;
-    border-radius: 28px;
+    padding: 22px 24px;
+    border-radius: 22px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,43 +76,38 @@
   }
 
   .hero h1 {
-    margin: 10px 0 10px;
-    font-size: clamp(2.3rem, 5vw, 4rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+    margin: 6px 0 8px;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 1rem;
+    font-size: 0.92rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 18px;
+    margin-top: 14px;
   }
 
   .chip {
-    padding: 9px 13px;
+    padding: 7px 11px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     font-size: 0.9rem;
   }
 
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 22px;
-  }
+  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
 
   .metric {
-    padding: 16px;
-    border-radius: 20px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
   }
@@ -127,7 +122,7 @@
   }
 
   .metric .value {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     line-height: 1;
   }
 
@@ -255,11 +250,11 @@
 
   .W { color: var(--win); }
   .L, .F { color: var(--loss); }
-  .T { color: var(--draw); }
+  .D { color: var(--draw); }
 
   .result-pill.W { background: rgba(35, 119, 68, 0.12); }
   .result-pill.L, .result-pill.F { background: rgba(166, 63, 53, 0.12); }
-  .result-pill.T { background: rgba(125, 109, 80, 0.12); }
+  .result-pill.D { background: rgba(125, 109, 80, 0.12); }
 
   /* ── Simulation ─────────────────────────── */
   .sim-counter {
@@ -627,6 +622,7 @@
       <li><a href="../../">Home</a></li>
       <li><a href="../../teams/">Find Team</a></li>
       <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
     </ul>
   </div>
 </nav>
@@ -653,7 +649,7 @@
         <span class="chip">ELO 1490</span>
         
         
-        <span class="chip">Current place: 7</span>
+        <span class="chip">Current place: 6</span>
         
         <span class="chip">Record 2-4-1</span>
       </div>
@@ -709,10 +705,10 @@
               
               <tr>
                 <td class="team-name-cell" data-team="CDF Azzurri">CDF Azzurri</td>
-                <td>5</td>
-                <td>13</td>
-                <td>+14</td>
-                <td>2.60</td>
+                <td>6</td>
+                <td>16</td>
+                <td>+15</td>
+                <td>2.67</td>
               </tr>
               
               <tr>
@@ -724,6 +720,14 @@
               </tr>
               
               <tr>
+                <td class="team-name-cell" data-team="Kendall Wanderers">Kendall Wanderers</td>
+                <td>5</td>
+                <td>9</td>
+                <td>+5</td>
+                <td>1.80</td>
+              </tr>
+              
+              <tr>
                 <td class="team-name-cell" data-team="Meadowlark FC">Meadowlark FC</td>
                 <td>7</td>
                 <td>11</td>
@@ -732,27 +736,11 @@
               </tr>
               
               <tr>
-                <td class="team-name-cell" data-team="Kendall Wanderers">Kendall Wanderers</td>
-                <td>4</td>
-                <td>6</td>
-                <td>+4</td>
-                <td>1.50</td>
-              </tr>
-              
-              <tr>
                 <td class="team-name-cell" data-team="Eastern FC">Eastern FC</td>
-                <td>6</td>
-                <td>8</td>
-                <td>+3</td>
-                <td>1.33</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Massachusetts United">Massachusetts United</td>
-                <td>6</td>
                 <td>7</td>
-                <td>-6</td>
-                <td>1.17</td>
+                <td>8</td>
+                <td>+2</td>
+                <td>1.14</td>
               </tr>
               
               <tr class="highlight">
@@ -760,6 +748,14 @@
                 <td>7</td>
                 <td>7</td>
                 <td>-5</td>
+                <td>1.00</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Massachusetts United">Massachusetts United</td>
+                <td>7</td>
+                <td>7</td>
+                <td>-7</td>
                 <td>1.00</td>
               </tr>
               
@@ -783,10 +779,10 @@
     
     <section class="section" id="ai-team-section">
       <div class="section-title">
-        <h2>Overall Outlook</h2>
+          <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Loco Gunners currently sit 5th in the Over 30 Div 1 North flight with 7 points after 7 games, and their inconsistent form (2 wins, 4 losses, 1 draw) has left them 6 points off promotion and just 1 point above relegation. With a goal difference of -5, they are precariously positioned, and the upcoming match against Massachusetts United is critical; a win is essential to create some breathing room in the relegation battle, as they currently share the same point total with United, who sit just below them. This match on June 7, where Loco Gunners have a 34% win probability, could be a decisive moment in their season—failure to secure points could significantly increase their chances of relegation, which is currently simulated at 41.2%.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">The Loco Gunners are struggling in the Over 30 Div 1 North flight, sitting at 6th place with just 7 points after 7 games, 6 points off the promotion zone and perilously close to relegation. With a goal difference of -5, they are currently on the relegation line, level on points with Massachusetts United but ahead on goal difference. The upcoming match against Massachusetts United on June 7, 2026, is crucial as it carries a 38% win probability for Loco Gunners; a win would not only boost their standing but could also create a significant gap between them and the relegation zone, making it a potential turning point in their season.</p>
       </div>
     </section>
     
@@ -873,8 +869,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"CDF Azzurri": 1563.3, "Cantona": 1453.8, "Eastern FC": 1531.6, "Kendall Wanderers": 1518.5, "Loco Gunners": 1489.9, "Massachusetts United": 1507.6, "Meadowlark FC": 1541.5, "Newburyport FC": 1627.0}, "current_regression": 0.0, "current_stats": {"CDF Azzurri": {"gd": 14, "gf": 20, "gp": 5, "l": 0, "pts": 13, "t": 1, "w": 4}, "Cantona": {"gd": -21, "gf": 9, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Eastern FC": {"gd": 3, "gf": 14, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "Kendall Wanderers": {"gd": 4, "gf": 8, "gp": 4, "l": 0, "pts": 6, "t": 3, "w": 1}, "Loco Gunners": {"gd": -5, "gf": 12, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Massachusetts United": {"gd": -6, "gf": 13, "gp": 6, "l": 3, "pts": 7, "t": 1, "w": 2}, "Meadowlark FC": {"gd": 6, "gf": 15, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "Newburyport FC": {"gd": 5, "gf": 22, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Eastern FC", "away_win_prob": 0.3, "date": "2026-05-20", "draw_prob": 0.22, "home": "CDF Azzurri", "home_win_prob": 0.48, "id": "2026-05-20|CDF Azzurri|Eastern FC", "involves_team": false}, {"away": "Massachusetts United", "away_win_prob": 0.359, "date": "2026-05-24", "draw_prob": 0.22, "home": "Kendall Wanderers", "home_win_prob": 0.421, "id": "2026-05-24|Kendall Wanderers|Massachusetts United", "involves_team": false}, {"away": "CDF Azzurri", "away_win_prob": 0.59, "date": "2026-05-31", "draw_prob": 0.22, "home": "Loco Gunners", "home_win_prob": 0.19, "id": "2026-05-31|Loco Gunners|CDF Azzurri", "involves_team": true}, {"away": "Massachusetts United", "away_win_prob": 0.321, "date": "2026-05-31", "draw_prob": 0.22, "home": "Eastern FC", "home_win_prob": 0.459, "id": "2026-05-31|Eastern FC|Massachusetts United", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.568, "date": "2026-05-31", "draw_prob": 0.22, "home": "Cantona", "home_win_prob": 0.212, "id": "2026-05-31|Cantona|Kendall Wanderers", "involves_team": false}, {"away": "Meadowlark FC", "away_win_prob": 0.162, "date": "2026-05-31", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.618, "id": "2026-05-31|Newburyport FC|Meadowlark FC", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.113, "date": "2026-06-07", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.667, "id": "2026-06-07|Newburyport FC|Kendall Wanderers", "involves_team": false}, {"away": "CDF Azzurri", "away_win_prob": 0.48, "date": "2026-06-07", "draw_prob": 0.22, "home": "Eastern FC", "home_win_prob": 0.3, "id": "2026-06-07|Eastern FC|CDF Azzurri", "involves_team": false}, {"away": "Loco Gunners", "away_win_prob": 0.339, "date": "2026-06-07", "draw_prob": 0.22, "home": "Massachusetts United", "home_win_prob": 0.441, "id": "2026-06-07|Massachusetts United|Loco Gunners", "involves_team": true}, {"away": "Newburyport FC", "away_win_prob": 0.667, "date": "2026-06-07", "draw_prob": 0.22, "home": "Kendall Wanderers", "home_win_prob": 0.113, "id": "2026-06-07|Kendall Wanderers|Newburyport FC", "involves_team": false}, {"away": "Meadowlark FC", "away_win_prob": 0.623, "date": "2026-06-07", "draw_prob": 0.22, "home": "Cantona", "home_win_prob": 0.157, "id": "2026-06-07|Cantona|Meadowlark FC", "involves_team": false}, {"away": "Massachusetts United", "away_win_prob": 0.235, "date": "2026-06-14", "draw_prob": 0.22, "home": "CDF Azzurri", "home_win_prob": 0.545, "id": "2026-06-14|CDF Azzurri|Massachusetts United", "involves_team": false}, {"away": "Eastern FC", "away_win_prob": 0.508, "date": "2026-06-14", "draw_prob": 0.22, "home": "Loco Gunners", "home_win_prob": 0.272, "id": "2026-06-14|Loco Gunners|Eastern FC", "involves_team": true}, {"away": "Cantona", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.77, "id": "2026-06-14|Newburyport FC|Cantona", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.324, "date": "2026-06-14", "draw_prob": 0.22, "home": "Meadowlark FC", "home_win_prob": 0.456, "id": "2026-06-14|Meadowlark FC|Kendall Wanderers", "involves_team": false}], "schedule_inferred": false, "selected_team": "Loco Gunners", "teams": ["CDF Azzurri", "Newburyport FC", "Meadowlark FC", "Kendall Wanderers", "Eastern FC", "Massachusetts United", "Loco Gunners", "Cantona"], "total_teams": 8};
-const FLIGHT_RESULTS  = [{"ag": 0, "away": "Massachusetts United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 5, "home": "CDF Azzurri", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Kendall Wanderers", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Massachusetts United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Newburyport FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Newburyport FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "CDF Azzurri", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"CDF Azzurri": 1577.8, "Cantona": 1453.8, "Eastern FC": 1517.0, "Kendall Wanderers": 1534.0, "Loco Gunners": 1489.9, "Massachusetts United": 1492.1, "Meadowlark FC": 1541.5, "Newburyport FC": 1627.0}, "current_regression": 0.0, "current_stats": {"CDF Azzurri": {"gd": 15, "gf": 22, "gp": 6, "l": 0, "pts": 16, "t": 1, "w": 5}, "Cantona": {"gd": -21, "gf": 9, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Eastern FC": {"gd": 2, "gf": 15, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Kendall Wanderers": {"gd": 5, "gf": 10, "gp": 5, "l": 0, "pts": 9, "t": 3, "w": 2}, "Loco Gunners": {"gd": -5, "gf": 12, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Massachusetts United": {"gd": -7, "gf": 14, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Meadowlark FC": {"gd": 6, "gf": 15, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}, "Newburyport FC": {"gd": 5, "gf": 22, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "CDF Azzurri", "away_win_prob": 0.623, "date": "2026-05-31", "draw_prob": 0.22, "home": "Loco Gunners", "home_win_prob": 0.157, "id": "2026-05-31|Loco Gunners|CDF Azzurri", "involves_team": true}, {"away": "Massachusetts United", "away_win_prob": 0.319, "date": "2026-05-31", "draw_prob": 0.22, "home": "Eastern FC", "home_win_prob": 0.461, "id": "2026-05-31|Eastern FC|Massachusetts United", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.606, "date": "2026-05-31", "draw_prob": 0.22, "home": "Cantona", "home_win_prob": 0.174, "id": "2026-05-31|Cantona|Kendall Wanderers", "involves_team": false}, {"away": "Meadowlark FC", "away_win_prob": 0.162, "date": "2026-05-31", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.618, "id": "2026-05-31|Newburyport FC|Meadowlark FC", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.145, "date": "2026-06-07", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.635, "id": "2026-06-07|Newburyport FC|Kendall Wanderers", "involves_team": false}, {"away": "CDF Azzurri", "away_win_prob": 0.558, "date": "2026-06-07", "draw_prob": 0.22, "home": "Eastern FC", "home_win_prob": 0.222, "id": "2026-06-07|Eastern FC|CDF Azzurri", "involves_team": false}, {"away": "Loco Gunners", "away_win_prob": 0.384, "date": "2026-06-07", "draw_prob": 0.22, "home": "Massachusetts United", "home_win_prob": 0.396, "id": "2026-06-07|Massachusetts United|Loco Gunners", "involves_team": true}, {"away": "Newburyport FC", "away_win_prob": 0.635, "date": "2026-06-07", "draw_prob": 0.22, "home": "Kendall Wanderers", "home_win_prob": 0.145, "id": "2026-06-07|Kendall Wanderers|Newburyport FC", "involves_team": false}, {"away": "Meadowlark FC", "away_win_prob": 0.623, "date": "2026-06-07", "draw_prob": 0.22, "home": "Cantona", "home_win_prob": 0.157, "id": "2026-06-07|Cantona|Meadowlark FC", "involves_team": false}, {"away": "Massachusetts United", "away_win_prob": 0.162, "date": "2026-06-14", "draw_prob": 0.22, "home": "CDF Azzurri", "home_win_prob": 0.618, "id": "2026-06-14|CDF Azzurri|Massachusetts United", "involves_team": false}, {"away": "Eastern FC", "away_win_prob": 0.467, "date": "2026-06-14", "draw_prob": 0.22, "home": "Loco Gunners", "home_win_prob": 0.313, "id": "2026-06-14|Loco Gunners|Eastern FC", "involves_team": true}, {"away": "Cantona", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Newburyport FC", "home_win_prob": 0.77, "id": "2026-06-14|Newburyport FC|Cantona", "involves_team": false}, {"away": "Kendall Wanderers", "away_win_prob": 0.368, "date": "2026-06-14", "draw_prob": 0.22, "home": "Meadowlark FC", "home_win_prob": 0.412, "id": "2026-06-14|Meadowlark FC|Kendall Wanderers", "involves_team": false}], "schedule_inferred": false, "selected_team": "Loco Gunners", "teams": ["CDF Azzurri", "Newburyport FC", "Kendall Wanderers", "Meadowlark FC", "Eastern FC", "Loco Gunners", "Massachusetts United", "Cantona"], "total_teams": 8};
+const FLIGHT_RESULTS  = [{"ag": 0, "away": "Massachusetts United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 6, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 5, "home": "CDF Azzurri", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Kendall Wanderers", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Massachusetts United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Newburyport FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 4, "home": "Newburyport FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "CDF Azzurri", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Cantona", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Eastern FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 3, "home": "Loco Gunners", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Meadowlark FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Newburyport FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "CDF Azzurri", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Cantona", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Massachusetts United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Loco Gunners", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Meadowlark FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Eastern FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-20", "forfeit": false, "hg": 2, "home": "CDF Azzurri", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Massachusetts United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-24", "forfeit": false, "hg": 2, "home": "Kendall Wanderers", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = true;
 const IS_BOTTOM_FLIGHT = false;
@@ -1341,10 +1337,13 @@ startSim();
 
   function populateWeeks(year, season) {
     selWeek.innerHTML = '';
-    // First option: "Full season" (no filter)
     const ph = document.createElement('option');
-    ph.value = ''; ph.textContent = 'Full season';
+    ph.value = ''; ph.textContent = 'Current';
     selWeek.appendChild(ph);
+    const weekZero = document.createElement('option');
+    weekZero.value = '__week0__';
+    weekZero.textContent = 'Week 0';
+    selWeek.appendChild(weekZero);
     const wdates = (groups[year] || {})[season] || [];
     wdates.forEach((d, i) => {
       const opt = document.createElement('option');
@@ -1406,8 +1405,11 @@ startSim();
 
   // Update the mini standings table
   function renderStandingsTable(stats) {
-    const rows = Object.entries(stats)
-      .map(([team, s]) => ({ team, ...s, ppg: s.gp ? s.pts / s.gp : 0 }))
+    const rows = teams
+      .map(team => {
+        const s = stats[team] || { pts: 0, gd: 0, gf: 0, gp: 0, w: 0, l: 0, t: 0 };
+        return { team, ...s, ppg: s.gp ? s.pts / s.gp : 0 };
+      })
       .sort((a, b) => b.ppg - a.ppg || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
     stdTbody.innerHTML = rows.map(row => {
       const isSel = row.team === selected_team;
@@ -1429,29 +1431,37 @@ startSim();
   }
 
   function applyDate(date) {
-    mwLabel.textContent = `as of ${date}`;
+    mwLabel.textContent = date === '__week0__' ? 'as of week 0' : `as of ${date}`;
     btnReset.style.display = '';
 
-    const histStats = statsUpTo(date);
+    const histStats = date === '__week0__' ? {} : statsUpTo(date);
     current_stats = {};
     for (const t of teams) {
       const s = histStats[t] || { pts: 0, gd: 0, gf: 0 };
       current_stats[t] = { pts: s.pts, gd: s.gd, gf: s.gf };
     }
-    remaining_games = remainingFrom(date);
+    remaining_games = date === '__week0__'
+      ? [...FLIGHT_RESULTS.map(r => ({
+          id: `${r.date}|${r.home}|${r.away}`,
+          home: r.home,
+          away: r.away,
+          date: r.date,
+          involves_team: r.home === selected_team || r.away === selected_team,
+        })), ...allFutureGames].sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0))
+      : remainingFrom(date);
     Object.keys(overrides).forEach(k => delete overrides[k]);
     renderStandingsTable(histStats);
     renderGrid();
     startSim();
   }
 
-  // Set defaults: latest year + season, but no week filter (Full season)
+  // Set defaults: latest year + season, with current view selected
   const latestYear = years[years.length - 1];
   selYear.value = latestYear;
   const initSeasons = populateSeasons(latestYear);
   selSeason.value = initSeasons[initSeasons.length - 1] || '';
   populateWeeks(latestYear, selSeason.value);
-  // selWeek starts at "Full season" (value = ""), no applyDate called
+  // selWeek starts at "Current" (value = ""), no applyDate called
 
   selYear.addEventListener('change', () => {
     const sns = populateSeasons(selYear.value);
@@ -1471,22 +1481,22 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"CDF Azzurri": {"next_game": {"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "Eastern FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newburyport FC", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Meadowlark FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Cantona", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Loco Gunners", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Massachusetts United", "result": "T", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newburyport FC", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Meadowlark FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Cantona", "result": "W", "score": "4\u20131", "venue": "A"}], "slug": "cdf-azzurri-over-30-div-1-north"}, "Cantona": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Kendall Wanderers", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Massachusetts United", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Loco Gunners", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Eastern FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Kendall Wanderers", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Newburyport FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Meadowlark FC", "result": "L", "score": "1\u20136", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Massachusetts United", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Loco Gunners", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Eastern FC", "result": "L", "score": "0\u20134", "venue": "H"}], "slug": "cantona-over-30-div-1-north"}, "Eastern FC": {"next_game": {"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "CDF Azzurri", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Kendall Wanderers", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newburyport FC", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cantona", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Meadowlark FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Massachusetts United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Loco Gunners", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Kendall Wanderers", "result": "T", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newburyport FC", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cantona", "result": "W", "score": "4\u20130", "venue": "A"}], "slug": "eastern-fc-over-30-div-1-north"}, "Kendall Wanderers": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Massachusetts United", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Eastern FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Loco Gunners", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Cantona", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Meadowlark FC", "result": "T", "score": "0\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Eastern FC", "result": "T", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Loco Gunners", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Cantona", "result": "T", "score": "2\u20132", "venue": "H"}], "slug": "kendall-wanderers-over-30-div-1-north"}, "Loco Gunners": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "CDF Azzurri", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Meadowlark FC", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cantona", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newburyport FC", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Kendall Wanderers", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Eastern FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Meadowlark FC", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cantona", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newburyport FC", "result": "L", "score": "3\u20134", "venue": "A"}], "slug": "loco-gunners-over-30-div-1-north"}, "Massachusetts United": {"next_game": {"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Kendall Wanderers", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cantona", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Meadowlark FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Newburyport FC", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Eastern FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "CDF Azzurri", "result": "T", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Loco Gunners", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cantona", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Meadowlark FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Newburyport FC", "result": "L", "score": "2\u20134", "venue": "A"}], "slug": "massachusetts-united-over-30-div-1-north"}, "Meadowlark FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Newburyport FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Loco Gunners", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "CDF Azzurri", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Eastern FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Newburyport FC", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Kendall Wanderers", "result": "T", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Cantona", "result": "W", "score": "6\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Loco Gunners", "result": "T", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "CDF Azzurri", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "meadowlark-fc-over-30-div-1-north"}, "Newburyport FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Meadowlark FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Eastern FC", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Loco Gunners", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Massachusetts United", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Meadowlark FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Cantona", "result": "W", "score": "5\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Eastern FC", "result": "T", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Loco Gunners", "result": "W", "score": "4\u20133", "venue": "H"}], "slug": "newburyport-fc-over-30-div-1-north"}};
+const FLIGHT_CARDS = {"CDF Azzurri": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Loco Gunners", "venue": "@"}, "played": [{"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "Eastern FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newburyport FC", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Meadowlark FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Cantona", "result": "W", "score": "4\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Loco Gunners", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Massachusetts United", "result": "D", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "Eastern FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Newburyport FC", "result": "W", "score": "6\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Meadowlark FC", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "cdf-azzurri-over-30-div-1-north"}, "Cantona": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Kendall Wanderers", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Massachusetts United", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Loco Gunners", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Eastern FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Kendall Wanderers", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Newburyport FC", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Meadowlark FC", "result": "L", "score": "1\u20136", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Massachusetts United", "result": "L", "score": "3\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Loco Gunners", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Eastern FC", "result": "L", "score": "0\u20134", "venue": "H"}], "slug": "cantona-over-30-div-1-north"}, "Eastern FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Massachusetts United", "venue": "vs"}, "played": [{"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Kendall Wanderers", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newburyport FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Cantona", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Meadowlark FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Massachusetts United", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Loco Gunners", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-20", "display_date": "Wednesday, May 20", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Kendall Wanderers", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Newburyport FC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "eastern-fc-over-30-div-1-north"}, "Kendall Wanderers": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Cantona", "venue": "@"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Massachusetts United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Eastern FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Loco Gunners", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Cantona", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Meadowlark FC", "result": "D", "score": "0\u20130", "venue": "H"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Massachusetts United", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Eastern FC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Loco Gunners", "result": "W", "score": "4\u20130", "venue": "A"}], "slug": "kendall-wanderers-over-30-div-1-north"}, "Loco Gunners": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "CDF Azzurri", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Meadowlark FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cantona", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newburyport FC", "result": "L", "score": "3\u20134", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Kendall Wanderers", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Eastern FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Meadowlark FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Cantona", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Newburyport FC", "result": "L", "score": "3\u20134", "venue": "A"}], "slug": "loco-gunners-over-30-div-1-north"}, "Massachusetts United": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Eastern FC", "venue": "@"}, "played": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Kendall Wanderers", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cantona", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Meadowlark FC", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Newburyport FC", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Eastern FC", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "CDF Azzurri", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Loco Gunners", "result": "L", "score": "0\u20134", "venue": "A"}], "recent": [{"date": "2026-05-24", "display_date": "Sunday, May 24", "opponent": "Kendall Wanderers", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Cantona", "result": "W", "score": "6\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Meadowlark FC", "result": "L", "score": "0\u20134", "venue": "H"}], "slug": "massachusetts-united-over-30-div-1-north"}, "Meadowlark FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Newburyport FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Loco Gunners", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "CDF Azzurri", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Eastern FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Newburyport FC", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Kendall Wanderers", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Cantona", "result": "W", "score": "6\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Loco Gunners", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Massachusetts United", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "CDF Azzurri", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "meadowlark-fc-over-30-div-1-north"}, "Newburyport FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Meadowlark FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Eastern FC", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Loco Gunners", "result": "W", "score": "4\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Massachusetts United", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Meadowlark FC", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Cantona", "result": "W", "score": "5\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "CDF Azzurri", "result": "L", "score": "1\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Eastern FC", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Loco Gunners", "result": "W", "score": "4\u20133", "venue": "H"}], "slug": "newburyport-fc-over-30-div-1-north"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["CDF Azzurri"] = { w: 4, l: 0, t: 1, gp: 5 };
+STANDINGS_MAP["CDF Azzurri"] = { w: 5, l: 0, t: 1, gp: 6 };
 
 STANDINGS_MAP["Newburyport FC"] = { w: 4, l: 1, t: 1, gp: 6 };
 
+STANDINGS_MAP["Kendall Wanderers"] = { w: 2, l: 0, t: 3, gp: 5 };
+
 STANDINGS_MAP["Meadowlark FC"] = { w: 3, l: 2, t: 2, gp: 7 };
 
-STANDINGS_MAP["Kendall Wanderers"] = { w: 1, l: 0, t: 3, gp: 4 };
-
-STANDINGS_MAP["Eastern FC"] = { w: 2, l: 2, t: 2, gp: 6 };
-
-STANDINGS_MAP["Massachusetts United"] = { w: 2, l: 3, t: 1, gp: 6 };
+STANDINGS_MAP["Eastern FC"] = { w: 2, l: 3, t: 2, gp: 7 };
 
 STANDINGS_MAP["Loco Gunners"] = { w: 2, l: 4, t: 1, gp: 7 };
+
+STANDINGS_MAP["Massachusetts United"] = { w: 2, l: 4, t: 1, gp: 7 };
 
 STANDINGS_MAP["Cantona"] = { w: 0, l: 6, t: 1, gp: 7 };
 
@@ -1500,7 +1510,7 @@ function showPopup(cell, teamName) {
   const card     = FLIGHT_CARDS[teamName] || {};
   const standing = STANDINGS_MAP[teamName] || {};
   popName.textContent   = teamName;
-  popRecord.textContent = `${standing.gp ?? 0} GP · ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}T`;
+  popRecord.textContent = `${standing.gp ?? 0} GP - ${standing.w ?? 0}W  ${standing.l ?? 0}L  ${standing.t ?? 0}D`;
 
   popGames.innerHTML = "";
   const played = card.played || [];
