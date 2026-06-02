@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 22px 24px;
-    border-radius: 22px;
+    padding: 18px 22px;
+    border-radius: 18px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,8 +76,8 @@
   }
 
   .hero h1 {
-    margin: 6px 0 8px;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    margin: 4px 0 6px;
+    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
     line-height: 1;
     letter-spacing: -0.03em;
   }
@@ -85,45 +85,22 @@
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .chip {
-    padding: 7px 11px;
+    padding: 6px 10px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 0.9rem;
-  }
-
-  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
-
-  .metric {
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .label {
-    display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    color: rgba(247, 242, 232, 0.66);
-  }
-
-  .metric .value {
-    font-size: 1.35rem;
-    line-height: 1;
+    font-size: 0.84rem;
   }
 
   .section {
@@ -646,31 +623,12 @@
 
       <div class="chips">
         
-        <span class="chip">ELO 1332</span>
+        <span class="chip">ELO 1320</span>
         
         
-        <span class="chip">Current place: 6</span>
+        <span class="chip">Place 6</span>
         
-        <span class="chip">Record 0-7-0</span>
-      </div>
-
-      <div class="metrics">
-        <div class="metric">
-          <span class="label">Games</span>
-          <div class="value">10</div>
-        </div>
-        <div class="metric">
-          <span class="label">Wins</span>
-          <div class="value">0</div>
-        </div>
-        <div class="metric">
-          <span class="label">Losses</span>
-          <div class="value">7</div>
-        </div>
-        <div class="metric">
-          <span class="label">Draws</span>
-          <div class="value">0</div>
-        </div>
+        <span class="chip">Record 0-8-0</span>
       </div>
     </section>
 
@@ -705,50 +663,50 @@
               
               <tr>
                 <td class="team-name-cell" data-team="Melrose Good Guys">Melrose Good Guys</td>
-                <td>7</td>
-                <td>21</td>
-                <td>+26</td>
+                <td>8</td>
+                <td>24</td>
+                <td>+31</td>
                 <td>3.00</td>
               </tr>
               
               <tr>
-                <td class="team-name-cell" data-team="Hurricanes SC">Hurricanes SC</td>
-                <td>7</td>
-                <td>13</td>
-                <td>+12</td>
-                <td>1.86</td>
-              </tr>
-              
-              <tr>
                 <td class="team-name-cell" data-team="Westford">Westford</td>
-                <td>7</td>
-                <td>11</td>
-                <td>+12</td>
-                <td>1.57</td>
+                <td>8</td>
+                <td>14</td>
+                <td>+15</td>
+                <td>1.75</td>
               </tr>
               
               <tr>
-                <td class="team-name-cell" data-team="MGG">MGG</td>
-                <td>7</td>
-                <td>9</td>
-                <td>-7</td>
-                <td>1.29</td>
+                <td class="team-name-cell" data-team="Hurricanes SC">Hurricanes SC</td>
+                <td>8</td>
+                <td>13</td>
+                <td>+9</td>
+                <td>1.62</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="North Reading">North Reading</td>
-                <td>7</td>
-                <td>7</td>
-                <td>-10</td>
-                <td>1.00</td>
+                <td>8</td>
+                <td>10</td>
+                <td>-8</td>
+                <td>1.25</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="MGG">MGG</td>
+                <td>8</td>
+                <td>9</td>
+                <td>-12</td>
+                <td>1.12</td>
               </tr>
               
               <tr class="highlight">
                 <td class="team-name-cell" data-team="Derry Eagles">Derry Eagles</td>
-                <td>7</td>
+                <td>8</td>
                 <td>-2</td>
-                <td>-33</td>
-                <td>-0.29</td>
+                <td>-35</td>
+                <td>-0.25</td>
               </tr>
               
             </tbody>
@@ -766,7 +724,7 @@
           <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Derry Eagles are struggling in the Over 55 Div 3 North flight this season, sitting firmly at the bottom of the table with 6th place and a dismal record of 0 wins, 7 losses, and a goal difference of -33, which leaves them 15 points adrift of promotion and 9 points from safety. Their upcoming match against North Reading on May 31, where they have just a 17% win probability, is crucial; not only does a loss solidify their relegation status, but it could also mentally impact the team&#39;s morale, given that North Reading is also fighting to avoid the drop. With only three games remaining and a bleak outlook—facing teams where they have a combined win probability of just 28%—Derry Eagles need a miracle to turn their fortunes around and avoid relegation.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Derry Eagles are 6th with -2 points and 0% promotion, 0% stay, and 100% relegation odds, with the model centering them around 6th place (expected 6.00). They do not have a scheduled remaining match that materially changes their promotion or relegation outlook right now.</p>
       </div>
     </section>
     
@@ -848,8 +806,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Derry Eagles": 1331.9, "Hurricanes SC": 1511.1, "MGG": 1441.4, "Melrose Good Guys": 1584.2, "North Reading": 1413.2, "Westford": 1479.6}, "current_regression": 0.0, "current_stats": {"Derry Eagles": {"gd": -33, "gf": 7, "gp": 7, "l": 7, "pts": -2, "t": 0, "w": 0}, "Hurricanes SC": {"gd": 12, "gf": 20, "gp": 7, "l": 2, "pts": 13, "t": 1, "w": 4}, "MGG": {"gd": -7, "gf": 9, "gp": 7, "l": 4, "pts": 9, "t": 0, "w": 3}, "Melrose Good Guys": {"gd": 26, "gf": 36, "gp": 7, "l": 0, "pts": 21, "t": 0, "w": 7}, "North Reading": {"gd": -10, "gf": 9, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Westford": {"gd": 12, "gf": 20, "gp": 7, "l": 2, "pts": 11, "t": 2, "w": 3}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Derry Eagles", "away_win_prob": 0.172, "date": "2026-05-31", "draw_prob": 0.22, "home": "North Reading", "home_win_prob": 0.608, "id": "2026-05-31|North Reading|Derry Eagles", "involves_team": true}, {"away": "Westford", "away_win_prob": 0.3, "date": "2026-05-31", "draw_prob": 0.22, "home": "Hurricanes SC", "home_win_prob": 0.48, "id": "2026-05-31|Hurricanes SC|Westford", "involves_team": false}, {"away": "MGG", "away_win_prob": 0.052, "date": "2026-05-31", "draw_prob": 0.22, "home": "Melrose Good Guys", "home_win_prob": 0.728, "id": "2026-05-31|Melrose Good Guys|MGG", "involves_team": false}, {"away": "Hurricanes SC", "away_win_prob": 0.645, "date": "2026-06-07", "draw_prob": 0.22, "home": "North Reading", "home_win_prob": 0.135, "id": "2026-06-07|North Reading|Hurricanes SC", "involves_team": false}, {"away": "Melrose Good Guys", "away_win_prob": 0.659, "date": "2026-06-07", "draw_prob": 0.22, "home": "Westford", "home_win_prob": 0.121, "id": "2026-06-07|Westford|Melrose Good Guys", "involves_team": false}, {"away": "MGG", "away_win_prob": 0.669, "date": "2026-06-07", "draw_prob": 0.22, "home": "Derry Eagles", "home_win_prob": 0.111, "id": "2026-06-07|Derry Eagles|MGG", "involves_team": true}, {"away": "North Reading", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Melrose Good Guys", "home_win_prob": 0.767, "id": "2026-06-14|Melrose Good Guys|North Reading", "involves_team": false}, {"away": "Derry Eagles", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Hurricanes SC", "home_win_prob": 0.777, "id": "2026-06-14|Hurricanes SC|Derry Eagles", "involves_team": true}, {"away": "Westford", "away_win_prob": 0.498, "date": "2026-06-14", "draw_prob": 0.22, "home": "MGG", "home_win_prob": 0.282, "id": "2026-06-14|MGG|Westford", "involves_team": false}], "schedule_inferred": false, "selected_team": "Derry Eagles", "teams": ["Melrose Good Guys", "Hurricanes SC", "Westford", "MGG", "North Reading", "Derry Eagles"], "total_teams": 6};
-const FLIGHT_RESULTS  = [{"ag": 1, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 2, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Derry Eagles", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 7, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 5, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Derry Eagles", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 6, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"Derry Eagles": 1319.5, "Hurricanes SC": 1493.7, "MGG": 1431.7, "Melrose Good Guys": 1594.0, "North Reading": 1425.5, "Westford": 1497.1}, "current_regression": 0.0, "current_stats": {"Derry Eagles": {"gd": -35, "gf": 7, "gp": 8, "l": 8, "pts": -2, "t": 0, "w": 0}, "Hurricanes SC": {"gd": 9, "gf": 20, "gp": 8, "l": 3, "pts": 13, "t": 1, "w": 4}, "MGG": {"gd": -12, "gf": 12, "gp": 8, "l": 5, "pts": 9, "t": 0, "w": 3}, "Melrose Good Guys": {"gd": 31, "gf": 44, "gp": 8, "l": 0, "pts": 24, "t": 0, "w": 8}, "North Reading": {"gd": -8, "gf": 11, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}, "Westford": {"gd": 15, "gf": 23, "gp": 8, "l": 2, "pts": 14, "t": 2, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Hurricanes SC", "away_win_prob": 0.577, "date": "2026-06-07", "draw_prob": 0.22, "home": "North Reading", "home_win_prob": 0.203, "id": "2026-06-07|North Reading|Hurricanes SC", "involves_team": false}, {"away": "Melrose Good Guys", "away_win_prob": 0.643, "date": "2026-06-07", "draw_prob": 0.22, "home": "Westford", "home_win_prob": 0.137, "id": "2026-06-07|Westford|Melrose Good Guys", "involves_team": false}, {"away": "MGG", "away_win_prob": 0.674, "date": "2026-06-07", "draw_prob": 0.22, "home": "Derry Eagles", "home_win_prob": 0.106, "id": "2026-06-07|Derry Eagles|MGG", "involves_team": true}, {"away": "North Reading", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Melrose Good Guys", "home_win_prob": 0.764, "id": "2026-06-14|Melrose Good Guys|North Reading", "involves_team": false}, {"away": "Derry Eagles", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Hurricanes SC", "home_win_prob": 0.771, "id": "2026-06-14|Hurricanes SC|Derry Eagles", "involves_team": true}, {"away": "Westford", "away_win_prob": 0.57, "date": "2026-06-14", "draw_prob": 0.22, "home": "MGG", "home_win_prob": 0.21, "id": "2026-06-14|MGG|Westford", "involves_team": false}], "schedule_inferred": false, "selected_team": "Derry Eagles", "teams": ["Melrose Good Guys", "Westford", "Hurricanes SC", "North Reading", "MGG", "Derry Eagles"], "total_teams": 6};
+const FLIGHT_RESULTS  = [{"ag": 1, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 2, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 4, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Derry Eagles", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 7, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 5, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Derry Eagles", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 6, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "North Reading", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 6, "home": "Westford", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hurricanes SC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "MGG", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Melrose Good Guys", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "Derry Eagles", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Derry Eagles", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 2, "home": "North Reading", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Westford", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 0, "home": "Hurricanes SC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "MGG", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 8, "home": "Melrose Good Guys", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = true;
@@ -1460,20 +1418,20 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Derry Eagles": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading", "venue": "@"}, "played": [{"date": "TBD", "display_date": "TBD", "opponent": "MGG", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Melrose Good Guys", "result": "L", "score": "4\u20138", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Westford", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "North Reading", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20139", "venue": "H"}], "recent": [{"date": "TBD", "display_date": "TBD", "opponent": "MGG", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Melrose Good Guys", "result": "L", "score": "4\u20138", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}], "slug": "derry-eagles-over-55-div-3-north"}, "Hurricanes SC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Westford", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MGG", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "MGG", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Westford", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Derry Eagles", "result": "W", "score": "9\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "North Reading", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MGG", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20135", "venue": "A"}], "slug": "hurricanes-sc-over-55-div-3-north"}, "MGG": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Melrose Good Guys", "venue": "@"}, "played": [{"date": "TBD", "display_date": "TBD", "opponent": "Derry Eagles", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Melrose Good Guys", "result": "L", "score": "2\u20138", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Westford", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "TBD", "display_date": "TBD", "opponent": "Derry Eagles", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading", "result": "L", "score": "1\u20132", "venue": "A"}], "slug": "mgg-over-55-div-3-north"}, "Melrose Good Guys": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "MGG", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Derry Eagles", "result": "W", "score": "8\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricanes SC", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricanes SC", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Derry Eagles", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "MGG", "result": "W", "score": "8\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "North Reading", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Westford", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Derry Eagles", "result": "W", "score": "8\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricanes SC", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricanes SC", "result": "W", "score": "5\u20131", "venue": "H"}], "slug": "melrose-good-guys-over-55-div-3-north"}, "North Reading": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Derry Eagles", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MGG", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MGG", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Westford", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Derry Eagles", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Melrose Good Guys", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hurricanes SC", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MGG", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MGG", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": "north-reading-over-55-div-3-north"}, "Westford": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hurricanes SC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Derry Eagles", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Derry Eagles", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "North Reading", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hurricanes SC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "MGG", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Derry Eagles", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Derry Eagles", "result": "W", "score": "4\u20132", "venue": "A"}], "slug": "westford-over-55-div-3-north"}};
+const FLIGHT_CARDS = {"Derry Eagles": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "MGG", "venue": "vs"}, "played": [{"date": "TBD", "display_date": "TBD", "opponent": "MGG", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Melrose Good Guys", "result": "L", "score": "4\u20138", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Westford", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20137", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "North Reading", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20139", "venue": "H"}], "recent": [{"date": "TBD", "display_date": "TBD", "opponent": "MGG", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Melrose Good Guys", "result": "L", "score": "4\u20138", "venue": "H"}], "slug": "derry-eagles-over-55-div-3-north"}, "Hurricanes SC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "North Reading", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Westford", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MGG", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "MGG", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Westford", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Derry Eagles", "result": "W", "score": "9\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "North Reading", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Westford", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "MGG", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Melrose Good Guys", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": "hurricanes-sc-over-55-div-3-north"}, "MGG": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Derry Eagles", "venue": "@"}, "played": [{"date": "TBD", "display_date": "TBD", "opponent": "Derry Eagles", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Melrose Good Guys", "result": "L", "score": "3\u20138", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Melrose Good Guys", "result": "L", "score": "2\u20138", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Westford", "result": "W", "score": "2\u20131", "venue": "A"}], "recent": [{"date": "TBD", "display_date": "TBD", "opponent": "Derry Eagles", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Melrose Good Guys", "result": "L", "score": "3\u20138", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hurricanes SC", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": "mgg-over-55-div-3-north"}, "Melrose Good Guys": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Westford", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "MGG", "result": "W", "score": "8\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Derry Eagles", "result": "W", "score": "8\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricanes SC", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hurricanes SC", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Derry Eagles", "result": "W", "score": "7\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "MGG", "result": "W", "score": "8\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "North Reading", "result": "W", "score": "5\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Westford", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "MGG", "result": "W", "score": "8\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Derry Eagles", "result": "W", "score": "8\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hurricanes SC", "result": "W", "score": "1\u20130", "venue": "A"}], "slug": "melrose-good-guys-over-55-div-3-north"}, "North Reading": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Hurricanes SC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Derry Eagles", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MGG", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "MGG", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Westford", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Derry Eagles", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Melrose Good Guys", "result": "L", "score": "2\u20135", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hurricanes SC", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Derry Eagles", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Westford", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "MGG", "result": "W", "score": "2\u20131", "venue": "H"}], "slug": "north-reading-over-55-div-3-north"}, "Westford": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Melrose Good Guys", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hurricanes SC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Derry Eagles", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Derry Eagles", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "North Reading", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Hurricanes SC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "MGG", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Melrose Good Guys", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Hurricanes SC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Derry Eagles", "result": "W", "score": "6\u20130", "venue": "H"}], "slug": "westford-over-55-div-3-north"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Melrose Good Guys"] = { w: 7, l: 0, t: 0, gp: 7 };
+STANDINGS_MAP["Melrose Good Guys"] = { w: 8, l: 0, t: 0, gp: 8 };
 
-STANDINGS_MAP["Hurricanes SC"] = { w: 4, l: 2, t: 1, gp: 7 };
+STANDINGS_MAP["Westford"] = { w: 4, l: 2, t: 2, gp: 8 };
 
-STANDINGS_MAP["Westford"] = { w: 3, l: 2, t: 2, gp: 7 };
+STANDINGS_MAP["Hurricanes SC"] = { w: 4, l: 3, t: 1, gp: 8 };
 
-STANDINGS_MAP["MGG"] = { w: 3, l: 4, t: 0, gp: 7 };
+STANDINGS_MAP["North Reading"] = { w: 3, l: 4, t: 1, gp: 8 };
 
-STANDINGS_MAP["North Reading"] = { w: 2, l: 4, t: 1, gp: 7 };
+STANDINGS_MAP["MGG"] = { w: 3, l: 5, t: 0, gp: 8 };
 
-STANDINGS_MAP["Derry Eagles"] = { w: 0, l: 7, t: 0, gp: 7 };
+STANDINGS_MAP["Derry Eagles"] = { w: 0, l: 8, t: 0, gp: 8 };
 
 
 const popup     = document.getElementById("team-popup");

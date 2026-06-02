@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 22px 24px;
-    border-radius: 22px;
+    padding: 18px 22px;
+    border-radius: 18px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,8 +76,8 @@
   }
 
   .hero h1 {
-    margin: 6px 0 8px;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    margin: 4px 0 6px;
+    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
     line-height: 1;
     letter-spacing: -0.03em;
   }
@@ -85,45 +85,22 @@
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .chip {
-    padding: 7px 11px;
+    padding: 6px 10px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 0.9rem;
-  }
-
-  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
-
-  .metric {
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .label {
-    display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    color: rgba(247, 242, 232, 0.66);
-  }
-
-  .metric .value {
-    font-size: 1.35rem;
-    line-height: 1;
+    font-size: 0.84rem;
   }
 
   .section {
@@ -646,31 +623,12 @@
 
       <div class="chips">
         
-        <span class="chip">ELO 1406</span>
+        <span class="chip">ELO 1395</span>
         
         
-        <span class="chip">Current place: 4</span>
+        <span class="chip">Place 4</span>
         
-        <span class="chip">Record 2-2-2</span>
-      </div>
-
-      <div class="metrics">
-        <div class="metric">
-          <span class="label">Games</span>
-          <div class="value">9</div>
-        </div>
-        <div class="metric">
-          <span class="label">Wins</span>
-          <div class="value">2</div>
-        </div>
-        <div class="metric">
-          <span class="label">Losses</span>
-          <div class="value">2</div>
-        </div>
-        <div class="metric">
-          <span class="label">Draws</span>
-          <div class="value">2</div>
-        </div>
+        <span class="chip">Record 2-3-2</span>
       </div>
     </section>
 
@@ -704,19 +662,19 @@
             <tbody id="standings-tbody">
               
               <tr>
-                <td class="team-name-cell" data-team="Island United FC">Island United FC</td>
-                <td>5</td>
-                <td>13</td>
-                <td>+13</td>
-                <td>2.60</td>
+                <td class="team-name-cell" data-team="Post-game Nomads">Post-game Nomads</td>
+                <td>7</td>
+                <td>16</td>
+                <td>+9</td>
+                <td>2.29</td>
               </tr>
               
               <tr>
-                <td class="team-name-cell" data-team="Post-game Nomads">Post-game Nomads</td>
-                <td>6</td>
-                <td>13</td>
-                <td>+7</td>
-                <td>2.17</td>
+                <td class="team-name-cell" data-team="Island United FC">Island United FC</td>
+                <td>7</td>
+                <td>14</td>
+                <td>+26</td>
+                <td>2.00</td>
               </tr>
               
               <tr>
@@ -729,42 +687,34 @@
               
               <tr class="highlight">
                 <td class="team-name-cell" data-team="Harvard Blues FC">Harvard Blues FC</td>
-                <td>6</td>
+                <td>7</td>
                 <td>8</td>
-                <td>+3</td>
-                <td>1.33</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Carlisle FC">Carlisle FC</td>
-                <td>6</td>
-                <td>6</td>
-                <td>-8</td>
-                <td>1.00</td>
+                <td>+1</td>
+                <td>1.14</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="North Reading FC">North Reading FC</td>
+                <td>7</td>
+                <td>8</td>
+                <td>-4</td>
+                <td>1.14</td>
+              </tr>
+              
+              <tr>
+                <td class="team-name-cell" data-team="Carlisle FC">Carlisle FC</td>
+                <td>7</td>
                 <td>6</td>
-                <td>5</td>
-                <td>-5</td>
-                <td>0.83</td>
+                <td>-9</td>
+                <td>0.86</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="BNFC">BNFC</td>
-                <td>6</td>
+                <td>7</td>
                 <td>1</td>
-                <td>-19</td>
-                <td>0.17</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Island United FC forfeit lost by">Island United FC forfeit lost by</td>
-                <td>1</td>
-                <td>-2</td>
-                <td>-3</td>
-                <td>-2.00</td>
+                <td>-35</td>
+                <td>0.14</td>
               </tr>
               
             </tbody>
@@ -782,7 +732,7 @@
           <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Harvard Blues FC currently sits 4th in the Over 40 Div 6 Central flight with 8 points, showing a mixed form of 2 wins, 2 draws, and 2 losses, which leaves them 5 points off promotion and a comfortable 7 points above relegation. With only three games remaining, the gap to safety remains significant, but their most crucial matchup will be against Post-game Nomads on May 31, where they face a daunting 13% win probability; a loss could severely dent their promotion hopes. To keep pace in the race for the top, it is imperative that Harvard Blues FC not only secures points from this encounter but also capitalizes on their next game against the struggling BNFC, where they have a more favorable 50% chance of winning.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Harvard Blues FC are 4th with 8 points and 1% promotion, 99% stay, and 1% relegation odds, with the model centering them around 4th place (expected 4.14). The most important remaining match is @ BNFC on Sunday, June 14: if they lose, their relegation odds go from 1% to 6%.</p>
       </div>
     </section>
     
@@ -864,8 +814,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"BNFC": 1363.7, "Carlisle FC": 1458.3, "Hampstead Hurricanes": 1518.5, "Harvard Blues FC": 1406.1, "Island United FC": 1549.4, "Island United FC forfeit lost by": 1479.0, "North Reading FC": 1396.5, "Post-game Nomads": 1515.8}, "current_regression": 0.08125, "current_stats": {"BNFC": {"gd": -19, "gf": 5, "gp": 6, "l": 5, "pts": 1, "t": 1, "w": 0}, "Carlisle FC": {"gd": -8, "gf": 7, "gp": 6, "l": 4, "pts": 6, "t": 0, "w": 2}, "Hampstead Hurricanes": {"gd": 12, "gf": 19, "gp": 6, "l": 1, "pts": 11, "t": 2, "w": 3}, "Harvard Blues FC": {"gd": 3, "gf": 10, "gp": 6, "l": 2, "pts": 8, "t": 2, "w": 2}, "Island United FC": {"gd": 13, "gf": 17, "gp": 5, "l": 0, "pts": 13, "t": 1, "w": 4}, "Island United FC forfeit lost by": {"gd": -3, "gf": 0, "gp": 1, "l": 1, "pts": -2, "t": 0, "w": 0}, "North Reading FC": {"gd": -5, "gf": 7, "gp": 6, "l": 3, "pts": 5, "t": 1, "w": 2}, "Post-game Nomads": {"gd": 7, "gf": 11, "gp": 6, "l": 1, "pts": 13, "t": 1, "w": 4}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Island United FC", "away_win_prob": 0.73, "date": "2026-05-31", "draw_prob": 0.22, "home": "BNFC", "home_win_prob": 0.05, "id": "2026-05-31|BNFC|Island United FC", "involves_team": false}, {"away": "Post-game Nomads", "away_win_prob": 0.647, "date": "2026-05-31", "draw_prob": 0.22, "home": "Harvard Blues FC", "home_win_prob": 0.133, "id": "2026-05-31|Harvard Blues FC|Post-game Nomads", "involves_team": true}, {"away": "North Reading FC", "away_win_prob": 0.233, "date": "2026-05-31", "draw_prob": 0.22, "home": "Carlisle FC", "home_win_prob": 0.547, "id": "2026-05-31|Carlisle FC|North Reading FC", "involves_team": false}, {"away": "Island United FC", "away_win_prob": 0.701, "date": "2026-06-07", "draw_prob": 0.22, "home": "Harvard Blues FC", "home_win_prob": 0.079, "id": "2026-06-07|Harvard Blues FC|Island United FC", "involves_team": true}, {"away": "BNFC", "away_win_prob": 0.067, "date": "2026-06-07", "draw_prob": 0.22, "home": "Post-game Nomads", "home_win_prob": 0.713, "id": "2026-06-07|Post-game Nomads|BNFC", "involves_team": false}, {"away": "North Reading FC", "away_win_prob": 0.112, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hampstead Hurricanes", "home_win_prob": 0.668, "id": "2026-06-07|Hampstead Hurricanes|North Reading FC", "involves_team": false}, {"away": "Post-game Nomads", "away_win_prob": 0.302, "date": "2026-06-14", "draw_prob": 0.22, "home": "Island United FC", "home_win_prob": 0.478, "id": "2026-06-14|Island United FC|Post-game Nomads", "involves_team": false}, {"away": "Harvard Blues FC", "away_win_prob": 0.5, "date": "2026-06-14", "draw_prob": 0.22, "home": "BNFC", "home_win_prob": 0.28, "id": "2026-06-14|BNFC|Harvard Blues FC", "involves_team": true}, {"away": "Hampstead Hurricanes", "away_win_prob": 0.543, "date": "2026-06-14", "draw_prob": 0.22, "home": "Carlisle FC", "home_win_prob": 0.237, "id": "2026-06-14|Carlisle FC|Hampstead Hurricanes", "involves_team": false}], "schedule_inferred": false, "selected_team": "Harvard Blues FC", "teams": ["Island United FC", "Post-game Nomads", "Hampstead Hurricanes", "Harvard Blues FC", "Carlisle FC", "North Reading FC", "BNFC", "Island United FC forfeit lost by"], "total_teams": 8};
-const FLIGHT_RESULTS  = [{"ag": 2, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": true, "hg": null, "home": "Island United FC forfeit lost by", "home_forfeit": true, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Post-game Nomads", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "BNFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Island United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "North Reading FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Post-game Nomads", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Carlisle FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Carlisle FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "BNFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": null, "away": "North Reading FC", "away_forfeit": true, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": true, "hg": 2, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 8, "home": "Island United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"BNFC": 1355.6, "Carlisle FC": 1439.5, "Hampstead Hurricanes": 1518.5, "Harvard Blues FC": 1395.0, "Island United FC": 1557.6, "North Reading FC": 1415.3, "Post-game Nomads": 1526.9}, "current_regression": 0.0, "current_stats": {"BNFC": {"gd": -35, "gf": 5, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Carlisle FC": {"gd": -9, "gf": 8, "gp": 7, "l": 5, "pts": 6, "t": 0, "w": 2}, "Hampstead Hurricanes": {"gd": 12, "gf": 19, "gp": 6, "l": 1, "pts": 11, "t": 2, "w": 3}, "Harvard Blues FC": {"gd": 1, "gf": 12, "gp": 7, "l": 3, "pts": 8, "t": 2, "w": 2}, "Island United FC": {"gd": 26, "gf": 33, "gp": 7, "l": 1, "pts": 14, "t": 1, "w": 5}, "North Reading FC": {"gd": -4, "gf": 9, "gp": 7, "l": 3, "pts": 8, "t": 1, "w": 3}, "Post-game Nomads": {"gd": 9, "gf": 15, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Island United FC", "away_win_prob": 0.73, "date": "2026-06-07", "draw_prob": 0.22, "home": "Harvard Blues FC", "home_win_prob": 0.05, "id": "2026-06-07|Harvard Blues FC|Island United FC", "involves_team": true}, {"away": "BNFC", "away_win_prob": 0.05, "date": "2026-06-07", "draw_prob": 0.22, "home": "Post-game Nomads", "home_win_prob": 0.768, "id": "2026-06-07|Post-game Nomads|BNFC", "involves_team": false}, {"away": "North Reading FC", "away_win_prob": 0.124, "date": "2026-06-07", "draw_prob": 0.22, "home": "Hampstead Hurricanes", "home_win_prob": 0.656, "id": "2026-06-07|Hampstead Hurricanes|North Reading FC", "involves_team": false}, {"away": "Post-game Nomads", "away_win_prob": 0.303, "date": "2026-06-14", "draw_prob": 0.22, "home": "Island United FC", "home_win_prob": 0.477, "id": "2026-06-14|Island United FC|Post-game Nomads", "involves_team": false}, {"away": "Harvard Blues FC", "away_win_prob": 0.501, "date": "2026-06-14", "draw_prob": 0.22, "home": "BNFC", "home_win_prob": 0.279, "id": "2026-06-14|BNFC|Harvard Blues FC", "involves_team": true}, {"away": "Hampstead Hurricanes", "away_win_prob": 0.603, "date": "2026-06-14", "draw_prob": 0.22, "home": "Carlisle FC", "home_win_prob": 0.177, "id": "2026-06-14|Carlisle FC|Hampstead Hurricanes", "involves_team": false}], "schedule_inferred": false, "selected_team": "Harvard Blues FC", "teams": ["Post-game Nomads", "Island United FC", "Hampstead Hurricanes", "Harvard Blues FC", "North Reading FC", "Carlisle FC", "BNFC"], "total_teams": 7};
+const FLIGHT_RESULTS  = [{"ag": 2, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": true, "hg": null, "home": "Island United FC", "home_forfeit": true, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Post-game Nomads", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "BNFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Island United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "North Reading FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Post-game Nomads", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Carlisle FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Carlisle FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 3, "home": "Hampstead Hurricanes", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 8, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "BNFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": null, "away": "North Reading FC", "away_forfeit": true, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": true, "hg": 2, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Carlisle FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 8, "home": "Island United FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Hampstead Hurricanes", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Post-game Nomads", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 4, "home": "North Reading FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 16, "away": "Island United FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 0, "home": "BNFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Post-game Nomads", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "North Reading FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 1, "home": "Carlisle FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = true;
@@ -1476,24 +1426,22 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"BNFC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Island United FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20138", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Carlisle FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Island United FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Harvard Blues FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Post-game Nomads", "result": "L", "score": "1\u20134", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20138", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Carlisle FC", "result": "L", "score": "0\u20133", "venue": "A"}], "slug": "bnfc-over-40-div-6-central"}, "Carlisle FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Island United FC", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Post-game Nomads", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "North Reading FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Island United FC", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "carlisle-fc-over-40-div-6-central"}, "Hampstead Hurricanes": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "North Reading FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Post-game Nomads", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC", "result": "W", "score": "8\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Island United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "North Reading FC", "result": "W", "score": "4\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Post-game Nomads", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC", "result": "W", "score": "8\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "hampstead-hurricanes-over-40-div-6-central"}, "Harvard Blues FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Post-game Nomads", "venue": "vs"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hampstead Hurricanes", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "North Reading FC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Post-game Nomads", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "BNFC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Island United FC forfeit lost by", "result": "W", "score": "F", "venue": "A"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hampstead Hurricanes", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "North Reading FC", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": "harvard-blues-fc-over-40-div-6-central"}, "Island United FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "BNFC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Carlisle FC", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hampstead Hurricanes", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "BNFC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Post-game Nomads", "result": "W", "score": "2\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Carlisle FC", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hampstead Hurricanes", "result": "W", "score": "3\u20131", "venue": "A"}], "slug": "island-united-fc-over-40-div-6-central"}, "Island United FC forfeit lost by": {"next_game": null, "played": [{"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Harvard Blues FC", "result": "L", "score": "F", "venue": "H"}], "recent": [{"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Harvard Blues FC", "result": "L", "score": "F", "venue": "H"}], "slug": "island-united-fc-forfeit-lost-by-over-40-div-6-central"}, "North Reading FC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Carlisle FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Post-game Nomads", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Island United FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Carlisle FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20134", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Post-game Nomads", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Island United FC", "result": "D", "score": "1\u20131", "venue": "H"}], "slug": "north-reading-fc-over-40-div-6-central"}, "Post-game Nomads": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard Blues FC", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hampstead Hurricanes", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Island United FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hampstead Hurricanes", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "post-game-nomads-over-40-div-6-central"}};
+const FLIGHT_CARDS = {"BNFC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Post-game Nomads", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Island United FC", "result": "L", "score": "0\u201316", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20138", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Carlisle FC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Island United FC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Harvard Blues FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Post-game Nomads", "result": "L", "score": "1\u20134", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Island United FC", "result": "L", "score": "0\u201316", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "North Reading FC", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20138", "venue": "H"}], "slug": "bnfc-over-40-div-6-central"}, "Carlisle FC": {"next_game": {"date": "2026-06-14", "display_date": "Sunday, June 14", "opponent": "Hampstead Hurricanes", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Island United FC", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "BNFC", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Post-game Nomads", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "North Reading FC", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "North Reading FC", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Island United FC", "result": "L", "score": "1\u20138", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "L", "score": "0\u20132", "venue": "A"}], "slug": "carlisle-fc-over-40-div-6-central"}, "Hampstead Hurricanes": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "North Reading FC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Post-game Nomads", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC", "result": "W", "score": "8\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Island United FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "North Reading FC", "result": "W", "score": "4\u20130", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Post-game Nomads", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "BNFC", "result": "W", "score": "8\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "hampstead-hurricanes-over-40-div-6-central"}, "Harvard Blues FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Island United FC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Post-game Nomads", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hampstead Hurricanes", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "North Reading FC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Post-game Nomads", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "BNFC", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Island United FC", "result": "W", "score": "F", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Post-game Nomads", "result": "L", "score": "2\u20134", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Hampstead Hurricanes", "result": "D", "score": "3\u20133", "venue": "A"}], "slug": "harvard-blues-fc-over-40-div-6-central"}, "Island United FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Harvard Blues FC", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "BNFC", "result": "W", "score": "16\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Carlisle FC", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Hampstead Hurricanes", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "BNFC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Post-game Nomads", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Harvard Blues FC", "result": "L", "score": "F", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "BNFC", "result": "W", "score": "16\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Carlisle FC", "result": "W", "score": "8\u20131", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "North Reading FC", "result": "D", "score": "1\u20131", "venue": "A"}], "slug": "island-united-fc-over-40-div-6-central"}, "North Reading FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Hampstead Hurricanes", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Carlisle FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Post-game Nomads", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Island United FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Carlisle FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Hampstead Hurricanes", "result": "L", "score": "0\u20134", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Carlisle FC", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Post-game Nomads", "result": "L", "score": "F", "venue": "A"}], "slug": "north-reading-fc-over-40-div-6-central"}, "Post-game Nomads": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "BNFC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard Blues FC", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hampstead Hurricanes", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Carlisle FC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Island United FC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "BNFC", "result": "W", "score": "4\u20131", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard Blues FC", "result": "W", "score": "4\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Hampstead Hurricanes", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "North Reading FC", "result": "W", "score": "F", "venue": "H"}], "slug": "post-game-nomads-over-40-div-6-central"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Island United FC"] = { w: 4, l: 0, t: 1, gp: 5 };
+STANDINGS_MAP["Post-game Nomads"] = { w: 5, l: 1, t: 1, gp: 7 };
 
-STANDINGS_MAP["Post-game Nomads"] = { w: 4, l: 1, t: 1, gp: 6 };
+STANDINGS_MAP["Island United FC"] = { w: 5, l: 1, t: 1, gp: 7 };
 
 STANDINGS_MAP["Hampstead Hurricanes"] = { w: 3, l: 1, t: 2, gp: 6 };
 
-STANDINGS_MAP["Harvard Blues FC"] = { w: 2, l: 2, t: 2, gp: 6 };
+STANDINGS_MAP["Harvard Blues FC"] = { w: 2, l: 3, t: 2, gp: 7 };
 
-STANDINGS_MAP["Carlisle FC"] = { w: 2, l: 4, t: 0, gp: 6 };
+STANDINGS_MAP["North Reading FC"] = { w: 3, l: 3, t: 1, gp: 7 };
 
-STANDINGS_MAP["North Reading FC"] = { w: 2, l: 3, t: 1, gp: 6 };
+STANDINGS_MAP["Carlisle FC"] = { w: 2, l: 5, t: 0, gp: 7 };
 
-STANDINGS_MAP["BNFC"] = { w: 0, l: 5, t: 1, gp: 6 };
-
-STANDINGS_MAP["Island United FC forfeit lost by"] = { w: 0, l: 1, t: 0, gp: 1 };
+STANDINGS_MAP["BNFC"] = { w: 0, l: 6, t: 1, gp: 7 };
 
 
 const popup     = document.getElementById("team-popup");

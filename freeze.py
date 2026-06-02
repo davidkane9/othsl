@@ -23,6 +23,7 @@ from app import (
     flight_slug,
     get_all_seasons,
     get_current_season_rows,
+    get_cached_flight_outlook,
     get_flight_catalog,
     get_flight_page_context,
     get_rows_for_season,
@@ -36,10 +37,11 @@ from app import (
 from flask_frozen import Freezer
 
 DOCS_DIR = os.path.join(os.path.dirname(__file__), "docs")
+FULL_FREEZE = os.environ.get("OTHSL_FULL_FREEZE", "").strip() == "1"
 
 app.config["FREEZER_DESTINATION"] = DOCS_DIR
 app.config["FREEZER_RELATIVE_URLS"] = True
-app.config["FREEZER_REMOVE_EXTRA_FILES"] = True
+app.config["FREEZER_REMOVE_EXTRA_FILES"] = FULL_FREEZE
 
 freezer = Freezer(app)
 
@@ -73,6 +75,8 @@ def teams_page():
 
 @freezer.register_generator
 def teams_page_historical():
+    if not FULL_FREEZE:
+        return
     for season in get_all_seasons():
         if season == CURRENT_SEASON:
             continue
@@ -80,6 +84,8 @@ def teams_page_historical():
 
 @freezer.register_generator
 def index_historical():
+    if not FULL_FREEZE:
+        return
     for season in get_all_seasons():
         if season == CURRENT_SEASON:
             continue
@@ -87,6 +93,8 @@ def index_historical():
 
 @freezer.register_generator
 def flight_page_historical():
+    if not FULL_FREEZE:
+        return
     for season in get_all_seasons():
         if season == CURRENT_SEASON:
             continue
@@ -160,7 +168,7 @@ def _flight_prompt(fslug, season):
         pc = sd.get("promotion_cut", 2)
         rc = sd.get("relegation_cut", 2)
         n = len(teams)
-        flight_outlook = simulate_flight_outlook(sd)
+        flight_outlook = get_cached_flight_outlook((season, ag, div, geo), sd)
         importance = calculate_flight_importance(sd, baseline_outlook=flight_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
         top_game = next((g for g in importance.get("games", []) if g.get("date") != "TBD"), None)
         rows_txt = "\n".join(
@@ -273,16 +281,14 @@ def _team_prompt(team_slug, season):
 
 def generate_all_ai_texts():
     if not _OPENAI_KEY:
-        print("No OPENAI_API_KEY — skipping AI text generation.")
+        print("No OPENAI_API_KEY - skipping AI text generation.")
         return
 
     flight_catalog = get_flight_catalog()
-    team_catalog   = get_team_catalog()
-    total = len(flight_catalog) + len(team_catalog)
-    print(f"Generating AI texts for {len(flight_catalog)} flights + {len(team_catalog)} teams ({total} total)…")
+    total = len(flight_catalog)
+    print(f"Generating AI texts for {len(flight_catalog)} flights ({total} total)...")
 
     flight_texts: dict = {}
-    team_texts:   dict = {}
     done = [0]
 
     def _flight_job(card):
@@ -291,36 +297,21 @@ def generate_all_ai_texts():
         text = _openai_call(prompt) if prompt else ""
         done[0] += 1
         if done[0] % 10 == 0:
-            print(f"  {done[0]}/{total} done…")
+            print(f"  {done[0]}/{total} done...")
         return fslug, text
-
-    def _team_job(item):
-        tslug = item["slug"]
-        prompt = _team_prompt(tslug, CURRENT_SEASON)
-        text = _openai_call(prompt, max_tokens=200) if prompt else ""
-        done[0] += 1
-        if done[0] % 10 == 0:
-            print(f"  {done[0]}/{total} done…")
-        return tslug, text
 
     with ThreadPoolExecutor(max_workers=20) as ex:
         futs = {ex.submit(_flight_job, c): "flight" for c in flight_catalog}
-        futs.update({ex.submit(_team_job, t): "team" for t in team_catalog})
         for fut in as_completed(futs):
-            kind = futs[fut]
             try:
                 slug, text = fut.result()
-                if kind == "flight":
-                    flight_texts[slug] = text
-                else:
-                    team_texts[slug] = text
+                flight_texts[slug] = text
             except Exception as e:
                 print(f"  job failed: {e}")
 
     app_module._ai_flight_texts = flight_texts
-    app_module._ai_team_texts   = team_texts
-    print(f"AI generation done: {sum(1 for v in flight_texts.values() if v)} flights, "
-          f"{sum(1 for v in team_texts.values() if v)} teams.")
+    app_module._ai_team_texts = {}
+    print(f"AI generation done: {sum(1 for v in flight_texts.values() if v)} flights.")
 
 
 if __name__ == "__main__":

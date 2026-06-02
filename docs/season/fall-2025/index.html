@@ -101,15 +101,9 @@
                     color: rgba(247,242,232,.4); margin-bottom: 3px; }
   .plinko-team-name { font-size: 1rem; font-weight: 700; color: #f7f2e8;
                       margin-bottom: 8px; text-align: center; }
-  .plinko-body { display: grid; grid-template-columns: 1fr 120px; gap: 10px;
-                 width: 100%; align-items: start; }
+  .plinko-body { width: 100%; }
   .plinko-canvas-wrap { position: relative; width: 100%; }
   #plinko-canvas { display: block; width: 100%; }
-  .plinko-log { display: flex; flex-direction: column; gap: 2px;
-                font-size: 0.67rem; font-family: Georgia, serif;
-                width: 120px; overflow-y: auto; overflow-x: hidden;
-                scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
-  .plinko-log-entry { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .plinko-stats { display: flex; gap: 16px; margin-top: 6px; }
   .plinko-stat { text-align: center; }
   .plinko-stat-val { font-size: 1.15rem; font-weight: 700; color: #f7f2e8; line-height: 1; }
@@ -118,6 +112,9 @@
   .plinko-how { font-size: .75rem; color: rgba(247,242,232,.6); line-height: 1.5;
                 margin-top: 8px; text-align: center; display: none; max-width: 340px; }
   .plinko-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+  .plinko-dots { display:flex; gap:6px; align-items:center; justify-content:center; margin-top:8px; min-height:12px; }
+  .plinko-dot { width:7px; height:7px; border-radius:50%; border:0; padding:0; background:rgba(247,242,232,.28); cursor:pointer; }
+  .plinko-dot.active { background:rgba(247,242,232,.9); transform:scale(1.25); }
   .plinko-link {
     font-size: .75rem; color: rgba(247,242,232,.55); text-decoration: none;
     border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
@@ -384,42 +381,6 @@
       <span class="eyebrow">OTHSL Match Intelligence · Fall 2025</span>
 
       
-      <div class="plinko-panel">
-        <div class="plinko-eyebrow">Season simulation</div>
-        <div class="plinko-team-name">Irish Village</div>
-        <div class="plinko-body">
-          <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
-          <div class="plinko-log" id="plinko-log"></div>
-        </div>
-        <div class="plinko-stats">
-          <div class="plinko-stat">
-            <div class="plinko-stat-val" style="color:#4ade80" id="plinko-promo-pct">—</div>
-            <div class="plinko-stat-lbl">Promotion</div>
-          </div>
-          <div class="plinko-stat">
-            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)">8 teams</div>
-            <div class="plinko-stat-lbl">Over 55 Div 2 South</div>
-          </div>
-          <div class="plinko-stat">
-            <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
-            <div class="plinko-stat-lbl">Relegation</div>
-          </div>
-        </div>
-        <div class="plinko-how" id="plinko-how">
-          Each ball is one simulated season — every game played out by ELO probability.
-          A win shifts the team left toward promotion; a loss shifts right toward relegation.
-          The distribution shows where Irish Village most likely finishes.
-        </div>
-        <div class="plinko-actions">
-          <a class="plinko-link page-link" href="teams/">Find your team →</a>
-          <button id="plinko-replay" class="plinko-link">↺ Replay</button>
-          <div class="plinko-speed-wrap">
-            <label for="plinko-speed">Speed</label>
-            <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
-          </div>
-        </div>
-      </div>
-      
 
     </section>
 
@@ -468,13 +429,54 @@
 (function() {
   const canvas = document.getElementById('plinko-canvas');
   if (!canvas) return;
-  const PLINKO = {"current_position": 5, "current_stats": {"AFC Medfield": {"gd": -4, "gf": 23, "gp": 9, "l": 4, "pts": 9, "t": 2, "w": 3}, "Ashland": {"gd": -1, "gf": 13, "gp": 10, "l": 4, "pts": 14, "t": 2, "w": 4}, "F.C. Westwood": {"gd": -32, "gf": 5, "gp": 10, "l": 9, "pts": 1, "t": 0, "w": 1}, "Fernandes O55++": {"gd": -12, "gf": 15, "gp": 10, "l": 8, "pts": 4, "t": 1, "w": 1}, "Irish Village": {"gd": -1, "gf": 14, "gp": 9, "l": 5, "pts": 12, "t": 0, "w": 4}, "Medway MOB": {"gd": 25, "gf": 29, "gp": 11, "l": 1, "pts": 26, "t": 2, "w": 8}, "West Roxbury United 55": {"gd": 11, "gf": 22, "gp": 10, "l": 2, "pts": 18, "t": 3, "w": 5}, "Weston": {"gd": 14, "gf": 22, "gp": 11, "l": 0, "pts": 25, "t": 4, "w": 7}}, "flight_label": "Over 55 Div 2 South", "flight_slug": "over-55-div-2-south", "games_played": 10, "games_remaining": 5, "n_teams": 8, "place_probs": [{"place": 3, "probability": 2.5}, {"place": 4, "probability": 47.2}, {"place": 5, "probability": 40.0}, {"place": 6, "probability": 8.8}, {"place": 7, "probability": 1.5}], "promo_cut": 2, "promo_prob": 0.0, "relg_cut": 2, "relg_prob": 1.5, "remaining_games": [{"away": "West Roxbury United 55", "away_win_prob": 0.73, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.05, "id": "inferred|Medway MOB|West Roxbury United 55", "involves_team": false}, {"away": "AFC Medfield", "away_win_prob": 0.301, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.479, "id": "inferred|Medway MOB|AFC Medfield", "involves_team": false}, {"away": "Fernandes O55++", "away_win_prob": 0.404, "date": "TBD", "draw_prob": 0.22, "home": "Medway MOB", "home_win_prob": 0.376, "id": "inferred|Medway MOB|Fernandes O55++", "involves_team": false}, {"away": "Ashland", "away_win_prob": 0.407, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.373, "id": "inferred|Weston|Ashland", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.412, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.368, "id": "inferred|Weston|Irish Village", "involves_team": true}, {"away": "F.C. Westwood", "away_win_prob": 0.369, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.411, "id": "inferred|Weston|F.C. Westwood", "involves_team": false}, {"away": "Ashland", "away_win_prob": 0.068, "date": "TBD", "draw_prob": 0.22, "home": "West Roxbury United 55", "home_win_prob": 0.712, "id": "inferred|West Roxbury United 55|Ashland", "involves_team": false}, {"away": "Irish Village", "away_win_prob": 0.071, "date": "TBD", "draw_prob": 0.22, "home": "West Roxbury United 55", "home_win_prob": 0.709, "id": "inferred|West Roxbury United 55|Irish Village", "involves_team": true}, {"away": "F.C. Westwood", "away_win_prob": 0.05, "date": "TBD", "draw_prob": 0.22, "home": "West Roxbury United 55", "home_win_prob": 0.733, "id": "inferred|West Roxbury United 55|F.C. Westwood", "involves_team": false}, {"away": "AFC Medfield", "away_win_prob": 0.208, "date": "TBD", "draw_prob": 0.22, "home": "Ashland", "home_win_prob": 0.572, "id": "inferred|Ashland|AFC Medfield", "involves_team": false}, {"away": "Fernandes O55++", "away_win_prob": 0.305, "date": "TBD", "draw_prob": 0.22, "home": "Ashland", "home_win_prob": 0.475, "id": "inferred|Ashland|Fernandes O55++", "involves_team": false}, {"away": "AFC Medfield", "away_win_prob": 0.205, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.575, "id": "inferred|Irish Village|AFC Medfield", "involves_team": true}, {"away": "AFC Medfield", "away_win_prob": 0.205, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.575, "id": "inferred|Irish Village|AFC Medfield", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.301, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.479, "id": "inferred|Irish Village|Fernandes O55++", "involves_team": true}, {"away": "F.C. Westwood", "away_win_prob": 0.538, "date": "TBD", "draw_prob": 0.22, "home": "AFC Medfield", "home_win_prob": 0.242, "id": "inferred|AFC Medfield|F.C. Westwood", "involves_team": false}, {"away": "F.C. Westwood", "away_win_prob": 0.438, "date": "TBD", "draw_prob": 0.22, "home": "Fernandes O55++", "home_win_prob": 0.342, "id": "inferred|Fernandes O55++|F.C. Westwood", "involves_team": false}], "season_steps": [{"date": "2025-09-07", "fixed": true, "id": "2025-09-07|Irish Village|F.C. Westwood", "opponent": "F.C. Westwood", "result": "W", "score": "4-0", "venue": "vs"}, {"date": "2025-09-14", "fixed": true, "id": "2025-09-14|Ashland|Irish Village", "opponent": "Ashland", "result": "W", "score": "1-0", "venue": "@"}, {"date": "2025-09-21", "fixed": true, "id": "2025-09-21|Medway MOB|Irish Village", "opponent": "Medway MOB", "result": "L", "score": "0-4", "venue": "@"}, {"date": "2025-10-05", "fixed": true, "id": "2025-10-05|West Roxbury United 55|Irish Village", "opponent": "West Roxbury United 55", "result": "L", "score": "2-4", "venue": "@"}, {"date": "2025-10-12", "fixed": true, "id": "2025-10-12|Irish Village|Fernandes O55++", "opponent": "Fernandes O55++", "result": "W", "score": "2-0", "venue": "vs"}, {"date": "2025-10-19", "fixed": true, "id": "2025-10-19|Weston|Irish Village", "opponent": "Weston", "result": "L", "score": "1-2", "venue": "@"}, {"date": "2025-10-26", "fixed": true, "id": "2025-10-26|Irish Village|Medway MOB", "opponent": "Medway MOB", "result": "L", "score": "0-2", "venue": "vs"}, {"date": "2025-11-02", "fixed": true, "id": "2025-11-02|F.C. Westwood|Irish Village", "opponent": "F.C. Westwood", "result": "L", "score": "0-3", "venue": "@"}, {"date": "2025-11-09", "fixed": true, "id": "2025-11-09|Irish Village|Ashland", "opponent": "Ashland", "result": "W", "score": "4-0", "venue": "vs"}, {"date": "TBD", "fixed": true, "id": "TBD|Irish Village|Medfield", "opponent": "Medfield", "result": "W", "score": "F", "venue": "vs"}], "team": "Irish Village", "team_games": [{"away": "Irish Village", "away_win_prob": 0.412, "date": "TBD", "draw_prob": 0.22, "home": "Weston", "home_win_prob": 0.368, "id": "inferred|Weston|Irish Village", "involves_team": true}, {"away": "Irish Village", "away_win_prob": 0.071, "date": "TBD", "draw_prob": 0.22, "home": "West Roxbury United 55", "home_win_prob": 0.709, "id": "inferred|West Roxbury United 55|Irish Village", "involves_team": true}, {"away": "AFC Medfield", "away_win_prob": 0.205, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.575, "id": "inferred|Irish Village|AFC Medfield", "involves_team": true}, {"away": "AFC Medfield", "away_win_prob": 0.205, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.575, "id": "inferred|Irish Village|AFC Medfield", "involves_team": true}, {"away": "Fernandes O55++", "away_win_prob": 0.301, "date": "TBD", "draw_prob": 0.22, "home": "Irish Village", "home_win_prob": 0.479, "id": "inferred|Irish Village|Fernandes O55++", "involves_team": true}], "teams": ["Medway MOB", "Weston", "West Roxbury United 55", "Ashland", "Irish Village", "AFC Medfield", "Fernandes O55++", "F.C. Westwood"]};
-  if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
-  const seasonSteps = PLINKO.season_steps || [];
-  const remainingGames = PLINKO.remaining_games || [];
-  const teamName = PLINKO.team;
+  {
+  const PLINKO_CHOICES = [];
+  if (!PLINKO_CHOICES.length) return;
+  const teamNameEl = document.getElementById('plinko-team-name');
+  const teamCountEl = document.getElementById('plinko-team-count');
+  const flightLabelEl = document.getElementById('plinko-flight-label');
+  const dotsEl = document.getElementById('plinko-dots');
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl = document.getElementById('plinko-relg-pct');
+  const howEl = document.getElementById('plinko-how');
+  const replayBtn = document.getElementById('plinko-replay');
+  const nextBtn = document.getElementById('plinko-next-team');
+  const speedSlider = document.getElementById('plinko-speed');
+  let speedMul = speedSlider ? (parseFloat(speedSlider.value) || 0.7) : 0.7;
+  if (speedSlider) {
+    speedSlider.addEventListener('input', () => {
+      speedMul = parseFloat(speedSlider.value) || speedMul;
+    });
+  }
 
-  if (seasonSteps.length) {
+  let frameToken = 0;
+  let currentIndex = Math.floor(Math.random() * PLINKO_CHOICES.length);
+
+  function renderDots() {
+    if (!dotsEl) return;
+    dotsEl.innerHTML = PLINKO_CHOICES.slice(0, 5).map((choice, idx) =>
+      `<button class="plinko-dot${idx === currentIndex ? ' active' : ''}" data-idx="${idx}" aria-label="${choice.team}"></button>`
+    ).join('');
+    dotsEl.querySelectorAll('.plinko-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        currentIndex = parseInt(dot.dataset.idx, 10) || 0;
+        renderPlinko(PLINKO_CHOICES[currentIndex]);
+      });
+    });
+  }
+
+  function renderPlinko(PLINKO) {
+    if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
+    const seasonSteps = PLINKO.season_steps || [];
+    const remainingGames = PLINKO.remaining_games || [];
+    const teamName = PLINKO.team;
+    if (!seasonSteps.length) return;
+
+    if (teamNameEl) teamNameEl.textContent = PLINKO.team;
+    if (teamCountEl) teamCountEl.textContent = `${PLINKO.n_teams} teams`;
+    if (flightLabelEl) flightLabelEl.textContent = PLINKO.flight_label;
+
+    const currentFrame = ++frameToken;
     const dpr = window.devicePixelRatio || 1;
     const N = PLINKO.n_teams;
     const G = seasonSteps.length;
@@ -484,7 +486,7 @@
     const BIN_H = 64;
     const TOP_PAD = 12;
     const LAND_Y = (G + 1.35) * ROW_H;
-    const CW = canvas.parentElement.clientWidth || 260;
+    const CW = canvas.parentElement.clientWidth || 420;
     const CH = (G + 2) * ROW_H + BIN_H;
     const LANES = Math.max(7, G + 1);
     const START_LANE = Math.floor(LANES / 2);
@@ -494,33 +496,20 @@
     canvas.style.width = CW + 'px';
     canvas.style.height = CH + 'px';
     const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
     const laneW = CW / LANES;
     const binW = CW / N;
     const binTopY = (G + 1.55) * ROW_H;
 
-    const logEl = document.getElementById('plinko-log');
-    if (logEl) logEl.style.height = CH + 'px';
-
-    const promoEl = document.getElementById('plinko-promo-pct');
-    const relgEl = document.getElementById('plinko-relg-pct');
-    const howEl = document.getElementById('plinko-how');
+    renderDots();
     if (howEl) {
       howEl.textContent =
-        `Each ball replays all ${seasonSteps.length} Irish Village league games. ` +
+        `Each ball replays all ${seasonSteps.length} ${PLINKO.team} league games. ` +
         `The first ${PLINKO.games_played || 0} rows are locked results, ` +
         `and the last ${PLINKO.games_remaining || 0} are simulated. ` +
         `Wins move left, losses move right, and ties stay centered before the drop into the final place bin.`;
-    }
-
-    let speedMul = 0.7;
-    const speedSlider = document.getElementById('plinko-speed');
-    if (speedSlider) {
-      speedMul = parseFloat(speedSlider.value) || speedMul;
-      speedSlider.addEventListener('input', () => {
-        speedMul = parseFloat(speedSlider.value) || speedMul;
-      });
     }
 
     function cloneStats(stats) {
@@ -624,18 +613,6 @@
       return '=';
     }
 
-    function updateLog(results, upTo) {
-      if (!logEl) return;
-      const items = seasonSteps.slice(0, upTo + 1).map((step, idx) => {
-        const result = results[idx] || 'T';
-        const score = step.fixed && step.score ? ` ${step.score}` : '';
-        const tag = step.fixed ? 'played' : 'sim';
-        return `<div class="plinko-log-entry" style="color:${resultColor(result)}">${step.venue} ${step.opponent} <strong>${result}${resultMarker(result)}</strong>${score} <span style="opacity:.45">(${tag})</span></div>`;
-      });
-      logEl.innerHTML = items.join('');
-      logEl.scrollTop = logEl.scrollHeight;
-    }
-
     function binColor(i) {
       if (i < PC) return 'rgba(74,222,128,0.65)';
       if (i >= N - RC) return 'rgba(248,113,113,0.55)';
@@ -646,7 +623,8 @@
     let binCounts = new Array(N).fill(0);
     let totalDropped = 0;
     let totalLanded = 0;
-    const MAX_BALLS = 60;
+    const MAX_BALLS = 10000;
+    const MAX_ACTIVE_BALLS = 80;
 
     function updateStats() {
       const promoPct = totalLanded ? Math.round(100 * binCounts.slice(0, PC).reduce((a, b) => a + b, 0) / totalLanded) : Math.round(PLINKO.promo_prob || 0);
@@ -661,6 +639,13 @@
 
     function spawnBall() {
       const sim = simulateSeason();
+      totalDropped += 1;
+      if (balls.filter(ball => !ball.done).length >= MAX_ACTIVE_BALLS) {
+        binCounts[Math.max(0, Math.min(N - 1, sim.finalPlace - 1))] += 1;
+        totalLanded += 1;
+        updateStats();
+        return;
+      }
       for (const ball of balls) ball.isLatest = false;
       balls.push({
         x: laneCenter(START_LANE),
@@ -676,7 +661,6 @@
         done: false,
         isLatest: true,
       });
-      totalDropped += 1;
     }
 
     function draw() {
@@ -745,9 +729,11 @@
 
     let lastSpawn = 0;
     function tick(ts) {
-      const spawnMs = 420 / speedMul;
+      if (currentFrame !== frameToken) return;
+      const spawnMs = Math.max(8, 38 / speedMul);
       if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
-        spawnBall();
+        const batch = Math.max(8, Math.floor(55 * speedMul));
+        for (let i = 0; i < batch && totalDropped < MAX_BALLS; i++) spawnBall();
         lastSpawn = ts;
       }
 
@@ -771,8 +757,7 @@
             ball.lane = Math.max(0, Math.min(LANES - 1, ball.lane + resultDelta(ball.results[nextRow])));
             ball.targetX = laneCenter(ball.lane);
             ball.vx += resultDelta(ball.results[nextRow]) * (0.6 + Math.random() * 0.25);
-            if (ball.isLatest) updateLog(ball.results, ball.gameIdx);
-          }
+        }
         }
 
         if (ball.gameIdx >= G - 1) {
@@ -793,298 +778,39 @@
           binCounts[Math.max(0, Math.min(N - 1, ball.finalPlace - 1))] += 1;
           totalLanded += 1;
           updateStats();
-          if (ball.isLatest) updateLog(ball.results, G - 1);
           if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
         }
       }
 
+      balls = balls.filter(ball => !ball.done);
+
       draw();
-      requestAnimationFrame(tick);
+      if (totalLanded < MAX_BALLS || balls.some(ball => !ball.done)) requestAnimationFrame(tick);
+      else draw();
     }
 
     updateStats();
     requestAnimationFrame(tick);
-
-    const replayBtn = document.getElementById('plinko-replay');
     if (replayBtn) {
-      replayBtn.addEventListener('click', () => {
+      replayBtn.onclick = () => {
         balls = [];
         binCounts = new Array(N).fill(0);
         totalDropped = 0;
         totalLanded = 0;
-        if (logEl) logEl.innerHTML = '';
         if (howEl) howEl.style.display = 'none';
         updateStats();
-      });
-    }
-
-    return;
-  }
-
-  const dpr   = window.devicePixelRatio || 1;
-  const N     = PLINKO.n_teams;
-  const GAMES = PLINKO.team_games;
-  const G     = GAMES.length;
-  const PC    = PLINKO.promo_cut;
-  const RC    = PLINKO.relg_cut;
-  const CURPOS = (PLINKO.current_position || Math.ceil(N / 2)) - 1;
-
-  const ROW_H = 28;
-  const BIN_H = 58;
-  const CW    = canvas.parentElement.clientWidth || 260;
-  const CH    = (G + 2) * ROW_H + BIN_H;
-
-  canvas.width  = CW * dpr; canvas.height = CH * dpr;
-  canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
-  const ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
-
-  const BW = CW / N;
-  const binTopY = (G + 1) * ROW_H;
-
-  // Sync log height to canvas height
-  const logEl = document.getElementById('plinko-log');
-  if (logEl) logEl.style.height = CH + 'px';
-
-  // Speed slider
-  let speedMul = 0.7;
-  const speedSlider = document.getElementById('plinko-speed');
-  if (speedSlider) {
-    speedMul = parseFloat(speedSlider.value) || speedMul;
-    speedSlider.addEventListener('input', () => { speedMul = parseFloat(speedSlider.value) || speedMul; });
-  }
-
-  const probs = new Array(N).fill(0);
-  for (const pp of (PLINKO.place_probs || [])) probs[pp.place - 1] = pp.probability / 100;
-
-  // Physically reachable bins from CURPOS in exactly G steps (parity constraint)
-  const REACHABLE = new Set();
-  for (let net = -G; net <= G; net += 2) {
-    const bin = CURPOS + net;
-    if (bin >= 0 && bin < N) REACHABLE.add(bin);
-  }
-
-  // Renormalize probs over reachable bins
-  let probTotal = 0;
-  for (let i = 0; i < N; i++) if (REACHABLE.has(i)) probTotal += probs[i];
-  if (probTotal === 0) REACHABLE.forEach(i => { probs[i] = 1 / REACHABLE.size; probTotal = 1; });
-  else for (let i = 0; i < N; i++) probs[i] = REACHABLE.has(i) ? probs[i] / probTotal : 0;
-
-  let balls = [], binCounts = new Array(N).fill(0);
-  let totalDropped = 0, totalLanded = 0;
-  const MAX_BALLS = 60;
-
-  const promoEl = document.getElementById('plinko-promo-pct');
-  const relgEl  = document.getElementById('plinko-relg-pct');
-  const howEl   = document.getElementById('plinko-how');
-
-  function updateStats() {
-    if (!totalLanded) return;
-    let pr = 0, rl = 0;
-    for (let i = 0; i < PC; i++) pr += binCounts[i];
-    for (let i = N - RC; i < N; i++) rl += binCounts[i];
-    if (promoEl) promoEl.textContent = Math.round(100 * pr / totalLanded) + '%';
-    if (relgEl)  relgEl.textContent  = Math.round(100 * rl / totalLanded) + '%';
-  }
-
-  function makePath(targetBin) {
-    // targetBin is reachable so (G + CURPOS - targetBin) / 2 is an exact integer
-    const winsNeeded = (G + CURPOS - targetBin) / 2;
-    const resultArr  = new Array(G).fill('L');
-
-    // Weighted random sampling (without replacement) to choose which games are wins
-    const available = GAMES.map((g, i) => {
-      const isHome = g.home === PLINKO.team;
-      const wp = isHome ? (g.home_win_prob || 0.5) : Math.max(0, 1 - (g.home_win_prob || 0.5) - (g.draw_prob || 0.22));
-      return { i, wp };
-    });
-    for (let k = 0; k < winsNeeded && available.length > 0; k++) {
-      const total = available.reduce((s, x) => s + x.wp, 0);
-      let r = Math.random() * total;
-      let chosen = available.length - 1;
-      for (let j = 0; j < available.length; j++) { r -= available[j].wp; if (r <= 0) { chosen = j; break; } }
-      resultArr[available[chosen].i] = 'W';
-      available.splice(chosen, 1);
-    }
-
-    return GAMES.map((g, i) => {
-      const isHome = g.home === PLINKO.team;
-      return { opponent: isHome ? g.away : g.home, venue: isHome ? 'vs' : '@',
-               result: resultArr[i], date: g.date };
-    });
-  }
-
-  function chooseTargetBin() {
-    let r = Math.random(), cum = 0;
-    for (let i = 0; i < N; i++) { cum += probs[i]; if (r < cum) return i; }
-    return [...REACHABLE][REACHABLE.size - 1];
-  }
-
-  function spawnBall() {
-    const targetBin = chooseTargetBin();
-    const path      = makePath(targetBin);
-    for (const b of balls) b.isLatest = false;
-    balls.push({
-      x: (CURPOS + 0.5) * BW,
-      y: 2, vx: 0, vy: 0.35,
-      curBin: CURPOS,
-      gameIdx: -1,
-      hitRow: -1,
-      path, bin: targetBin,
-      done: false, isLatest: true,
-    });
-    totalDropped++;
-  }
-
-  function updateLog(path, upTo) {
-    if (!logEl) return;
-    const items = path.slice(0, upTo + 1).map(step => {
-      const c   = step.result === 'W' ? '#4ade80' : '#f87171';
-      const arr = step.result === 'W' ? '↑' : '↓';
-      return `<div class="plinko-log-entry" style="color:${c}">${step.venue} ${step.opponent} <strong>${step.result}${arr}</strong></div>`;
-    });
-    logEl.innerHTML = items.join('');
-    logEl.scrollTop = logEl.scrollHeight;
-  }
-
-  function binColor(i) {
-    if (i < PC)      return 'rgba(74,222,128,0.65)';
-    if (i >= N - RC) return 'rgba(248,113,113,0.55)';
-    return 'rgba(255,255,255,0.14)';
-  }
-
-  // Peg positions per row (staggered like a real Galton board)
-  function pegXList(row) {
-    const pegs = [];
-    const offset = (row % 2 === 0) ? 0 : BW * 0.5;
-    for (let p = 0; p <= N; p++) {
-      const px = p * BW - offset;
-      if (px > 0 && px < CW) pegs.push(px);
-    }
-    return pegs;
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, CW, CH);
-
-    // Peg rows — horizontal line + peg dots at each game row
-    for (let row = 0; row < G; row++) {
-      const y = (row + 1) * ROW_H;
-
-      // Faint horizontal guide line
-      ctx.strokeStyle = 'rgba(247,242,232,0.07)';
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y); ctx.stroke();
-
-      // Peg dots
-      ctx.fillStyle = 'rgba(247,242,232,0.28)';
-      for (const px of pegXList(row)) {
-        ctx.beginPath(); ctx.arc(px, y, 2.5, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-
-    // Bins
-    const maxCount = Math.max(1, ...binCounts);
-    const maxBarH  = BIN_H - 12;
-    for (let i = 0; i < N; i++) {
-      const bx = i * BW + 1;
-      const h  = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxBarH) : 0;
-      ctx.fillStyle = binColor(i);
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(bx, binTopY + maxBarH - h, BW - 2, h + 6, [3,3,0,0]);
-      else                ctx.rect(bx, binTopY + maxBarH - h, BW - 2, h + 6);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(247,242,232,0.32)';
-      ctx.font = `bold ${Math.max(7, Math.min(10, BW * 0.42))}px Georgia`;
-      ctx.textAlign = 'center';
-      ctx.fillText(i + 1, bx + (BW - 2) / 2, binTopY + maxBarH + 16);
-    }
-
-    // Zone labels
-    ctx.font = '7px Georgia'; ctx.textAlign = 'center';
-    if (PC > 0) { ctx.fillStyle = 'rgba(74,222,128,0.55)';  ctx.fillText('▲', (PC / 2) * BW,       binTopY - 4); }
-    if (RC > 0) { ctx.fillStyle = 'rgba(248,113,113,0.55)'; ctx.fillText('▼', (N - RC / 2) * BW,   binTopY - 4); }
-
-    // Balls
-    for (const b of balls) {
-      if (b.done) continue;
-      ctx.beginPath(); ctx.arc(b.x, b.y, 5, 0, Math.PI * 2);
-      const grd = ctx.createRadialGradient(b.x - 1.5, b.y - 1.5, 0, b.x, b.y, 5);
-      grd.addColorStop(0, '#f9d77e'); grd.addColorStop(1, '#c68a2b');
-      ctx.fillStyle = grd; ctx.fill();
+        requestAnimationFrame(tick);
+      };
     }
   }
-
-  let lastSpawn = 0;
-  function tick(ts) {
-    const spawnMs = 420 / speedMul;
-    if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
-      spawnBall(); lastSpawn = ts;
-    }
-
-    for (const b of balls) {
-      if (b.done) continue;
-
-      // Vertical gravity (scaled by speed)
-      b.vy += 0.016 * speedMul;
-      b.vy  = Math.min(b.vy, 5 * speedMul);
-      b.y  += b.vy;
-
-      // Horizontal: spring pull toward target bin center, with damping
-      // Spring is strong enough to cross one bin width in ROW_H pixels of fall
-      const targetX = (b.curBin + 0.5) * BW;
-      const pullK   = 0.022 * speedMul;  // scales with speed so arc stays proportional
-      b.vx += (targetX - b.x) * pullK;
-      b.vx *= 0.84;
-      b.x  += b.vx;
-
-      // Peg hit: when ball crosses a game row boundary
-      const nextRow = b.gameIdx + 1;
-      if (nextRow < G && b.hitRow < nextRow) {
-        const rowY = (nextRow + 1) * ROW_H;
-        if (b.y >= rowY) {
-          b.hitRow  = nextRow;
-          b.gameIdx = nextRow;
-          const step = b.path[b.gameIdx];
-          const dir  = step.result === 'W' ? -1 : 1;
-          b.curBin   = Math.max(0, Math.min(N - 1, b.curBin + dir));
-          // Gentle nudge in the correct direction — spring pull handles the rest
-          b.vx += dir * (0.6 + Math.random() * 0.3);
-          if (b.isLatest) updateLog(b.path, b.gameIdx);
-        }
-      }
-
-      // Wall bounce
-      if (b.x < 5)      { b.x = 5;      b.vx =  Math.abs(b.vx) * 0.35; }
-      if (b.x > CW - 5) { b.x = CW - 5; b.vx = -Math.abs(b.vx) * 0.35; }
-
-      // Land in the exact target bin (parity-correct)
-      if (b.y >= binTopY) {
-        b.done = true;
-        binCounts[b.bin]++;  // use pre-assigned target bin (parity-correct)
-        totalLanded++;
-        updateStats();
-        if (b.isLatest && logEl) updateLog(b.path, G - 1);
-        if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
-      }
-    }
-
-    draw();
-    requestAnimationFrame(tick);
+  renderPlinko(PLINKO_CHOICES[currentIndex]);
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (PLINKO_CHOICES.length < 2) return;
+      currentIndex = (currentIndex + 1) % PLINKO_CHOICES.length;
+      renderPlinko(PLINKO_CHOICES[currentIndex]);
+    };
   }
-
-  requestAnimationFrame(tick);
-
-  const replayBtn = document.getElementById('plinko-replay');
-  if (replayBtn) {
-    replayBtn.addEventListener('click', () => {
-      balls = []; binCounts.fill(0);
-      totalDropped = 0; totalLanded = 0;
-      if (promoEl) promoEl.textContent = '—';
-      if (relgEl)  relgEl.textContent  = '—';
-      if (logEl)   logEl.innerHTML = '';
-      if (howEl)   howEl.style.display = 'none';
-    });
   }
 })();
 

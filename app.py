@@ -30,6 +30,7 @@ app = Flask(__name__)
 _ai_flight_texts: dict = {}
 _ai_team_texts:  dict  = {}
 _flight_importance_cache: dict = {}
+_flight_outlook_cache: dict = {}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 CURRENT_SEASON = "Spring 2026"
@@ -377,6 +378,140 @@ def get_team_probability_statuses(standings, sim_data):
             "stay_impossible": stay_impossible,
         }
     return statuses
+
+
+def build_clinch_scenarios(standings, sim_data, is_top_flight=False, is_bottom_flight=False):
+    teams = [row["team"] for row in standings]
+    if not teams:
+        return {"rows": {}, "title": [], "promotion": [], "relegation": [], "legend": []}
+
+    pts_map = {row["team"]: row.get("pts", 0) for row in standings}
+    remaining_counts = {team: 0 for team in teams}
+    for game in sim_data.get("remaining_games", []):
+        if game.get("home") in remaining_counts:
+            remaining_counts[game["home"]] += 1
+        if game.get("away") in remaining_counts:
+            remaining_counts[game["away"]] += 1
+
+    max_pts = {team: pts_map[team] + 3 * remaining_counts.get(team, 0) for team in teams}
+    promo_cut = sim_data.get("promotion_cut", 0)
+    relg_cut = sim_data.get("relegation_cut", 0)
+    safe_count = max(0, len(teams) - relg_cut)
+    statuses = get_team_probability_statuses(standings, sim_data)
+    rows = {}
+    title_items = []
+    promotion_items = []
+    relegation_items = []
+
+    for idx, row in enumerate(standings):
+        team = row["team"]
+        cur_pts = pts_map[team]
+        team_max = max_pts[team]
+        others = [other for other in teams if other != team]
+        other_max = max((max_pts[other] for other in others), default=0)
+        other_pts = max((pts_map[other] for other in others), default=0)
+        status = statuses.get(team, {})
+
+        title_clinched = idx == 0 and cur_pts > other_max
+        title_alive = team_max >= other_pts
+        title_next = (
+            not title_clinched
+            and remaining_counts.get(team, 0) > 0
+            and cur_pts + 3 > other_max
+        )
+
+        promotion_clinched = (is_top_flight and title_clinched) or (not is_top_flight and status.get("promotion_certain", False))
+        promotion_next = (
+            not promotion_clinched
+            and not is_top_flight
+            and promo_cut > 0
+            and remaining_counts.get(team, 0) > 0
+            and sum(1 for other in others if max_pts[other] >= cur_pts + 3) < promo_cut
+        )
+
+        relegation_confirmed = (not is_bottom_flight) and status.get("relegation_certain", False)
+        relegation_safe = is_bottom_flight or status.get("relegation_impossible", False)
+        relegation_next = (
+            not is_bottom_flight
+            and not relegation_confirmed
+            and relg_cut > 0
+            and remaining_counts.get(team, 0) > 0
+            and sum(1 for other in others if pts_map[other] > team_max - 3) >= safe_count
+        )
+
+        symbols = []
+        if title_clinched:
+            symbols.append("*")
+        elif promotion_clinched:
+            symbols.append("^")
+        if relegation_confirmed:
+            symbols.append("!")
+
+        rows[team] = {
+            "symbols": symbols,
+            "title_clinched": title_clinched,
+            "title_next": title_next,
+            "title_alive": title_alive,
+            "promotion_clinched": promotion_clinched,
+            "promotion_next": promotion_next,
+            "relegation_confirmed": relegation_confirmed,
+            "relegation_next": relegation_next,
+            "relegation_safe": relegation_safe,
+        }
+
+        if title_clinched:
+            title_items.append(f"{team} have clinched the flight title.")
+        elif title_next:
+            title_items.append(f"{team} can clinch the flight title with a win in their next remaining match.")
+        elif title_alive and idx < 5:
+            title_items.append(f"{team} are still alive for the flight title.")
+
+        if promotion_clinched and not title_clinched:
+            promotion_items.append(f"{team} have clinched promotion or a top-flight playoff place.")
+        elif promotion_next:
+            promotion_items.append(f"{team} can clinch promotion with a win in their next remaining match.")
+
+        if relegation_confirmed:
+            relegation_items.append(f"{team} are confirmed in the relegation places.")
+        elif relegation_next:
+            relegation_items.append(f"{team} can be locked into relegation danger with a loss in their next remaining match.")
+
+    legend = [
+        {"symbol": "*", "label": "Title clinched"},
+        {"symbol": "^", "label": "Promotion/playoff clinched"},
+    ]
+    if not is_bottom_flight:
+        legend.append({"symbol": "!", "label": "Relegation confirmed"})
+
+    return {
+        "rows": rows,
+        "title": title_items[:5],
+        "promotion": promotion_items[:5],
+        "relegation": relegation_items[:5],
+        "legend": legend,
+    }
+
+
+def get_statuses_after_forced_result(standings, sim_data, game, outcome):
+    adjusted = []
+    for row in standings:
+        copy = dict(row)
+        team = copy["team"]
+        if outcome == "home" and team == game.get("home"):
+            copy["pts"] = copy.get("pts", 0) + 3
+        elif outcome == "away" and team == game.get("away"):
+            copy["pts"] = copy.get("pts", 0) + 3
+        elif outcome == "draw" and team in (game.get("home"), game.get("away")):
+            copy["pts"] = copy.get("pts", 0) + 1
+        adjusted.append(copy)
+
+    adjusted_sim_data = dict(sim_data)
+    adjusted_sim_data["remaining_games"] = [
+        remaining
+        for remaining in sim_data.get("remaining_games", [])
+        if remaining.get("id") != game.get("id")
+    ]
+    return get_team_probability_statuses(adjusted, adjusted_sim_data)
 
 
 def format_probability_display(probability, certain=False, impossible=False):
@@ -984,6 +1119,15 @@ def build_team_simulation_from_outlook(team, sim_data, flight_outlook):
     }
 
 
+def get_cached_flight_outlook(cache_key, sim_data, total_runs=SIMULATION_RUNS):
+    key = (*cache_key, total_runs)
+    cached = _flight_outlook_cache.get(key)
+    if cached is None:
+        cached = simulate_flight_outlook(sim_data, total_runs=total_runs)
+        _flight_outlook_cache[key] = cached
+    return cached
+
+
 def get_flight_team_cards(team_info, standings, rows, playoff_visitors=None):
     """For each team in the flight return their slug, full played history, and next game."""
     age_group = team_info["age_group"]
@@ -1229,7 +1373,7 @@ def get_team_page_context(team_slug, season=None):
     )
     elo_history = get_team_elo_history(team_info)
     sim_data = get_flight_sim_data(team_info, standings, rows)
-    flight_outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    flight_outlook = get_cached_flight_outlook((season, team_info["age_group"], team_info["division"], team_info["geography"]), sim_data)
     simulation = build_team_simulation_from_outlook(team_info["team"], sim_data, flight_outlook)
     flight_importance = get_flight_importance_report(
         flight_slug(team_info["age_group"], team_info["division"], team_info["geography"]),
@@ -1431,6 +1575,8 @@ def get_featured_plinko_choices(rows=None, limit=6):
                     continue
                 home = clean_team_name(r["home_team"])
                 away = clean_team_name(r["away_team"])
+                if pv and (home in pv or away in pv):
+                    continue
                 if target_team not in (home, away):
                     continue
 
@@ -1468,6 +1614,8 @@ def get_featured_plinko_choices(rows=None, limit=6):
 
             return {
                 "team": target_team,
+                "display_name": f"{target_team} - {ag} {div}{geo[:1].upper()}",
+                "flight_code": f"{ag} {div}{geo[:1].upper()}",
                 "flight_slug": sl,
                 "flight_label": f"{ag} Div {div} {geo}",
                 "n_teams": n,
@@ -1733,11 +1881,34 @@ def build_flight_importance_fallback(label, standings, sim_data, importance, bas
         certain=statuses.get(top_game["away"], {}).get(f"{away_win_change['metric']}_certain", False),
         impossible=statuses.get(top_game["away"], {}).get(f"{away_win_change['metric']}_impossible", False),
     )
-    home_after_display = format_probability_display(home_win_change["after"])
-    away_after_display = format_probability_display(away_win_change["after"])
+    home_win_statuses = get_statuses_after_forced_result(standings, sim_data, top_game, "home")
+    away_win_statuses = get_statuses_after_forced_result(standings, sim_data, top_game, "away")
+
+    def result_clause(result_team, change, base_display, forced_statuses):
+        metric = change["metric"]
+        team_status = forced_statuses.get(result_team, {})
+        if metric == "relegation":
+            if team_status.get("relegation_impossible", False):
+                return f"clinches safety for {result_team}"
+            if team_status.get("relegation_certain", False):
+                return f"confirms relegation for {result_team}"
+        if metric == "promotion":
+            if team_status.get("promotion_certain", False):
+                return f"clinches promotion or a playoff place for {result_team}"
+            if team_status.get("promotion_impossible", False):
+                return f"eliminates {result_team} from promotion contention"
+        after_display = format_probability_display(
+            change["after"],
+            certain=team_status.get(f"{metric}_certain", False),
+            impossible=team_status.get(f"{metric}_impossible", False),
+        )
+        return f"moves {result_team}'s {metric} odds from {base_display}% to {after_display}%"
+
+    home_clause = result_clause(top_game["home"], home_win_change, home_base_display, home_win_statuses)
+    away_clause = result_clause(top_game["away"], away_win_change, away_base_display, away_win_statuses)
     return (
         f"{label} is still being shaped by both ends of the table, with {leader_names} currently in the promotion spots and {danger_names} under the most relegation pressure. "
-        f"The biggest remaining game is {top_game['home']} vs {top_game['away']} on {top_game['display_date']}: a {top_game['home']} win moves {top_game['home']}'s {home_win_change['metric']} odds from {home_base_display}% to {home_after_display}%, while a {top_game['away']} win moves {top_game['away']}'s {away_win_change['metric']} odds from {away_base_display}% to {away_after_display}%."
+        f"The biggest remaining game is {top_game['home']} vs {top_game['away']} on {top_game['display_date']}: a {top_game['home']} win {home_clause}, while a {top_game['away']} win {away_clause}."
     )
 
 
@@ -2024,12 +2195,11 @@ def generate_ai_team_insight_v2(team, age_group, standings, sim_data, team_outlo
 
 
 def build_ai_caches(rows=None):
-    """Generate and save all AI insight paragraphs for the current season."""
+    """Generate and save flight-level AI insight paragraphs for the current season."""
     if rows is None:
         rows = get_current_season_rows()
 
     flight_cache = {}
-    team_cache   = {}
     importance_cache = {}
 
     flight_rows = defaultdict(list)
@@ -2038,7 +2208,7 @@ def build_ai_caches(rows=None):
             flight_rows[(r["age_group"], r["division"], r["geography"])].append(r)
 
     for (ag, div, geo) in sorted(flight_rows):
-        pv        = identify_playoff_visitors(rows, ag, div, geo)
+        pv = identify_playoff_visitors(rows, ag, div, geo)
         standings = get_standings_for_flight(rows, ag, div, geo, playoff_visitors=pv)
         if not standings:
             continue
@@ -2046,11 +2216,11 @@ def build_ai_caches(rows=None):
 
         team_info = {"team": standings[0]["team"], "age_group": ag, "division": div, "geography": geo}
         flight_sim = get_flight_sim_data(team_info, standings, rows)
-        flight_outlook = simulate_flight_outlook(flight_sim, total_runs=SIMULATION_RUNS)
+        flight_outlook = get_cached_flight_outlook((CURRENT_SEASON, ag, div, geo), flight_sim)
         importance = calculate_flight_importance(flight_sim, baseline_outlook=flight_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
         importance_cache[sl] = importance
 
-        print(f"  Flight {sl}…", end=" ", flush=True)
+        print(f"  Flight {sl}...", end=" ", flush=True)
         outlook = generate_ai_flight_outlook_v2(ag, div, geo, standings, flight_sim, flight_outlook, importance)
         if not outlook:
             outlook = build_flight_importance_fallback(
@@ -2063,38 +2233,15 @@ def build_ai_caches(rows=None):
         flight_cache[sl] = outlook
         print("done")
 
-        for row in standings:
-            slug = build_team_slug(row["team"], ag, div, geo)
-            print(f"    Team {row['team']}…", end=" ", flush=True)
-            insight = generate_ai_team_insight_v2(
-                row["team"],
-                ag,
-                standings,
-                flight_sim,
-                flight_outlook["team_stats"].get(row["team"], {}),
-                importance["top_games_by_team"].get(row["team"]),
-            )
-            if not insight:
-                insight = build_team_insight_fallback(
-                    row["team"],
-                    standings,
-                    flight_outlook["team_stats"].get(row["team"], {}),
-                    importance["top_games_by_team"].get(row["team"]),
-                    [],
-                    flight_sim,
-                )
-            team_cache[slug] = insight
-            print("done")
-
     with open(_AI_FLIGHT_CACHE, "w") as f:
         json.dump(flight_cache, f)
     with open(_AI_TEAM_CACHE, "w") as f:
-        json.dump(team_cache, f)
+        json.dump({}, f)
     with open(_IMPORTANCE_CACHE, "w") as f:
         json.dump(importance_cache, f)
     global _ai_flight_texts, _ai_team_texts, _flight_importance_cache
     _ai_flight_texts = flight_cache
-    _ai_team_texts = team_cache
+    _ai_team_texts = {}
     _flight_importance_cache = importance_cache
     print("AI caches saved.")
 
@@ -2504,12 +2651,14 @@ def get_flight_page_context(age_group, division, geography, rows=None):
         row["slug"] = build_team_slug(row["team"], age_group, division, geography)
     team_info = {"age_group": age_group, "division": division, "geography": geography}
     sim_data = get_flight_sim_data(team_info, standings, rows)
-    flight_team_cards = get_flight_team_cards(team_info, standings, rows, playoff_visitors=playoff_visitors)
     playoff_games = get_playoff_games_for_flight(rows, age_group, division, geography, playoff_visitors)
     age_divs = {int(r["division"]) for r in rows if r["age_group"] == age_group and r["division"].isdigit()}
     max_div = max(age_divs) if age_divs else int(division)
     is_top_flight = int(division) == 1
     is_bottom_flight = int(division) == max_div
+    clinch_scenarios = build_clinch_scenarios(standings, sim_data, is_top_flight, is_bottom_flight)
+    for row in standings:
+        row["clinch"] = clinch_scenarios["rows"].get(row["team"], {"symbols": []})
 
     # Collect played results for the matchweek history timeline (exclude playoff games)
     flight_results = []
@@ -2549,10 +2698,11 @@ def get_flight_page_context(age_group, division, geography, rows=None):
         "standings": standings,
         "sim_data": sim_data,
         "flight_results": flight_results,
-        "flight_team_cards": flight_team_cards,
+        "flight_team_cards": get_flight_team_cards(team_info, standings, rows, playoff_visitors=playoff_visitors),
         "playoff_games": playoff_games,
         "is_top_flight": is_top_flight,
         "is_bottom_flight": is_bottom_flight,
+        "clinch_scenarios": clinch_scenarios,
     }
 
 
@@ -2581,9 +2731,8 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
         _age_group, _division, _geography, context = found
         home_path = "../../" if season == CURRENT_SEASON else "../../../../"
         ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
-        ai_team_summaries = []
         if season == CURRENT_SEASON:
-            flight_outlook = simulate_flight_outlook(context["sim_data"], total_runs=SIMULATION_RUNS)
+            flight_outlook = get_cached_flight_outlook((season, _age_group, _division, _geography), context["sim_data"])
             importance = get_flight_importance_report(
                 flight_slug_val,
                 context["sim_data"],
@@ -2596,24 +2745,10 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
                 importance,
                 base_outlook=flight_outlook,
             )
-            for row in context["standings"]:
-                text = build_team_insight_fallback(
-                    row["team"],
-                    context["standings"],
-                    flight_outlook["team_stats"].get(row["team"], {}),
-                    importance.get("top_games_by_team", {}).get(row["team"]),
-                    context["flight_team_cards"].get(row["team"], {}).get("played", []),
-                    context["sim_data"],
-                )
-                ai_team_summaries.append({
-                    "team": row["team"],
-                    "slug": row["slug"],
-                    "text": text,
-                })
         return render_template("flight.html", season=season,
                                 is_historical=(season != CURRENT_SEASON),
                                home_path=home_path, ai_text=ai_text,
-                               ai_team_summaries=ai_team_summaries, **context)
+                               **context)
     return None
 
 
@@ -2627,7 +2762,7 @@ def _render_flight_importance_page(flight_slug_val, rows=None, season=None):
         return None
     age_group, division, geography, context = found
     sim_data = context["sim_data"]
-    baseline_outlook = simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS)
+    baseline_outlook = get_cached_flight_outlook((season, age_group, division, geography), sim_data)
     importance = get_flight_importance_report(flight_slug_val, sim_data, baseline_outlook=baseline_outlook)
     return render_template(
         "flight_importance.html",

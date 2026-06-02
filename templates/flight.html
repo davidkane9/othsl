@@ -98,6 +98,13 @@
   .standings-table .pos { width: 28px; color: var(--muted); font-size: .8rem; }
   .standings-table .promo-row td:first-child { border-left: 3px solid var(--win); }
   .standings-table .relg-row td:first-child { border-left: 3px solid var(--loss); }
+  .clinch-mark { display:inline-flex; align-items:center; justify-content:center; min-width:1.1em; margin-left:4px; font-weight:800; color:var(--accent); }
+  .clinch-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; }
+  .clinch-card h3 { margin:0 0 8px; font-size:.98rem; }
+  .clinch-card ul { margin:0; padding-left:18px; color:var(--ink); font-size:.88rem; line-height:1.55; }
+  .clinch-card .empty { margin:0; color:var(--muted); font-size:.88rem; line-height:1.55; }
+  .clinch-legend { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:.8rem; color:var(--muted); }
+  .clinch-legend span { white-space:nowrap; }
   .gd-pos { color: var(--win); }
   .gd-neg { color: var(--loss); }
 
@@ -400,7 +407,50 @@
   </section>
   {% endif %}
 
-  {% if not is_historical and (ai_text or ai_team_summaries) %}
+  {% if not is_historical and clinch_scenarios %}
+  <section class="section" id="clinch-section">
+    <div class="section-title">
+      <h2>Clinch Scenarios</h2>
+    </div>
+    <div class="panel">
+      <div class="clinch-grid">
+        <div class="clinch-card">
+          <h3>Title</h3>
+          {% if clinch_scenarios.title %}
+          <ul>{% for item in clinch_scenarios.title %}<li>{{ item }}</li>{% endfor %}</ul>
+          {% else %}
+          <p class="empty">No title clinch is available from the current table alone.</p>
+          {% endif %}
+        </div>
+        <div class="clinch-card">
+          <h3>{% if is_top_flight %}Playoff{% else %}Promotion{% endif %}</h3>
+          {% if clinch_scenarios.promotion %}
+          <ul>{% for item in clinch_scenarios.promotion %}<li>{{ item }}</li>{% endfor %}</ul>
+          {% else %}
+          <p class="empty">No promotion or playoff spot has been clinched yet.</p>
+          {% endif %}
+        </div>
+        {% if not is_bottom_flight %}
+        <div class="clinch-card">
+          <h3>Relegation</h3>
+          {% if clinch_scenarios.relegation %}
+          <ul>{% for item in clinch_scenarios.relegation %}<li>{{ item }}</li>{% endfor %}</ul>
+          {% else %}
+          <p class="empty">No team is confirmed for relegation yet.</p>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="clinch-legend">
+        {% for item in clinch_scenarios.legend %}
+        <span><strong>{{ item.symbol }}</strong> {{ item.label }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if not is_historical and ai_text %}
   <section class="section" id="ai-flight-section">
     <div class="section-title">
       <h2>Summary</h2>
@@ -409,18 +459,6 @@
       {% if ai_text %}
       <div class="panel" style="padding:18px 22px">
         <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">{{ ai_text }}</p>
-      </div>
-      {% endif %}
-      {% if ai_team_summaries %}
-      <div class="team-summary-grid">
-        {% for item in ai_team_summaries %}
-        {% if item.text %}
-        <article class="team-summary-card">
-          <h3>{{ item.team }}</h3>
-          <p>{{ item.text }}</p>
-        </article>
-        {% endif %}
-        {% endfor %}
       </div>
       {% endif %}
     </div>
@@ -462,6 +500,7 @@ const IS_HISTORICAL    = {{ is_historical | tojson }};
 const SIM_DATA         = {{ sim_data | tojson }};
 const FLIGHT_RESULTS   = {{ flight_results | tojson }};
 const FLIGHT_CARDS     = {{ flight_team_cards | tojson }};
+const CLINCH_ROWS      = {{ clinch_scenarios.rows | tojson if clinch_scenarios else '{}' }};
 const IS_TOP_FLIGHT    = {{ is_top_flight | tojson }};
 const IS_BOTTOM_FLIGHT = {{ is_bottom_flight | tojson }};
 const SCHEDULE_INFERRED = {{ sim_data.schedule_inferred | tojson }};
@@ -918,7 +957,8 @@ function renderGrid() {
     const gdCls = row.gd > 0 ? 'gd-pos' : row.gd < 0 ? 'gd-neg' : '';
     html += `<tr class="${isPromo ? 'promo-row' : isRelg ? 'relg-row' : ''}" data-idx="${idx}">`;
     html += `<td class="col-stat">${idx + 1}</td>`;
-    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${abbrevTeam(t)}</td>`;
+    const marks = (CLINCH_ROWS[t]?.symbols || []).map(s => `<span class="clinch-mark">${s}</span>`).join('');
+    html += `<td class="col-team team-name-cell" data-team="${t}" data-slug="${slug}" title="${t}">${abbrevTeam(t)}${marks}</td>`;
     html += `<td class="col-stat">${row.gp}</td>`;
     html += `<td class="col-stat">${row.w}</td>`;
     html += `<td class="col-stat">${row.l}</td>`;

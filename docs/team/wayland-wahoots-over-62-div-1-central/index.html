@@ -66,8 +66,8 @@
   }
 
   .hero {
-    padding: 22px 24px;
-    border-radius: 22px;
+    padding: 18px 22px;
+    border-radius: 18px;
     color: #f7f2e8;
     background:
       linear-gradient(135deg, rgba(23, 52, 31, 0.96), rgba(41, 76, 49, 0.92)),
@@ -76,8 +76,8 @@
   }
 
   .hero h1 {
-    margin: 6px 0 8px;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    margin: 4px 0 6px;
+    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
     line-height: 1;
     letter-spacing: -0.03em;
   }
@@ -85,45 +85,22 @@
   .hero p {
     margin: 0;
     color: rgba(247, 242, 232, 0.8);
-    font-size: 0.92rem;
+    font-size: 0.88rem;
   }
 
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 12px;
   }
 
   .chip {
-    padding: 7px 11px;
+    padding: 6px 10px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 0.9rem;
-  }
-
-  .metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
-
-  .metric {
-    padding: 12px 14px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .label {
-    display: block;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    color: rgba(247, 242, 232, 0.66);
-  }
-
-  .metric .value {
-    font-size: 1.35rem;
-    line-height: 1;
+    font-size: 0.84rem;
   }
 
   .section {
@@ -646,31 +623,12 @@
 
       <div class="chips">
         
-        <span class="chip">ELO 1408</span>
+        <span class="chip">ELO 1398</span>
         
         
-        <span class="chip">Current place: 6</span>
+        <span class="chip">Place 6</span>
         
-        <span class="chip">Record 0-4-2</span>
-      </div>
-
-      <div class="metrics">
-        <div class="metric">
-          <span class="label">Games</span>
-          <div class="value">9</div>
-        </div>
-        <div class="metric">
-          <span class="label">Wins</span>
-          <div class="value">0</div>
-        </div>
-        <div class="metric">
-          <span class="label">Losses</span>
-          <div class="value">4</div>
-        </div>
-        <div class="metric">
-          <span class="label">Draws</span>
-          <div class="value">2</div>
-        </div>
+        <span class="chip">Record 0-5-2</span>
       </div>
     </section>
 
@@ -705,18 +663,10 @@
               
               <tr>
                 <td class="team-name-cell" data-team="Concord United Dragons">Concord United Dragons</td>
-                <td>6</td>
-                <td>18</td>
-                <td>+26</td>
+                <td>7</td>
+                <td>21</td>
+                <td>+32</td>
                 <td>3.00</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Raynham">Raynham</td>
-                <td>6</td>
-                <td>11</td>
-                <td>+15</td>
-                <td>1.83</td>
               </tr>
               
               <tr>
@@ -728,35 +678,43 @@
               </tr>
               
               <tr>
+                <td class="team-name-cell" data-team="Raynham">Raynham</td>
+                <td>7</td>
+                <td>12</td>
+                <td>+15</td>
+                <td>1.71</td>
+              </tr>
+              
+              <tr>
                 <td class="team-name-cell" data-team="Medfield Rhinos">Medfield Rhinos</td>
-                <td>6</td>
-                <td>9</td>
+                <td>7</td>
+                <td>10</td>
                 <td>+0</td>
-                <td>1.50</td>
+                <td>1.43</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Seadogs EFC">Seadogs EFC</td>
-                <td>6</td>
                 <td>7</td>
-                <td>-3</td>
-                <td>1.17</td>
+                <td>10</td>
+                <td>-1</td>
+                <td>1.43</td>
               </tr>
               
               <tr class="highlight">
                 <td class="team-name-cell" data-team="Wayland Wahoots">Wayland Wahoots</td>
-                <td>6</td>
+                <td>7</td>
                 <td>2</td>
-                <td>-16</td>
-                <td>0.33</td>
+                <td>-18</td>
+                <td>0.29</td>
               </tr>
               
               <tr>
                 <td class="team-name-cell" data-team="Danvers EFC">Danvers EFC</td>
-                <td>6</td>
+                <td>7</td>
                 <td>1</td>
-                <td>-27</td>
-                <td>0.17</td>
+                <td>-33</td>
+                <td>0.14</td>
               </tr>
               
             </tbody>
@@ -774,7 +732,7 @@
           <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">The Wayland Wahoots are struggling this season in the Over 62 Div 1 Central flight, currently sitting 6th out of 7 teams with just 2 points from 6 games, and a goal difference of -16. They find themselves 9 points off promotion and precariously close to relegation, with a mere 1-point buffer ahead of Danvers EFC, who have only 1 point themselves. The most decisive upcoming game for the Wahoots will be against Danvers EFC on June 7, 2026, where they have a 25% win probability; winning this match is crucial not only for gaining points but also for gaining a psychological edge over their relegation rivals.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Wayland Wahoots are 6th with 2 points and 0% promotion, 0% stay, and 100% relegation odds, with the model centering them around 7th place (expected 6.58). They do not have a scheduled remaining match that materially changes their promotion or relegation outlook right now.</p>
       </div>
     </section>
     
@@ -861,8 +819,8 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Concord United Dragons": 1700.5, "Danvers EFC": 1460.1, "Lexington Eagles United O62": 1561.6, "Medfield Rhinos": 1570.3, "Raynham": 1610.4, "Seadogs EFC": 1522.7, "Wayland Wahoots": 1408.5}, "current_regression": 0.0, "current_stats": {"Concord United Dragons": {"gd": 26, "gf": 29, "gp": 6, "l": 0, "pts": 18, "t": 0, "w": 6}, "Danvers EFC": {"gd": -27, "gf": 2, "gp": 6, "l": 5, "pts": 1, "t": 1, "w": 0}, "Lexington Eagles United O62": {"gd": 5, "gf": 11, "gp": 6, "l": 1, "pts": 11, "t": 2, "w": 3}, "Medfield Rhinos": {"gd": 0, "gf": 12, "gp": 6, "l": 3, "pts": 9, "t": 0, "w": 3}, "Raynham": {"gd": 15, "gf": 21, "gp": 6, "l": 1, "pts": 11, "t": 2, "w": 3}, "Seadogs EFC": {"gd": -3, "gf": 9, "gp": 6, "l": 3, "pts": 7, "t": 1, "w": 2}, "Wayland Wahoots": {"gd": -16, "gf": 5, "gp": 6, "l": 4, "pts": 2, "t": 2, "w": 0}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Medfield Rhinos", "away_win_prob": 0.277, "date": "2026-05-31", "draw_prob": 0.22, "home": "Raynham", "home_win_prob": 0.503, "id": "2026-05-31|Raynham|Medfield Rhinos", "involves_team": false}, {"away": "Seadogs EFC", "away_win_prob": 0.678, "date": "2026-05-31", "draw_prob": 0.22, "home": "Wayland Wahoots", "home_win_prob": 0.102, "id": "2026-05-31|Wayland Wahoots|Seadogs EFC", "involves_team": true}, {"away": "Danvers EFC", "away_win_prob": 0.05, "date": "2026-05-31", "draw_prob": 0.22, "home": "Concord United Dragons", "home_win_prob": 0.831, "id": "2026-05-31|Concord United Dragons|Danvers EFC", "involves_team": false}, {"away": "Lexington Eagles United O62", "away_win_prob": 0.253, "date": "2026-06-07", "draw_prob": 0.22, "home": "Raynham", "home_win_prob": 0.527, "id": "2026-06-07|Raynham|Lexington Eagles United O62", "involves_team": false}, {"away": "Concord United Dragons", "away_win_prob": 0.73, "date": "2026-06-07", "draw_prob": 0.22, "home": "Seadogs EFC", "home_win_prob": 0.05, "id": "2026-06-07|Seadogs EFC|Concord United Dragons", "involves_team": false}, {"away": "Danvers EFC", "away_win_prob": 0.534, "date": "2026-06-07", "draw_prob": 0.22, "home": "Wayland Wahoots", "home_win_prob": 0.246, "id": "2026-06-07|Wayland Wahoots|Danvers EFC", "involves_team": true}, {"away": "Medfield Rhinos", "away_win_prob": 0.415, "date": "2026-06-14", "draw_prob": 0.22, "home": "Lexington Eagles United O62", "home_win_prob": 0.365, "id": "2026-06-14|Lexington Eagles United O62|Medfield Rhinos", "involves_team": false}, {"away": "Wayland Wahoots", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Concord United Dragons", "home_win_prob": 0.856, "id": "2026-06-14|Concord United Dragons|Wayland Wahoots", "involves_team": true}, {"away": "Seadogs EFC", "away_win_prob": 0.563, "date": "2026-06-14", "draw_prob": 0.22, "home": "Danvers EFC", "home_win_prob": 0.217, "id": "2026-06-14|Danvers EFC|Seadogs EFC", "involves_team": false}], "schedule_inferred": false, "selected_team": "Wayland Wahoots", "teams": ["Concord United Dragons", "Raynham", "Lexington Eagles United O62", "Medfield Rhinos", "Seadogs EFC", "Wayland Wahoots", "Danvers EFC"], "total_teams": 7};
-const FLIGHT_RESULTS  = [{"ag": 1, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Seadogs EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Concord United Dragons", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 8, "home": "Raynham", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medfield Rhinos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Concord United Dragons", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield Rhinos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Seadogs EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 4, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Raynham", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 3, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"Concord United Dragons": 1706.9, "Danvers EFC": 1453.7, "Lexington Eagles United O62": 1561.6, "Medfield Rhinos": 1572.1, "Raynham": 1608.6, "Seadogs EFC": 1533.6, "Wayland Wahoots": 1397.6}, "current_regression": 0.0, "current_stats": {"Concord United Dragons": {"gd": 32, "gf": 35, "gp": 7, "l": 0, "pts": 21, "t": 0, "w": 7}, "Danvers EFC": {"gd": -33, "gf": 2, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Lexington Eagles United O62": {"gd": 5, "gf": 11, "gp": 6, "l": 1, "pts": 11, "t": 2, "w": 3}, "Medfield Rhinos": {"gd": 0, "gf": 15, "gp": 7, "l": 3, "pts": 10, "t": 1, "w": 3}, "Raynham": {"gd": 15, "gf": 24, "gp": 7, "l": 1, "pts": 12, "t": 3, "w": 3}, "Seadogs EFC": {"gd": -1, "gf": 11, "gp": 7, "l": 3, "pts": 10, "t": 1, "w": 3}, "Wayland Wahoots": {"gd": -18, "gf": 5, "gp": 7, "l": 5, "pts": 2, "t": 2, "w": 0}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Lexington Eagles United O62", "away_win_prob": 0.258, "date": "2026-06-07", "draw_prob": 0.22, "home": "Raynham", "home_win_prob": 0.522, "id": "2026-06-07|Raynham|Lexington Eagles United O62", "involves_team": false}, {"away": "Concord United Dragons", "away_win_prob": 0.73, "date": "2026-06-07", "draw_prob": 0.22, "home": "Seadogs EFC", "home_win_prob": 0.05, "id": "2026-06-07|Seadogs EFC|Concord United Dragons", "involves_team": false}, {"away": "Danvers EFC", "away_win_prob": 0.546, "date": "2026-06-07", "draw_prob": 0.22, "home": "Wayland Wahoots", "home_win_prob": 0.234, "id": "2026-06-07|Wayland Wahoots|Danvers EFC", "involves_team": true}, {"away": "Medfield Rhinos", "away_win_prob": 0.42, "date": "2026-06-14", "draw_prob": 0.22, "home": "Lexington Eagles United O62", "home_win_prob": 0.36, "id": "2026-06-14|Lexington Eagles United O62|Medfield Rhinos", "involves_team": false}, {"away": "Wayland Wahoots", "away_win_prob": 0.05, "date": "2026-06-14", "draw_prob": 0.22, "home": "Concord United Dragons", "home_win_prob": 0.862, "id": "2026-06-14|Concord United Dragons|Wayland Wahoots", "involves_team": true}, {"away": "Seadogs EFC", "away_win_prob": 0.605, "date": "2026-06-14", "draw_prob": 0.22, "home": "Danvers EFC", "home_win_prob": 0.175, "id": "2026-06-14|Danvers EFC|Seadogs EFC", "involves_team": false}], "schedule_inferred": false, "selected_team": "Wayland Wahoots", "teams": ["Concord United Dragons", "Lexington Eagles United O62", "Raynham", "Medfield Rhinos", "Seadogs EFC", "Wayland Wahoots", "Danvers EFC"], "total_teams": 7};
+const FLIGHT_RESULTS  = [{"ag": 1, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Seadogs EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 3, "home": "Concord United Dragons", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 3, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 9, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 8, "home": "Raynham", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Medfield Rhinos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Concord United Dragons", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Medfield Rhinos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Lexington Eagles United O62", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Danvers EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Seadogs EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 4, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 1, "home": "Raynham", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Concord United Dragons", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 0, "home": "Lexington Eagles United O62", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wayland Wahoots", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 3, "home": "Medfield Rhinos", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Raynham", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Seadogs EFC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Medfield Rhinos", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 3, "home": "Raynham", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Seadogs EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 0, "home": "Wayland Wahoots", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Danvers EFC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 6, "home": "Concord United Dragons", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = true;
 const IS_BOTTOM_FLIGHT = false;
@@ -1473,22 +1431,22 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Concord United Dragons": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Danvers EFC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles United O62", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Raynham", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield Rhinos", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Danvers EFC", "result": "W", "score": "9\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland Wahoots", "result": "W", "score": "9\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Seadogs EFC", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles United O62", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Raynham", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield Rhinos", "result": "W", "score": "3\u20130", "venue": "H"}], "slug": "concord-united-dragons-over-62-div-1-central"}, "Danvers EFC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Concord United Dragons", "venue": "@"}, "played": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Raynham", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20139", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Seadogs EFC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wayland Wahoots", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Raynham", "result": "L", "score": "0\u20138", "venue": "A"}], "slug": "danvers-efc-over-62-div-1-central"}, "Lexington Eagles United O62": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Raynham", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Seadogs EFC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Danvers EFC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland Wahoots", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield Rhinos", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Raynham", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Seadogs EFC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Danvers EFC", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "lexington-eagles-united-o62-over-62-div-1-central"}, "Medfield Rhinos": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Raynham", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Danvers EFC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Seadogs EFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Raynham", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lexington Eagles United O62", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Danvers EFC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Seadogs EFC", "result": "W", "score": "2\u20130", "venue": "A"}], "slug": "medfield-rhinos-over-62-div-1-central"}, "Raynham": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield Rhinos", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Seadogs EFC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoots", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Danvers EFC", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield Rhinos", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Lexington Eagles United O62", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Seadogs EFC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoots", "result": "W", "score": "4\u20130", "venue": "A"}], "slug": "raynham-over-62-div-1-central"}, "Seadogs EFC": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland Wahoots", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Danvers EFC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20133", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20132", "venue": "H"}], "slug": "seadogs-efc-over-62-div-1-central"}, "Wayland Wahoots": {"next_game": {"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Seadogs EFC", "venue": "vs"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield Rhinos", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Raynham", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles United O62", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Seadogs EFC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20139", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Danvers EFC", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield Rhinos", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Raynham", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles United O62", "result": "D", "score": "1\u20131", "venue": "H"}], "slug": "wayland-wahoots-over-62-div-1-central"}};
+const FLIGHT_CARDS = {"Concord United Dragons": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Seadogs EFC", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Danvers EFC", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles United O62", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Raynham", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Medfield Rhinos", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Danvers EFC", "result": "W", "score": "9\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wayland Wahoots", "result": "W", "score": "9\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Seadogs EFC", "result": "W", "score": "3\u20131", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Danvers EFC", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Lexington Eagles United O62", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Raynham", "result": "W", "score": "2\u20131", "venue": "A"}], "slug": "concord-united-dragons-over-62-div-1-central"}, "Danvers EFC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Wayland Wahoots", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Raynham", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20139", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Seadogs EFC", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Wayland Wahoots", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20133", "venue": "H"}], "slug": "danvers-efc-over-62-div-1-central"}, "Lexington Eagles United O62": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Raynham", "venue": "@"}, "played": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Seadogs EFC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Danvers EFC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wayland Wahoots", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Medfield Rhinos", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Raynham", "result": "D", "score": "1\u20131", "venue": "H"}], "recent": [{"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Seadogs EFC", "result": "W", "score": "4\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Danvers EFC", "result": "W", "score": "3\u20130", "venue": "A"}], "slug": "lexington-eagles-united-o62-over-62-div-1-central"}, "Medfield Rhinos": {"next_game": {"date": "2026-06-14", "display_date": "Sunday, June 14", "opponent": "Lexington Eagles United O62", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Raynham", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Danvers EFC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Seadogs EFC", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Concord United Dragons", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Raynham", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Lexington Eagles United O62", "result": "L", "score": "1\u20132", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Raynham", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Danvers EFC", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": "medfield-rhinos-over-62-div-1-central"}, "Raynham": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Lexington Eagles United O62", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield Rhinos", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Seadogs EFC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wayland Wahoots", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Danvers EFC", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Medfield Rhinos", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Lexington Eagles United O62", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Medfield Rhinos", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Seadogs EFC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20132", "venue": "H"}], "slug": "raynham-over-62-div-1-central"}, "Seadogs EFC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Concord United Dragons", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland Wahoots", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20134", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Medfield Rhinos", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wayland Wahoots", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Danvers EFC", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20133", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wayland Wahoots", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Lexington Eagles United O62", "result": "L", "score": "0\u20134", "venue": "A"}], "slug": "seadogs-efc-over-62-div-1-central"}, "Wayland Wahoots": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Danvers EFC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Seadogs EFC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield Rhinos", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Raynham", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Lexington Eagles United O62", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Seadogs EFC", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Concord United Dragons", "result": "L", "score": "1\u20139", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Danvers EFC", "result": "D", "score": "1\u20131", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Seadogs EFC", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Medfield Rhinos", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Raynham", "result": "L", "score": "0\u20134", "venue": "H"}], "slug": "wayland-wahoots-over-62-div-1-central"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Concord United Dragons"] = { w: 6, l: 0, t: 0, gp: 6 };
-
-STANDINGS_MAP["Raynham"] = { w: 3, l: 1, t: 2, gp: 6 };
+STANDINGS_MAP["Concord United Dragons"] = { w: 7, l: 0, t: 0, gp: 7 };
 
 STANDINGS_MAP["Lexington Eagles United O62"] = { w: 3, l: 1, t: 2, gp: 6 };
 
-STANDINGS_MAP["Medfield Rhinos"] = { w: 3, l: 3, t: 0, gp: 6 };
+STANDINGS_MAP["Raynham"] = { w: 3, l: 1, t: 3, gp: 7 };
 
-STANDINGS_MAP["Seadogs EFC"] = { w: 2, l: 3, t: 1, gp: 6 };
+STANDINGS_MAP["Medfield Rhinos"] = { w: 3, l: 3, t: 1, gp: 7 };
 
-STANDINGS_MAP["Wayland Wahoots"] = { w: 0, l: 4, t: 2, gp: 6 };
+STANDINGS_MAP["Seadogs EFC"] = { w: 3, l: 3, t: 1, gp: 7 };
 
-STANDINGS_MAP["Danvers EFC"] = { w: 0, l: 5, t: 1, gp: 6 };
+STANDINGS_MAP["Wayland Wahoots"] = { w: 0, l: 5, t: 2, gp: 7 };
+
+STANDINGS_MAP["Danvers EFC"] = { w: 0, l: 6, t: 1, gp: 7 };
 
 
 const popup     = document.getElementById("team-popup");
