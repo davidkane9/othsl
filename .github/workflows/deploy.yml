@@ -26,6 +26,7 @@ jobs:
       - name: Build static site
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OTHSL_FULL_FREEZE: "1"
         run: python freeze.py
 
       - name: Deploy to GitHub Pages
