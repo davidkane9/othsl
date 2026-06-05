@@ -72,13 +72,13 @@ Spring 2026,Over 30,1,South,2026-05-31,Torres FC,2,0,Taunton Eagles Soccer Club,
 Spring 2026,Over 30,1,South,2026-05-31,Plymouth FC,2,forfeit,Boston Celtic FC,forfeit
 Spring 2026,Over 30,1,South,2026-05-31,Boston Nigeria Eagles FC,5,2,Shake-Shake FC,
 Spring 2026,Over 30,1,South,2026-06-07,Taunton Eagles Soccer Club,,,Southside F.C.,scheduled
-Spring 2026,Over 30,1,South,2026-06-07,Boston Celtic FC,,,Boston Nigeria Eagles FC,scheduled
+Spring 2026,Over 30,1,South,2026-06-07,Boston Celtic FC forfeit lost by,forfeit,2,Boston Nigeria Eagles FC,forfeit
 Spring 2026,Over 30,1,South,2026-06-07,Plymouth FC,,,Shake-Shake FC,scheduled
 Spring 2026,Over 30,1,South,2026-06-10,Plymouth FC,,,Os Amigos F.C.,scheduled
 Spring 2026,Over 30,1,South,2026-06-14,Os Amigos F.C.,,,Taunton Eagles Soccer Club,scheduled
 Spring 2026,Over 30,1,South,2026-06-14,Southside F.C.,,,Torres FC,scheduled
 Spring 2026,Over 30,1,South,2026-06-14,Boston Nigeria Eagles FC,,,Plymouth FC,scheduled
-Spring 2026,Over 30,1,South,2026-06-14,Shake-Shake FC,,,Boston Celtic FC,scheduled
+Spring 2026,Over 30,1,South,2026-06-14,Shake-Shake FC,2,forfeit,Boston Celtic FC,forfeit
 Spring 2026,Over 30,1,South,2026-06-17,Os Amigos F.C.,,,Boston Nigeria Eagles FC,scheduled
 Spring 2026,Over 30,1,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,1,South,2026-06-21,TBD,,,TBD,scheduled
@@ -295,10 +295,10 @@ Spring 2026,Over 40,1,North,2026-06-14,Concord United Masters,,,BPK United,sched
 Spring 2026,Over 40,1,North,2026-06-14,P.A.C. Lowell,,,Hudson United,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,Shrewsbury,,,Cantona North,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,Winchester Safira Footballers,,,Peabody Sporting Club,scheduled
+Spring 2026,Over 40,1,North,2026-06-18,Cantona North,,,Winchester Safira Footballers,scheduled
 Spring 2026,Over 40,1,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,1,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 40,1,North,TBD,Cantona North,,,Winchester Safira Footballers,scheduled
 Spring 2026,Over 40,1,South,2026-04-05,Criciuma Boston,0,1,United International,
 Spring 2026,Over 40,1,South,2026-04-05,Stellar FC,2,forfeitNP,Kel Kau Masters,forfeit
 Spring 2026,Over 40,1,South,2026-04-05,FFM United,1,2,F C Bayern,
@@ -371,12 +371,13 @@ Spring 2026,Over 40,2,North,2026-05-21,Charlestown FC,1,2,Arlington Fossils # re
 Spring 2026,Over 40,2,North,2026-05-26,Arlington Fossils,1,3,DEA # review referee,
 Spring 2026,Over 40,2,North,2026-05-31,Os Amigos FC,3,0,Kendall Wanderers,
 Spring 2026,Over 40,2,North,2026-05-31,Melrose Wakefield Meadowlarks,2,forfeit,DEA,forfeit
-Spring 2026,Over 40,2,North,2026-05-31,Marblehead,,,Seacoast United SC,scheduled
+Spring 2026,Over 40,2,North,2026-05-31,Marblehead forfeit lost by,forfeit,2,Seacoast United SC,forfeit
 Spring 2026,Over 40,2,North,2026-05-31,Arlington Fossils,1,3,Charlestown FC # review referee,
 Spring 2026,Over 40,2,North,2026-06-07,Melrose Wakefield Meadowlarks,,,Kendall Wanderers,scheduled
 Spring 2026,Over 40,2,North,2026-06-07,DEA,,,Os Amigos FC,scheduled
 Spring 2026,Over 40,2,North,2026-06-07,Seacoast United SC,,,Arlington Fossils,scheduled
 Spring 2026,Over 40,2,North,2026-06-07,Marblehead,,,Charlestown FC,scheduled
+Spring 2026,Over 40,2,North,2026-06-10,DEA,,,Marblehead,scheduled
 Spring 2026,Over 40,2,North,2026-06-14,Kendall Wanderers,,,DEA,scheduled
 Spring 2026,Over 40,2,North,2026-06-14,Os Amigos FC,,,Melrose Wakefield Meadowlarks,scheduled
 Spring 2026,Over 40,2,North,2026-06-14,Arlington Fossils,,,Marblehead,scheduled
@@ -384,7 +385,6 @@ Spring 2026,Over 40,2,North,2026-06-14,Charlestown FC,,,Seacoast United SC,sched
 Spring 2026,Over 40,2,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,2,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 40,2,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 40,2,North,TBD,DEA,,,Marblehead,scheduled
 Spring 2026,Over 40,2,South,2026-04-05,Newton Brigada,3,1,Celtic Masters,
 Spring 2026,Over 40,2,South,2026-04-05,Framingham Persepolis,4,2,Taunton Eagles Soccer Club,
 Spring 2026,Over 40,2,South,2026-04-05,Albania United Veterans,3,1,FUFC,
@@ -795,7 +795,7 @@ Spring 2026,Over 48,1,South,2026-05-31,Crafty Veterans,0,1,Kel Kau,
 Spring 2026,Over 48,1,South,2026-05-31,Rovers FC o48,1,1,Jamaica Plain FC 48,
 Spring 2026,Over 48,1,South,2026-05-31,Hopkinton Hotspur o48's,2,2,Shake-Shake FC Seniors,
 Spring 2026,Over 48,1,South,2026-06-07,Crafty Veterans,,,Sudbury AC,scheduled
-Spring 2026,Over 48,1,South,2026-06-07,Kel Kau,,,FC Franklin O50,scheduled
+Spring 2026,Over 48,1,South,2026-06-07,Kel Kau,2,forfeitNP,FC Franklin O50,forfeit
 Spring 2026,Over 48,1,South,2026-06-07,Jamaica Plain FC 48,,,Hopkinton Hotspur o48's,scheduled
 Spring 2026,Over 48,1,South,2026-06-07,Rovers FC o48,,,Shake-Shake FC Seniors,scheduled
 Spring 2026,Over 48,1,South,2026-06-14,Sudbury AC,,,Kel Kau,scheduled
@@ -882,7 +882,6 @@ Spring 2026,Over 48,2,South,2026-05-31,Irish Village 48,5,0,United Intl FC,
 Spring 2026,Over 48,2,South,2026-05-31,Taunton Eagles,4,3,FIMA FC O50,
 Spring 2026,Over 48,2,South,2026-06-07,Wayland wahootoo,,,Fernandes FC O50,scheduled
 Spring 2026,Over 48,2,South,2026-06-07,Western Mass Lusitano,,,Albanian United Veterans,scheduled
-Spring 2026,Over 48,2,South,2026-06-07,United Intl FC,,,Taunton Eagles,scheduled
 Spring 2026,Over 48,2,South,2026-06-07,Irish Village 48,,,FIMA FC O50,scheduled
 Spring 2026,Over 48,2,South,2026-06-14,Fernandes FC O50,,,Western Mass Lusitano,scheduled
 Spring 2026,Over 48,2,South,2026-06-14,Albanian United Veterans,,,Wayland wahootoo,scheduled
@@ -1066,7 +1065,7 @@ Spring 2026,Over 48,5,North,2026-05-17,Canary Square 50,0,4,Charlestown FC o48,
 Spring 2026,Over 48,5,North,2026-05-31,Charlestown FC o48,2,2,Masco,
 Spring 2026,Over 48,5,North,2026-05-31,North Andover Grey Knights,5,2,Canary Square 50,
 Spring 2026,Over 48,5,North,2026-05-31,Old School Soccer Club,4,3,Malden Everett Veterans,
-Spring 2026,Over 48,5,North,2026-06-07,Charlestown FC o48,,,FC Belmont,scheduled
+Spring 2026,Over 48,5,North,2026-06-07,Charlestown FC o48,2,forfeitNP,FC Belmont,forfeit
 Spring 2026,Over 48,5,North,2026-06-07,Canary Square 50,,,Old School Soccer Club,scheduled
 Spring 2026,Over 48,5,North,2026-06-07,North Andover Grey Knights,,,Malden Everett Veterans,scheduled
 Spring 2026,Over 48,5,North,2026-06-14,FC Belmont,,,Masco,scheduled
