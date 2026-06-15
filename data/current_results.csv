@@ -34,7 +34,7 @@ Spring 2026,Over 30,1,North,2026-06-07,Eastern FC,1,4,CDF Azzurri,
 Spring 2026,Over 30,1,North,2026-06-07,Massachusetts United forfeit lost by,forfeit,2,Loco Gunners,forfeit
 Spring 2026,Over 30,1,North,2026-06-07,Kendall Wanderers,1,1,Newburyport FC,
 Spring 2026,Over 30,1,North,2026-06-07,Cantona,3,3,Meadowlark FC,
-Spring 2026,Over 30,1,North,2026-06-14,CDF Azzurri,,,Massachusetts United,scheduled
+Spring 2026,Over 30,1,North,2026-06-14,CDF Azzurri,2,forfeitNP,Massachusetts United,forfeit
 Spring 2026,Over 30,1,North,2026-06-14,Loco Gunners,,,Eastern FC,scheduled
 Spring 2026,Over 30,1,North,2026-06-14,Newburyport FC,,,Cantona,scheduled
 Spring 2026,Over 30,1,North,2026-06-14,Meadowlark FC,,,Kendall Wanderers,scheduled
@@ -202,8 +202,8 @@ Spring 2026,Over 30,3,North,2026-05-31,Marblehead,3,0,Nashua City,
 Spring 2026,Over 30,3,North,2026-05-31,Rebels FC,4,4,Sporting Club Malden,
 Spring 2026,Over 30,3,North,2026-05-31,Lynn Leones forfeit lost by,forfeit,2,Sandy Pond Soccer Club,forfeit
 Spring 2026,Over 30,3,North,2026-06-07,Marblehead,1,1,Concord United,
-Spring 2026,Over 30,3,North,2026-06-07,Nashua City,,,Lowell United,scheduled
-Spring 2026,Over 30,3,North,2026-06-07,Sporting Club Malden,,,Lynn Leones,scheduled
+Spring 2026,Over 30,3,North,2026-06-07,Nashua City,0,1,Lowell United,
+Spring 2026,Over 30,3,North,2026-06-07,Sporting Club Malden,4,1,Lynn Leones,
 Spring 2026,Over 30,3,North,2026-06-07,Rebels FC,2,3,Sandy Pond Soccer Club,
 Spring 2026,Over 30,3,North,2026-06-14,Concord United,,,Nashua City,scheduled
 Spring 2026,Over 30,3,North,2026-06-14,Lowell United,,,Marblehead,scheduled
@@ -212,7 +212,7 @@ Spring 2026,Over 30,3,North,2026-06-14,Sandy Pond Soccer Club,,,Sporting Club Ma
 Spring 2026,Over 30,3,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,3,North,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,3,North,2026-06-28,TBD,,,TBD,scheduled
-Spring 2026,Over 30,3,North,TBD,Lowell United,,,Nashua City,scheduled
+Spring 2026,Over 30,3,North,TBD,Lowell United,2,forfeitNP,Nashua City,forfeit
 Spring 2026,Over 30,3,South,2026-04-05,Somerville FC,0,2,Harvest Soccer Club,
 Spring 2026,Over 30,3,South,2026-04-05,HTK FC,0,5,Providence City FC,
 Spring 2026,Over 30,3,South,2026-04-05,Metrowest United FC,1,6,Roots FC,
@@ -246,12 +246,12 @@ Spring 2026,Over 30,3,South,2026-05-31,Newport FC,5,2,Roots FC,
 Spring 2026,Over 30,3,South,2026-05-31,Metrowest United FC,4,7,Middlesex FC,
 Spring 2026,Over 30,3,South,2026-06-07,Harvest Soccer Club,3,0,Somerville FC,
 Spring 2026,Over 30,3,South,2026-06-07,Providence City FC,7,1,HTK FC,
-Spring 2026,Over 30,3,South,2026-06-07,Roots FC,,,Metrowest United FC,scheduled
+Spring 2026,Over 30,3,South,2026-06-07,Roots FC,4,1,Metrowest United FC,
 Spring 2026,Over 30,3,South,2026-06-07,Newport FC,6,3,Middlesex FC,
 Spring 2026,Over 30,3,South,2026-06-14,Somerville FC,,,Providence City FC,scheduled
 Spring 2026,Over 30,3,South,2026-06-14,HTK FC,,,Harvest Soccer Club,scheduled
 Spring 2026,Over 30,3,South,2026-06-14,Metrowest United FC,,,Newport FC,scheduled
-Spring 2026,Over 30,3,South,2026-06-14,Middlesex FC,,,Roots FC,scheduled
+Spring 2026,Over 30,3,South,2026-06-14,Middlesex FC,2,forfeitNP,Roots FC,forfeit
 Spring 2026,Over 30,3,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,3,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 30,3,South,2026-06-28,TBD,,,TBD,scheduled
@@ -289,7 +289,7 @@ Spring 2026,Over 40,1,North,2026-05-31,Shrewsbury,2,7,Winchester Safira Football
 Spring 2026,Over 40,1,North,2026-06-07,Hudson United,1,2,Concord United Masters,
 Spring 2026,Over 40,1,North,2026-06-07,BPK United,2,4,P.A.C. Lowell # review referee,
 Spring 2026,Over 40,1,North,2026-06-07,Peabody Sporting Club,7,0,Shrewsbury,
-Spring 2026,Over 40,1,North,2026-06-10,Shrewsbury,,,Peabody Sporting Club,scheduled
+Spring 2026,Over 40,1,North,2026-06-10,Shrewsbury,1,3,Peabody Sporting Club,
 Spring 2026,Over 40,1,North,2026-06-12,Winchester Safira Footballers,,,P.A.C. Lowell,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,Concord United Masters,,,BPK United,scheduled
 Spring 2026,Over 40,1,North,2026-06-14,P.A.C. Lowell,,,Hudson United,scheduled
@@ -377,7 +377,7 @@ Spring 2026,Over 40,2,North,2026-06-07,Melrose Wakefield Meadowlarks,0,0,Kendall
 Spring 2026,Over 40,2,North,2026-06-07,DEA,2,1,Os Amigos FC,
 Spring 2026,Over 40,2,North,2026-06-07,Seacoast United SC,4,3,Arlington Fossils # review referee,
 Spring 2026,Over 40,2,North,2026-06-07,Marblehead,1,4,Charlestown FC,
-Spring 2026,Over 40,2,North,2026-06-10,DEA,,,Marblehead,scheduled
+Spring 2026,Over 40,2,North,2026-06-10,DEA forfeit lost by,forfeit,2,Marblehead,forfeit
 Spring 2026,Over 40,2,North,2026-06-14,Kendall Wanderers,,,DEA,scheduled
 Spring 2026,Over 40,2,North,2026-06-14,Os Amigos FC,,,Melrose Wakefield Meadowlarks,scheduled
 Spring 2026,Over 40,2,North,2026-06-14,Arlington Fossils,,,Marblehead,scheduled
@@ -800,7 +800,7 @@ Spring 2026,Over 48,1,South,2026-06-07,Rovers FC o48,5,4,Shake-Shake FC Seniors,
 Spring 2026,Over 48,1,South,2026-06-14,Sudbury AC,,,Kel Kau,scheduled
 Spring 2026,Over 48,1,South,2026-06-14,FC Franklin O50,,,Crafty Veterans,scheduled
 Spring 2026,Over 48,1,South,2026-06-14,Hopkinton Hotspur o48's,,,Rovers FC o48,scheduled
-Spring 2026,Over 48,1,South,2026-06-14,Shake-Shake FC Seniors,,,Jamaica Plain FC 48,scheduled
+Spring 2026,Over 48,1,South,2026-06-14,Shake-Shake FC Seniors,2,forfeitNP,Jamaica Plain FC 48,forfeit
 Spring 2026,Over 48,1,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 48,1,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 48,1,South,2026-06-28,TBD,,,TBD,scheduled
@@ -1097,11 +1097,11 @@ Spring 2026,Over 48,5,South,2026-05-22,Criolo City FC,2,1,Franklin,
 Spring 2026,Over 48,5,South,2026-05-31,Franklin,0,1,Needham FC,
 Spring 2026,Over 48,5,South,2026-05-31,Criolo City FC,0,6,Ashland 48,
 Spring 2026,Over 48,5,South,2026-05-31,HTK FC,2,1,Raynham Crue,
-Spring 2026,Over 48,5,South,2026-06-07,Franklin,,,Criolo City FC,scheduled
+Spring 2026,Over 48,5,South,2026-06-07,Franklin,3,1,Criolo City FC,
 Spring 2026,Over 48,5,South,2026-06-07,Ashland 48,5,0,HTK FC,
 Spring 2026,Over 48,5,South,2026-06-07,Needham FC,3,1,Raynham Crue,
 Spring 2026,Over 48,5,South,2026-06-14,HTK FC,,,Franklin,scheduled
-Spring 2026,Over 48,5,South,2026-06-14,Criolo City FC,,,Needham FC,scheduled
+Spring 2026,Over 48,5,South,2026-06-14,Criolo City FC forfeit lost by,forfeit,2,Needham FC,forfeit
 Spring 2026,Over 48,5,South,2026-06-14,Raynham Crue,,,Ashland 48,scheduled
 Spring 2026,Over 48,5,South,2026-06-21,TBD,,,TBD,scheduled
 Spring 2026,Over 48,5,South,2026-06-21,TBD,,,TBD,scheduled
@@ -1368,7 +1368,7 @@ Spring 2026,Over 62,1,Central,2026-05-17,Seadogs EFC,2,2,Raynham,
 Spring 2026,Over 62,1,Central,2026-05-31,Raynham,3,3,Medfield Rhinos,
 Spring 2026,Over 62,1,Central,2026-05-31,Wayland Wahoots,0,2,Seadogs EFC,
 Spring 2026,Over 62,1,Central,2026-05-31,Concord United Dragons,6,0,Danvers EFC,
-Spring 2026,Over 62,1,Central,2026-06-07,Raynham,3,3,Lexington Eagles United O62,
+Spring 2026,Over 62,1,Central,2026-06-07,Raynham,4,3,Lexington Eagles United O62,
 Spring 2026,Over 62,1,Central,2026-06-07,Seadogs EFC,1,3,Concord United Dragons,
 Spring 2026,Over 62,1,Central,2026-06-07,Wayland Wahoots,2,1,Danvers EFC,
 Spring 2026,Over 62,1,Central,2026-06-14,Lexington Eagles United O62,,,Medfield Rhinos,scheduled
@@ -1406,9 +1406,9 @@ Spring 2026,Over 62,2,Central,2026-05-31,Lynnfield F.C. Olympians,8,1,Warthog Wo
 Spring 2026,Over 62,2,Central,2026-05-31,Shake-Shake FC 62,4,2,Peabody Gold 63,
 Spring 2026,Over 62,2,Central,2026-05-31,Medway,1,1,Hopkinton OF,
 Spring 2026,Over 62,2,Central,2026-06-04,Peabody Gold 63,2,0,Arlington PondDawgz 62,
-Spring 2026,Over 62,2,Central,2026-06-07,Arlington PondDawgz 62,,,Warthog Wonders,scheduled
-Spring 2026,Over 62,2,Central,2026-06-07,Shake-Shake FC 62,,,Nashoba Apple Corps,scheduled
-Spring 2026,Over 62,2,Central,2026-06-07,Boston Villa FC,,,Peabody Gold 63,scheduled
+Spring 2026,Over 62,2,Central,2026-06-07,Arlington PondDawgz 62,1,1,Warthog Wonders,
+Spring 2026,Over 62,2,Central,2026-06-07,Shake-Shake FC 62,4,0,Nashoba Apple Corps,
+Spring 2026,Over 62,2,Central,2026-06-07,Boston Villa FC,1,2,Peabody Gold 63,
 Spring 2026,Over 62,2,Central,2026-06-14,Nashoba Apple Corps,,,Lynnfield F.C. Olympians,scheduled
 Spring 2026,Over 62,2,Central,2026-06-14,Peabody Gold 63,,,Warthog Wonders,scheduled
 Spring 2026,Over 62,2,Central,2026-06-14,Hopkinton OF,,,Boston Villa FC,scheduled
