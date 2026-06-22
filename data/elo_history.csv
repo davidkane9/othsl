@@ -65013,7 +65013,7 @@ Spring 2026,Over 40,2026-04-12,Harvard Blues FC,BNFC,2,2,1409.6,1414.7,1409.8,14
 Spring 2026,Over 40,2026-04-12,Hampstead Hurricanes,Carlisle FC,2,0,1514.6,1500,1529.9,1484.7
 Spring 2026,Over 48,2026-04-12,Westford FC,Marblehead,1,2,1500.4,1496.0,1484.2,1512.2
 Spring 2026,Over 48,2026-04-12,Danvers - True Soccer FC,Stoneham Spartans Over 48,2,3,1533.2,1638.1,1521.9,1649.5
-Spring 2026,Over 48,2026-04-12,Concord United,DEA,3,1,1618.0,1486.4,1628.2,1476.2
+Spring 2026,Over 48,2026-04-12,Concord United forfeit lost by,DEA,forfeit,2,1500,1486.4,1483.4,1503.0
 Spring 2026,Over 48,2026-04-12,Nashoba,FC Boxford,1,2,1528.6,1488.5,1510.8,1506.4
 Spring 2026,Over 48,2026-04-12,Kel Kau,Sudbury AC,7,0,1534.4,1524.9,1549.9,1509.3
 Spring 2026,Over 48,2026-04-12,Crafty Veterans,FC Franklin O50,3,0,1570.6,1503.9,1583.6,1491.0
@@ -65150,8 +65150,8 @@ Spring 2026,Over 40,2026-04-19,Post-game Nomads,Harvard Blues FC,1,0,1475.3,1409
 Spring 2026,Over 40,2026-04-19,North Reading FC,Carlisle FC,1,3,1378.5,1484.7,1367.3,1495.9
 Spring 2026,Over 48,2026-04-19,Marblehead,Stoneham Spartans Over 48,0,7,1512.2,1649.5,1502.2,1659.4
 Spring 2026,Over 48,2026-04-19,Westford FC,Danvers - True Soccer FC,2,3,1484.2,1521.9,1469.9,1536.2
-Spring 2026,Over 48,2026-04-19,Nashoba,Concord United,0,2,1510.8,1628.2,1500.0,1639.0
-Spring 2026,Over 48,2026-04-19,FC Boxford,DEA,0,6,1506.4,1476.2,1489.0,1493.6
+Spring 2026,Over 48,2026-04-19,Nashoba,Concord United,2,forfeit,1510.8,1618.0,1531.6,1597.2
+Spring 2026,Over 48,2026-04-19,FC Boxford,DEA,0,6,1506.4,1503.0,1490.2,1519.2
 Spring 2026,Over 48,2026-04-19,Sudbury AC,FC Franklin O50,8,1,1509.3,1491.0,1524.5,1475.8
 Spring 2026,Over 48,2026-04-19,Kel Kau,Crafty Veterans,2,2,1549.9,1583.6,1551.5,1582.1
 Spring 2026,Over 48,2026-04-19,Jamaica Plain FC 48,Rovers FC o48,1,1,1497.4,1524.9,1498.7,1523.6
@@ -65285,10 +65285,10 @@ Spring 2026,Over 40,2026-04-26,HTK FC,FC Walpole,0,2,1481.3,1505.6,1466.4,1520.5
 Spring 2026,Over 40,2026-04-26,Harvard Blues FC,North Reading FC,0,1,1396.8,1367.3,1379.5,1384.6
 Spring 2026,Over 40,2026-04-26,Carlisle FC,Post-game Nomads,0,2,1495.9,1488.3,1479.6,1504.7
 Spring 2026,Over 40,2026-04-26,Hampstead Hurricanes,Island United FC,1,3,1529.9,1527.1,1513.8,1543.2
-Spring 2026,Over 48,2026-04-26,Danvers - True Soccer FC,FC Boxford,4,1,1536.2,1489.0,1550.0,1475.1
-Spring 2026,Over 48,2026-04-26,Stoneham Spartans Over 48,Nashoba,6,0,1659.4,1500.0,1668.6,1490.9
-Spring 2026,Over 48,2026-04-26,DEA,Westford FC,2,1,1493.6,1469.9,1508.5,1455.0
-Spring 2026,Over 48,2026-04-26,Concord United,Marblehead,2,0,1639.0,1502.2,1649.0,1492.2
+Spring 2026,Over 48,2026-04-26,Danvers - True Soccer FC,FC Boxford,4,1,1536.2,1490.2,1550.1,1476.3
+Spring 2026,Over 48,2026-04-26,Stoneham Spartans Over 48,Nashoba,6,0,1659.4,1531.6,1669.8,1521.2
+Spring 2026,Over 48,2026-04-26,DEA,Westford FC,2,1,1519.2,1469.9,1532.9,1456.2
+Spring 2026,Over 48,2026-04-26,Concord United forfeit lost by,Marblehead,forfeit,2,1483.4,1502.2,1468.2,1517.4
 Spring 2026,Over 48,2026-04-26,FC Franklin O50,Jamaica Plain FC 48,0,3,1475.8,1498.7,1460.9,1513.6
 Spring 2026,Over 48,2026-04-26,Hopkinton Hotspur o48's,Kel Kau,2,8,1514.4,1551.5,1500.1,1565.8
 Spring 2026,Over 48,2026-04-26,Rovers FC o48,Sudbury AC,4,1,1523.6,1524.5,1539.7,1508.5
@@ -65423,10 +65423,10 @@ Spring 2026,Over 40,2026-05-03,HTK FC,Hogs FC,0,0,1466.4,1520.0,1468.9,1517.6
 Spring 2026,Over 40,2026-05-03,Carlisle FC,BNFC,3,0,1479.6,1403.0,1492.1,1390.5
 Spring 2026,Over 40,2026-05-03,North Reading FC,Island United FC,1,1,1384.6,1543.2,1391.5,1536.3
 Spring 2026,Over 40,2026-05-03,Hampstead Hurricanes,Harvard Blues FC,3,3,1513.8,1379.5,1507.9,1385.3
-Spring 2026,Over 48,2026-05-03,DEA,Stoneham Spartans Over 48,0,3,1508.5,1668.6,1499.4,1677.7
-Spring 2026,Over 48,2026-05-03,Nashoba,Westford FC,0,2,1490.9,1455.0,1473.2,1472.7
-Spring 2026,Over 48,2026-05-03,FC Boxford,Marblehead,1,4,1475.1,1492.2,1459.9,1507.4
-Spring 2026,Over 48,2026-05-03,Concord United,Danvers - True Soccer FC,1,0,1649.0,1550.0,1660.6,1538.5
+Spring 2026,Over 48,2026-05-03,DEA,Stoneham Spartans Over 48,0,3,1532.9,1669.8,1522.9,1679.8
+Spring 2026,Over 48,2026-05-03,Nashoba,Westford FC,0,2,1521.2,1456.2,1502.3,1475.2
+Spring 2026,Over 48,2026-05-03,FC Boxford,Marblehead,1,4,1476.3,1517.4,1462.2,1531.5
+Spring 2026,Over 48,2026-05-03,Concord United forfeit lost by,Danvers - True Soccer FC,forfeit,2,1468.2,1550.1,1455.9,1562.4
 Spring 2026,Over 48,2026-05-03,Hopkinton Hotspur o48's,FC Franklin O50,5,3,1500.1,1460.9,1514.3,1446.7
 Spring 2026,Over 48,2026-05-03,Jamaica Plain FC 48,Kel Kau,0,4,1513.6,1565.8,1500.0,1579.4
 Spring 2026,Over 48,2026-05-03,Shake-Shake FC Seniors,Sudbury AC,3,2,1613.8,1508.5,1625.1,1497.2
@@ -65558,10 +65558,10 @@ Spring 2026,Over 40,2026-05-10,Canary Square Veterans,Irish Village White,1,3,14
 Spring 2026,Over 40,2026-05-10,Harvard Blues FC,Carlisle FC,2,0,1385.3,1492.1,1406.1,1471.3
 Spring 2026,Over 40,2026-05-10,BNFC,Hampstead Hurricanes,0,8,1390.5,1507.9,1379.7,1518.7
 Spring 2026,Over 40,2026-05-10,Post-game Nomads,North Reading FC,2,forfeit,1504.7,1391.5,1515.6,1380.5
-Spring 2026,Over 48,2026-05-10,Marblehead,Nashoba,2,forfeit,1507.4,1473.2,1521.9,1458.8
-Spring 2026,Over 48,2026-05-10,Danvers - True Soccer FC,DEA,0,0,1538.5,1499.4,1536.7,1501.2
-Spring 2026,Over 48,2026-05-10,Stoneham Spartans Over 48,Concord United,3,2,1677.7,1660.6,1692.9,1645.4
-Spring 2026,Over 48,2026-05-10,Westford FC,FC Boxford,2,3,1472.7,1459.9,1456.1,1476.5
+Spring 2026,Over 48,2026-05-10,Marblehead,Nashoba,2,forfeit,1531.5,1502.3,1546.1,1487.6
+Spring 2026,Over 48,2026-05-10,Danvers - True Soccer FC,DEA,0,0,1562.4,1522.9,1560.6,1524.7
+Spring 2026,Over 48,2026-05-10,Stoneham Spartans Over 48,Concord United,2,2,1679.8,1597.2,1676.1,1601.0
+Spring 2026,Over 48,2026-05-10,Westford FC,FC Boxford,2,3,1475.2,1462.2,1458.6,1478.8
 Spring 2026,Over 48,2026-05-10,Sudbury AC,Jamaica Plain FC 48,3,3,1497.2,1500.0,1497.3,1499.9
 Spring 2026,Over 48,2026-05-10,Crafty Veterans,Hopkinton Hotspur o48's,1,1,1564.1,1514.3,1561.8,1516.6
 Spring 2026,Over 48,2026-05-10,FC Franklin O50,Rovers FC o48,2,5,1446.7,1557.6,1435.6,1568.7
@@ -65645,7 +65645,7 @@ Spring 2026,Over 30,2026-05-17,New England Elite FC,Groton House FC,2,6,1433.5,1
 Spring 2026,Over 30,2026-05-17,Old Colony Rovers,Medfield,2,5,1492.9,1485.0,1476.6,1501.4
 Spring 2026,Over 30,2026-05-17,Classicos F.C,Rovers FC,3,1,1514.3,1518.2,1530.5,1502.0
 Spring 2026,Over 30,2026-05-17,PRAIA KAPITAL FC,Fernandes FC,3,1,1507.4,1492.4,1522.7,1477.1
-Spring 2026,Over 30,2026-05-17,Juventus USA,Needham United,6,1,1527.5,1548.3,1544.5,1531.3
+Spring 2026,Over 30,2026-05-17,Juventus USA forfeit lost by,Needham United,forfeit,2,1500,1548.3,1486.2,1562.1
 Spring 2026,Over 30,2026-05-17,Concord United,Lynn Leones,11,0,1563.5,1484.5,1575.9,1472.1
 Spring 2026,Over 30,2026-05-17,Nashua City,Rebels FC,9,2,1423.2,1446.9,1440.3,1429.8
 Spring 2026,Over 30,2026-05-17,Sporting Club Malden,Marblehead,2,2,1411.3,1508.2,1415.6,1503.8
@@ -65694,10 +65694,10 @@ Spring 2026,Over 40,2026-05-17,Irish Village White,Milton FC,2,2,1452.5,1454.4,1
 Spring 2026,Over 40,2026-05-17,Island United FC,Carlisle FC,8,1,1536.3,1471.3,1549.4,1458.3
 Spring 2026,Over 40,2026-05-17,Post-game Nomads,Hampstead Hurricanes,1,1,1515.6,1518.7,1515.8,1518.5
 Spring 2026,Over 40,2026-05-17,North Reading FC,BNFC,4,1,1380.5,1379.7,1396.5,1363.7
-Spring 2026,Over 48,2026-05-17,Marblehead,DEA,5,2,1521.9,1501.2,1536.9,1486.1
-Spring 2026,Over 48,2026-05-17,Westford FC,Concord United,1,3,1456.1,1645.4,1448.0,1653.4
-Spring 2026,Over 48,2026-05-17,Nashoba,Danvers - True Soccer FC,6,4,1458.8,1536.7,1478.3,1517.2
-Spring 2026,Over 48,2026-05-17,FC Boxford,Stoneham Spartans Over 48,1,9,1476.5,1692.9,1469.4,1700.1
+Spring 2026,Over 48,2026-05-17,Marblehead,DEA,5,2,1546.1,1524.7,1561.2,1509.7
+Spring 2026,Over 48,2026-05-17,Westford FC,Concord United,1,3,1458.6,1601.0,1448.8,1610.7
+Spring 2026,Over 48,2026-05-17,Nashoba,Danvers - True Soccer FC,6,4,1487.6,1560.6,1506.9,1541.3
+Spring 2026,Over 48,2026-05-17,FC Boxford,Stoneham Spartans Over 48,1,9,1478.8,1676.1,1471.0,1683.9
 Spring 2026,Over 48,2026-05-17,Sudbury AC,Hopkinton Hotspur o48's,4,2,1497.3,1516.6,1514.2,1499.7
 Spring 2026,Over 48,2026-05-17,Kel Kau,Rovers FC o48,3,2,1597.5,1568.7,1612.2,1554.0
 Spring 2026,Over 48,2026-05-17,Jamaica Plain FC 48,Crafty Veterans,3,3,1499.9,1561.8,1502.7,1559.0
@@ -65727,7 +65727,7 @@ Spring 2026,Over 48,2026-05-17,Peru Sports FC Masters,NCLS Evergreen,2,3,1477.7,
 Spring 2026,Over 48,2026-05-17,FC Belmont,Old School Soccer Club,1,2,1427.9,1460.9,1413.4,1475.4
 Spring 2026,Over 48,2026-05-17,Masco,North Andover Grey Knights,3,0,1452.8,1388.7,1465.9,1375.6
 Spring 2026,Over 48,2026-05-17,Canary Square 50,Charlestown FC o48,0,4,1438.9,1518.0,1426.5,1530.4
-Spring 2026,Over 48,2026-05-17,Ashland 48,Franklin,2,forfeit,1581.0,1388.4,1588.9,1380.5
+Spring 2026,Over 48,2026-05-17,Ashland 48,Franklin,2,forfeitNP,1581.0,1388.4,1588.9,1380.5
 Spring 2026,Over 48,2026-05-17,Raynham Crue,Criolo City FC,5,2,1457.6,1495.0,1475.3,1477.3
 Spring 2026,Over 48,2026-05-17,Needham FC,HTK FC,1,1,1516.9,1398.6,1511.7,1403.9
 Spring 2026,Over 55,2026-05-17,North Andover Warriors,DEA,8,1,1481.6,1490.2,1498.0,1473.8
@@ -65770,7 +65770,7 @@ Spring 2026,Over 40,2026-05-20,Taunton Eagles Soccer Club,Crafty Veterans,1,0,15
 Spring 2026,Over 40,2026-05-21,Charlestown FC,Arlington Fossils # review referee,1,2,1559.6,1479.8,1540.0,1499.4
 Spring 2026,Over 48,2026-05-21,Andover Gold,Lynnfield FC Raiders,1,1,1502.4,1504.5,1502.5,1504.4
 Spring 2026,Over 48,2026-05-22,Criolo City FC,Franklin,2,1,1477.3,1380.5,1489.0,1368.8
-Spring 2026,Over 30,2026-05-23,Juventus USA,Old Colony Rovers,5,3,1544.5,1476.6,1557.4,1463.7
+Spring 2026,Over 30,2026-05-23,Juventus USA forfeit lost by,Old Colony Rovers,forfeit,2,1486.2,1476.6,1469.8,1493.0
 Spring 2026,Over 30,2026-05-24,Kendall Wanderers,Massachusetts United,2,1,1518.5,1507.6,1534.0,1492.1
 Spring 2026,Over 30,2026-05-24,Os Amigos F.C.,Torres FC,1,2,1543.7,1572.9,1529.0,1587.5
 Spring 2026,Over 30,2026-05-24,New England Elite FC,Harvard,2,3,1422.4,1461.1,1408.2,1475.3
@@ -65796,10 +65796,10 @@ Spring 2026,Over 30,2026-05-31,Groton House FC,Irish Village,2,1,1553.7,1473.0,1
 Spring 2026,Over 30,2026-05-31,Lynnfield FC,Lexington Eagles FC,2,2,1423.9,1481.3,1426.5,1478.7
 Spring 2026,Over 30,2026-05-31,Harvard,Essex Football Club,1,5,1475.3,1497.4,1460.3,1512.4
 Spring 2026,Over 30,2026-05-31,Ferruginha FC,New England Elite FC,10,1,1520.9,1408.2,1531.9,1397.2
-Spring 2026,Over 30,2026-05-31,Needham United,Old Colony Rovers,4,1,1531.3,1463.7,1544.2,1450.7
+Spring 2026,Over 30,2026-05-31,Needham United,Old Colony Rovers,4,1,1562.1,1493.0,1574.9,1480.2
 Spring 2026,Over 30,2026-05-31,Fernandes FC,Classicos F.C,3,3,1477.1,1530.5,1479.5,1528.0
 Spring 2026,Over 30,2026-05-31,Rovers FC,PRAIA KAPITAL FC,4,4,1502.0,1522.7,1502.9,1521.7
-Spring 2026,Over 30,2026-05-31,Medfield,Juventus USA,1,7,1501.4,1557.4,1488.0,1570.8
+Spring 2026,Over 30,2026-05-31,Medfield,Juventus USA,2,forfeit,1501.4,1527.5,1518.6,1510.3
 Spring 2026,Over 30,2026-05-31,Lowell United,Concord United,1,2,1540.4,1575.9,1526.0,1590.3
 Spring 2026,Over 30,2026-05-31,Marblehead,Nashua City,3,0,1503.8,1440.3,1516.9,1427.1
 Spring 2026,Over 30,2026-05-31,Rebels FC,Sporting Club Malden,4,4,1429.8,1415.6,1429.1,1416.3
@@ -65851,10 +65851,10 @@ Spring 2026,Over 40,2026-05-31,Medfield,Irish Village White,3,2,1521.0,1452.6,15
 Spring 2026,Over 40,2026-05-31,BNFC,Island United FC,0,16,1363.7,1549.4,1355.6,1557.6
 Spring 2026,Over 40,2026-05-31,Harvard Blues FC,Post-game Nomads,2,4,1406.1,1515.8,1395.0,1526.9
 Spring 2026,Over 40,2026-05-31,Carlisle FC,North Reading FC,1,2,1458.3,1396.5,1439.5,1415.3
-Spring 2026,Over 48,2026-05-31,Stoneham Spartans Over 48,Marblehead,3,3,1700.1,1536.9,1693.0,1543.9
-Spring 2026,Over 48,2026-05-31,Danvers - True Soccer FC,Westford FC,2,2,1517.2,1448.0,1514.0,1451.2
-Spring 2026,Over 48,2026-05-31,Concord United,Nashoba,2,0,1653.4,1478.3,1662.0,1469.8
-Spring 2026,Over 48,2026-05-31,DEA,FC Boxford,1,1,1486.1,1469.4,1485.4,1470.1
+Spring 2026,Over 48,2026-05-31,Stoneham Spartans Over 48,Marblehead,3,3,1683.9,1561.2,1678.4,1566.6
+Spring 2026,Over 48,2026-05-31,Danvers - True Soccer FC,Westford FC,2,2,1541.3,1448.8,1537.1,1452.9
+Spring 2026,Over 48,2026-05-31,Concord United forfeit lost by,Nashoba,forfeit,2,1455.9,1506.9,1442.3,1520.6
+Spring 2026,Over 48,2026-05-31,DEA,FC Boxford,1,1,1509.7,1471.0,1507.9,1472.8
 Spring 2026,Over 48,2026-05-31,FC Franklin O50,Sudbury AC,0,2,1418.7,1514.2,1407.0,1525.9
 Spring 2026,Over 48,2026-05-31,Crafty Veterans,Kel Kau,0,1,1577.6,1620.3,1563.6,1634.4
 Spring 2026,Over 48,2026-05-31,Rovers FC o48,Jamaica Plain FC 48,1,1,1554.0,1502.7,1551.7,1505.0
@@ -65934,13 +65934,14 @@ Spring 2026,Over 30,2026-06-07,Kendall Wanderers,Newburyport FC,1,1,1550.6,1634.
 Spring 2026,Over 30,2026-06-07,Cantona,Meadowlark FC,3,3,1441.4,1529.3,1445.4,1525.4
 Spring 2026,Over 30,2026-06-07,Taunton Eagles Soccer Club,Southside F.C.,0,2,1533.4,1530.8,1517.3,1546.9
 Spring 2026,Over 30,2026-06-07,Plymouth FC,Shake-Shake FC,2,forfeit,1497.7,1451.3,1511.6,1437.5
+Spring 2026,Over 30,2026-06-07,Lynnfield FC,Irish Village,1,3,1426.5,1460.6,1412.1,1475.1
 Spring 2026,Over 30,2026-06-07,Lexington Eagles FC,Groton House FC,0,1,1478.7,1566.0,1466.6,1578.1
 Spring 2026,Over 30,2026-06-07,Essex Football Club,Ferruginha FC,1,1,1512.4,1531.9,1513.3,1531.0
 Spring 2026,Over 30,2026-06-07,Harvard,New England Elite FC,3,2,1460.3,1397.2,1473.4,1384.1
-Spring 2026,Over 30,2026-06-07,Fernandes FC,Old Colony Rovers,3,1,1479.5,1450.7,1494.2,1436.1
-Spring 2026,Over 30,2026-06-07,Classicos F.C,Needham United,0,3,1528.0,1544.2,1512.8,1559.5
-Spring 2026,Over 30,2026-06-07,PRAIA KAPITAL FC,Medfield,2,0,1521.7,1488.0,1536.2,1473.5
-Spring 2026,Over 30,2026-06-07,Rovers FC,Juventus USA,0,2,1502.9,1570.8,1490.0,1583.7
+Spring 2026,Over 30,2026-06-07,Fernandes FC,Old Colony Rovers,3,1,1479.5,1480.2,1495.6,1464.1
+Spring 2026,Over 30,2026-06-07,Classicos F.C,Needham United,0,3,1528.0,1574.9,1514.2,1588.8
+Spring 2026,Over 30,2026-06-07,PRAIA KAPITAL FC,Medfield,2,0,1521.7,1518.6,1537.6,1502.7
+Spring 2026,Over 30,2026-06-07,Rovers FC,Juventus USA,2,forfeit,1502.9,1510.3,1519.3,1494.0
 Spring 2026,Over 30,2026-06-07,Marblehead,Concord United,1,1,1516.9,1590.3,1520.2,1587.0
 Spring 2026,Over 30,2026-06-07,Nashua City,Lowell United,0,1,1427.1,1526.0,1415.6,1537.6
 Spring 2026,Over 30,2026-06-07,Sporting Club Malden,Lynn Leones,4,1,1416.3,1472.1,1434.8,1453.5
@@ -65991,10 +65992,10 @@ Spring 2026,Over 40,2026-06-07,HTK FC,Irish Village White,4,1,1478.8,1439.7,1493
 Spring 2026,Over 40,2026-06-07,Harvard Blues FC,Island United FC,1,8,1395.0,1557.6,1386.0,1566.6
 Spring 2026,Over 40,2026-06-07,Post-game Nomads,BNFC,2,forfeit,1526.9,1355.6,1535.6,1346.9
 Spring 2026,Over 40,2026-06-07,Hampstead Hurricanes,North Reading FC,4,3,1518.5,1415.3,1529.9,1403.9
-Spring 2026,Over 48,2026-06-07,Danvers - True Soccer FC,Marblehead,1,1,1514.0,1543.9,1515.4,1542.6
-Spring 2026,Over 48,2026-06-07,Westford FC,Stoneham Spartans Over 48,1,7,1451.2,1693.0,1444.8,1699.4
-Spring 2026,Over 48,2026-06-07,Nashoba,DEA,3,3,1469.8,1485.4,1470.5,1484.6
-Spring 2026,Over 48,2026-06-07,Concord United,FC Boxford,2,forfeitNP,1662.0,1470.1,1669.9,1462.2
+Spring 2026,Over 48,2026-06-07,Danvers - True Soccer FC,Marblehead,1,1,1537.1,1566.6,1538.5,1565.2
+Spring 2026,Over 48,2026-06-07,Westford FC,Stoneham Spartans Over 48,1,7,1452.9,1678.4,1446.1,1685.3
+Spring 2026,Over 48,2026-06-07,Nashoba,DEA,3,3,1520.6,1507.9,1520.0,1508.5
+Spring 2026,Over 48,2026-06-07,Concord United,FC Boxford,2,forfeitNP,1610.7,1472.8,1620.7,1462.8
 Spring 2026,Over 48,2026-06-07,Crafty Veterans,Sudbury AC,3,1,1563.6,1525.9,1577.8,1511.6
 Spring 2026,Over 48,2026-06-07,Kel Kau,FC Franklin O50,2,forfeitNP,1634.4,1407.0,1641.2,1400.2
 Spring 2026,Over 48,2026-06-07,Jamaica Plain FC 48,Hopkinton Hotspur o48's,4,3,1505.0,1504.1,1521.0,1488.1
@@ -66048,7 +66049,7 @@ Spring 2026,Over 55,2026-06-07,Derry Eagles,MGG,0,3,1319.5,1431.7,1308.5,1442.7
 Spring 2026,Over 55,2026-06-07,F.C. Westwood,Warthog Legends,1,0,1485.6,1492.8,1501.9,1476.5
 Spring 2026,Over 55,2026-06-07,Arlington Pond Dawgz,Western Mass Lusitanos,0,7,1482.3,1480.5,1466.2,1496.6
 Spring 2026,Over 55,2026-06-07,FC Franklin Seniors,Fernandes O55++,0,2,1310.1,1444.0,1300.0,1454.1
-Spring 2026,Over 62,2026-06-07,Raynham,Lexington Eagles United O62,4,3,1608.6,1561.6,1622.4,1547.7
+Spring 2026,Over 62,2026-06-07,Raynham,Lexington Eagles United O62,3,3,1608.6,1561.6,1606.4,1563.7
 Spring 2026,Over 62,2026-06-07,Seadogs EFC,Concord United Dragons,1,3,1533.6,1706.9,1525.0,1715.5
 Spring 2026,Over 62,2026-06-07,Wayland Wahoots,Danvers EFC,2,1,1397.6,1453.7,1416.1,1435.1
 Spring 2026,Over 62,2026-06-07,Arlington PondDawgz 62,Warthog Wonders,1,1,1451.7,1412.4,1449.9,1414.2
@@ -66062,9 +66063,214 @@ Spring 2026,Over 68,2026-06-07,Wanderers,Wayland Spirit,7,0,1603.4,1309.9,1608.4
 Spring 2026,Over 68,2026-06-07,Needham Relics,Burlington 0-68,4,1,1403.0,1453.6,1421.3,1435.2
 Spring 2026,Over 68,2026-06-07,GRandOVER 68,Beverly,1,0,1591.0,1468.6,1601.6,1458.0
 Spring 2026,Over 68,2026-06-07,Londonderry FC,Exeter Seadogs,1,8,1427.6,1559.5,1417.4,1569.7
+Spring 2026,Over 30,2026-06-10,Plymouth FC,Os Amigos F.C.,1,3,1511.6,1512.3,1495.6,1528.3
 Spring 2026,Over 40,2026-06-10,Shrewsbury,Peabody Sporting Club,1,3,1459.9,1629.5,1451.1,1638.3
+Spring 2026,Over 40,2026-06-10,Kel Kau Masters,United International,4,3,1550.3,1513.2,1564.6,1498.9
 Spring 2026,Over 40,2026-06-10,DEA forfeit lost by,Marblehead,forfeit,2,1500,1517.6,1484.8,1532.7
+Spring 2026,Over 40,2026-06-10,FC Newburyport Brew,Acton-Boxboro United,3,2,1408.7,1447.7,1426.5,1429.9
+Spring 2026,Over 40,2026-06-12,Winchester Safira Footballers,P.A.C. Lowell # review referee,7,1,1662.1,1573.0,1674.1,1561.0
 Spring 2026,Over 30,2026-06-14,CDF Azzurri,Massachusetts United,2,forfeitNP,1603.2,1477.2,1613.7,1466.8
+Spring 2026,Over 30,2026-06-14,Loco Gunners,Eastern FC,3,2,1494.9,1518.5,1512.0,1501.4
+Spring 2026,Over 30,2026-06-14,Newburyport FC,Cantona,7,1,1631.1,1445.4,1639.3,1437.2
+Spring 2026,Over 30,2026-06-14,Meadowlark FC,Kendall Wanderers,3,1,1525.4,1554.4,1542.7,1537.0
+Spring 2026,Over 30,2026-06-14,Os Amigos F.C.,Taunton Eagles Soccer Club,2,0,1528.3,1517.3,1543.8,1501.8
+Spring 2026,Over 30,2026-06-14,Southside F.C.,Torres FC,0,2,1546.9,1601.7,1533.4,1615.2
+Spring 2026,Over 30,2026-06-14,Boston Nigeria Eagles FC,Plymouth FC,2,3,1596.4,1495.6,1575.9,1516.1
+Spring 2026,Over 30,2026-06-14,Irish Village,Lexington Eagles FC,2,0,1475.1,1466.6,1490.7,1451.0
+Spring 2026,Over 30,2026-06-14,Groton House FC,Lynnfield FC,6,2,1578.1,1412.1,1587.0,1403.2
+Spring 2026,Over 30,2026-06-14,Ferruginha FC,Harvard,2,3,1531.0,1473.4,1512.3,1492.1
+Spring 2026,Over 30,2026-06-14,New England Elite FC,Essex Football Club,5,5,1384.1,1513.3,1389.7,1507.6
+Spring 2026,Over 30,2026-06-14,Old Colony Rovers,Classicos F.C,10,3,1464.1,1514.2,1482.4,1495.9
+Spring 2026,Over 30,2026-06-14,Needham United,Fernandes FC,2,forfeitNP,1588.8,1495.6,1600.6,1483.8
+Spring 2026,Over 30,2026-06-14,Medfield,Rovers FC,3,4,1502.7,1519.3,1487.5,1534.5
+Spring 2026,Over 30,2026-06-14,Juventus USA forfeit lost by,PRAIA KAPITAL FC,forfeit,2,1469.8,1537.6,1456.8,1550.5
+Spring 2026,Over 30,2026-06-14,Concord United,Nashua City,5,0,1587.0,1415.6,1595.7,1406.9
+Spring 2026,Over 30,2026-06-14,Lowell United,Marblehead,4,1,1537.6,1520.2,1552.8,1505.0
+Spring 2026,Over 30,2026-06-14,Lynn Leones forfeit lost by,Rebels FC,forfeit,2,1476.6,1409.5,1457.5,1428.6
+Spring 2026,Over 30,2026-06-14,Sandy Pond Soccer Club,Sporting Club Malden,2,3,1368.8,1434.8,1355.8,1447.8
+Spring 2026,Over 30,2026-06-14,Somerville FC,Providence City FC,2,5,1464.9,1547.5,1452.7,1559.7
+Spring 2026,Over 30,2026-06-14,HTK FC,Harvest Soccer Club,1,0,1366.3,1533.3,1389.4,1510.2
+Spring 2026,Over 30,2026-06-14,Metrowest United FC,Newport FC,4,4,1334.7,1561.9,1343.9,1552.7
 Spring 2026,Over 30,2026-06-14,Middlesex FC,Roots FC,2,forfeitNP,1526.2,1501.8,1541.1,1486.9
+Spring 2026,Over 40,2026-06-14,Concord United Masters,BPK United,2,1,1533.1,1586.5,1551.5,1568.0
+Spring 2026,Over 40,2026-06-14,P.A.C. Lowell forfeit lost by,Hudson United # review referee,forfeit,2,1500,1502.4,1484.1,1518.3
+Spring 2026,Over 40,2026-06-14,Shrewsbury,Cantona North,2,3,1451.1,1446.8,1434.9,1463.0
+Spring 2026,Over 40,2026-06-14,Winchester Safira Footballers,Peabody Sporting Club,4,1,1674.1,1638.3,1688.4,1623.9
+Spring 2026,Over 40,2026-06-14,Criciuma Boston,Kel Kau Masters,0,1,1481.2,1564.6,1469.0,1576.8
+Spring 2026,Over 40,2026-06-14,Stellar FC,United International,2,forfeitNP,1539.4,1498.9,1553.5,1484.8
+Spring 2026,Over 40,2026-06-14,FFM United,Fernandes FC 40,3,0,1594.5,1565.3,1609.1,1550.6
+Spring 2026,Over 40,2026-06-14,Ashland FC,F C Bayern # review referee,4,2,1451.5,1511.5,1470.2,1492.7
+Spring 2026,Over 40,2026-06-14,Kendall Wanderers,DEA,2,forfeit,1522.5,1471.2,1536.2,1457.6
+Spring 2026,Over 40,2026-06-14,Os Amigos FC,Melrose Wakefield Meadowlarks,2,3,1547.9,1495.6,1529.5,1514.0
+Spring 2026,Over 40,2026-06-14,Arlington Fossils,Marblehead # review referee,3,0,1507.4,1480.7,1522.1,1466.0
+Spring 2026,Over 40,2026-06-14,Charlestown FC,Seacoast United SC,2,4,1555.7,1547.8,1539.3,1564.1
+Spring 2026,Over 40,2026-06-14,Newton Brigada,Taunton Eagles Soccer Club,3,3,1453.7,1588.0,1459.6,1582.1
+Spring 2026,Over 40,2026-06-14,Framingham Persepolis,Celtic Masters,5,3,1595.1,1454.7,1604.9,1444.8
+Spring 2026,Over 40,2026-06-14,Albania United Veterans,Natick Rovers FC,4,3,1618.3,1581.3,1632.6,1567.0
+Spring 2026,Over 40,2026-06-14,Crafty Veterans forfeit lost by,FUFC,forfeit,2,1500,1418.2,1480.3,1437.9
+Spring 2026,Over 40,2026-06-14,Arlington Pond Dawgz,Boston White Eagles,1,3,1557.5,1511.4,1539.4,1529.5
+Spring 2026,Over 40,2026-06-14,Nashua Absolute,Lexington Eagles,1,4,1466.7,1577.6,1455.6,1588.6
+Spring 2026,Over 40,2026-06-14,Lexington Bald Eagles O40,Medford United,4,0,1490.9,1512.0,1507.9,1495.0
+Spring 2026,Over 40,2026-06-14,Lynnfield FC,Windham,3,1,1537.9,1524.7,1553.3,1509.3
+Spring 2026,Over 40,2026-06-14,Chelsea FC,Great Woods FC,4,1,1462.6,1475.1,1479.2,1458.5
+Spring 2026,Over 40,2026-06-14,Mansfield United,Vineyard FC,0,3,1387.9,1617.6,1381.2,1624.3
+Spring 2026,Over 40,2026-06-14,Medfield FC,Irish Village Green,2,7,1469.9,1532.5,1456.7,1545.7
+Spring 2026,Over 40,2026-06-14,Milton International,Peru Sports FC,4,3,1533.2,1501.2,1547.8,1486.7
+Spring 2026,Over 40,2026-06-14,FC Littleton,Hopkinton Hotspur,3,1,1451.0,1492.8,1468.9,1474.9
+Spring 2026,Over 40,2026-06-14,Nashoba Masters,MVFC,2,5,1488.2,1428.1,1469.4,1446.8
+Spring 2026,Over 40,2026-06-14,Granite Coast F.C.,New England International,8,0,1571.6,1449.7,1582.2,1439.1
+Spring 2026,Over 40,2026-06-14,Sudbury United,Hurricane SC,1,2,1417.0,1538.6,1406.4,1549.2
+Spring 2026,Over 40,2026-06-14,Wayland Wahoo,Medway,3,1,1469.2,1426.5,1483.2,1412.5
+Spring 2026,Over 40,2026-06-14,FC Franklin,West Roxbury United,2,forfeit,1533.6,1495.4,1547.8,1481.1
+Spring 2026,Over 40,2026-06-14,FC Needham United,Newport FC O40,5,1,1470.1,1579.7,1491.0,1558.8
+Spring 2026,Over 40,2026-06-14,FIMA FC,Cabo Verde FC,2,0,1546.8,1575.9,1564.1,1558.6
+Spring 2026,Over 40,2026-06-14,Acton-Boxboro United,FC Newburyport Brew,2,forfeit,1429.9,1426.5,1445.8,1410.7
+Spring 2026,Over 40,2026-06-14,Dirty Groton Scoundrels,Rebels,4,7,1495.8,1526.8,1481.2,1541.4
+Spring 2026,Over 40,2026-06-14,Wen Ham United FC,Wahooligans FC,2,1,1552.4,1412.7,1562.3,1402.8
+Spring 2026,Over 40,2026-06-14,FC Old Skool,Bristol FC,0,1,1531.2,1563.5,1516.7,1578.0
+Spring 2026,Over 40,2026-06-14,FC Walpole,Canary Square Veterans,3,1,1508.0,1376.1,1518.2,1365.9
+Spring 2026,Over 40,2026-06-14,Milton FC,Hogs FC,2,2,1498.7,1493.5,1498.5,1493.7
+Spring 2026,Over 40,2026-06-14,Medfield,HTK FC,7,2,1545.7,1493.0,1559.2,1479.4
+Spring 2026,Over 40,2026-06-14,Irish Village White,FC Franklin II,4,1,1425.5,1427.6,1441.6,1411.5
+Spring 2026,Over 40,2026-06-14,Island United FC,Post-game Nomads,5,1,1566.6,1535.6,1581.2,1521.0
+Spring 2026,Over 40,2026-06-14,BNFC,Harvard Blues FC,0,2,1346.9,1386.0,1332.7,1400.2
+Spring 2026,Over 40,2026-06-14,Carlisle FC,Hampstead Hurricanes,1,6,1439.5,1529.9,1427.6,1541.8
+Spring 2026,Over 48,2026-06-14,Marblehead,Westford FC,2,3,1565.2,1446.1,1544.0,1467.4
+Spring 2026,Over 48,2026-06-14,Stoneham Spartans Over 48,Danvers - True Soccer FC,7,2,1685.3,1538.5,1694.9,1528.8
+Spring 2026,Over 48,2026-06-14,DEA,Concord United,2,1,1508.5,1620.7,1529.5,1599.7
+Spring 2026,Over 48,2026-06-14,FC Boxford,Nashoba,1,1,1462.8,1520.0,1465.4,1517.4
+Spring 2026,Over 48,2026-06-14,Sudbury AC,Kel Kau,1,5,1511.6,1641.2,1501.3,1651.5
+Spring 2026,Over 48,2026-06-14,FC Franklin O50,Crafty Veterans,0,2,1400.2,1577.8,1391.7,1586.3
+Spring 2026,Over 48,2026-06-14,Hopkinton Hotspur o48's,Rovers FC o48,2,4,1488.1,1569.5,1475.8,1581.9
 Spring 2026,Over 48,2026-06-14,Shake-Shake FC Seniors,Jamaica Plain FC 48,2,forfeitNP,1574.8,1521.0,1588.4,1507.5
+Spring 2026,Over 48,2026-06-14,Medford United II,Shrewsbury Wanderers,1,3,1493.5,1634.1,1483.6,1643.9
+Spring 2026,Over 48,2026-06-14,Hurricanes SC,Winchester Town Fifties,2,1,1458.9,1560.5,1479.5,1539.9
+Spring 2026,Over 48,2026-06-14,Westford O48 PAC Lowell,North Andover FC O48,2,3,1478.4,1432.3,1460.3,1450.4
+Spring 2026,Over 48,2026-06-14,Lexington Eagles,NH Freedom,2,4,1502.0,1631.6,1491.7,1641.9
+Spring 2026,Over 48,2026-06-14,Fernandes FC O50,Western Mass Lusitano,1,1,1669.0,1498.6,1661.7,1505.9
+Spring 2026,Over 48,2026-06-14,Albanian United Veterans,Wayland wahootoo # review referee,2,5,1452.2,1471.4,1437.0,1486.5
+Spring 2026,Over 48,2026-06-14,Taunton Eagles,Irish Village 48,3,2,1576.9,1544.7,1591.5,1530.2
+Spring 2026,Over 48,2026-06-14,FIMA FC O50,United Intl FC,1,5,1455.3,1472.3,1440.1,1487.5
+Spring 2026,Over 48,2026-06-14,Andover Gold,Melrose United,2,5,1469.0,1498.1,1454.4,1512.7
+Spring 2026,Over 48,2026-06-14,Windham 50s,Lynnfield FC Raiders,1,1,1502.3,1504.0,1502.4,1504.0
+Spring 2026,Over 48,2026-06-14,Lexington Golden Eagles,Cantona over 48,6,2,1467.0,1489.8,1484.0,1472.8
+Spring 2026,Over 48,2026-06-14,FC Older School,Medford Atomic,2,3,1501.9,1553.5,1488.3,1567.1
+Spring 2026,Over 48,2026-06-14,Newton Brigada II,Lexington Allin Eagles,0,2,1667.1,1513.5,1644.4,1536.1
+Spring 2026,Over 48,2026-06-14,Kendall Wanderers,Celtic Veterans,0,1,1490.8,1547.4,1477.4,1560.8
+Spring 2026,Over 48,2026-06-14,Dover Sherborn Hop Hunters,FC Walpole O48,1,1,1436.5,1454.6,1437.3,1453.8
+Spring 2026,Over 48,2026-06-14,West Roxbury United,Framingham Persepolis 48,0,2,1389.7,1579.2,1381.6,1587.2
+Spring 2026,Over 48,2026-06-14,Pepperell Red Bulls,Northshore United Soccer Club,2,3,1512.4,1514.9,1496.5,1530.8
+Spring 2026,Over 48,2026-06-14,Arlington Pond Dawgz,Nashua Absolute II,3,0,1557.6,1511.2,1571.5,1497.3
+Spring 2026,Over 48,2026-06-14,Harvard Blues FC,Wen Ham United,1,0,1368.2,1322.5,1382.1,1308.6
+Spring 2026,Over 48,2026-06-14,NCLS Evergreen,Neponset Old Boys,3,1,1533.9,1515.5,1549.1,1500.3
+Spring 2026,Over 48,2026-06-14,BNFC O48,Peru Sports FC Masters,1,2,1381.8,1435.3,1368.2,1448.8
+Spring 2026,Over 48,2026-06-14,Easton Legends,Norfolk FC,5,0,1549.4,1516.7,1563.9,1502.2
+Spring 2026,Over 48,2026-06-14,FC Belmont,Masco,2,1,1402.5,1468.8,1421.5,1449.8
+Spring 2026,Over 48,2026-06-14,Old School Soccer Club,North Andover Grey Knights,4,3,1488.9,1382.0,1500.1,1370.8
+Spring 2026,Over 48,2026-06-14,Malden Everett Veterans,Canary Square 50,5,1,1497.8,1411.9,1509.9,1399.8
+Spring 2026,Over 48,2026-06-14,HTK FC,Franklin,1,3,1414.6,1380.3,1397.1,1397.9
 Spring 2026,Over 48,2026-06-14,Criolo City FC forfeit lost by,Needham FC,forfeit,2,1500,1534.5,1485.6,1548.9
+Spring 2026,Over 48,2026-06-14,Raynham Crue,Ashland 48,2,forfeitNP,1443.0,1608.9,1466.1,1585.8
+Spring 2026,Over 55,2026-06-14,North Andover Warriors,Lexington Regal Eagles,5,1,1516.0,1492.4,1530.9,1477.5
+Spring 2026,Over 55,2026-06-14,Seadogs F.C.,NS Internationals,1,1,1595.5,1456.3,1589.4,1462.4
+Spring 2026,Over 55,2026-06-14,DEA,Concord United Veterans,0,6,1498.2,1634.4,1488.2,1644.5
+Spring 2026,Over 55,2026-06-14,Danvers Evolution FC,Nashoba o55,4,3,1590.8,1513.4,1603.3,1501.0
+Spring 2026,Over 55,2026-06-14,Fernandes FC O55,MADBoys,4,8,1531.3,1601.5,1518.5,1614.4
+Spring 2026,Over 55,2026-06-14,Weston,Shake-Shake FC Veterans,1,1,1490.5,1555.2,1493.5,1552.2
+Spring 2026,Over 55,2026-06-14,FUFC Gray,Rovers FC O55,1,5,1408.0,1617.1,1400.6,1624.5
+Spring 2026,Over 55,2026-06-14,Wayland wahootee,Medway MOB,1,4,1568.0,1459.9,1547.2,1480.7
+Spring 2026,Over 55,2026-06-14,Lexington Eagles O55,Pepperell Celtic,2,2,1483.5,1513.3,1484.9,1511.9
+Spring 2026,Over 55,2026-06-14,Medford Atomic o55,Peabody Gold,1,2,1515.8,1513.9,1499.7,1529.9
+Spring 2026,Over 55,2026-06-14,Windham O55,Lynnfield F.C. Spartans,2,forfeit,1536.6,1398.6,1546.5,1388.7
+Spring 2026,Over 55,2026-06-14,Marblehead o55,Nashua IFC,1,1,1477.4,1442.7,1475.9,1444.3
+Spring 2026,Over 55,2026-06-14,Irish Village,AFC Medfield,2,forfeitNP,1519.9,1410.4,1531.0,1399.3
+Spring 2026,Over 55,2026-06-14,Jamaica Plain FC 55,FIMA O55,1,0,1482.6,1412.9,1495.4,1400.1
+Spring 2026,Over 55,2026-06-14,Ashland,Sudbury Thistle AC,4,1,1468.9,1418.9,1482.6,1405.2
+Spring 2026,Over 55,2026-06-14,West Roxbury United 55,Framingham United,0,3,1640.0,1613.4,1622.8,1630.6
+Spring 2026,Over 55,2026-06-14,Melrose Good Guys,North Reading,3,1,1605.6,1412.6,1613.5,1404.7
+Spring 2026,Over 55,2026-06-14,Hurricanes SC,Derry Eagles,4,0,1506.6,1308.5,1514.3,1300.8
+Spring 2026,Over 55,2026-06-14,MGG,Westford,0,6,1442.7,1485.4,1428.6,1499.5
+Spring 2026,Over 55,2026-06-14,Western Mass Lusitanos,F.C. Westwood,0,4,1496.6,1501.9,1480.8,1517.7
+Spring 2026,Over 55,2026-06-14,Warthog Legends,FC Franklin Seniors,4,0,1476.5,1300.0,1485.0,1291.5
+Spring 2026,Over 55,2026-06-14,Fernandes O55++,Arlington Pond Dawgz,2,1,1454.1,1466.2,1470.7,1449.7
+Spring 2026,Over 62,2026-06-14,Lexington Eagles United O62,Medfield Rhinos,1,2,1563.7,1572.1,1548.1,1587.7
+Spring 2026,Over 62,2026-06-14,Concord United Dragons,Wayland Wahoots,10,0,1715.5,1416.1,1720.4,1411.3
+Spring 2026,Over 62,2026-06-14,Danvers EFC,Seadogs EFC,0,5,1435.1,1525.0,1423.2,1537.0
+Spring 2026,Over 62,2026-06-14,Nashoba Apple Corps,Lynnfield F.C. Olympians,2,3,1432.3,1509.1,1419.8,1521.6
+Spring 2026,Over 62,2026-06-14,Peabody Gold 63,Warthog Wonders,2,0,1541.5,1414.2,1551.9,1403.8
+Spring 2026,Over 62,2026-06-14,Hopkinton OF,Boston Villa FC,3,4,1384.3,1517.6,1374.2,1527.8
+Spring 2026,Over 62,2026-06-14,Medway,Arlington PondDawgz 62,0,0,1456.6,1449.9,1456.3,1450.2
+Spring 2026,Over 68,2026-06-14,Lynnfield F.C. Pioneers,Sudbury FC Platinum,0,2,1460.7,1562.4,1449.3,1573.8
+Spring 2026,Over 68,2026-06-14,The Warthogs,Harvard O-68,6,2,1567.8,1364.2,1575.4,1356.6
+Spring 2026,Over 68,2026-06-14,New England United FC,Lexington o68,4,1,1634.7,1508.2,1645.2,1497.8
+Spring 2026,Over 68,2026-06-14,LFC Travelers,Everett Phoenix,2,5,1442.1,1580.1,1432.1,1590.1
+Spring 2026,Over 68,2026-06-14,Wayland Spirit,Needham Relics,3,10,1305.0,1421.3,1294.1,1432.1
+Spring 2026,Over 68,2026-06-14,Burlington 0-68,Wanderers,0,4,1435.2,1608.4,1426.6,1617.0
+Spring 2026,Over 68,2026-06-14,Beverly,Londonderry FC,3,0,1458.0,1417.4,1472.1,1403.3
+Spring 2026,Over 68,2026-06-14,Exeter Seadogs,GRandOVER 68,8,0,1569.7,1601.6,1587.2,1584.2
+Spring 2026,Over 30,2026-06-17,Os Amigos F.C.,Boston Nigeria Eagles FC,2,forfeitNP,1543.8,1575.9,1561.3,1558.4
+Spring 2026,Over 55,2026-06-17,Lexington Eagles O55,Windham O55,1,3,1484.9,1546.5,1471.7,1559.7
+Spring 2026,Over 30,2026-06-18,Torres FC,F.C.,forfeit,forfeit,1615.2,1500,1610.1,1505.1
+Spring 2026,Over 40,2026-06-18,Cantona North,Winchester Safira Footballers,2,forfeitNP,1463.0,1688.4,1488.1,1663.3
+Spring 2026,Over 30,2026-06-21,CDF Azzurri,Boston Nigeria Eagles FC,3,1,1613.7,1558.4,1627.1,1544.9
+Spring 2026,Over 30,2026-06-21,Plymouth FC,Newburyport FC,4,2,1516.1,1639.3,1537.5,1617.8
+Spring 2026,Over 30,2026-06-21,CDF Azzurri,Boston Nigeria Eagles FC,3,1,1627.1,1544.9,1639.4,1532.6
+Spring 2026,Over 30,2026-06-21,Plymouth FC,Newburyport FC,4,2,1537.5,1617.8,1557.2,1598.2
+Spring 2026,Over 30,2026-06-21,Groton House FC,PRAIA KAPITAL FC,1,4,1587.0,1550.5,1569.3,1568.2
+Spring 2026,Over 30,2026-06-21,Needham United,Essex Football Club,1,3,1600.6,1507.6,1580.4,1527.8
+Spring 2026,Over 30,2026-06-21,Groton House FC,PRAIA KAPITAL FC,1,4,1569.3,1568.2,1553.2,1584.2
+Spring 2026,Over 30,2026-06-21,Needham United,Essex Football Club,1,3,1580.4,1527.8,1562.0,1546.2
+Spring 2026,Over 30,2026-06-21,Concord United,Newport FC,7,0,1595.7,1552.7,1609.7,1538.7
+Spring 2026,Over 30,2026-06-21,Providence City FC,Lowell United,5,2,1559.7,1552.8,1575.4,1537.1
+Spring 2026,Over 30,2026-06-21,Concord United,Newport FC,7,0,1609.7,1538.7,1622.5,1525.9
+Spring 2026,Over 30,2026-06-21,Providence City FC,Lowell United,5,2,1575.4,1537.1,1589.6,1522.9
+Spring 2026,Over 40,2026-06-21,Winchester Safira Footballers,Stellar FC,6,0,1663.3,1553.5,1674.4,1542.4
+Spring 2026,Over 40,2026-06-21,Winchester Safira Footballers,Stellar FC,6,0,1674.4,1542.4,1684.6,1532.2
+Spring 2026,Over 40,2026-06-21,Albania United Veterans,Seacoast United SC,4,2,1632.6,1564.1,1645.5,1551.3
+Spring 2026,Over 40,2026-06-21,Charlestown FC,Framingham Persepolis,2,0,1539.3,1604.9,1558.3,1585.9
+Spring 2026,Over 40,2026-06-21,Albania United Veterans,Seacoast United SC,4,2,1645.5,1551.3,1657.3,1539.5
+Spring 2026,Over 40,2026-06-21,Charlestown FC,Framingham Persepolis,2,0,1558.3,1585.9,1575.6,1568.7
+Spring 2026,Over 40,2026-06-21,Lexington Eagles,Milton International,3,0,1588.6,1547.8,1602.8,1533.6
+Spring 2026,Over 40,2026-06-21,Vineyard FC,Lynnfield FC,2,0,1624.3,1553.3,1637.1,1540.5
+Spring 2026,Over 40,2026-06-21,Lexington Eagles,Milton International,3,0,1602.8,1533.6,1615.6,1520.8
+Spring 2026,Over 40,2026-06-21,Vineyard FC,Lynnfield FC,2,0,1637.1,1540.5,1648.7,1528.8
+Spring 2026,Over 40,2026-06-21,Granite Coast F.C.,FIMA FC,1,2,1582.2,1564.1,1565.4,1580.9
+Spring 2026,Over 40,2026-06-21,Cabo Verde FC,Hurricane SC,1,0,1558.6,1549.2,1574.1,1533.6
+Spring 2026,Over 40,2026-06-21,Granite Coast F.C.,FIMA FC,1,2,1565.4,1580.9,1550.1,1596.2
+Spring 2026,Over 40,2026-06-21,Cabo Verde FC,Hurricane SC,1,0,1574.1,1533.6,1588.3,1519.5
+Spring 2026,Over 40,2026-06-21,Bristol FC,FC Walpole,1,2,1578.0,1518.2,1559.3,1537.0
+Spring 2026,Over 40,2026-06-21,Bristol FC,FC Walpole,1,2,1559.3,1537.0,1542.2,1554.0
+Spring 2026,Over 40,2026-06-21,Island United FC,North Reading FC,5,0,1581.2,1403.9,1589.6,1395.4
+Spring 2026,Over 40,2026-06-21,Hampstead Hurricanes,Harvard Blues FC,5,1,1541.8,1400.2,1551.6,1390.4
+Spring 2026,Over 48,2026-06-21,Stoneham Spartans Over 48,Rovers FC o48,3,0,1694.9,1581.9,1705.9,1570.9
+Spring 2026,Over 48,2026-06-21,Kel Kau,DEA,4,1,1651.5,1529.5,1662.1,1518.9
+Spring 2026,Over 48,2026-06-21,Stoneham Spartans Over 48,Rovers FC o48,3,0,1705.9,1570.9,1716.0,1560.8
+Spring 2026,Over 48,2026-06-21,Kel Kau,DEA,4,1,1662.1,1518.9,1671.9,1509.2
+Spring 2026,Over 48,2026-06-21,Fernandes FC O50,Shrewsbury Wanderers,1,0,1661.7,1643.9,1676.9,1628.8
+Spring 2026,Over 48,2026-06-21,NH Freedom,Taunton Eagles (aet),3,5,1641.9,1500,1619.7,1522.2
+Spring 2026,Over 48,2026-06-21,Fernandes FC O50,Shrewsbury Wanderers,1,0,1676.9,1628.8,1690.7,1615.0
+Spring 2026,Over 48,2026-06-21,NH Freedom,Taunton Eagles (aet),3,5,1619.7,1522.2,1599.3,1542.6
+Spring 2026,Over 48,2026-06-21,Medford Atomic,Newton Brigada II,1,6,1567.1,1644.4,1554.6,1656.9
+Spring 2026,Over 48,2026-06-21,Framingham Persepolis 48,FC Older School,4,2,1587.2,1488.3,1598.8,1476.7
+Spring 2026,Over 48,2026-06-21,Medford Atomic,Newton Brigada II,1,6,1554.6,1656.9,1543.2,1668.3
+Spring 2026,Over 48,2026-06-21,Framingham Persepolis 48,FC Older School,4,2,1598.8,1476.7,1609.4,1466.1
+Spring 2026,Over 48,2026-06-21,Arlington Pond Dawgz,Norfolk FC,3,1,1571.5,1502.2,1584.4,1489.4
+Spring 2026,Over 48,2026-06-21,Easton Legends,Northshore United Soccer Club,3,2,1563.9,1530.8,1578.4,1516.3
+Spring 2026,Over 48,2026-06-21,Arlington Pond Dawgz,Norfolk FC,3,1,1584.4,1489.4,1596.1,1477.6
+Spring 2026,Over 48,2026-06-21,Easton Legends,Northshore United Soccer Club,3,2,1578.4,1516.3,1591.6,1503.2
+Spring 2026,Over 48,2026-06-21,Charlestown FC o48,Needham FC,2,1,1538.4,1548.9,1554.9,1532.4
+Spring 2026,Over 48,2026-06-21,Ashland 48,Malden Everett Veterans,2,forfeit,1585.8,1509.9,1598.3,1497.4
+Spring 2026,Over 48,2026-06-21,Charlestown FC o48,Needham FC,2,1,1554.9,1532.4,1569.9,1517.4
+Spring 2026,Over 48,2026-06-21,Ashland 48,Malden Everett Veterans,2,forfeit,1598.3,1497.4,1609.8,1485.9
+Spring 2026,Over 55,2026-06-21,Concord United Veterans,Rovers FC O55,2,0,1644.5,1624.5,1659.6,1609.4
+Spring 2026,Over 55,2026-06-21,MADBoys,Seadogs F.C.,1,2,1614.4,1589.4,1597.2,1606.5
+Spring 2026,Over 55,2026-06-21,Concord United Veterans,Rovers FC O55,2,0,1659.6,1609.4,1673.3,1595.7
+Spring 2026,Over 55,2026-06-21,MADBoys,Seadogs F.C.,1,2,1597.2,1606.5,1581.6,1622.1
+Spring 2026,Over 55,2026-06-21,Peabody Gold,West Roxbury United 55,1,5,1529.9,1622.8,1518.1,1634.6
+Spring 2026,Over 55,2026-06-21,Peabody Gold,West Roxbury United 55,1,5,1518.1,1634.6,1507.3,1645.4
+Spring 2026,Over 62,2026-06-21,Concord United Dragons,Lexington Eagles United O62,2,0,1720.4,1548.1,1729.0,1539.4
+Spring 2026,Over 62,2026-06-21,Raynham,Medfield Rhinos,4,1,1606.4,1587.7,1621.6,1572.6
+Spring 2026,Over 62,2026-06-21,Peabody Gold 63,Boston Villa FC,2,forfeit,1551.9,1527.8,1566.8,1512.9
+Spring 2026,Over 68,2026-06-21,New England United FC,Sudbury FC Platinum,4,1,1645.2,1573.8,1657.9,1561.1
+Spring 2026,Over 68,2026-06-21,The Warthogs,Everett Phoenix,2,4,1575.4,1590.1,1560.0,1605.4
+Spring 2026,Over 68,2026-06-21,Wanderers,Beverly,3,0,1617.0,1472.1,1626.7,1462.4
