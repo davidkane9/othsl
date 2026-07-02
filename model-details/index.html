@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Details | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255,252,247,0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38,61,41,0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 52px;
+  }
+  .nav-brand {
+    color: #f7f2e8;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -.02em;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72);
+    text-decoration: none;
+    font-size: .88rem;
+    padding: 5px 11px;
+    border-radius: 7px;
+    transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+  main { max-width: 980px; margin: 0 auto; padding: 36px 20px 60px; }
+  .page-header { margin-bottom: 28px; }
+  .page-header h1 { margin: 0 0 8px; font-size: 2.1rem; letter-spacing: -.04em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: .98rem; line-height: 1.65; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+  }
+  h2 { margin: 0 0 10px; font-size: 1.2rem; }
+  p { margin: 0 0 14px; line-height: 1.7; }
+  .muted { color: var(--muted); }
+  .formula {
+    font-family: monospace;
+    font-size: .92rem;
+    background: rgba(35,68,43,.07);
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin: 12px 0 14px;
+  }
+  .note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+  }
+  .note-card {
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .note-card h3 { margin: 0 0 8px; font-size: 1rem; }
+  .note-card p { margin: 0; font-size: .92rem; }
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../">Home</a></li>
+      <li><a href="../teams/">Find Team</a></li>
+      <li><a href="../calibration/">Model Calibration</a></li>
+      <li><a href="./" class="active">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Model Details</h1>
+    <p>
+      This page explains the mechanics behind the OTHSL ratings, match forecasts, and season-outlook simulations.
+      The calibration page shows how well the model performs; this page explains what the model is actually doing.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Core Rating Model</h2>
+    <p>
+      Every team carries an ELO rating inside its age group. The rating is a compact summary of recent results: stronger teams rise, weaker teams fall,
+      and the gap between two ratings determines the expected result before the match starts.
+    </p>
+    <div class="formula">P(home result strength) = 1 / (1 + 10^((ELO_away - ELO_home) / 200))</div>
+    <p class="muted">
+      Match results then update both teams with a K-factor of 32. A win moves rating more than a draw, and an upset moves rating more than an expected result.
+      New or sparse teams naturally drift back toward the league middle because their rating history contains less evidence.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Season-Start Uncertainty</h2>
+    <p>
+      Early in a season, ratings are informative but still noisy. Rosters change, some teams play only a few carryover opponents, and a one-game sample can exaggerate strength.
+      To reflect that, the pre-match expectation is pulled 65% toward a 50/50 baseline at the very start of the season.
+    </p>
+    <p class="muted">
+      That extra uncertainty fades linearly as the average team reaches 6 games played. This is the main reason the promotion and relegation outlook
+      starts flatter at week 0 and sharpens as real results accumulate.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>How Match Outcomes Are Simulated</h2>
+    <p>
+      For every remaining fixture, the simulator converts the two current ELO ratings into three outcomes: home win, draw, and away win. Draws use a fixed
+      22% baseline, and the remaining probability is split between the two teams according to the ELO gap.
+    </p>
+    <p>
+      The season outlook runs 400 Monte Carlo trials in the server-side summaries and larger live batches in the browser for the interactive what-if table.
+      In each trial, every remaining game is resolved, the standings are updated, tie-breakers are re-applied, and the final finishing place for each team is counted.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>Goal Difference In The What-If Simulation</h2>
+    <p>
+      Goal difference is not frozen at today&rsquo;s table. It continues to move throughout each simulated run, because tie-breakers should react to the simulated results, not just the current standings snapshot.
+    </p>
+    <div class="note-grid">
+      <div class="note-card">
+        <h3>Simulated win</h3>
+        <p>The winning team gains 3 points and +1 goal difference. The losing team gets 0 points and -1 goal difference.</p>
+      </div>
+      <div class="note-card">
+        <h3>Simulated draw</h3>
+        <p>Each team gains 1 point and goal difference stays unchanged, so draws do not create fake tie-break movement.</p>
+      </div>
+      <div class="note-card">
+        <h3>Why this matters</h3>
+        <p>If two teams finish level on points in a simulated world, the tiebreak uses the simulated goal-difference path, not the present-day table locked in place.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Forfeits And Card Points</h2>
+    <p>
+      Completed forfeits are already treated as official standings events. A normal forfeit is stored as a 3&ndash;0 result, the non-forfeiting team gets the win,
+      and the forfeiting team also loses 2 standings points. If the data marks a result as <strong>forfeitNP</strong>, the 3&ndash;0 result still stands but the extra 2-point deduction is not applied.
+    </p>
+    <p>
+      Card-point deductions are also already baked into the current standings table when they exist. The simulator does not try to forecast future cards or future forfeits,
+      so every remaining unsimulated match is treated as a normal win, draw, or loss.
+    </p>
+    <p class="muted">
+      In short: existing forfeits and existing card deductions affect the starting table, but future cards and future forfeits are not projected.
+    </p>
+  </div>
+
+  <div class="panel">
+    <h2>What The Summary Text Is Trying To Capture</h2>
+    <p>
+      The flight and team summaries are written from the same outlook engine that powers the what-if simulation. They are supposed to emphasize the most practically meaningful swing,
+      not tiny numerical noise. If a possible result leaves a team at 0.0% before and after, that should not be the headline.
+    </p>
+    <p class="muted">
+      That is why the summaries focus on the single most meaningful promotion or relegation change for a given team, and why the flight-level summary focuses on the race-wide game
+      with the strongest overall impact.
+    </p>
+  </div>
+</main>
+
+<footer>
+  A Khaykin and Kane production. Data from <a href="https://www.othsl.org">othsl.org</a>.
+</footer>
+</body>
+</html>

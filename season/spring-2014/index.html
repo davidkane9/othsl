@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTHSL | Spring 2014</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --field-2: #6f8f63;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 28px 32px;
+    border-radius: 30px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.97), rgba(41, 76, 49, 0.93)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -50px -120px auto;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* ── Plinko (centered, full hero) ────────────────────────────── */
+  .plinko-panel {
+    background: rgba(18,40,22,0.82); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px; padding: 16px 14px 12px; display: flex;
+    flex-direction: column; align-items: center; gap: 0;
+    width: 100%; max-width: 560px;
+  }
+  .plinko-eyebrow { font-size: .63rem; text-transform: uppercase; letter-spacing: .1em;
+                    color: rgba(247,242,232,.4); margin-bottom: 3px; }
+  .plinko-team-name { font-size: 1rem; font-weight: 700; color: #f7f2e8;
+                      margin-bottom: 8px; text-align: center; }
+  .plinko-body { display: grid; grid-template-columns: 1fr 120px; gap: 10px;
+                 width: 100%; align-items: start; }
+  .plinko-canvas-wrap { position: relative; width: 100%; }
+  #plinko-canvas { display: block; width: 100%; }
+  .plinko-log { display: flex; flex-direction: column; gap: 2px;
+                font-size: 0.67rem; font-family: Georgia, serif;
+                width: 120px; overflow-y: auto; overflow-x: hidden;
+                scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
+  .plinko-log-entry { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .plinko-stats { display: flex; gap: 16px; margin-top: 6px; }
+  .plinko-stat { text-align: center; }
+  .plinko-stat-val { font-size: 1.15rem; font-weight: 700; color: #f7f2e8; line-height: 1; }
+  .plinko-stat-lbl { font-size: .58rem; text-transform: uppercase; letter-spacing: .07em;
+                     color: rgba(247,242,232,.45); margin-top: 2px; }
+  .plinko-how { font-size: .75rem; color: rgba(247,242,232,.6); line-height: 1.5;
+                margin-top: 8px; text-align: center; display: none; max-width: 340px; }
+  .plinko-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+  .plinko-link {
+    font-size: .75rem; color: rgba(247,242,232,.55); text-decoration: none;
+    border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+    padding: 4px 12px; transition: all .15s; cursor: pointer;
+    background: none; font-family: inherit;
+  }
+  .plinko-link:hover { color: #f7f2e8; background: rgba(255,255,255,.08); }
+  .plinko-speed-wrap { display: flex; align-items: center; gap: 5px; }
+  .plinko-speed-wrap label { font-size: .65rem; color: rgba(247,242,232,.4); text-transform: uppercase; letter-spacing: .06em; }
+  #plinko-speed {
+    width: 72px; accent-color: rgba(198,138,43,0.85); cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px; background: rgba(255,255,255,.18);
+    outline: none;
+  }
+  #plinko-speed::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(198,138,43,0.9); cursor: pointer;
+  }
+
+  .section {
+    margin-top: 26px;
+    padding: 28px;
+    border-radius: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .section-title h2 {
+    margin: 0 0 4px;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Feedback */
+  .feedback-section {
+    margin-top: 10px;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .feedback-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .feedback-drawer {
+    display: none;
+    margin-top: 16px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feedback-drawer.open { display: block; }
+
+  .feedback-drawer h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .feedback-drawer p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .feedback-field label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .feedback-submit:disabled {
+    background: #90a08f;
+    cursor: not-allowed;
+  }
+
+  .feedback-thanks {
+    display: none;
+    color: var(--field);
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  .subscribe-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(35,68,43,0.08), rgba(198,138,43,0.10));
+    border: 1px solid rgba(198,138,43,0.25);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-banner-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .subscribe-banner-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .subscribe-banner-text span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn:hover { opacity: 0.88; }
+
+  /* ── Nav ─────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 24px; height: 52px;
+    width: min(1180px, calc(100% - 32px));
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  @media (max-width: 640px) {
+    .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+    .hero, .section { padding: 18px; border-radius: 22px; }
+    .section-title { flex-direction: column; align-items: start; }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../" class="active">Home</a></li>
+      <li><a href="../../teams/">Find Team</a></li>
+      <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="page">
+    <section class="hero">
+      <span class="eyebrow">OTHSL Match Intelligence · Spring 2014</span>
+
+      
+
+    </section>
+
+    <div class="subscribe-banner">
+      <div class="subscribe-banner-text">
+        <strong>Stay in the loop</strong>
+        <span>Get weekly updates, standings, and match recaps delivered to your inbox.</span>
+      </div>
+      <a class="subscribe-btn" href="https://substack.com/@jacobkhaykin" target="_blank" rel="noopener">
+        Subscribe ↗
+      </a>
+    </div>
+
+    <footer>
+      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      ELO ratings are model estimates, not official standings.
+
+      <div class="feedback-section">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+// ── Plinko: game-by-game season simulation ───────────────────────
+(function() {
+  const canvas = document.getElementById('plinko-canvas');
+  if (!canvas) return;
+  {
+  const PLINKO_CHOICES = [];
+  if (!PLINKO_CHOICES.length) return;
+  const teamNameEl = document.getElementById('plinko-team-name');
+  const teamCountEl = document.getElementById('plinko-team-count');
+  const flightLabelEl = document.getElementById('plinko-flight-label');
+  const logEl = document.getElementById('plinko-log');
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl = document.getElementById('plinko-relg-pct');
+  const howEl = document.getElementById('plinko-how');
+  const replayBtn = document.getElementById('plinko-replay');
+  const nextBtn = document.getElementById('plinko-next-team');
+  const speedSlider = document.getElementById('plinko-speed');
+  let speedMul = speedSlider ? (parseFloat(speedSlider.value) || 0.7) : 0.7;
+  if (speedSlider) {
+    speedSlider.addEventListener('input', () => {
+      speedMul = parseFloat(speedSlider.value) || speedMul;
+    });
+  }
+
+  let frameToken = 0;
+  let currentIndex = Math.floor(Math.random() * PLINKO_CHOICES.length);
+
+  function renderPlinko(PLINKO) {
+    if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
+    const seasonSteps = PLINKO.season_steps || [];
+    const remainingGames = PLINKO.remaining_games || [];
+    const teamName = PLINKO.team;
+    if (!seasonSteps.length) return;
+
+    if (teamNameEl) teamNameEl.textContent = PLINKO.display_name || `${PLINKO.team} - ${PLINKO.flight_code || PLINKO.flight_label}`;
+    if (teamCountEl) teamCountEl.textContent = `${PLINKO.n_teams} teams`;
+    if (flightLabelEl) flightLabelEl.textContent = PLINKO.flight_label;
+
+    const currentFrame = ++frameToken;
+    const dpr = window.devicePixelRatio || 1;
+    const N = PLINKO.n_teams;
+    const G = seasonSteps.length;
+    const PC = PLINKO.promo_cut || 0;
+    const RC = PLINKO.relg_cut || 0;
+    const ROW_H = 26;
+    const BIN_H = 64;
+    const TOP_PAD = 12;
+    const LAND_Y = (G + 1.35) * ROW_H;
+    const CW = canvas.parentElement.clientWidth || 260;
+    const CH = (G + 2) * ROW_H + BIN_H;
+    const LANES = Math.max(7, G + 1);
+    const START_LANE = Math.floor(LANES / 2);
+
+    canvas.width = CW * dpr;
+    canvas.height = CH * dpr;
+    canvas.style.width = CW + 'px';
+    canvas.style.height = CH + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+
+    const laneW = CW / LANES;
+    const binW = CW / N;
+    const binTopY = (G + 1.55) * ROW_H;
+
+    if (logEl) logEl.style.height = CH + 'px';
+    if (howEl) {
+      howEl.textContent =
+        `Each ball replays all ${seasonSteps.length} ${PLINKO.team} league games. ` +
+        `The first ${PLINKO.games_played || 0} rows are locked results, ` +
+        `and the last ${PLINKO.games_remaining || 0} are simulated. ` +
+        `Wins move left, losses move right, and ties stay centered before the drop into the final place bin.`;
+    }
+
+    function cloneStats(stats) {
+      const out = {};
+      Object.keys(stats || {}).forEach((team) => {
+        out[team] = { ...stats[team] };
+      });
+      return out;
+    }
+
+    function applyOutcome(stats, home, away, outcome) {
+      if (!stats[home] || !stats[away]) return;
+      if (outcome === 'H') {
+        stats[home].pts += 3;
+        stats[home].gd += 1;
+        stats[home].gf += 2;
+        stats[home].w += 1;
+        stats[away].gd -= 1;
+        stats[away].gf += 1;
+        stats[away].l += 1;
+      } else if (outcome === 'A') {
+        stats[away].pts += 3;
+        stats[away].gd += 1;
+        stats[away].gf += 2;
+        stats[away].w += 1;
+        stats[home].gd -= 1;
+        stats[home].gf += 1;
+        stats[home].l += 1;
+      } else {
+        stats[home].pts += 1;
+        stats[away].pts += 1;
+        stats[home].gf += 1;
+        stats[away].gf += 1;
+        stats[home].t += 1;
+        stats[away].t += 1;
+      }
+      stats[home].gp += 1;
+      stats[away].gp += 1;
+    }
+
+    function sampleOutcome(game) {
+      const rawHome = Number.isFinite(game.home_win_prob) ? game.home_win_prob : 0.5;
+      const rawDraw = Number.isFinite(game.draw_prob) ? game.draw_prob : 0.22;
+      const rawAway = Number.isFinite(game.away_win_prob) ? game.away_win_prob : Math.max(0, 1 - rawHome - rawDraw);
+      const total = Math.max(0.001, rawHome + rawDraw + rawAway);
+      const homeWinProb = rawHome / total;
+      const drawProb = rawDraw / total;
+      const roll = Math.random();
+      if (roll < homeWinProb) return 'H';
+      if (roll < homeWinProb + drawProb) return 'D';
+      return 'A';
+    }
+
+    function simulateSeason() {
+      const stats = cloneStats(PLINKO.current_stats || {});
+      const stepResults = {};
+
+      remainingGames.forEach((game) => {
+        const outcome = sampleOutcome(game);
+        applyOutcome(stats, game.home, game.away, outcome);
+        if (game.home === teamName) stepResults[game.id] = outcome === 'H' ? 'W' : outcome === 'D' ? 'T' : 'L';
+        if (game.away === teamName) stepResults[game.id] = outcome === 'A' ? 'W' : outcome === 'D' ? 'T' : 'L';
+      });
+
+      const ordered = (PLINKO.teams || []).slice().sort((a, b) => {
+        const sa = stats[a];
+        const sb = stats[b];
+        if (!sa || !sb) return a.localeCompare(b);
+        return (sb.pts - sa.pts) || (sb.gd - sa.gd) || (sb.gf - sa.gf) || a.localeCompare(b);
+      });
+      const finalPlace = Math.max(1, ordered.indexOf(teamName) + 1);
+
+      const results = seasonSteps.map((step) => {
+        if (step.fixed) return step.result || 'T';
+        return stepResults[step.id] || 'T';
+      });
+
+      return { finalPlace, results };
+    }
+
+    function laneCenter(lane) {
+      return (lane + 0.5) * laneW;
+    }
+
+    function placeCenter(placeIdx) {
+      return placeIdx * binW + binW / 2;
+    }
+
+    function resultDelta(result) {
+      if (result === 'W') return -1;
+      if (result === 'L') return 1;
+      return 0;
+    }
+
+    function resultColor(result) {
+      if (result === 'W') return '#4ade80';
+      if (result === 'L') return '#f87171';
+      return '#f7f2e8';
+    }
+
+    function resultMarker(result) {
+      if (result === 'W') return '<';
+      if (result === 'L') return '>';
+      return '=';
+    }
+
+    function updateLog(results, upTo) {
+      if (!logEl) return;
+      const items = seasonSteps.slice(0, upTo + 1).map((step, idx) => {
+        const result = results[idx] || 'T';
+        const score = step.fixed && step.score ? ` ${step.score}` : '';
+        const tag = step.fixed ? 'played' : 'sim';
+        return `<div class="plinko-log-entry" style="color:${resultColor(result)}">${step.venue} ${step.opponent} <strong>${result}${resultMarker(result)}</strong>${score} <span style="opacity:.45">(${tag})</span></div>`;
+      });
+      logEl.innerHTML = items.join('');
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function binColor(i) {
+      if (i < PC) return 'rgba(74,222,128,0.65)';
+      if (i >= N - RC) return 'rgba(248,113,113,0.55)';
+      return 'rgba(255,255,255,0.14)';
+    }
+
+    let balls = [];
+    let binCounts = new Array(N).fill(0);
+    let totalDropped = 0;
+    let totalLanded = 0;
+    const MAX_BALLS = 60;
+
+    function updateStats() {
+      const promoPct = totalLanded ? Math.round(100 * binCounts.slice(0, PC).reduce((a, b) => a + b, 0) / totalLanded) : Math.round(PLINKO.promo_prob || 0);
+      let relSum = 0;
+      if (RC > 0) {
+        for (let i = N - RC; i < N; i++) relSum += binCounts[i];
+      }
+      const relgPct = totalLanded ? Math.round(100 * relSum / totalLanded) : Math.round(PLINKO.relg_prob || 0);
+      if (promoEl) promoEl.textContent = `${promoPct}%`;
+      if (relgEl) relgEl.textContent = `${relgPct}%`;
+    }
+
+    function spawnBall() {
+      const sim = simulateSeason();
+      for (const ball of balls) ball.isLatest = false;
+      balls.push({
+        x: laneCenter(START_LANE),
+        y: TOP_PAD,
+        vx: 0,
+        vy: 0.4,
+        lane: START_LANE,
+        gameIdx: -1,
+        hitRow: -1,
+        results: sim.results,
+        finalPlace: sim.finalPlace,
+        targetX: laneCenter(START_LANE),
+        done: false,
+        isLatest: true,
+      });
+      totalDropped += 1;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, CW, CH);
+
+      for (let row = 0; row < G; row++) {
+        const y = (row + 1) * ROW_H;
+        ctx.strokeStyle = 'rgba(247,242,232,0.07)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(CW, y);
+        ctx.stroke();
+
+        ctx.fillStyle = seasonSteps[row].fixed ? 'rgba(247,242,232,0.22)' : 'rgba(198,138,43,0.32)';
+        const offset = row % 2 === 0 ? 0 : laneW * 0.5;
+        for (let peg = 0; peg <= LANES; peg++) {
+          const px = peg * laneW - offset;
+          if (px > 2 && px < CW - 2) {
+            ctx.beginPath();
+            ctx.arc(px, y, 2.4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      const maxCount = Math.max(1, ...binCounts);
+      const maxBarH = BIN_H - 14;
+      for (let i = 0; i < N; i++) {
+        const bx = i * binW + 1;
+        const h = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxBarH) : 0;
+        ctx.fillStyle = binColor(i);
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(bx, binTopY + maxBarH - h, binW - 2, h + 6, [3, 3, 0, 0]);
+        else ctx.rect(bx, binTopY + maxBarH - h, binW - 2, h + 6);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(247,242,232,0.32)';
+        ctx.font = `bold ${Math.max(8, Math.min(10, binW * 0.42))}px Georgia`;
+        ctx.textAlign = 'center';
+        ctx.fillText(String(i + 1), bx + (binW - 2) / 2, binTopY + maxBarH + 16);
+      }
+
+      ctx.font = '7px Georgia';
+      ctx.textAlign = 'center';
+      if (PC > 0) {
+        ctx.fillStyle = 'rgba(74,222,128,0.55)';
+        ctx.fillText('PROMO', (PC * binW) / 2, binTopY - 4);
+      }
+      if (RC > 0) {
+        ctx.fillStyle = 'rgba(248,113,113,0.55)';
+        ctx.fillText('DROP', CW - (RC * binW) / 2, binTopY - 4);
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, 5, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(ball.x - 1.5, ball.y - 1.5, 0, ball.x, ball.y, 5);
+        grad.addColorStop(0, '#f9d77e');
+        grad.addColorStop(1, '#c68a2b');
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    }
+
+    let lastSpawn = 0;
+    function tick(ts) {
+      if (currentFrame !== frameToken) return;
+      const spawnMs = 420 / speedMul;
+      if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
+        spawnBall();
+        lastSpawn = ts;
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+
+        ball.vy += 0.016 * speedMul;
+        ball.vy = Math.min(ball.vy, 5 * speedMul);
+        ball.y += ball.vy;
+
+        ball.vx += (ball.targetX - ball.x) * (0.028 * speedMul);
+        ball.vx *= 0.84;
+        ball.x += ball.vx;
+
+        const nextRow = ball.gameIdx + 1;
+        if (nextRow < G && ball.hitRow < nextRow) {
+          const rowY = (nextRow + 1) * ROW_H;
+          if (ball.y >= rowY) {
+            ball.hitRow = nextRow;
+            ball.gameIdx = nextRow;
+            ball.lane = Math.max(0, Math.min(LANES - 1, ball.lane + resultDelta(ball.results[nextRow])));
+            ball.targetX = laneCenter(ball.lane);
+            ball.vx += resultDelta(ball.results[nextRow]) * (0.6 + Math.random() * 0.25);
+            if (ball.isLatest) updateLog(ball.results, ball.gameIdx);
+        }
+        }
+
+        if (ball.gameIdx >= G - 1) {
+          ball.targetX = placeCenter(ball.finalPlace - 1);
+        }
+
+        if (ball.x < 5) {
+          ball.x = 5;
+          ball.vx = Math.abs(ball.vx) * 0.35;
+        }
+        if (ball.x > CW - 5) {
+          ball.x = CW - 5;
+          ball.vx = -Math.abs(ball.vx) * 0.35;
+        }
+
+        if (ball.y >= LAND_Y) {
+          ball.done = true;
+          binCounts[Math.max(0, Math.min(N - 1, ball.finalPlace - 1))] += 1;
+          totalLanded += 1;
+          updateStats();
+          if (ball.isLatest) updateLog(ball.results, G - 1);
+          if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
+        }
+      }
+
+      draw();
+      requestAnimationFrame(tick);
+    }
+
+    updateStats();
+    requestAnimationFrame(tick);
+    if (replayBtn) {
+      replayBtn.onclick = () => {
+        balls = [];
+        binCounts = new Array(N).fill(0);
+        totalDropped = 0;
+        totalLanded = 0;
+        if (logEl) logEl.innerHTML = '';
+        if (howEl) howEl.style.display = 'none';
+        updateStats();
+      };
+    }
+  }
+  renderPlinko(PLINKO_CHOICES[currentIndex]);
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (PLINKO_CHOICES.length < 2) return;
+      currentIndex = (currentIndex + 1) % PLINKO_CHOICES.length;
+      renderPlinko(PLINKO_CHOICES[currentIndex]);
+    };
+  }
+  }
+})();
+
+// Page-link transitions
+document.addEventListener("click", function (e) {
+  var link = e.target.closest(".page-link");
+  if (!link) return;
+  e.preventDefault();
+  var href = link.getAttribute("href");
+  document.body.classList.add("is-leaving");
+  window.setTimeout(function () { window.location.href = href; }, 180);
+});
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const data = new FormData(fbForm);
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+</script>
+</body>
+</html>

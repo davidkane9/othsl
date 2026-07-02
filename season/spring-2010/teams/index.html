@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Team | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+    --border: rgba(38,61,41,.15);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+
+  /* ── Nav ─────────────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97); backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand { color: #f7f2e8; font-weight: 700; font-size: 1.05rem; letter-spacing: -.02em; text-decoration: none; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a { color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem; padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s; }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 36px 20px 64px;
+  }
+
+  .page-header { margin-bottom: 22px; }
+  .page-header h1 { margin: 0 0 4px; font-size: 1.9rem; letter-spacing: -.03em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  /* ── Search ───────────────────────────────────────────────────────── */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--muted); font-size: 1.05rem; pointer-events: none;
+  }
+  #team-search {
+    width: 100%;
+    padding: 12px 14px 12px 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    box-shadow: 0 2px 10px rgba(27,38,29,.06);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  #team-search:focus {
+    border-color: var(--field);
+    box-shadow: 0 4px 16px rgba(35,68,43,.1);
+  }
+  #team-search::placeholder { color: var(--muted); }
+
+  /* ── Search results ───────────────────────────────────────────────── */
+  #search-results { display: none; margin-bottom: 24px; }
+  #search-results.visible { display: block; }
+
+  .search-result-count {
+    font-size: .8rem; color: var(--muted); margin-bottom: 8px;
+  }
+
+  .result-list {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .result-card {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 11px 16px; border-radius: 12px;
+    background: var(--panel); border: 1px solid var(--border);
+    text-decoration: none; color: var(--ink);
+    transition: border-color .13s, box-shadow .13s, background .13s;
+  }
+  .result-card:hover {
+    border-color: rgba(35,68,43,.3);
+    box-shadow: 0 4px 16px rgba(27,38,29,.09);
+    background: var(--panel-strong);
+  }
+  .result-name {
+    font-size: .97rem; font-weight: 700; margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .result-name mark {
+    background: rgba(198,138,43,.25); color: inherit;
+    border-radius: 2px; padding: 0 1px;
+  }
+  .result-flight { font-size: .8rem; color: var(--muted); }
+  .result-arrow { color: var(--muted); font-size: .95rem; flex-shrink: 0; }
+  .result-card:hover .result-arrow { color: var(--field); }
+  .no-results { color: var(--muted); font-size: .92rem; padding: 20px 0; text-align: center; }
+
+  /* ── Directory wrapper ────────────────────────────────────────────── */
+  #directory { }
+  #directory.hidden { display: none; }
+
+  /* ── Season selector ──────────────────────────────────────────────── */
+  .season-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .season-row label {
+    font-size: .8rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  #season-select {
+    font: inherit;
+    font-size: .88rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--panel-strong);
+    color: var(--ink);
+    cursor: pointer;
+    outline: none;
+  }
+  #season-select:focus { border-color: var(--field); }
+
+  /* ── Directory table ──────────────────────────────────────────────── */
+  .dir-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    background: var(--panel-strong);
+    box-shadow: 0 4px 18px rgba(27,38,29,.07);
+  }
+
+  .dir-table-title {
+    text-align: center;
+    font-weight: 700;
+    font-size: .95rem;
+    letter-spacing: .01em;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    background: rgba(35,68,43,.05);
+  }
+
+  .dir-table td {
+    vertical-align: top;
+    width: 50%;
+    padding: 0;
+    border: 1px solid var(--border);
+  }
+
+  .ag-header {
+    font-weight: 700;
+    font-size: .88rem;
+    text-align: center;
+    padding: 7px 8px 5px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(35,68,43,.04);
+    letter-spacing: .01em;
+  }
+
+  .ag-body {
+    padding: 6px 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .div-row-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .dir-link {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--field);
+    text-decoration: none;
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(35,68,43,.18);
+    background: transparent;
+    transition: all .12s;
+    white-space: nowrap;
+  }
+  .dir-link:hover {
+    background: var(--field);
+    color: #f7f2e8;
+    border-color: var(--field);
+  }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+
+  .flight-popup {
+    position: fixed;
+    z-index: 999;
+    width: 320px;
+    max-height: min(65vh, 520px);
+    overflow-y: auto;
+    background: var(--panel-strong);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 14px 40px rgba(27,38,29,.16);
+    padding: 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .flight-popup.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .flight-popup-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .flight-popup-note { font-size: .8rem; color: var(--muted); margin-bottom: 10px; }
+  .flight-popup-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(38,61,41,.08);
+    font-size: .84rem;
+  }
+  .flight-popup-row:last-child { border-bottom: none; }
+  .flight-popup-team { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .flight-popup-metrics { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+  .flight-preview-panel {
+    display: none;
+    margin-top: 18px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    box-shadow: 0 10px 28px rgba(27,38,29,.08);
+  }
+  .flight-preview-panel.visible { display: block; }
+  .flight-preview-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+  .flight-preview-note { font-size: .84rem; color: var(--muted); margin-bottom: 12px; }
+  .flight-preview-grid { display: flex; flex-direction: column; gap: 6px; }
+  .flight-preview-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: .88rem;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(38,61,41,.08);
+  }
+  .flight-preview-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .flight-preview-team { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .flight-preview-metrics { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../">Home</a></li>
+      <li><a href="" class="active">Find Team</a></li>
+      <li><a href="../../calibration/">Model Calibration</a></li>
+      <li><a href="../../model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Find Your Team</h1>
+    <p>Search by name or browse by division.</p>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="search" id="team-search" placeholder="Search — e.g. Irish Village, Ashland…" autocomplete="off" autocorrect="off" spellcheck="false">
+  </div>
+
+  <div id="search-results">
+    <div class="search-result-count" id="result-count"></div>
+    <div class="result-list" id="result-list"></div>
+  </div>
+
+  <div id="directory">
+    <div class="season-row">
+      <label for="season-select">Season</label>
+      <select id="season-select">
+        
+        <option value="spring-2026" >Spring 2026</option>
+        
+        <option value="fall-2025" >Fall 2025</option>
+        
+        <option value="spring-2025" >Spring 2025</option>
+        
+        <option value="fall-2024" >Fall 2024</option>
+        
+        <option value="spring-2024" >Spring 2024</option>
+        
+        <option value="fall-2023" >Fall 2023</option>
+        
+        <option value="spring-2023" >Spring 2023</option>
+        
+        <option value="fall-2022" >Fall 2022</option>
+        
+        <option value="spring-2022" >Spring 2022</option>
+        
+        <option value="fall-2021" >Fall 2021</option>
+        
+        <option value="spring-2021" >Spring 2021</option>
+        
+        <option value="fall-2020" >Fall 2020</option>
+        
+        <option value="fall-2019" >Fall 2019</option>
+        
+        <option value="spring-2019" >Spring 2019</option>
+        
+        <option value="fall-2018" >Fall 2018</option>
+        
+        <option value="spring-2018" >Spring 2018</option>
+        
+        <option value="fall-2017" >Fall 2017</option>
+        
+        <option value="spring-2017" >Spring 2017</option>
+        
+        <option value="fall-2016" >Fall 2016</option>
+        
+        <option value="spring-2016" >Spring 2016</option>
+        
+        <option value="fall-2015" >Fall 2015</option>
+        
+        <option value="spring-2015" >Spring 2015</option>
+        
+        <option value="fall-2014" >Fall 2014</option>
+        
+        <option value="spring-2014" >Spring 2014</option>
+        
+        <option value="fall-2013" >Fall 2013</option>
+        
+        <option value="spring-2013" >Spring 2013</option>
+        
+        <option value="fall-2012" >Fall 2012</option>
+        
+        <option value="spring-2012" >Spring 2012</option>
+        
+        <option value="fall-2011" >Fall 2011</option>
+        
+        <option value="spring-2011" >Spring 2011</option>
+        
+        <option value="fall-2010" >Fall 2010</option>
+        
+        <option value="spring-2010" selected>Spring 2010</option>
+        
+        <option value="fall-2009" >Fall 2009</option>
+        
+        <option value="spring-2009" >Spring 2009</option>
+        
+        <option value="fall-2008" >Fall 2008</option>
+        
+        <option value="spring-2008" >Spring 2008</option>
+        
+        <option value="fall-2007" >Fall 2007</option>
+        
+        <option value="spring-2007" >Spring 2007</option>
+        
+        <option value="fall-2006" >Fall 2006</option>
+        
+        <option value="spring-2006" >Spring 2006</option>
+        
+        <option value="fall-2005" >Fall 2005</option>
+        
+        <option value="spring-2005" >Spring 2005</option>
+        
+        <option value="fall-2004" >Fall 2004</option>
+        
+        <option value="spring-2004" >Spring 2004</option>
+        
+        <option value="fall-2003" >Fall 2003</option>
+        
+        <option value="spring-2003" >Spring 2003</option>
+        
+        <option value="fall-2002" >Fall 2002</option>
+        
+        <option value="spring-2002" >Spring 2002</option>
+        
+        <option value="fall-2001" >Fall 2001</option>
+        
+        <option value="spring-2001" >Spring 2001</option>
+        
+        <option value="fall-2000" >Fall 2000</option>
+        
+        <option value="spring-2000" >Spring 2000</option>
+        
+        <option value="fall-1999" >Fall 1999</option>
+        
+        <option value="spring-1999" >Spring 1999</option>
+        
+        <option value="fall-1998" >Fall 1998</option>
+        
+        <option value="spring-1998" >Spring 1998</option>
+        
+        <option value="fall-1997" >Fall 1997</option>
+        
+        <option value="spring-1997" >Spring 1997</option>
+        
+      </select>
+    </div>
+
+    <table class="dir-table">
+      <tr>
+        <td colspan="2" class="dir-table-title">Schedules and Standings</td>
+      </tr>
+      
+      
+      <tr>
+        
+        <td>
+          <div class="ag-header">Over 30</div>
+          <div class="ag-body">
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-30-div-1-north/" class="dir-link" data-flight-slug="over-30-div-1-north">1n</a>
+              
+              <a href="../flight/over-30-div-1-south/" class="dir-link" data-flight-slug="over-30-div-1-south">1s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-30-div-2-north/" class="dir-link" data-flight-slug="over-30-div-2-north">2n</a>
+              
+              <a href="../flight/over-30-div-2-south/" class="dir-link" data-flight-slug="over-30-div-2-south">2s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-30-div-3-north/" class="dir-link" data-flight-slug="over-30-div-3-north">3n</a>
+              
+              <a href="../flight/over-30-div-3-south/" class="dir-link" data-flight-slug="over-30-div-3-south">3s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-30-div-4-north/" class="dir-link" data-flight-slug="over-30-div-4-north">4n</a>
+              
+              <a href="../flight/over-30-div-4-south/" class="dir-link" data-flight-slug="over-30-div-4-south">4s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-30-div-5-north/" class="dir-link" data-flight-slug="over-30-div-5-north">5n</a>
+              
+              <a href="../flight/over-30-div-5-south/" class="dir-link" data-flight-slug="over-30-div-5-south">5s</a>
+              
+            </div>
+            
+          </div>
+        </td>
+        
+        <td>
+          <div class="ag-header">Over 40</div>
+          <div class="ag-body">
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-1-north/" class="dir-link" data-flight-slug="over-40-div-1-north">1n</a>
+              
+              <a href="../flight/over-40-div-1-south/" class="dir-link" data-flight-slug="over-40-div-1-south">1s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-2-central/" class="dir-link" data-flight-slug="over-40-div-2-central">2c</a>
+              
+              <a href="../flight/over-40-div-2-north/" class="dir-link" data-flight-slug="over-40-div-2-north">2n</a>
+              
+              <a href="../flight/over-40-div-2-south/" class="dir-link" data-flight-slug="over-40-div-2-south">2s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-3-central/" class="dir-link" data-flight-slug="over-40-div-3-central">3c</a>
+              
+              <a href="../flight/over-40-div-3-north/" class="dir-link" data-flight-slug="over-40-div-3-north">3n</a>
+              
+              <a href="../flight/over-40-div-3-south/" class="dir-link" data-flight-slug="over-40-div-3-south">3s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-4-central/" class="dir-link" data-flight-slug="over-40-div-4-central">4c</a>
+              
+              <a href="../flight/over-40-div-4-north/" class="dir-link" data-flight-slug="over-40-div-4-north">4n</a>
+              
+              <a href="../flight/over-40-div-4-south/" class="dir-link" data-flight-slug="over-40-div-4-south">4s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-5-central/" class="dir-link" data-flight-slug="over-40-div-5-central">5c</a>
+              
+              <a href="../flight/over-40-div-5-north/" class="dir-link" data-flight-slug="over-40-div-5-north">5n</a>
+              
+              <a href="../flight/over-40-div-5-south/" class="dir-link" data-flight-slug="over-40-div-5-south">5s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-40-div-6-central/" class="dir-link" data-flight-slug="over-40-div-6-central">6c</a>
+              
+              <a href="../flight/over-40-div-6-north/" class="dir-link" data-flight-slug="over-40-div-6-north">6n</a>
+              
+              <a href="../flight/over-40-div-6-south/" class="dir-link" data-flight-slug="over-40-div-6-south">6s</a>
+              
+            </div>
+            
+          </div>
+        </td>
+        
+        
+      </tr>
+      
+      <tr>
+        
+        <td>
+          <div class="ag-header">Over 48</div>
+          <div class="ag-body">
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-48-div-1-north/" class="dir-link" data-flight-slug="over-48-div-1-north">1n</a>
+              
+              <a href="../flight/over-48-div-1-south/" class="dir-link" data-flight-slug="over-48-div-1-south">1s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-48-div-2-north/" class="dir-link" data-flight-slug="over-48-div-2-north">2n</a>
+              
+              <a href="../flight/over-48-div-2-south/" class="dir-link" data-flight-slug="over-48-div-2-south">2s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-48-div-3-north/" class="dir-link" data-flight-slug="over-48-div-3-north">3n</a>
+              
+              <a href="../flight/over-48-div-3-south/" class="dir-link" data-flight-slug="over-48-div-3-south">3s</a>
+              
+            </div>
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-48-div-4-central/" class="dir-link" data-flight-slug="over-48-div-4-central">4c</a>
+              
+              <a href="../flight/over-48-div-4-north/" class="dir-link" data-flight-slug="over-48-div-4-north">4n</a>
+              
+              <a href="../flight/over-48-div-4-south/" class="dir-link" data-flight-slug="over-48-div-4-south">4s</a>
+              
+            </div>
+            
+          </div>
+        </td>
+        
+        <td>
+          <div class="ag-header">Over 55</div>
+          <div class="ag-body">
+            
+            <div class="div-row-links">
+              
+              <a href="../flight/over-55-div-1-north/" class="dir-link" data-flight-slug="over-55-div-1-north">1n</a>
+              
+              <a href="../flight/over-55-div-1-south/" class="dir-link" data-flight-slug="over-55-div-1-south">1s</a>
+              
+            </div>
+            
+          </div>
+        </td>
+        
+        
+      </tr>
+      
+    </table>
+
+    <div class="flight-preview-panel" id="flight-preview-panel">
+      <div class="flight-preview-title" id="flight-preview-title">Flight Preview</div>
+      <div class="flight-preview-note">Hover any flight link above to preview the current standings.</div>
+      <div class="flight-preview-grid" id="flight-preview-body"></div>
+    </div>
+  </div>
+</main>
+
+<div class="flight-popup" id="flight-popup">
+  <div class="flight-popup-title" id="flight-popup-title"></div>
+  <div class="flight-popup-note">Standings preview</div>
+  <div id="flight-popup-body"></div>
+</div>
+
+<footer>
+  A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+  ELO ratings are model estimates, not official standings.
+</footer>
+
+<script>
+const TEAMS = [{"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "DEA Bedford"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "Ipswich"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "L.S.C."}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "NH Wanderers"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "Salem SF Vikings"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-30-div-1-north", "geography": "North", "name": "Seacoast FC"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "Boston White Eagles"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "Braintree Celtic"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "British Beer Company Rovers"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "MPS Over 30"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "Paddy Barrys"}, {"age_group": "Over 30", "division": "1", "flight_label": "Over 30 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-30-div-1-south", "geography": "South", "name": "So. Boston Bohemians"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "Andover United"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "Ipswich Stone Cats"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "North Reading Nomads"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "P.A.C. Lowell"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "Peabody Sporting Club"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-30-div-2-north", "geography": "North", "name": "Westford F.C."}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Concord United"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Delta Service B.U."}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Holliston"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Kendall Wanderers"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Shake-Shake Football Club"}, {"age_group": "Over 30", "division": "2", "flight_label": "Over 30 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-30-div-2-south", "geography": "South", "name": "Southborough United"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "AP Bulldogs"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "Billerica Minutemen"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "Billerica Rovers"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "Hudson"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "Manchester Gunners"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-30-div-3-north", "geography": "North", "name": "Merrimac Forrest"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Abbot Celtic"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Crafty Veterans 30s"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Foxboro Freaks"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Irish Village"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Kel Kau"}, {"age_group": "Over 30", "division": "3", "flight_label": "Over 30 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-30-div-3-south", "geography": "South", "name": "Natick FC"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "Acton Villa"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "Hurricane SC"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "New England International"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "Somerville FC"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "Tewksbury Blues"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-30-div-4-north", "geography": "North", "name": "Wanderers FC"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Dover-Sherborn Old Boys FC"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Duxbury United"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Mariner United"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Medfield"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Needham United"}, {"age_group": "Over 30", "division": "4", "flight_label": "Over 30 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-30-div-4-south", "geography": "South", "name": "Randolph FC"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Cantona"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Harvard"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Lynnfield FC"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Marblehead"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Nashua Red"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "North Shore United"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Old School Soccer Club"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-30-div-5-north", "geography": "North", "name": "Renegades FC"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Boston Gunners"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Norfolk FC"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Peru Sport"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Rovers FC"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Sudbury"}, {"age_group": "Over 30", "division": "5", "flight_label": "Over 30 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-30-div-5-south", "geography": "South", "name": "Whaling Port FC"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Acton-Boxboro United II"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Belmont Kickers"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Concord United Masters"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Hollis"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Marblehead"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-40-div-1-north", "geography": "North", "name": "Winchester FC"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "Framingham"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "Hudson"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "Irish Village"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "MPS Newton Over40"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "Medfield"}, {"age_group": "Over 40", "division": "1", "flight_label": "Over 40 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-40-div-1-south", "geography": "South", "name": "Stoughton CLC"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "Boston White Eagles"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "Danvers Masters"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "SBU Wanderers"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "Shake-Shake Football Club"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "Shrewsbury"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 Central", "flight_slug": "over-40-div-2-central", "geography": "Central", "name": "Wellesley Black Rhinos"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "Andover Green"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "DEA Bedford"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "FC Boxford"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "NS Internationals"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "North Reading United SC"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-40-div-2-north", "geography": "North", "name": "Northshore United Soccer Club"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "Canarinho F.C. O40"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "Celtic Masters"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "Crafty Veterans"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "FUFC"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "Hopkinton Raiders"}, {"age_group": "Over 40", "division": "2", "flight_label": "Over 40 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-40-div-2-south", "geography": "South", "name": "Mariner United Masters"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "Groton BC United"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "Newton Brigada"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "P.A.C. Lowell"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "Sudbury United"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "Westford FC"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 Central", "flight_slug": "over-40-div-3-central", "geography": "Central", "name": "Weston"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "DC Smithwicks"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "Hurricane SC"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "Ipswich United"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "Lynnfield Raiders"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "North Shore Rovers"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-40-div-3-north", "geography": "North", "name": "Wen Ham United FC"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "Canary Square Veterans"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "FC Needham United"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "Natick Masters"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "Needham Masters I"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "Sherborn Masters"}, {"age_group": "Over 40", "division": "3", "flight_label": "Over 40 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-40-div-3-south", "geography": "South", "name": "Sudbury Blast"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Arlington Pond Dawgz"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Hurricane SC II"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Lexington Eagles"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Medford Atomic"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Wayland United FC"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-40-div-4-central", "geography": "Central", "name": "Wayland Wahoo"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "Andover United"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "DEA Bedford II"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "Melrose Good Guys"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "Nashua Absolute"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "North Reading Cobras"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-40-div-4-north", "geography": "North", "name": "Windham"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "CD Faialense"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "Carico FC Masters"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "Franklin"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "Kel Kau Masters"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "Malaga SC"}, {"age_group": "Over 40", "division": "4", "flight_label": "Over 40 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-40-div-4-south", "geography": "South", "name": "Mendon-Upton Divided"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "Arlington Fossils"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "BRAUSA"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "Cambridge City"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "Peabody Sporting Club"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "Persepolis"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 Central", "flight_slug": "over-40-div-5-central", "geography": "Central", "name": "United FC"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Acton-Boxboro United"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Football Club North Pirates"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Harvard Blues FC"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Lowell Eagles"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Pepperell United"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 North", "flight_slug": "over-40-div-5-north", "geography": "North", "name": "Woburn Barrabases"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Easton Masters"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Foxboro Warthogs"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Los Inkas Sport Club"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Medfield FC"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Medway"}, {"age_group": "Over 40", "division": "5", "flight_label": "Over 40 \u00b7 Div 5 \u00b7 South", "flight_slug": "over-40-div-5-south", "geography": "South", "name": "Newton Spurs"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "Ashland OFC"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "Burlington"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "FC Weston"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "Hopkinton Mets"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "West Roxbury United"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 Central", "flight_slug": "over-40-div-6-central", "geography": "Central", "name": "Woburn Masters"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "0 Tewksbury Independent"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Andover Gold"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Derry Eagles"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Lexington Grey Eagles"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Nashoba Masters"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Tewksbury Independent"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 North", "flight_slug": "over-40-div-6-north", "geography": "North", "name": "Westford United"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Dover-Sherborn"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Mansfield United"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Needham FC"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Southborough FC"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Vineyard FC"}, {"age_group": "Over 40", "division": "6", "flight_label": "Over 40 \u00b7 Div 6 \u00b7 South", "flight_slug": "over-40-div-6-south", "geography": "South", "name": "Westwood Masters"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "Carcara United"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "Nashua Internationals"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "North Andover Grand Masters"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "North Reading"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "Stoneham Spartans Over 50"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-48-div-1-north", "geography": "North", "name": "Winchester"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Canton"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Hudson"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Jacques Paoli F.C. NEWTON"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Lexington Eagles"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Mariner United Seniors"}, {"age_group": "Over 48", "division": "1", "flight_label": "Over 48 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-48-div-1-south", "geography": "South", "name": "Sudbury Silver"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "Andover Gold"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "Masters"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "NS Internationals II"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "OnTheRocks of Pepperell"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "Saugus F.C."}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "Tewksbury Grand Masters"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 North", "flight_slug": "over-48-div-2-north", "geography": "North", "name": "Wenham Generals"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "Acton-Boxboro"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "Belmont Old Boys"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "Dover-Sherborn Silverbacks"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "South Shore Seniors"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "Sudbury AC"}, {"age_group": "Over 48", "division": "2", "flight_label": "Over 48 \u00b7 Div 2 \u00b7 South", "flight_slug": "over-48-div-2-south", "geography": "South", "name": "Warthogs"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "Juventus Club Everett"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "Lynnfield"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "Nashua Absolute II"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "North Andover Wanderers"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "North Shore Raiders"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 North", "flight_slug": "over-48-div-3-north", "geography": "North", "name": "North Shore Spartans"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Concord United"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Hopkinton Grand Masters"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Nashoba"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Wayland Spirit"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Wayland Wizards"}, {"age_group": "Over 48", "division": "3", "flight_label": "Over 48 \u00b7 Div 3 \u00b7 South", "flight_slug": "over-48-div-3-south", "geography": "South", "name": "Wayland wahootoo"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Arlington Pond Dawgz"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Burlington"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Groton-Dunstable"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Harvard Elders"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Lexington Golden Eagles"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 Central", "flight_slug": "over-48-div-4-central", "geography": "Central", "name": "Westford"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "Ipswich Seadogs FC"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "MGG O50"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "Marblehead"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "North Reading Gray Cobras"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "Peabody Gold"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 North", "flight_slug": "over-48-div-4-north", "geography": "North", "name": "Windham Seniors"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Ashland VOFC"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Canton United II"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Jaguars"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Medfield Old Boys"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Medway"}, {"age_group": "Over 48", "division": "4", "flight_label": "Over 48 \u00b7 Div 4 \u00b7 South", "flight_slug": "over-48-div-4-south", "geography": "South", "name": "Needham Seniors"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Andover Gold"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Medford"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Nashua"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Nashua Veterans"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Tewksbury Veterans"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 North", "flight_slug": "over-55-div-1-north", "geography": "North", "name": "Wenham Veterans"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Framingham United"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Harvard"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Hopkinton OF Soccer Club"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Lexington Bald Eagles"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Raynham Veterans"}, {"age_group": "Over 55", "division": "1", "flight_label": "Over 55 \u00b7 Div 1 \u00b7 South", "flight_slug": "over-55-div-1-south", "geography": "South", "name": "Sudbury Gold AC"}];
+const FLIGHT_URL_PREFIX = "../flight/";
+const FLIGHT_PREVIEWS = {"over-30-div-1-north": {"label": "Over 30 Division 1 North", "standings": [{"gd": 11, "gp": 10, "pts": 23, "team": "Seacoast FC"}, {"gd": 3, "gp": 10, "pts": 18, "team": "Ipswich"}, {"gd": 11, "gp": 10, "pts": 14, "team": "L.S.C."}, {"gd": 2, "gp": 10, "pts": 13, "team": "DEA Bedford"}, {"gd": -10, "gp": 10, "pts": 9, "team": "Salem SF Vikings"}, {"gd": -17, "gp": 10, "pts": 8, "team": "NH Wanderers"}]}, "over-30-div-1-south": {"label": "Over 30 Division 1 South", "standings": [{"gd": 9, "gp": 10, "pts": 21, "team": "MPS Over 30"}, {"gd": 13, "gp": 9, "pts": 18, "team": "Paddy Barrys"}, {"gd": 12, "gp": 10, "pts": 20, "team": "Braintree Celtic"}, {"gd": -9, "gp": 9, "pts": 10, "team": "So. Boston Bohemians"}, {"gd": -16, "gp": 10, "pts": 8, "team": "British Beer Company Rovers"}, {"gd": -9, "gp": 10, "pts": 2, "team": "Boston White Eagles"}]}, "over-30-div-2-north": {"label": "Over 30 Division 2 North", "standings": [{"gd": 24, "gp": 10, "pts": 23, "team": "P.A.C. Lowell"}, {"gd": 17, "gp": 10, "pts": 22, "team": "Andover United"}, {"gd": 1, "gp": 9, "pts": 15, "team": "North Reading Nomads"}, {"gd": -8, "gp": 10, "pts": 11, "team": "Westford F.C."}, {"gd": -5, "gp": 9, "pts": 8, "team": "Ipswich Stone Cats"}, {"gd": -29, "gp": 8, "pts": -4, "team": "Peabody Sporting Club"}]}, "over-30-div-2-south": {"label": "Over 30 Division 2 South", "standings": [{"gd": 12, "gp": 10, "pts": 23, "team": "Concord United"}, {"gd": 3, "gp": 9, "pts": 16, "team": "Southborough United"}, {"gd": 3, "gp": 9, "pts": 14, "team": "Kendall Wanderers"}, {"gd": 4, "gp": 9, "pts": 12, "team": "Delta Service B.U."}, {"gd": -6, "gp": 8, "pts": 6, "team": "Holliston"}, {"gd": -16, "gp": 7, "pts": -3, "team": "Shake-Shake Football Club"}]}, "over-30-div-3-north": {"label": "Over 30 Division 3 North", "standings": [{"gd": 27, "gp": 10, "pts": 26, "team": "Hudson"}, {"gd": 6, "gp": 10, "pts": 20, "team": "Billerica Minutemen"}, {"gd": 1, "gp": 9, "pts": 11, "team": "Merrimac Forrest"}, {"gd": 4, "gp": 10, "pts": 12, "team": "Manchester Gunners"}, {"gd": -7, "gp": 9, "pts": 7, "team": "AP Bulldogs"}, {"gd": -31, "gp": 10, "pts": 2, "team": "Billerica Rovers"}]}, "over-30-div-3-south": {"label": "Over 30 Division 3 South", "standings": [{"gd": 12, "gp": 10, "pts": 25, "team": "Kel Kau"}, {"gd": 12, "gp": 10, "pts": 19, "team": "Natick FC"}, {"gd": -4, "gp": 10, "pts": 11, "team": "Crafty Veterans 30s"}, {"gd": -4, "gp": 10, "pts": 10, "team": "Irish Village"}, {"gd": -7, "gp": 10, "pts": 10, "team": "Abbot Celtic"}, {"gd": -9, "gp": 10, "pts": 10, "team": "Foxboro Freaks"}]}, "over-30-div-4-north": {"label": "Over 30 Division 4 North", "standings": [{"gd": 18, "gp": 10, "pts": 25, "team": "Tewksbury Blues"}, {"gd": 11, "gp": 10, "pts": 17, "team": "Somerville FC"}, {"gd": -1, "gp": 10, "pts": 14, "team": "Hurricane SC"}, {"gd": 6, "gp": 10, "pts": 13, "team": "Acton Villa"}, {"gd": -6, "gp": 10, "pts": 12, "team": "New England International"}, {"gd": -28, "gp": 10, "pts": 4, "team": "Wanderers FC"}]}, "over-30-div-4-south": {"label": "Over 30 Division 4 South", "standings": [{"gd": 17, "gp": 9, "pts": 21, "team": "Needham United"}, {"gd": 13, "gp": 9, "pts": 20, "team": "Duxbury United"}, {"gd": 0, "gp": 9, "pts": 13, "team": "Dover-Sherborn Old Boys FC"}, {"gd": -2, "gp": 9, "pts": 8, "team": "Mariner United"}, {"gd": -13, "gp": 9, "pts": 8, "team": "Medfield"}, {"gd": -15, "gp": 5, "pts": -10, "team": "Randolph FC"}]}, "over-30-div-5-north": {"label": "Over 30 Division 5 North", "standings": [{"gd": 15, "gp": 10, "pts": 23, "team": "Cantona"}, {"gd": 4, "gp": 10, "pts": 19, "team": "Marblehead"}, {"gd": 1, "gp": 10, "pts": 16, "team": "Lynnfield FC"}, {"gd": 4, "gp": 10, "pts": 15, "team": "Harvard"}, {"gd": 2, "gp": 10, "pts": 14, "team": "North Shore United"}, {"gd": 3, "gp": 10, "pts": 13, "team": "Nashua Red"}, {"gd": -7, "gp": 10, "pts": 11, "team": "Renegades FC"}, {"gd": -22, "gp": 10, "pts": 4, "team": "Old School Soccer Club"}]}, "over-30-div-5-south": {"label": "Over 30 Division 5 South", "standings": [{"gd": 9, "gp": 8, "pts": 19, "team": "Peru Sport"}, {"gd": 11, "gp": 8, "pts": 16, "team": "Sudbury"}, {"gd": 10, "gp": 10, "pts": 20, "team": "Whaling Port FC"}, {"gd": 6, "gp": 10, "pts": 18, "team": "Rovers FC"}, {"gd": -8, "gp": 8, "pts": 6, "team": "Boston Gunners"}, {"gd": -28, "gp": 10, "pts": 0, "team": "Norfolk FC"}]}, "over-40-div-1-north": {"label": "Over 40 Division 1 North", "standings": [{"gd": 22, "gp": 10, "pts": 27, "team": "Winchester FC"}, {"gd": 3, "gp": 10, "pts": 17, "team": "Concord United Masters"}, {"gd": -3, "gp": 10, "pts": 11, "team": "Acton-Boxboro United II"}, {"gd": 0, "gp": 10, "pts": 10, "team": "Belmont Kickers"}, {"gd": -4, "gp": 10, "pts": 10, "team": "Hollis"}, {"gd": -18, "gp": 10, "pts": 5, "team": "Marblehead"}]}, "over-40-div-1-south": {"label": "Over 40 Division 1 South", "standings": [{"gd": 14, "gp": 10, "pts": 24, "team": "MPS Newton Over40"}, {"gd": 21, "gp": 10, "pts": 23, "team": "Framingham"}, {"gd": 16, "gp": 10, "pts": 21, "team": "Medfield"}, {"gd": -16, "gp": 10, "pts": 6, "team": "Stoughton CLC"}, {"gd": -13, "gp": 10, "pts": 4, "team": "Hudson"}, {"gd": -22, "gp": 10, "pts": 4, "team": "Irish Village"}]}, "over-40-div-2-central": {"label": "Over 40 Division 2 Central", "standings": [{"gd": 10, "gp": 10, "pts": 20, "team": "Danvers Masters"}, {"gd": 1, "gp": 10, "pts": 15, "team": "Boston White Eagles"}, {"gd": 0, "gp": 10, "pts": 14, "team": "Wellesley Black Rhinos"}, {"gd": 3, "gp": 10, "pts": 13, "team": "Shake-Shake Football Club"}, {"gd": -7, "gp": 10, "pts": 13, "team": "Shrewsbury"}, {"gd": -7, "gp": 10, "pts": 4, "team": "SBU Wanderers"}]}, "over-40-div-2-north": {"label": "Over 40 Division 2 North", "standings": [{"gd": 24, "gp": 10, "pts": 26, "team": "DEA Bedford"}, {"gd": 16, "gp": 10, "pts": 22, "team": "Andover Green"}, {"gd": 1, "gp": 10, "pts": 15, "team": "North Reading United SC"}, {"gd": 0, "gp": 10, "pts": 14, "team": "FC Boxford"}, {"gd": -9, "gp": 10, "pts": 8, "team": "Northshore United Soccer Club"}, {"gd": -32, "gp": 10, "pts": -2, "team": "NS Internationals"}]}, "over-40-div-2-south": {"label": "Over 40 Division 2 South", "standings": [{"gd": 12, "gp": 10, "pts": 21, "team": "FUFC"}, {"gd": 10, "gp": 9, "pts": 18, "team": "Crafty Veterans"}, {"gd": 12, "gp": 10, "pts": 18, "team": "Mariner United Masters"}, {"gd": -1, "gp": 8, "pts": 13, "team": "Canarinho F.C. O40"}, {"gd": -10, "gp": 9, "pts": 5, "team": "Hopkinton Raiders"}, {"gd": -23, "gp": 10, "pts": 4, "team": "Celtic Masters"}]}, "over-40-div-3-central": {"label": "Over 40 Division 3 Central", "standings": [{"gd": 12, "gp": 10, "pts": 20, "team": "Newton Brigada"}, {"gd": 1, "gp": 10, "pts": 19, "team": "Weston"}, {"gd": 1, "gp": 10, "pts": 15, "team": "Groton BC United"}, {"gd": -1, "gp": 10, "pts": 13, "team": "Sudbury United"}, {"gd": -5, "gp": 9, "pts": 6, "team": "Westford FC"}, {"gd": -8, "gp": 9, "pts": 5, "team": "P.A.C. Lowell"}]}, "over-40-div-3-north": {"label": "Over 40 Division 3 North", "standings": [{"gd": 20, "gp": 10, "pts": 26, "team": "North Shore Rovers"}, {"gd": 10, "gp": 10, "pts": 22, "team": "Lynnfield Raiders"}, {"gd": 11, "gp": 10, "pts": 14, "team": "Ipswich United"}, {"gd": -9, "gp": 10, "pts": 12, "team": "Hurricane SC"}, {"gd": -8, "gp": 10, "pts": 6, "team": "Wen Ham United FC"}, {"gd": -24, "gp": 10, "pts": 5, "team": "DC Smithwicks"}]}, "over-40-div-3-south": {"label": "Over 40 Division 3 South", "standings": [{"gd": 29, "gp": 10, "pts": 28, "team": "FC Needham United"}, {"gd": 0, "gp": 10, "pts": 15, "team": "Canary Square Veterans"}, {"gd": -2, "gp": 10, "pts": 13, "team": "Natick Masters"}, {"gd": -5, "gp": 10, "pts": 11, "team": "Sherborn Masters"}, {"gd": -13, "gp": 10, "pts": 10, "team": "Needham Masters I"}, {"gd": -9, "gp": 10, "pts": 8, "team": "Sudbury Blast"}]}, "over-40-div-4-central": {"label": "Over 40 Division 4 Central", "standings": [{"gd": 3, "gp": 10, "pts": 17, "team": "Wayland Wahoo"}, {"gd": 2, "gp": 10, "pts": 17, "team": "Hurricane SC II"}, {"gd": 5, "gp": 10, "pts": 15, "team": "Arlington Pond Dawgz"}, {"gd": -2, "gp": 10, "pts": 15, "team": "Medford Atomic"}, {"gd": -1, "gp": 10, "pts": 11, "team": "Wayland United FC"}, {"gd": -7, "gp": 10, "pts": 8, "team": "Lexington Eagles"}]}, "over-40-div-4-north": {"label": "Over 40 Division 4 North", "standings": [{"gd": 13, "gp": 10, "pts": 25, "team": "Windham"}, {"gd": 11, "gp": 10, "pts": 23, "team": "Melrose Good Guys"}, {"gd": 2, "gp": 10, "pts": 13, "team": "Nashua Absolute"}, {"gd": -4, "gp": 10, "pts": 13, "team": "Andover United"}, {"gd": -4, "gp": 10, "pts": 9, "team": "DEA Bedford II"}, {"gd": -18, "gp": 10, "pts": 4, "team": "North Reading Cobras"}]}, "over-40-div-4-south": {"label": "Over 40 Division 4 South", "standings": [{"gd": 24, "gp": 10, "pts": 21, "team": "Kel Kau Masters"}, {"gd": 6, "gp": 10, "pts": 16, "team": "CD Faialense"}, {"gd": -7, "gp": 10, "pts": 15, "team": "Malaga SC"}, {"gd": -3, "gp": 10, "pts": 14, "team": "Carico FC Masters"}, {"gd": -8, "gp": 10, "pts": 8, "team": "Franklin"}, {"gd": -12, "gp": 10, "pts": 7, "team": "Mendon-Upton Divided"}]}, "over-40-div-5-central": {"label": "Over 40 Division 5 Central", "standings": [{"gd": 30, "gp": 10, "pts": 24, "team": "BRAUSA"}, {"gd": 12, "gp": 10, "pts": 20, "team": "United FC"}, {"gd": 17, "gp": 10, "pts": 18, "team": "Peabody Sporting Club"}, {"gd": -10, "gp": 10, "pts": 13, "team": "Arlington Fossils"}, {"gd": 13, "gp": 10, "pts": 9, "team": "Persepolis"}, {"gd": -62, "gp": 10, "pts": 0, "team": "Cambridge City"}]}, "over-40-div-5-north": {"label": "Over 40 Division 5 North", "standings": [{"gd": 13, "gp": 10, "pts": 22, "team": "Lowell Eagles"}, {"gd": 2, "gp": 10, "pts": 19, "team": "Football Club North Pirates"}, {"gd": 4, "gp": 10, "pts": 15, "team": "Woburn Barrabases"}, {"gd": -3, "gp": 10, "pts": 10, "team": "Harvard Blues FC"}, {"gd": 0, "gp": 10, "pts": 9, "team": "Pepperell United"}, {"gd": -16, "gp": 10, "pts": 5, "team": "Acton-Boxboro United"}]}, "over-40-div-5-south": {"label": "Over 40 Division 5 South", "standings": [{"gd": 16, "gp": 10, "pts": 22, "team": "Medway"}, {"gd": 13, "gp": 10, "pts": 20, "team": "Medfield FC"}, {"gd": 7, "gp": 10, "pts": 18, "team": "Foxboro Warthogs"}, {"gd": -7, "gp": 10, "pts": 13, "team": "Easton Masters"}, {"gd": -10, "gp": 10, "pts": 6, "team": "Los Inkas Sport Club"}, {"gd": -19, "gp": 10, "pts": 5, "team": "Newton Spurs"}]}, "over-40-div-6-central": {"label": "Over 40 Division 6 Central", "standings": [{"gd": 41, "gp": 10, "pts": 28, "team": "Hopkinton Mets"}, {"gd": 11, "gp": 10, "pts": 22, "team": "West Roxbury United"}, {"gd": 7, "gp": 10, "pts": 14, "team": "Ashland OFC"}, {"gd": 0, "gp": 10, "pts": 13, "team": "FC Weston"}, {"gd": -23, "gp": 10, "pts": 7, "team": "Burlington"}, {"gd": -36, "gp": 10, "pts": 3, "team": "Woburn Masters"}]}, "over-40-div-6-north": {"label": "Over 40 Division 6 North", "standings": [{"gd": 15, "gp": 10, "pts": 25, "team": "Lexington Grey Eagles"}, {"gd": 16, "gp": 10, "pts": 19, "team": "Westford United"}, {"gd": 15, "gp": 9, "pts": 15, "team": "Andover Gold"}, {"gd": 2, "gp": 9, "pts": 14, "team": "Derry Eagles"}, {"gd": -24, "gp": 10, "pts": 5, "team": "Nashoba Masters"}, {"gd": -24, "gp": 8, "pts": -1, "team": "Tewksbury Independent"}]}, "over-40-div-6-south": {"label": "Over 40 Division 6 South", "standings": [{"gd": 13, "gp": 10, "pts": 21, "team": "Mansfield United"}, {"gd": 18, "gp": 10, "pts": 20, "team": "Vineyard FC"}, {"gd": 6, "gp": 10, "pts": 17, "team": "Needham FC"}, {"gd": 1, "gp": 10, "pts": 16, "team": "Southborough FC"}, {"gd": -10, "gp": 10, "pts": 4, "team": "Dover-Sherborn"}, {"gd": -28, "gp": 10, "pts": 3, "team": "Westwood Masters"}]}, "over-48-div-1-north": {"label": "Over 48 Division 1 North", "standings": [{"gd": 43, "gp": 10, "pts": 26, "team": "Stoneham Spartans Over 50"}, {"gd": 31, "gp": 10, "pts": 26, "team": "Carcara United"}, {"gd": -1, "gp": 10, "pts": 13, "team": "Winchester"}, {"gd": -27, "gp": 10, "pts": 10, "team": "North Andover Grand Masters"}, {"gd": -22, "gp": 10, "pts": 7, "team": "Nashua Internationals"}, {"gd": -24, "gp": 10, "pts": 2, "team": "North Reading"}]}, "over-48-div-1-south": {"label": "Over 48 Division 1 South", "standings": [{"gd": 10, "gp": 10, "pts": 23, "team": "Canton"}, {"gd": 9, "gp": 10, "pts": 19, "team": "Mariner United Seniors"}, {"gd": 5, "gp": 10, "pts": 18, "team": "Sudbury Silver"}, {"gd": 10, "gp": 10, "pts": 15, "team": "Hudson"}, {"gd": -16, "gp": 10, "pts": 4, "team": "Jacques Paoli F.C. NEWTON"}, {"gd": -18, "gp": 10, "pts": 2, "team": "Lexington Eagles"}]}, "over-48-div-2-north": {"label": "Over 48 Division 2 North", "standings": [{"gd": 17, "gp": 10, "pts": 22, "team": "Wenham Generals"}, {"gd": 6, "gp": 10, "pts": 19, "team": "Saugus F.C."}, {"gd": 2, "gp": 10, "pts": 18, "team": "NS Internationals II"}, {"gd": 0, "gp": 9, "pts": 12, "team": "Tewksbury Grand Masters"}, {"gd": -8, "gp": 9, "pts": 10, "team": "OnTheRocks of Pepperell"}, {"gd": -17, "gp": 10, "pts": 4, "team": "Andover Gold"}]}, "over-48-div-2-south": {"label": "Over 48 Division 2 South", "standings": [{"gd": 41, "gp": 10, "pts": 30, "team": "Acton-Boxboro"}, {"gd": -2, "gp": 10, "pts": 13, "team": "Dover-Sherborn Silverbacks"}, {"gd": 1, "gp": 10, "pts": 12, "team": "Sudbury AC"}, {"gd": -14, "gp": 10, "pts": 9, "team": "Warthogs"}, {"gd": -9, "gp": 10, "pts": 8, "team": "South Shore Seniors"}, {"gd": -17, "gp": 10, "pts": 7, "team": "Belmont Old Boys"}]}, "over-48-div-3-north": {"label": "Over 48 Division 3 North", "standings": [{"gd": 6, "gp": 10, "pts": 19, "team": "North Shore Raiders"}, {"gd": 8, "gp": 10, "pts": 16, "team": "Juventus Club Everett"}, {"gd": 6, "gp": 10, "pts": 16, "team": "North Shore Spartans"}, {"gd": 0, "gp": 10, "pts": 13, "team": "Nashua Absolute II"}, {"gd": -1, "gp": 10, "pts": 12, "team": "Lynnfield"}, {"gd": -19, "gp": 10, "pts": 7, "team": "North Andover Wanderers"}]}, "over-48-div-3-south": {"label": "Over 48 Division 3 South", "standings": [{"gd": 12, "gp": 10, "pts": 20, "team": "Wayland wahootoo"}, {"gd": 5, "gp": 10, "pts": 20, "team": "Hopkinton Grand Masters"}, {"gd": 8, "gp": 10, "pts": 18, "team": "Wayland Spirit"}, {"gd": -2, "gp": 10, "pts": 11, "team": "Concord United"}, {"gd": -4, "gp": 10, "pts": 11, "team": "Nashoba"}, {"gd": -19, "gp": 10, "pts": 4, "team": "Wayland Wizards"}]}, "over-48-div-4-central": {"label": "Over 48 Division 4 Central", "standings": [{"gd": 20, "gp": 10, "pts": 24, "team": "Groton-Dunstable"}, {"gd": 0, "gp": 10, "pts": 17, "team": "Lexington Golden Eagles"}, {"gd": 7, "gp": 10, "pts": 15, "team": "Arlington Pond Dawgz"}, {"gd": -3, "gp": 10, "pts": 15, "team": "Harvard Elders"}, {"gd": -4, "gp": 10, "pts": 14, "team": "Burlington"}, {"gd": -20, "gp": 10, "pts": 0, "team": "Westford"}]}, "over-48-div-4-north": {"label": "Over 48 Division 4 North", "standings": [{"gd": 36, "gp": 10, "pts": 30, "team": "Ipswich Seadogs FC"}, {"gd": 5, "gp": 10, "pts": 18, "team": "North Reading Gray Cobras"}, {"gd": 2, "gp": 10, "pts": 16, "team": "Windham Seniors"}, {"gd": 0, "gp": 9, "pts": 10, "team": "Marblehead"}, {"gd": -8, "gp": 9, "pts": 8, "team": "Peabody Gold"}, {"gd": -35, "gp": 10, "pts": 1, "team": "MGG O50"}]}, "over-48-div-4-south": {"label": "Over 48 Division 4 South", "standings": [{"gd": 49, "gp": 10, "pts": 30, "team": "Medfield Old Boys"}, {"gd": 12, "gp": 10, "pts": 21, "team": "Needham Seniors"}, {"gd": 5, "gp": 10, "pts": 19, "team": "Jaguars"}, {"gd": -10, "gp": 10, "pts": 10, "team": "Canton United II"}, {"gd": -17, "gp": 10, "pts": 9, "team": "Ashland VOFC"}, {"gd": -39, "gp": 10, "pts": 0, "team": "Medway"}]}, "over-55-div-1-north": {"label": "Over 55 Division 1 North", "standings": [{"gd": 49, "gp": 10, "pts": 24, "team": "Nashua"}, {"gd": 15, "gp": 10, "pts": 24, "team": "Nashua Veterans"}, {"gd": 14, "gp": 10, "pts": 21, "team": "Wenham Veterans"}, {"gd": -3, "gp": 10, "pts": 15, "team": "Medford"}, {"gd": -34, "gp": 10, "pts": 3, "team": "Andover Gold"}, {"gd": -41, "gp": 10, "pts": 3, "team": "Tewksbury Veterans"}]}, "over-55-div-1-south": {"label": "Over 55 Division 1 South", "standings": [{"gd": 21, "gp": 10, "pts": 27, "team": "Sudbury Gold AC"}, {"gd": 39, "gp": 9, "pts": 24, "team": "Raynham Veterans"}, {"gd": 2, "gp": 9, "pts": 18, "team": "Framingham United"}, {"gd": -17, "gp": 10, "pts": 9, "team": "Lexington Bald Eagles"}, {"gd": -20, "gp": 10, "pts": 5, "team": "Hopkinton OF Soccer Club"}, {"gd": -25, "gp": 10, "pts": 2, "team": "Harvard"}]}};
+const CURRENT_SEASON_SLUG = "spring-2026";
+const SEASON_NAV_PREFIX = "../../season/";
+const THIS_SEASON_SLUG = "spring-2010";
+
+// ── Season selector navigation ────────────────────────────────────
+document.getElementById('season-select').addEventListener('change', function() {
+  const slug = this.value;
+  const dest = slug === CURRENT_SEASON_SLUG
+    ? SEASON_NAV_PREFIX.replace(/season\/$/, '') + 'teams/'
+    : SEASON_NAV_PREFIX + slug + '/teams/';
+  window.location.href = dest;
+});
+
+// ── Search ────────────────────────────────────────────────────────
+const searchEl    = document.getElementById('team-search');
+const resultsEl   = document.getElementById('search-results');
+const countEl     = document.getElementById('result-count');
+const listEl      = document.getElementById('result-list');
+const directoryEl = document.getElementById('directory');
+
+function highlight(text, query) {
+  if (!query) return text;
+  const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${esc})`, 'gi'), '<mark>$1</mark>');
+}
+
+function doSearch(raw) {
+  const q = raw.trim().toLowerCase();
+  if (!q) {
+    resultsEl.classList.remove('visible');
+    directoryEl.style.display = '';
+    return;
+  }
+  directoryEl.style.display = 'none';
+  resultsEl.classList.add('visible');
+
+  const matches = TEAMS.filter(t => t.name.toLowerCase().includes(q));
+  countEl.textContent = matches.length
+    ? `${matches.length} team${matches.length === 1 ? '' : 's'} found`
+    : '';
+
+  if (!matches.length) {
+    listEl.innerHTML = `<div class="no-results">No teams match "<strong>${raw.trim()}</strong>"</div>`;
+    return;
+  }
+
+  listEl.innerHTML = matches.map(t => `
+    <a class="result-card" href="${FLIGHT_URL_PREFIX}${t.flight_slug}/" data-flight-slug="${t.flight_slug}">
+      <div style="flex:1;min-width:0">
+        <div class="result-name">${highlight(t.name, raw.trim())}</div>
+        <div class="result-flight">${t.flight_label}</div>
+      </div>
+      <span class="result-arrow">→</span>
+    </a>
+  `).join('');
+  bindFlightPreviewHover(listEl);
+}
+
+searchEl.addEventListener('input', () => doSearch(searchEl.value));
+searchEl.focus();
+
+const flightPopup = document.getElementById('flight-popup');
+const flightPopupTitle = document.getElementById('flight-popup-title');
+const flightPopupBody = document.getElementById('flight-popup-body');
+const flightPreviewPanel = document.getElementById('flight-preview-panel');
+const flightPreviewTitle = document.getElementById('flight-preview-title');
+const flightPreviewBody = document.getElementById('flight-preview-body');
+let flightPopupTimer = null;
+
+function hideFlightPopup() {
+  if (flightPopupTimer) {
+    clearTimeout(flightPopupTimer);
+    flightPopupTimer = null;
+  }
+  flightPopup.classList.remove('visible');
+}
+
+function scheduleFlightPopup(link) {
+  const slug = link.dataset.flightSlug;
+  if (!slug) return;
+  if (flightPopupTimer) clearTimeout(flightPopupTimer);
+  renderFlightPreview(slug);
+  renderFlightPopup(link, slug);
+}
+
+function renderFlightPreview(slug) {
+  const preview = FLIGHT_PREVIEWS[slug];
+  if (!preview) return;
+  flightPreviewTitle.textContent = preview.label;
+  const standings = preview.standings || [];
+  flightPreviewBody.innerHTML = standings.map((row, idx) => `
+    <div class="flight-preview-item">
+      <div class="flight-preview-team">${idx + 1}. ${row.team}</div>
+      <div class="flight-preview-metrics">${row.pts} pts - GD ${row.gd >= 0 ? '+' + row.gd : row.gd}</div>
+    </div>
+  `).join('');
+  flightPreviewPanel.classList.add('visible');
+}
+
+function renderFlightPopup(anchor, slug) {
+  const preview = FLIGHT_PREVIEWS[slug];
+  if (!preview) return;
+  flightPopupTitle.textContent = preview.label;
+  const standings = preview.standings || [];
+  flightPopupBody.innerHTML = standings.map((row, idx) => `
+    <div class="flight-popup-row">
+      <div class="flight-popup-team">${idx + 1}. ${row.team}</div>
+      <div class="flight-popup-metrics">${row.pts} pts · GD ${row.gd >= 0 ? '+' + row.gd : row.gd}</div>
+    </div>
+  `).join('');
+  flightPopup.classList.add('visible');
+
+  const rect = anchor.getBoundingClientRect();
+  const pw = flightPopup.offsetWidth || 320;
+  const ph = flightPopup.offsetHeight || 240;
+  const gap = 12;
+  let left = rect.right + gap;
+  let top = rect.top;
+  if (left + pw > window.innerWidth - 8) left = rect.left - pw - gap;
+  if (top + ph > window.innerHeight - 8) top = window.innerHeight - ph - 8;
+  if (top < 8) top = 8;
+  flightPopup.style.left = `${left}px`;
+  flightPopup.style.top = `${top}px`;
+}
+
+function bindFlightPreviewHover(scope = document) {
+  scope.querySelectorAll('[data-flight-slug]').forEach(link => {
+    if (link.dataset.previewBound === '1') return;
+    link.dataset.previewBound = '1';
+    link.addEventListener('pointerenter', () => scheduleFlightPopup(link));
+    link.addEventListener('focus', () => scheduleFlightPopup(link));
+    link.addEventListener('pointerleave', (e) => {
+      if (flightPopup.contains(e.relatedTarget)) return;
+      hideFlightPopup();
+    });
+    link.addEventListener('blur', hideFlightPopup);
+  });
+}
+
+flightPopup.addEventListener('pointerenter', () => {
+  if (flightPopupTimer) {
+    clearTimeout(flightPopupTimer);
+    flightPopupTimer = null;
+  }
+});
+flightPopup.addEventListener('pointerleave', hideFlightPopup);
+
+bindFlightPreviewHover();
+
+document.querySelectorAll('[data-flight-slug]').forEach(link => {
+  if (link.dataset.mousePreviewBound === '1') return;
+  link.dataset.mousePreviewBound = '1';
+  link.addEventListener('mouseenter', () => scheduleFlightPopup(link));
+  link.addEventListener('mouseleave', (e) => {
+    if (flightPopup.contains(e.relatedTarget)) return;
+    hideFlightPopup();
+  });
+});
+
+document.addEventListener('mouseover', (e) => {
+  const link = e.target.closest('[data-flight-slug]');
+  if (!link) return;
+  scheduleFlightPopup(link);
+});
+
+document.addEventListener('mouseout', (e) => {
+  const link = e.target.closest('[data-flight-slug]');
+  if (!link) return;
+  const next = e.relatedTarget;
+  if (next && (link.contains(next) || flightPopup.contains(next))) return;
+  hideFlightPopup();
+});
+</script>
+</body>
+</html>

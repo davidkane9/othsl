@@ -1,0 +1,558 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over 40 Division 2 North Importance | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.93);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+    --border: rgba(38,61,41,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 52px;
+  }
+  .nav-brand {
+    color: #f7f2e8;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -.02em;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-links a {
+    color: rgba(247,242,232,.72);
+    text-decoration: none;
+    font-size: .88rem;
+    padding: 5px 11px;
+    border-radius: 7px;
+    transition: background .13s, color .13s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(255,255,255,.12);
+    color: #f7f2e8;
+  }
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 30px 20px 64px;
+  }
+  .crumbs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    font-size: .88rem;
+  }
+  .crumbs a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+  .page-header h1 {
+    margin: 0 0 4px;
+    font-size: 2rem;
+    letter-spacing: -.03em;
+  }
+  .page-header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+  .section {
+    margin-top: 26px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .stat-card {
+    background: linear-gradient(180deg, rgba(255,250,241,0.96), rgba(249,243,232,0.92));
+    border: 1px solid rgba(38,61,41,.12);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .stat-card .eyebrow {
+    color: var(--muted);
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+  }
+  .stat-card .value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .stat-card .note {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: .84rem;
+  }
+  .formula-box {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(35,68,43,.05);
+    border: 1px solid rgba(35,68,43,.14);
+    border-radius: 12px;
+  }
+  .formula-box code {
+    display: block;
+    white-space: pre-wrap;
+    font-size: .88rem;
+    line-height: 1.6;
+    color: var(--field);
+  }
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 14px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+    font-size: .88rem;
+  }
+  th {
+    text-align: left;
+    padding: 10px 10px;
+    font-size: .76rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    border-bottom: 2px solid var(--line);
+    background: rgba(255,250,241,.75);
+  }
+  td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  .rank {
+    font-weight: 700;
+  }
+  .matchup {
+    font-weight: 700;
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .impact-chip {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(198,138,43,.14);
+    color: #7b5719;
+    border: 1px solid rgba(198,138,43,.24);
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+  footer {
+    text-align: center;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../../">Home</a></li>
+      <li><a href="../../../teams/">Find Team</a></li>
+      <li><a href="../../../calibration/">Model Calibration</a></li>
+      <li><a href="../../../model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="crumbs">
+    <a href="../../../">Home</a>
+    <a href="../">Back to Flight</a>
+  </div>
+
+  <div class="page-header">
+    <h1>Over 40 Division 2 North Importance</h1>
+    <p>Spring 2026 leverage table for every remaining game in this flight.</p>
+  </div>
+
+  <section class="section">
+    <div class="panel">
+      
+      <p style="margin:0;font-size:1rem;line-height:1.7">
+        The most important remaining game right now is <strong>Marblehead vs Seacoast United SC</strong> on <strong>Sunday, May 31</strong>.
+        Its match score is <strong>173.70</strong>, which means the three possible results in this game create more combined change for those two teams' promotion and relegation chances than any other matchup left.
+      </p>
+      
+
+      <div class="hero-grid">
+        <div class="stat-card">
+          <div class="eyebrow">Formula</div>
+          <div class="value">Three-result swing for the two teams in the match</div>
+          <div class="note">Measured only from the two teams playing in that match.</div>
+        </div>
+        <div class="stat-card">
+          <div class="eyebrow">Simulation Runs</div>
+          <div class="value">220</div>
+          <div class="note">Used for each baseline and single-outcome branch.</div>
+        </div>
+        <div class="stat-card">
+          <div class="eyebrow">Top Outcome Branch</div>
+          <div class="value">Seacoast United SC win</div>
+          <div class="note">81.00 change for the two teams</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <p style="margin:0 0 8px;font-size:.88rem;color:var(--muted)">Exact formula used on this page:</p>
+        <code>Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.</code>
+        <p style="margin:10px 0 0;font-size:.9rem;line-height:1.65">
+          For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="panel">
+      <h2 style="margin:0 0 6px;font-size:1.2rem">Remaining Game Table</h2>
+      <p style="margin:0;color:var(--muted);font-size:.88rem;line-height:1.6">
+        `Match score` is the headline ranking. The three branch columns show how much the two teams in that match would change if the home team wins, if it ends in a draw, or if the away team wins.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Matchup</th>
+              <th class="num">Home Win%</th>
+              <th class="num">Draw%</th>
+              <th class="num">Away Win%</th>
+              <th class="num">Match Score</th>
+              <th class="num">If Home Wins</th>
+              <th class="num">If Draw</th>
+              <th class="num">If Away Wins</th>
+              <th>Most Affected Team</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td class="rank">1</td>
+              <td class="muted">Sunday, May 31</td>
+              <td>
+                <div class="matchup">Marblehead vs Seacoast United SC</div>
+                <div class="muted">
+                  <span class="impact-chip">Seacoast United SC win</span>
+                </div>
+              </td>
+              <td class="num">43</td>
+              <td class="num">22</td>
+              <td class="num">35</td>
+              <td class="num"><strong>173.70</strong></td>
+              <td class="num">74.90</td>
+              <td class="num">17.80</td>
+              <td class="num">81.00</td>
+              <td>
+                
+                <div>Seacoast United SC</div>
+                <div class="muted">90.90 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">2</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">Seacoast United SC vs Arlington Fossils</div>
+                <div class="muted">
+                  <span class="impact-chip">Arlington Fossils win</span>
+                </div>
+              </td>
+              <td class="num">42</td>
+              <td class="num">22</td>
+              <td class="num">36</td>
+              <td class="num"><strong>125.90</strong></td>
+              <td class="num">41.40</td>
+              <td class="num">18.60</td>
+              <td class="num">65.90</td>
+              <td>
+                
+                <div>Arlington Fossils</div>
+                <div class="muted">77.70 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">3</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">Melrose Wakefield Meadowlarks vs Kendall Wanderers</div>
+                <div class="muted">
+                  <span class="impact-chip">Melrose Wakefield Meadowlarks win</span>
+                </div>
+              </td>
+              <td class="num">30</td>
+              <td class="num">22</td>
+              <td class="num">48</td>
+              <td class="num"><strong>124.20</strong></td>
+              <td class="num">61.20</td>
+              <td class="num">18.70</td>
+              <td class="num">44.30</td>
+              <td>
+                
+                <div>Melrose Wakefield Meadowlarks</div>
+                <div class="muted">64.30 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">4</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Arlington Fossils vs Marblehead</div>
+                <div class="muted">
+                  <span class="impact-chip">Arlington Fossils win</span>
+                </div>
+              </td>
+              <td class="num">32</td>
+              <td class="num">22</td>
+              <td class="num">46</td>
+              <td class="num"><strong>116.40</strong></td>
+              <td class="num">58.70</td>
+              <td class="num">12.30</td>
+              <td class="num">45.40</td>
+              <td>
+                
+                <div>Arlington Fossils</div>
+                <div class="muted">72.70 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">5</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Os Amigos FC vs Melrose Wakefield Meadowlarks</div>
+                <div class="muted">
+                  <span class="impact-chip">Melrose Wakefield Meadowlarks win</span>
+                </div>
+              </td>
+              <td class="num">59</td>
+              <td class="num">22</td>
+              <td class="num">19</td>
+              <td class="num"><strong>112.00</strong></td>
+              <td class="num">18.70</td>
+              <td class="num">18.40</td>
+              <td class="num">74.90</td>
+              <td>
+                
+                <div>Melrose Wakefield Meadowlarks</div>
+                <div class="muted">64.70 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">6</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">DEA vs Os Amigos FC</div>
+                <div class="muted">
+                  <span class="impact-chip">DEA win</span>
+                </div>
+              </td>
+              <td class="num">9</td>
+              <td class="num">22</td>
+              <td class="num">69</td>
+              <td class="num"><strong>75.40</strong></td>
+              <td class="num">51.80</td>
+              <td class="num">18.10</td>
+              <td class="num">5.50</td>
+              <td>
+                
+                <div>Os Amigos FC</div>
+                <div class="muted">57.40 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">7</td>
+              <td class="muted">TBD</td>
+              <td>
+                <div class="matchup">DEA vs Marblehead</div>
+                <div class="muted">
+                  <span class="impact-chip">DEA win</span>
+                </div>
+              </td>
+              <td class="num">17</td>
+              <td class="num">22</td>
+              <td class="num">61</td>
+              <td class="num"><strong>68.50</strong></td>
+              <td class="num">34.20</td>
+              <td class="num">13.10</td>
+              <td class="num">21.20</td>
+              <td>
+                
+                <div>Marblehead</div>
+                <div class="muted">62.00 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">8</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">Marblehead vs Charlestown FC</div>
+                <div class="muted">
+                  <span class="impact-chip">Marblehead win</span>
+                </div>
+              </td>
+              <td class="num">40</td>
+              <td class="num">22</td>
+              <td class="num">38</td>
+              <td class="num"><strong>56.10</strong></td>
+              <td class="num">31.50</td>
+              <td class="num">2.90</td>
+              <td class="num">21.70</td>
+              <td>
+                
+                <div>Marblehead</div>
+                <div class="muted">53.70 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">9</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Kendall Wanderers vs DEA</div>
+                <div class="muted">
+                  <span class="impact-chip">DEA win</span>
+                </div>
+              </td>
+              <td class="num">59</td>
+              <td class="num">22</td>
+              <td class="num">19</td>
+              <td class="num"><strong>55.50</strong></td>
+              <td class="num">10.20</td>
+              <td class="num">15.00</td>
+              <td class="num">30.30</td>
+              <td>
+                
+                <div>Kendall Wanderers</div>
+                <div class="muted">44.90 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">10</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Charlestown FC vs Seacoast United SC</div>
+                <div class="muted">
+                  <span class="impact-chip">Seacoast United SC win</span>
+                </div>
+              </td>
+              <td class="num">42</td>
+              <td class="num">22</td>
+              <td class="num">36</td>
+              <td class="num"><strong>44.30</strong></td>
+              <td class="num">17.60</td>
+              <td class="num">6.80</td>
+              <td class="num">19.90</td>
+              <td>
+                
+                <div>Seacoast United SC</div>
+                <div class="muted">42.20 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    ELO ratings and leverage scores are model estimates, not official standings.
+  </footer>
+</main>
+</body>
+</html>

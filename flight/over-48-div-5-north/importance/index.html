@@ -1,0 +1,462 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Over 48 Division 5 North Importance | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.93);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+    --border: rgba(38,61,41,.1);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 52px;
+  }
+  .nav-brand {
+    color: #f7f2e8;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -.02em;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .nav-links a {
+    color: rgba(247,242,232,.72);
+    text-decoration: none;
+    font-size: .88rem;
+    padding: 5px 11px;
+    border-radius: 7px;
+    transition: background .13s, color .13s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: rgba(255,255,255,.12);
+    color: #f7f2e8;
+  }
+  main {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 30px 20px 64px;
+  }
+  .crumbs {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    font-size: .88rem;
+  }
+  .crumbs a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+  .page-header h1 {
+    margin: 0 0 4px;
+    font-size: 2rem;
+    letter-spacing: -.03em;
+  }
+  .page-header p {
+    margin: 0;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+  .section {
+    margin-top: 26px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .stat-card {
+    background: linear-gradient(180deg, rgba(255,250,241,0.96), rgba(249,243,232,0.92));
+    border: 1px solid rgba(38,61,41,.12);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .stat-card .eyebrow {
+    color: var(--muted);
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 6px;
+  }
+  .stat-card .value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .stat-card .note {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: .84rem;
+  }
+  .formula-box {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(35,68,43,.05);
+    border: 1px solid rgba(35,68,43,.14);
+    border-radius: 12px;
+  }
+  .formula-box code {
+    display: block;
+    white-space: pre-wrap;
+    font-size: .88rem;
+    line-height: 1.6;
+    color: var(--field);
+  }
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 14px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+    font-size: .88rem;
+  }
+  th {
+    text-align: left;
+    padding: 10px 10px;
+    font-size: .76rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    border-bottom: 2px solid var(--line);
+    background: rgba(255,250,241,.75);
+  }
+  td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  .rank {
+    font-weight: 700;
+  }
+  .matchup {
+    font-weight: 700;
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .impact-chip {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(198,138,43,.14);
+    color: #7b5719;
+    border: 1px solid rgba(198,138,43,.24);
+    font-size: .78rem;
+    white-space: nowrap;
+  }
+  footer {
+    text-align: center;
+    font-size: .82rem;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../../../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../../../">Home</a></li>
+      <li><a href="../../../teams/">Find Team</a></li>
+      <li><a href="../../../calibration/">Model Calibration</a></li>
+      <li><a href="../../../model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="crumbs">
+    <a href="../../../">Home</a>
+    <a href="../">Back to Flight</a>
+  </div>
+
+  <div class="page-header">
+    <h1>Over 48 Division 5 North Importance</h1>
+    <p>Spring 2026 leverage table for every remaining game in this flight.</p>
+  </div>
+
+  <section class="section">
+    <div class="panel">
+      
+      <p style="margin:0;font-size:1rem;line-height:1.7">
+        The most important remaining game right now is <strong>Old School Soccer Club vs North Andover Grey Knights</strong> on <strong>Sunday, June 14</strong>.
+        Its match score is <strong>132.80</strong>, which means the three possible results in this game create more combined change for those two teams' promotion and relegation chances than any other matchup left.
+      </p>
+      
+
+      <div class="hero-grid">
+        <div class="stat-card">
+          <div class="eyebrow">Formula</div>
+          <div class="value">Three-result swing for the two teams in the match</div>
+          <div class="note">Measured only from the two teams playing in that match.</div>
+        </div>
+        <div class="stat-card">
+          <div class="eyebrow">Simulation Runs</div>
+          <div class="value">220</div>
+          <div class="note">Used for each baseline and single-outcome branch.</div>
+        </div>
+        <div class="stat-card">
+          <div class="eyebrow">Top Outcome Branch</div>
+          <div class="value">North Andover Grey Knights win</div>
+          <div class="note">105.30 change for the two teams</div>
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <p style="margin:0 0 8px;font-size:.88rem;color:var(--muted)">Exact formula used on this page:</p>
+        <code>Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.</code>
+        <p style="margin:10px 0 0;font-size:.9rem;line-height:1.65">
+          For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="panel">
+      <h2 style="margin:0 0 6px;font-size:1.2rem">Remaining Game Table</h2>
+      <p style="margin:0;color:var(--muted);font-size:.88rem;line-height:1.6">
+        `Match score` is the headline ranking. The three branch columns show how much the two teams in that match would change if the home team wins, if it ends in a draw, or if the away team wins.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Matchup</th>
+              <th class="num">Home Win%</th>
+              <th class="num">Draw%</th>
+              <th class="num">Away Win%</th>
+              <th class="num">Match Score</th>
+              <th class="num">If Home Wins</th>
+              <th class="num">If Draw</th>
+              <th class="num">If Away Wins</th>
+              <th>Most Affected Team</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td class="rank">1</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Old School Soccer Club vs North Andover Grey Knights</div>
+                <div class="muted">
+                  <span class="impact-chip">North Andover Grey Knights win</span>
+                </div>
+              </td>
+              <td class="num">65</td>
+              <td class="num">22</td>
+              <td class="num">13</td>
+              <td class="num"><strong>132.80</strong></td>
+              <td class="num">25.70</td>
+              <td class="num">1.80</td>
+              <td class="num">105.30</td>
+              <td>
+                
+                <div>North Andover Grey Knights</div>
+                <div class="muted">82.70 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">2</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">Canary Square 50 vs Old School Soccer Club</div>
+                <div class="muted">
+                  <span class="impact-chip">Canary Square 50 win</span>
+                </div>
+              </td>
+              <td class="num">16</td>
+              <td class="num">22</td>
+              <td class="num">62</td>
+              <td class="num"><strong>120.70</strong></td>
+              <td class="num">95.60</td>
+              <td class="num">4.20</td>
+              <td class="num">20.90</td>
+              <td>
+                
+                <div>Canary Square 50</div>
+                <div class="muted">73.00 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">3</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">FC Belmont vs Masco</div>
+                <div class="muted">
+                  <span class="impact-chip">FC Belmont win</span>
+                </div>
+              </td>
+              <td class="num">24</td>
+              <td class="num">22</td>
+              <td class="num">54</td>
+              <td class="num"><strong>118.20</strong></td>
+              <td class="num">78.50</td>
+              <td class="num">11.00</td>
+              <td class="num">28.70</td>
+              <td>
+                
+                <div>Masco</div>
+                <div class="muted">66.80 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">4</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">North Andover Grey Knights vs Malden Everett Veterans</div>
+                <div class="muted">
+                  <span class="impact-chip">North Andover Grey Knights win</span>
+                </div>
+              </td>
+              <td class="num">15</td>
+              <td class="num">22</td>
+              <td class="num">63</td>
+              <td class="num"><strong>113.40</strong></td>
+              <td class="num">80.90</td>
+              <td class="num">14.70</td>
+              <td class="num">17.80</td>
+              <td>
+                
+                <div>North Andover Grey Knights</div>
+                <div class="muted">85.60 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">5</td>
+              <td class="muted">Sunday, June 14</td>
+              <td>
+                <div class="matchup">Malden Everett Veterans vs Canary Square 50</div>
+                <div class="muted">
+                  <span class="impact-chip">Canary Square 50 win</span>
+                </div>
+              </td>
+              <td class="num">60</td>
+              <td class="num">22</td>
+              <td class="num">18</td>
+              <td class="num"><strong>110.80</strong></td>
+              <td class="num">22.00</td>
+              <td class="num">14.00</td>
+              <td class="num">74.80</td>
+              <td>
+                
+                <div>Canary Square 50</div>
+                <div class="muted">77.10 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="rank">6</td>
+              <td class="muted">Sunday, June 07</td>
+              <td>
+                <div class="matchup">Charlestown FC o48 vs FC Belmont</div>
+                <div class="muted">
+                  <span class="impact-chip">FC Belmont win</span>
+                </div>
+              </td>
+              <td class="num">68</td>
+              <td class="num">22</td>
+              <td class="num">10</td>
+              <td class="num"><strong>44.90</strong></td>
+              <td class="num">6.90</td>
+              <td class="num">10.80</td>
+              <td class="num">27.20</td>
+              <td>
+                
+                <div>FC Belmont</div>
+                <div class="muted">44.90 total change across the 3 results</div>
+                
+              </td>
+            </tr>
+            
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    ELO ratings and leverage scores are model estimates, not official standings.
+  </footer>
+</main>
+</body>
+</html>
