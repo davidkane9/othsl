@@ -12,9 +12,11 @@ import os
 import subprocess
 import sys
 import logging
+import argparse
 from datetime import datetime
 
 LOG_FILE = os.path.join(os.path.dirname(__file__), "data", "refresh.log")
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -29,7 +31,7 @@ logging.basicConfig(
 def run(script, *args, cwd=None):
     cmd = [sys.executable, script] + list(args)
     logging.info(f"Running: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd or os.path.dirname(__file__))
+    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", cwd=cwd or os.path.dirname(__file__), env={**os.environ, "PYTHONIOENCODING": "utf-8"})
     if result.stdout:
         for line in result.stdout.strip().splitlines():
             logging.info(f"  {line}")
@@ -42,6 +44,9 @@ def run(script, *args, cwd=None):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Refresh current OTHSL data and rebuild the site")
+    parser.add_argument("--skip-build", action="store_true", help="Refresh data and caches only")
+    args = parser.parse_args()
     logging.info(f"=== Refresh started ===")
 
     base = os.path.dirname(__file__)
@@ -51,13 +56,19 @@ def main():
     ok = run(os.path.join(base, "download_current", "download.py"))
     if not ok:
         logging.error("Download failed — aborting refresh.")
-        return
+        return 1
 
     # 2. Recalculate ELO
     ok = run(os.path.join(base, "elo.py"))
     if not ok:
         logging.error("ELO calculation failed.")
-        return
+        return 1
+
+    # Never reuse last season's analysis under the same flight slugs.
+    for name in ("ai_flight_outlooks.json", "ai_team_insights.json", "flight_importance.json", "season_outlook_cal.json"):
+        path = os.path.join(base, "data", name)
+        if os.path.exists(path):
+            os.remove(path)
 
     # 3. Regenerate AI caches with updated data
     logging.info("Regenerating AI caches...")
@@ -68,6 +79,7 @@ def main():
         logging.info("AI caches regenerated successfully.")
     except Exception as e:
         logging.error(f"Failed to regenerate AI caches: {e}")
+        return 1
 
     # 4. Refresh calibration cache when schema or historical aggregation changes
     if os.path.exists(season_cal_cache):
@@ -78,13 +90,16 @@ def main():
             logging.warning(f"Could not remove season outlook calibration cache: {e}")
 
     # 5. Rebuild frozen site so docs/ reflects the latest data and copy
+    if args.skip_build:
+        logging.info("=== Data refresh complete ===")
+        return 0
     ok = run(os.path.join(base, "freeze.py"))
     if not ok:
         logging.error("Static site build failed.")
-        return
+        return 1
 
     logging.info("=== Refresh complete ===\n")
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

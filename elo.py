@@ -94,12 +94,19 @@ def rolling_elo(rows):
 
         Also returns final_elos: dict of {(team, age_group): elo}
     """
-    # Sort chronologically
+    # Season labels sort alphabetically (Fall before Spring); use year and term.
     def sort_key(r):
         d = r.get("date", "")
-        return (r.get("season", ""), "0" if d == "TBD" else d)
+        term, year = r["season"].split()
+        return (int(year), 0 if term == "Spring" else 1, d)
 
-    rows = sorted(rows, key=sort_key)
+    # The current snapshot supersedes archived rows for that season.
+    unique = {}
+    for row in rows:
+        key = tuple(row.get(k, "") for k in
+                    ("season", "age_group", "division", "geography", "date", "home_team", "away_team"))
+        unique[key] = row
+    rows = sorted(unique.values(), key=sort_key)
 
     # ELO state: keyed by (team, age_group)
     elos = defaultdict(lambda: DEFAULT_ELO)

@@ -17,6 +17,7 @@ import app as app_module
 from app import (
     CURRENT_SEASON,
     IMPORTANCE_SIM_RUNS,
+    SIMULATION_RUNS,
     app,
     build_flight_importance_fallback,
     calculate_flight_importance,
@@ -267,7 +268,7 @@ def _team_prompt(team_slug, season):
     return (
         f"You are a sharp soccer analyst for an adult recreational league (OTHSL). "
         f"Write 3 sentences analyzing {selected}'s season in the {label} flight ({season}). "
-        f"Simulation (400 runs): {promo_prob}% promotion, {relg_prob}% relegation. "
+        f"Simulation ({SIMULATION_RUNS} runs): {promo_prob}% promotion, {relg_prob}% relegation. "
         f"Currently {pos_desc}, {relg_desc}, after {my_gp} games (GD{my_gd:+d}). "
         f"Cover: (1) form and standing, "
         f"(2) exact point gap for promotion or relegation safety, "

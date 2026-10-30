@@ -1,5 +1,5 @@
 """
-OTHSL web app for Spring 2026 league browsing and team pages.
+OTHSL web app for the configured current season league browsing and team pages.
 
 Run:
   python app.py
@@ -12,6 +12,7 @@ import json
 import os
 import re
 import random
+import hashlib
 from collections import defaultdict
 from datetime import datetime, timedelta
 from urllib.request import Request, urlopen
@@ -33,10 +34,21 @@ _flight_importance_cache: dict = {}
 _flight_outlook_cache: dict = {}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
-CURRENT_SEASON = "Spring 2026"
+from season_config import CURRENT_SEASON, SCHEDULE_URL
+
+
+@app.context_processor
+def source_context():
+    path = os.path.join(DATA_DIR, "current_standings.json")
+    updated = ""
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as file:
+            updated = json.load(file).get("updated_at", "")[:10]
+    return {"schedule_url": SCHEDULE_URL, "data_updated": updated}
+
 DEFAULT_ELO = 1500
-SIMULATION_RUNS = 400
-IMPORTANCE_SIM_RUNS = 220
+SIMULATION_RUNS = 10000
+IMPORTANCE_SIM_RUNS = 2000
 REGRESSION_MAX  = 0.65   # blend win_expectation 65% toward 0.5 at season start
 REGRESSION_GP_FULL = 6   # regression reaches 0 once avg games played reaches this
 DRAW_PROBABILITY = 0.22
@@ -67,7 +79,7 @@ def is_real_team_name(team):
     team = clean_team_name(team)
     if not team:
         return False
-    if team.upper() == "TBD":
+    if team.upper() in ("TBD", "BYE", "TBD/BYE"):
         return False
     if team.upper() == "FC":
         return False
@@ -140,8 +152,8 @@ def adjusted_expected_result(home_elo, away_elo, regression=0.0):
 
 def match_outcome_probabilities(home_elo, away_elo, regression=0.0, draw_prob=DRAW_PROBABILITY):
     win_expectation = adjusted_expected_result(home_elo, away_elo, regression=regression)
-    home_win_prob = max(0.05, min(0.9, win_expectation - draw_prob / 2))
-    away_win_prob = max(0.05, 1.0 - draw_prob - home_win_prob)
+    home_win_prob = max(0.05, min(1.0 - draw_prob - 0.05, win_expectation - draw_prob / 2))
+    away_win_prob = 1.0 - draw_prob - home_win_prob
     return {
         "home_win_prob": round(home_win_prob, 3),
         "draw_prob": round(draw_prob, 3),
@@ -158,7 +170,25 @@ def format_game_date(date_str):
         return date_str
 
 
+def simulation_fingerprint(sim_data):
+    """Identify model inputs independently of which team's page is selected."""
+    payload = {key: sim_data.get(key) for key in (
+        "teams", "current_stats", "current_elos", "current_regression",
+        "promotion_cut", "relegation_cut",
+    )}
+    payload["remaining_games"] = [
+        {key: game[key] for key in ("id", "home", "away", "date")}
+        for game in sim_data.get("remaining_games", [])
+    ]
+    payload["model"] = [2, SIMULATION_RUNS, IMPORTANCE_SIM_RUNS, DRAW_PROBABILITY,
+                        REGRESSION_MAX, REGRESSION_GP_FULL]
+    return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+
+
 def simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS, overrides=None):
+    if total_runs <= 0:
+        raise ValueError("Simulation runs must be positive")
+    rng = random.Random(int(simulation_fingerprint(sim_data)[:16], 16))
     teams = sim_data.get("teams", [])
     if not teams:
         return {"team_stats": {}, "counts": {}, "total_runs": total_runs, "regression": 0.0}
@@ -205,6 +235,9 @@ def simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS, overrides=None
                 if home not in sim_stats or away not in sim_stats:
                     continue
 
+                # Consume the same draw even for forced outcomes. Variants then
+                # share random draws, reducing noise in their estimated changes.
+                roll = rng.random()
                 forced = overrides.get(game["id"])
                 if forced is not None:
                     act = 1.0 if forced == "home" else (0.5 if forced == "draw" else 0.0)
@@ -214,7 +247,6 @@ def simulate_flight_outlook(sim_data, total_runs=SIMULATION_RUNS, overrides=None
                         sim_elos.get(away, DEFAULT_ELO),
                         regression=regression,
                     )
-                    roll = random.random()
                     if roll < probs["home_win_prob"]:
                         act = 1.0
                     elif roll < probs["home_win_prob"] + probs["draw_prob"]:
@@ -559,7 +591,7 @@ def season_sort_key(season_name):
 
 
 def expected_result(elo_a, elo_b):
-    return 1.0 / (1.0 + 10 ** ((elo_b - elo_a) / 200))
+    return 1.0 / (1.0 + 10 ** ((elo_b - elo_a) / 400))
 
 
 def identify_playoff_visitors(rows, age_group, division, geography):
@@ -626,6 +658,35 @@ def get_playoff_games_for_flight(rows, age_group, division, geography, playoff_v
 
 
 def get_standings_for_flight(rows, age_group, division, geography, selected_team=None, playoff_visitors=None):
+    # Only the complete current snapshot uses official totals. Historical and
+    # week-by-week views must continue to calculate from their own games.
+    snapshot_path = os.path.join(DATA_DIR, "current_standings.json")
+    if rows and rows[0]["season"] == CURRENT_SEASON and os.path.exists(snapshot_path):
+        with open(snapshot_path, encoding="utf-8") as file:
+            snapshot = json.load(file)
+        if (snapshot.get("season") == CURRENT_SEASON
+                and len(rows) == snapshot.get("row_count")
+                and sorted(r.get("game_id", "") for r in rows) == snapshot.get("game_ids")
+                and all(r["season"] == CURRENT_SEASON for r in rows)):
+            official = []
+            for team in snapshot["standings"]:
+                if (team["bracket_name"] != age_group
+                        or team["division_name"] != f"Division {division}"
+                        or team["flight"] != geography
+                        or not is_real_team_name(team["team_name"])):
+                    continue
+                gp = team["games_played"]
+                official.append({
+                    "team": team["team_name"], "gp": gp,
+                    "w": team["wins"], "l": team["losses"], "t": team["ties"],
+                    "pts": team["points"], "gf": team["goals_for"],
+                    "ga": team["goals_against"], "gd": team["goal_differential"],
+                    "ppg": round(team["points"] / gp, 2) if gp else 0,
+                    "is_selected": team["team_name"] == selected_team,
+                    "official_place": team["place"],
+                })
+            if official:
+                return sorted(official, key=lambda t: t["official_place"])
     stats = {}
 
     for r in rows:
@@ -1087,6 +1148,7 @@ def simulate_team_outlook(team_info, standings, rows):
 
 
 def build_team_simulation_from_outlook(team, sim_data, flight_outlook):
+    total_runs = flight_outlook["total_runs"]
     team_stats = flight_outlook["team_stats"].get(team)
     if not team_stats:
         return {
@@ -1098,7 +1160,7 @@ def build_team_simulation_from_outlook(team, sim_data, flight_outlook):
             "summary": f"{SIMULATION_RUNS} simulations using current ELO ratings and the remaining scheduled games in this flight.",
         }
     place_probabilities = [
-        {"place": place, "probability": round(100 * count / SIMULATION_RUNS, 1)}
+        {"place": place, "probability": round(100 * count / total_runs, 1)}
         for place, count in enumerate(team_stats["place_counts"])
         if place and count
     ]
@@ -1120,10 +1182,26 @@ def build_team_simulation_from_outlook(team, sim_data, flight_outlook):
 
 
 def get_cached_flight_outlook(cache_key, sim_data, total_runs=SIMULATION_RUNS):
-    key = (*cache_key, total_runs)
+    key = (*cache_key, total_runs, simulation_fingerprint(sim_data))
     cached = _flight_outlook_cache.get(key)
     if cached is None:
         cached = simulate_flight_outlook(sim_data, total_runs=total_runs)
+        standings = [{"team": team, **sim_data["current_stats"].get(team, {})}
+                     for team in sim_data["teams"]]
+        statuses = get_team_probability_statuses(standings, sim_data)
+        cached["display_stats"] = {}
+        for team, stats in cached["team_stats"].items():
+            status = statuses.get(team, {})
+            promo = format_probability_display(stats["promotion_probability"],
+                certain=status.get("promotion_certain", False),
+                impossible=status.get("promotion_impossible", False))
+            relg = format_probability_display(stats["relegation_probability"],
+                certain=status.get("relegation_certain", False),
+                impossible=status.get("relegation_impossible", False))
+            cached["display_stats"][team] = {
+                "promo": promo, "relg": relg, "stay": 100 - promo - relg,
+                "modal": stats["modal_place"],
+            }
         _flight_outlook_cache[key] = cached
     return cached
 
@@ -1293,7 +1371,7 @@ def get_flight_sim_data(team_info, standings, rows):
 
     # Fallback: if no scheduled games were scraped, infer remaining round-robin matchups
     schedule_inferred = False
-    if not remaining:
+    if not remaining and not any(r.get("game_id") for r in flight_rows):
         played_pairs: dict = {}
         for r in flight_rows:
             if not is_real_team_name(r["home_team"]) or not is_real_team_name(r["away_team"]):
@@ -1679,7 +1757,7 @@ _AI_TEAM_CACHE   = os.path.join(DATA_DIR, "ai_team_insights.json")
 _IMPORTANCE_CACHE = os.path.join(DATA_DIR, "flight_importance.json")
 
 
-def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220):
+def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=IMPORTANCE_SIM_RUNS):
     remaining_games = sim_data.get("remaining_games", [])
     teams = sim_data.get("teams", [])
     if not remaining_games or not teams:
@@ -1688,6 +1766,8 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
             "formula": "Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.",
             "formula_words": "For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.",
             "impact_runs": impact_runs,
+            "simulation_key": simulation_fingerprint(sim_data),
+            "baseline_runs": (baseline_outlook or {}).get("total_runs", impact_runs),
             "games": [],
             "top_games_by_team": {},
         }
@@ -1823,6 +1903,8 @@ def calculate_flight_importance(sim_data, baseline_outlook=None, impact_runs=220
         "formula": "Match score = home-win change + draw change + away-win change, where each change = promotion change for both teams + relegation change for both teams.",
         "formula_words": "For each remaining game, force a home win, a draw, and an away win. For each of those three results, add up how much the two teams in that match would change in promotion chance and relegation chance. Then add those three result totals together.",
         "impact_runs": impact_runs,
+        "simulation_key": simulation_fingerprint(sim_data),
+        "baseline_runs": baseline_outlook["total_runs"],
         "games": game_reports,
         "top_games_by_team": top_games_by_team,
     }
@@ -1935,6 +2017,7 @@ def build_team_insight_fallback(team, standings, simulation, top_game, recent_ga
         certain=team_status.get("stay_certain", False),
         impossible=team_status.get("stay_impossible", False),
     )
+    stay_display = 100 - promo_display - relg_display
     modal_place = simulation.get("modal_place", pos or 0)
     expected_place = simulation.get("expected_place", pos or 0)
     if top_game and top_game.get("practical_effect", 0.0) >= 0.1:
@@ -2269,7 +2352,9 @@ def load_flight_importance(flight_slug_val):
 
 def get_flight_importance_report(flight_slug_val, sim_data, baseline_outlook=None):
     cached = _flight_importance_cache.get(flight_slug_val)
-    if cached:
+    if (cached and cached.get("simulation_key") == simulation_fingerprint(sim_data)
+            and cached.get("impact_runs") == IMPORTANCE_SIM_RUNS
+            and cached.get("baseline_runs") == (baseline_outlook or {}).get("total_runs", IMPORTANCE_SIM_RUNS)):
         return cached
     report = calculate_flight_importance(sim_data, baseline_outlook=baseline_outlook, impact_runs=IMPORTANCE_SIM_RUNS)
     _flight_importance_cache[flight_slug_val] = report
@@ -2336,7 +2421,7 @@ def get_season_outlook_calibration():
                 continue
             we = expected_result(el.get(home, DEFAULT_ELO), el.get(away, DEFAULT_ELO))
             we = we * (1.0 - reg) + 0.5 * reg
-            hp = max(0.05, min(0.90, we - DP / 2))
+            hp = max(0.05, min(1 - DP - 0.05, we - DP / 2))
             r  = random.random()
             if r < hp:
                 st[home]["pts"] += 3; st[home]["gd"] += 1; st[home]["gf"] += 2
@@ -2428,7 +2513,7 @@ def get_season_outlook_calibration():
             checkpoints = [(0, None, pre_season)] + [(w, dates[w - 1], dates[w - 1]) for w in range(1, min(MAX_WEEKS, len(dates)) + 1)]
 
             for week, cutoff, elo_cutoff in checkpoints:
-                base = {t: {"pts": 0, "gd": 0, "gf": 0} for t in teams}
+                base = {t: {"pts": 0, "gd": 0, "gf": 0, "gp": 0} for t in teams}
                 if cutoff:
                     for r in played_rows:
                         if r["date"] > cutoff:
@@ -2437,6 +2522,8 @@ def get_season_outlook_calibration():
                         at = clean_team_name(r["away_team"])
                         if ht not in base or at not in base:
                             continue
+                        base[ht]["gp"] += 1
+                        base[at]["gp"] += 1
                         hg_s, ag_s = r["home_goals"], r["away_goals"]
                         if is_forfeit(hg_s) or is_forfeit(ag_s):
                             winner, loser = (at, ht) if is_forfeit(hg_s) else (ht, at)
@@ -2512,7 +2599,7 @@ def get_calibration_data():
             hg, ag = int(hg), int(ag)
         except (ValueError, KeyError):
             continue
-        exp = 1.0 / (1.0 + 10 ** ((ea - eh) / 200))
+        exp = 1.0 / (1.0 + 10 ** ((ea - eh) / 400))
         actual = 1.0 if hg > ag else 0.0 if hg < ag else 0.5
         idx = min(int(exp * N), N - 1)
         bucket_pred[idx] += exp
@@ -2731,8 +2818,10 @@ def _resolve_flight_page(flight_slug_val, rows=None, season=None):
         _age_group, _division, _geography, context = found
         home_path = "../../" if season == CURRENT_SEASON else "../../../../"
         ai_text = _ai_flight_texts.get(flight_slug_val, "") if season == CURRENT_SEASON else ""
+        context["flight_outlook"] = None
         if season == CURRENT_SEASON:
             flight_outlook = get_cached_flight_outlook((season, _age_group, _division, _geography), context["sim_data"])
+            context["flight_outlook"] = flight_outlook
             importance = get_flight_importance_report(
                 flight_slug_val,
                 context["sim_data"],

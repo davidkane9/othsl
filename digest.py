@@ -23,7 +23,7 @@ FROM_EMAIL = "OTHSL Digest <digest@othsl.khaykin.com>"  # must be a verified Res
 SUBJECT = f"OTHSL Weekly Digest — {date.today().strftime('%b %d, %Y')}"
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
-CURRENT_SEASON = "Spring 2026"
+from season_config import CURRENT_SEASON
 
 
 # ── data helpers ─────────────────────────────────────────────────────────────
@@ -48,47 +48,9 @@ def get_season_rows():
 
 
 def build_standings(rows, age_group, division, geography):
-    stats = {}
-    for r in rows:
-        if r["age_group"] != age_group or r["division"] != division or r["geography"] != geography:
-            continue
-        ht, at = r["home_team"], r["away_team"]
-        hg, ag = r["home_goals"], r["away_goals"]
-        if "lost by forfeit" in ht.lower() or "lost by forfeit" in at.lower():
-            continue
-        if ht.strip().upper() == "TBD" or at.strip().upper() == "TBD":
-            continue
-        for t in (ht, at):
-            if t not in stats:
-                stats[t] = dict(gp=0, w=0, l=0, t=0, pts=0, gf=0, ga=0)
-        if is_forfeit(hg) or is_forfeit(ag):
-            if not is_forfeit(hg) and is_forfeit(ag):
-                stats[ht]["w"] += 1; stats[ht]["pts"] += 3; stats[ht]["gp"] += 1
-                stats[at]["l"] += 1; stats[at]["gp"] += 1
-            elif is_forfeit(hg) and not is_forfeit(ag):
-                stats[at]["w"] += 1; stats[at]["pts"] += 3; stats[at]["gp"] += 1
-                stats[ht]["l"] += 1; stats[ht]["gp"] += 1
-            else:
-                stats[ht]["l"] += 1; stats[ht]["gp"] += 1
-                stats[at]["l"] += 1; stats[at]["gp"] += 1
-        elif has_played_score(r):
-            hg_i, ag_i = int(hg), int(ag)
-            stats[ht]["gf"] += hg_i; stats[ht]["ga"] += ag_i; stats[ht]["gp"] += 1
-            stats[at]["gf"] += ag_i; stats[at]["ga"] += hg_i; stats[at]["gp"] += 1
-            if hg_i > ag_i:
-                stats[ht]["w"] += 1; stats[ht]["pts"] += 3; stats[at]["l"] += 1
-            elif hg_i < ag_i:
-                stats[at]["w"] += 1; stats[at]["pts"] += 3; stats[ht]["l"] += 1
-            else:
-                stats[ht]["t"] += 1; stats[ht]["pts"] += 1
-                stats[at]["t"] += 1; stats[at]["pts"] += 1
-
-    table = []
-    for team, s in stats.items():
-        ppg = s["pts"] / s["gp"] if s["gp"] else 0.0
-        table.append({**s, "team": team, "gd": s["gf"] - s["ga"], "ppg": round(ppg, 2)})
-    table.sort(key=lambda x: (-x["ppg"], -x["gd"], -x["gf"], x["team"]))
-    return table
+    # Share official deductions and ordering with the website.
+    from app import get_standings_for_flight
+    return get_standings_for_flight(rows, age_group, division, geography)
 
 
 def gather_digest_data():

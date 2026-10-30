@@ -53,7 +53,7 @@ ALL_SEASONS = [
     "26s",
 ]
 
-CURRENT_SEASON = "26s"
+from season_config import CURRENT_SEASON_CODE as CURRENT_SEASON
 
 # All known division codes by age group, as visible in Fall 2025 navigation.
 # Older seasons may have fewer divisions; the scraper skips empty pages.

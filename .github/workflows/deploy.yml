@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * *'
 
 permissions:
   contents: write
@@ -21,7 +23,16 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install flask frozen-flask python-dotenv
+        run: pip install -r requirements.txt
+
+      - name: Refresh current season
+        run: python refresh.py --skip-build
+
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Check browser simulation behavior
+        run: node tests/test_browser_consistency.mjs
 
       - name: Build static site
         env:

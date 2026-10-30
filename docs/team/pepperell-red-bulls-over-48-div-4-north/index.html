@@ -617,18 +617,18 @@
     </div>
 
     <section class="hero">
-      <p>Spring 2026</p>
+      <p>Fall 2026</p>
       <h1>Pepperell Red Bulls</h1>
       <p>Over 48 Division 4 North</p>
 
       <div class="chips">
-        
-        <span class="chip">ELO 1504</span>
-        
-        
-        <span class="chip">Place 4</span>
-        
-        <span class="chip">Record 3-3-2</span>
+
+        <span class="chip">ELO 1524</span>
+
+
+        <span class="chip">Place 3</span>
+
+        <span class="chip">Record 4-1-2</span>
       </div>
     </section>
 
@@ -660,55 +660,71 @@
               </tr>
             </thead>
             <tbody id="standings-tbody">
-              
+
               <tr>
-                <td class="team-name-cell" data-team="Arlington Pond Dawgz">Arlington Pond Dawgz</td>
-                <td>8</td>
-                <td>20</td>
-                <td>+23</td>
-                <td>2.50</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Northshore United Soccer Club">Northshore United Soccer Club</td>
-                <td>8</td>
-                <td>15</td>
+                <td class="team-name-cell" data-team="Windham 50s">Windham 50s</td>
+                <td>7</td>
+                <td>16</td>
                 <td>+10</td>
-                <td>1.88</td>
+                <td>2.29</td>
               </tr>
-              
+
               <tr>
-                <td class="team-name-cell" data-team="Nashua Absolute II">Nashua Absolute II</td>
+                <td class="team-name-cell" data-team="Malden Everett Veterans">Malden Everett Veterans</td>
                 <td>8</td>
-                <td>14</td>
-                <td>+15</td>
-                <td>1.75</td>
+                <td>17</td>
+                <td>+13</td>
+                <td>2.12</td>
               </tr>
-              
+
               <tr class="highlight">
                 <td class="team-name-cell" data-team="Pepperell Red Bulls">Pepperell Red Bulls</td>
-                <td>8</td>
-                <td>11</td>
-                <td>+3</td>
-                <td>1.38</td>
+                <td>7</td>
+                <td>14</td>
+                <td>+4</td>
+                <td>2.00</td>
               </tr>
-              
+
+              <tr>
+                <td class="team-name-cell" data-team="Andover Gold">Andover Gold</td>
+                <td>8</td>
+                <td>13</td>
+                <td>-1</td>
+                <td>1.62</td>
+              </tr>
+
+              <tr>
+                <td class="team-name-cell" data-team="Old School Soccer Club">Old School Soccer Club</td>
+                <td>8</td>
+                <td>10</td>
+                <td>-9</td>
+                <td>1.25</td>
+              </tr>
+
+              <tr>
+                <td class="team-name-cell" data-team="FC Belmont">FC Belmont</td>
+                <td>8</td>
+                <td>6</td>
+                <td>-4</td>
+                <td>0.75</td>
+              </tr>
+
               <tr>
                 <td class="team-name-cell" data-team="Harvard Blues FC">Harvard Blues FC</td>
                 <td>8</td>
                 <td>5</td>
-                <td>-23</td>
+                <td>-8</td>
                 <td>0.62</td>
               </tr>
-              
+
               <tr>
-                <td class="team-name-cell" data-team="Wen Ham United">Wen Ham United</td>
+                <td class="team-name-cell" data-team="Nashua Absolute II">Nashua Absolute II</td>
                 <td>8</td>
-                <td>1</td>
-                <td>-28</td>
-                <td>0.12</td>
+                <td>5</td>
+                <td>-5</td>
+                <td>0.62</td>
               </tr>
-              
+
             </tbody>
           </table>
         </div>
@@ -718,16 +734,16 @@
     </section>
 
     <!-- ── Overall Outlook ──────────────────────────────────────────── -->
-    
+
     <section class="section" id="ai-team-section">
       <div class="section-title">
           <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Pepperell Red Bulls are 4th with 11 points and 5% promotion, 95% stay, and 1% relegation odds, with the model centering them around 4th place (expected 3.68). The most important remaining match is vs Northshore United Soccer Club on Sunday, June 14: if Pepperell Red Bulls win, their promotion odds go from 5% to 15%; if they lose, their promotion odds go from 5% to 1%.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Pepperell Red Bulls are 3rd with 14 points and 38% promotion, 62% stay, and 0% relegation odds, with the model centering them around 3rd place (expected 2.74). The most important remaining match is vs Windham 50s on Saturday, October 31: if Pepperell Red Bulls win, their promotion odds go from 38% to 75%; if they lose, their promotion odds go from 38% to 9%.</p>
       </div>
     </section>
-    
+
 
     <section class="section" id="sim-section">
       <div class="section-title">
@@ -759,12 +775,12 @@
           <span class="outcome-label">Stay</span>
           <span class="outcome-pct" id="pct-stay">—</span>
         </div>
-        
+
         <div class="outcome-chip" id="chip-relegate">
           <span class="outcome-label">Relegation</span>
           <span class="outcome-pct" id="pct-relegate">—</span>
         </div>
-        
+
       </div>
 
       <!-- what-if grid -->
@@ -774,14 +790,14 @@
           <button id="reset-btn" class="reset-btn">Reset all</button>
         </div>
         <p class="note" style="margin-bottom:10px">Use the dropdown on any remaining game to lock an outcome — the simulation updates live. Changing one team's result automatically flips the opponent.</p>
-        
+
         <div id="game-list"></div>
       </div>
     </section>
 
 
     <footer>
-      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      A Khaykin and Kane production. Current data from <a href="https://victory.mass-soccer.org/schedules?season_id=179&amp;league_id=7">Mass Soccer Victory</a> (updated 2026-10-30); historical data from OTHSL.
       ELO ratings are model estimates, not official standings.
 
       <div style="margin-top:14px">
@@ -811,12 +827,13 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Arlington Pond Dawgz": 1559.8, "Harvard Blues FC": 1378.8, "Nashua Absolute II": 1500.6, "Northshore United Soccer Club": 1512.8, "Pepperell Red Bulls": 1503.7, "Wen Ham United": 1331.2}, "current_regression": 0.0, "current_stats": {"Arlington Pond Dawgz": {"gd": 23, "gf": 29, "gp": 8, "l": 0, "pts": 20, "t": 2, "w": 6}, "Harvard Blues FC": {"gd": -23, "gf": 4, "gp": 8, "l": 5, "pts": 5, "t": 2, "w": 1}, "Nashua Absolute II": {"gd": 15, "gf": 26, "gp": 8, "l": 2, "pts": 14, "t": 2, "w": 4}, "Northshore United Soccer Club": {"gd": 10, "gf": 17, "gp": 8, "l": 1, "pts": 15, "t": 3, "w": 4}, "Pepperell Red Bulls": {"gd": 3, "gf": 17, "gp": 8, "l": 3, "pts": 11, "t": 2, "w": 3}, "Wen Ham United": {"gd": -28, "gf": 7, "gp": 8, "l": 7, "pts": 1, "t": 1, "w": 0}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Arlington Pond Dawgz", "away_win_prob": 0.522, "date": "2026-06-07", "draw_prob": 0.22, "home": "Northshore United Soccer Club", "home_win_prob": 0.258, "id": "2026-06-07|Northshore United Soccer Club|Arlington Pond Dawgz", "involves_team": false}, {"away": "Pepperell Red Bulls", "away_win_prob": 0.73, "date": "2026-06-07", "draw_prob": 0.22, "home": "Wen Ham United", "home_win_prob": 0.05, "id": "2026-06-07|Wen Ham United|Pepperell Red Bulls", "involves_team": true}, {"away": "Harvard Blues FC", "away_win_prob": 0.087, "date": "2026-06-07", "draw_prob": 0.22, "home": "Nashua Absolute II", "home_win_prob": 0.693, "id": "2026-06-07|Nashua Absolute II|Harvard Blues FC", "involves_team": false}, {"away": "Northshore United Soccer Club", "away_win_prob": 0.416, "date": "2026-06-14", "draw_prob": 0.22, "home": "Pepperell Red Bulls", "home_win_prob": 0.364, "id": "2026-06-14|Pepperell Red Bulls|Northshore United Soccer Club", "involves_team": true}, {"away": "Nashua Absolute II", "away_win_prob": 0.226, "date": "2026-06-14", "draw_prob": 0.22, "home": "Arlington Pond Dawgz", "home_win_prob": 0.554, "id": "2026-06-14|Arlington Pond Dawgz|Nashua Absolute II", "involves_team": false}, {"away": "Wen Ham United", "away_win_prob": 0.256, "date": "2026-06-14", "draw_prob": 0.22, "home": "Harvard Blues FC", "home_win_prob": 0.524, "id": "2026-06-14|Harvard Blues FC|Wen Ham United", "involves_team": false}], "schedule_inferred": false, "selected_team": "Pepperell Red Bulls", "teams": ["Arlington Pond Dawgz", "Northshore United Soccer Club", "Nashua Absolute II", "Pepperell Red Bulls", "Harvard Blues FC", "Wen Ham United"], "total_teams": 6};
-const FLIGHT_RESULTS  = [{"ag": 2, "away": "Northshore United Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 4, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 2, "home": "Northshore United Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 1, "home": "Wen Ham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Northshore United Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Wen Ham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Wen Ham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Northshore United Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wen Ham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-30", "forfeit": false, "hg": 2, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Northshore United Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Wen Ham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 5, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Northshore United Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 7, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 0, "home": "Wen Ham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-13", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Northshore United Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Wen Ham United", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Arlington Pond Dawgz", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 2, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 1, "home": "Northshore United Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Wen Ham United", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 7, "home": "Arlington Pond Dawgz", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 6, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"Andover Gold": 1496.1, "FC Belmont": 1426.2, "Harvard Blues FC": 1408.5, "Malden Everett Veterans": 1539.7, "Nashua Absolute II": 1438.8, "Old School Soccer Club": 1478.7, "Pepperell Red Bulls": 1523.6, "Windham 50s": 1550.6}, "current_regression": 0.0, "current_stats": {"Andover Gold": {"gd": -1, "gf": 14, "gp": 8, "l": 3, "pts": 13, "t": 1, "w": 4}, "FC Belmont": {"gd": -4, "gf": 9, "gp": 8, "l": 4, "pts": 6, "t": 3, "w": 1}, "Harvard Blues FC": {"gd": -8, "gf": 11, "gp": 8, "l": 5, "pts": 5, "t": 2, "w": 1}, "Malden Everett Veterans": {"gd": 13, "gf": 23, "gp": 8, "l": 1, "pts": 17, "t": 2, "w": 5}, "Nashua Absolute II": {"gd": -5, "gf": 15, "gp": 8, "l": 5, "pts": 5, "t": 2, "w": 1}, "Old School Soccer Club": {"gd": -9, "gf": 16, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}, "Pepperell Red Bulls": {"gd": 4, "gf": 19, "gp": 7, "l": 1, "pts": 14, "t": 2, "w": 4}, "Windham 50s": {"gd": 10, "gf": 16, "gp": 7, "l": 1, "pts": 16, "t": 1, "w": 5}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Windham 50s", "away_win_prob": 0.429, "date": "2026-10-31", "draw_prob": 0.22, "home": "Pepperell Red Bulls", "home_win_prob": 0.351, "id": "2026-10-31|Pepperell Red Bulls|Windham 50s", "involves_team": true}, {"away": "Old School Soccer Club", "away_win_prob": 0.365, "date": "2026-11-01", "draw_prob": 0.22, "home": "Andover Gold", "home_win_prob": 0.415, "id": "2026-11-01|Andover Gold|Old School Soccer Club", "involves_team": false}, {"away": "Pepperell Red Bulls", "away_win_prob": 0.51, "date": "2026-11-01", "draw_prob": 0.22, "home": "Nashua Absolute II", "home_win_prob": 0.27, "id": "2026-11-01|Nashua Absolute II|Pepperell Red Bulls", "involves_team": true}, {"away": "Malden Everett Veterans", "away_win_prob": 0.374, "date": "2026-11-01", "draw_prob": 0.22, "home": "Windham 50s", "home_win_prob": 0.406, "id": "2026-11-01|Windham 50s|Malden Everett Veterans", "involves_team": false}, {"away": "Harvard Blues FC", "away_win_prob": 0.365, "date": "2026-11-01", "draw_prob": 0.22, "home": "FC Belmont", "home_win_prob": 0.415, "id": "2026-11-01|FC Belmont|Harvard Blues FC", "involves_team": false}, {"away": "Nashua Absolute II", "away_win_prob": 0.333, "date": "2026-11-08", "draw_prob": 0.22, "home": "Old School Soccer Club", "home_win_prob": 0.447, "id": "2026-11-08|Old School Soccer Club|Nashua Absolute II", "involves_team": false}, {"away": "Andover Gold", "away_win_prob": 0.351, "date": "2026-11-08", "draw_prob": 0.22, "home": "Pepperell Red Bulls", "home_win_prob": 0.429, "id": "2026-11-08|Pepperell Red Bulls|Andover Gold", "involves_team": true}, {"away": "FC Belmont", "away_win_prob": 0.232, "date": "2026-11-08", "draw_prob": 0.22, "home": "Malden Everett Veterans", "home_win_prob": 0.548, "id": "2026-11-08|Malden Everett Veterans|FC Belmont", "involves_team": false}, {"away": "Windham 50s", "away_win_prob": 0.584, "date": "2026-11-08", "draw_prob": 0.22, "home": "Harvard Blues FC", "home_win_prob": 0.196, "id": "2026-11-08|Harvard Blues FC|Windham 50s", "involves_team": false}], "schedule_inferred": false, "selected_team": "Pepperell Red Bulls", "teams": ["Windham 50s", "Malden Everett Veterans", "Pepperell Red Bulls", "Andover Gold", "Old School Soccer Club", "FC Belmont", "Harvard Blues FC", "Nashua Absolute II"], "total_teams": 8};
+const BASELINE_OUTLOOK = {"counts": {"Andover Gold": [0, 10, 419, 1911, 6163, 1497, 0, 0, 0], "FC Belmont": [0, 0, 0, 0, 0, 547, 4707, 2520, 2226], "Harvard Blues FC": [0, 0, 0, 0, 0, 217, 2097, 2560, 5126], "Malden Everett Veterans": [0, 4226, 3880, 1813, 81, 0, 0, 0, 0], "Nashua Absolute II": [0, 0, 0, 0, 0, 585, 2022, 4745, 2648], "Old School Soccer Club": [0, 0, 0, 46, 1604, 7001, 1174, 175, 0], "Pepperell Red Bulls": [0, 1107, 2683, 4085, 1972, 153, 0, 0, 0], "Windham 50s": [0, 4657, 3018, 2145, 180, 0, 0, 0, 0]}, "display_stats": {"Andover Gold": {"modal": 4, "promo": 4, "relg": 0, "stay": 96}, "FC Belmont": {"modal": 6, "promo": 0, "relg": 48, "stay": 52}, "Harvard Blues FC": {"modal": 8, "promo": 0, "relg": 77, "stay": 23}, "Malden Everett Veterans": {"modal": 1, "promo": 81, "relg": 0, "stay": 19}, "Nashua Absolute II": {"modal": 7, "promo": 0, "relg": 74, "stay": 26}, "Old School Soccer Club": {"modal": 5, "promo": 1, "relg": 2, "stay": 97}, "Pepperell Red Bulls": {"modal": 3, "promo": 38, "relg": 0, "stay": 62}, "Windham 50s": {"modal": 1, "promo": 77, "relg": 0, "stay": 23}}, "regression": 0.0, "team_stats": {"Andover Gold": {"expected_place": 3.87, "modal_place": 4, "place_counts": [0, 10, 419, 1911, 6163, 1497, 0, 0, 0], "promotion_probability": 4.3, "relegation_probability": 0.0, "stay_probability": 95.7}, "FC Belmont": {"expected_place": 6.64, "modal_place": 6, "place_counts": [0, 0, 0, 0, 0, 547, 4707, 2520, 2226], "promotion_probability": 0.0, "relegation_probability": 47.5, "stay_probability": 52.5}, "Harvard Blues FC": {"expected_place": 7.26, "modal_place": 8, "place_counts": [0, 0, 0, 0, 0, 217, 2097, 2560, 5126], "promotion_probability": 0.0, "relegation_probability": 76.9, "stay_probability": 23.1}, "Malden Everett Veterans": {"expected_place": 1.77, "modal_place": 1, "place_counts": [0, 4226, 3880, 1813, 81, 0, 0, 0, 0], "promotion_probability": 81.1, "relegation_probability": 0.0, "stay_probability": 18.9}, "Nashua Absolute II": {"expected_place": 6.95, "modal_place": 7, "place_counts": [0, 0, 0, 0, 0, 585, 2022, 4745, 2648], "promotion_probability": 0.0, "relegation_probability": 73.9, "stay_probability": 26.1}, "Old School Soccer Club": {"expected_place": 4.98, "modal_place": 5, "place_counts": [0, 0, 0, 46, 1604, 7001, 1174, 175, 0], "promotion_probability": 0.0, "relegation_probability": 1.8, "stay_probability": 98.2}, "Pepperell Red Bulls": {"expected_place": 2.74, "modal_place": 3, "place_counts": [0, 1107, 2683, 4085, 1972, 153, 0, 0, 0], "promotion_probability": 37.9, "relegation_probability": 0.0, "stay_probability": 62.1}, "Windham 50s": {"expected_place": 1.78, "modal_place": 1, "place_counts": [0, 4657, 3018, 2145, 180, 0, 0, 0, 0], "promotion_probability": 76.8, "relegation_probability": 0.0, "stay_probability": 23.2}}, "total_runs": 10000};
+const FLIGHT_RESULTS  = [{"ag": 2, "away": "Andover Gold", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 4, "home": "Old School Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 3, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Windham 50s", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 2, "home": "Malden Everett Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Belmont", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 0, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Old School Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 2, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 0, "home": "Andover Gold", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Malden Everett Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 0, "home": "FC Belmont", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 1, "home": "Windham 50s", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 2, "home": "Old School Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Andover Gold", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 1, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "FC Belmont", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 2, "home": "Windham 50s", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Malden Everett Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-27", "forfeit": false, "hg": 2, "home": "Malden Everett Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 3, "home": "Malden Everett Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 4, "home": "Windham 50s", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Old School Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 2, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Andover Gold", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 1, "home": "FC Belmont", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Old School Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-07", "forfeit": false, "hg": 3, "home": "FC Belmont", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Windham 50s", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 0, "home": "Old School Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Malden Everett Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 3, "home": "Andover Gold", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "FC Belmont", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 3, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 3, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-16", "forfeit": false, "hg": 1, "home": "Andover Gold", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Malden Everett Veterans", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 0, "home": "Old School Soccer Club", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "FC Belmont", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 2, "home": "Nashua Absolute II", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Andover Gold", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 3, "home": "Windham 50s", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Pepperell Red Bulls", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 4, "home": "Harvard Blues FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Old School Soccer Club", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 2, "home": "Pepperell Red Bulls", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Nashua Absolute II", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 3, "home": "Andover Gold", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Windham 50s", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 0, "home": "FC Belmont", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Harvard Blues FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 5, "home": "Malden Everett Veterans", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = false;
-const TOTAL_RUNS      = 10000;
+const TOTAL_RUNS      = BASELINE_OUTLOOK.total_runs;
 const CURRENT_REGRESSION = SIM_DATA.current_regression || 0;
 
 // ── Page transition ──────────────────────────────────────────────
@@ -831,7 +848,12 @@ document.querySelectorAll(".page-link").forEach(link => {
 
 // ── Simulation engine (runs in a Blob Web Worker) ────────────────
 const WORKER_SRC = `
-  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 200)); }
+  let randomState = 123456789;
+  function randomDraw() {
+    randomState = (Math.imul(1664525, randomState) + 1013904223) >>> 0;
+    return randomState / 4294967296;
+  }
+  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 400)); }
   function regressedResult(a, b, reg) {
     const base = expResult(a, b);
     return base * (1 - reg) + 0.5 * reg;
@@ -851,9 +873,9 @@ const WORKER_SRC = `
       } else {
         const we = regressedResult(el[g.home] || 1500, el[g.away] || 1500, currentRegression);
         const dp = 0.22;
-        const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
+        const hp = Math.max(0.05, Math.min(1 - dp - 0.05, we - dp / 2));
         const ap = Math.max(0.05, 1 - dp - hp);
-        const r  = Math.random();
+        const r  = randomDraw();
         act = r < hp ? 1 : r < hp + dp ? 0.5 : 0;
       }
       const h = g.home, a = g.away;
@@ -1190,7 +1212,23 @@ function updateUI(completed, counts) {
 }
 
 function startSim() {
-  if (worker) worker.terminate();
+  if (worker) { worker.terminate(); worker = null; }
+  const isBaseline = current_stats === SIM_DATA.current_stats
+    && remaining_games === SIM_DATA.remaining_games
+    && Object.keys(overrides).length === 0;
+  const summary = document.getElementById('ai-team-section');
+  if (summary) summary.hidden = !isBaseline;
+  if (isBaseline) {
+    teamStats = BASELINE_OUTLOOK.display_stats;
+    updateUI(BASELINE_OUTLOOK.total_runs, BASELINE_OUTLOOK.counts[selected_team]);
+    const display = teamStats[selected_team];
+    elPctPromo.textContent = display.promo + '%';
+    elPctStay.textContent = display.stay + '%';
+    if (elPctRel) elPctRel.textContent = display.relg + '%';
+    elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. Current outlook.`;
+    renderGrid();
+    return;
+  }
   elStatus.textContent = "Running simulation…";
   elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
 
@@ -1215,7 +1253,7 @@ function startSim() {
     if (msg.type === 'progress') {
       updateUI(msg.completed, msg.counts);
       if (msg.done) {
-        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. What-if outlook.`;
       }
     } else if (msg.type === 'team_stats') {
       teamStats = msg.teamStats;
@@ -1423,20 +1461,24 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Arlington Pond Dawgz": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Northshore United Soccer Club", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wen Ham United", "result": "W", "score": "7\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard Blues FC", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Pepperell Red Bulls", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Pepperell Red Bulls", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Harvard Blues FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Wen Ham United", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Nashua Absolute II", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Northshore United Soccer Club", "result": "W", "score": "4\u20132", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Wen Ham United", "result": "W", "score": "7\u20132", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Harvard Blues FC", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Pepperell Red Bulls", "result": "D", "score": "0\u20130", "venue": "H"}], "slug": "arlington-pond-dawgz-over-48-div-4-north"}, "Harvard Blues FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Nashua Absolute II", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Pepperell Red Bulls", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2026-05-13", "display_date": "Wednesday, May 13", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Northshore United Soccer Club", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Northshore United Soccer Club", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Arlington Pond Dawgz", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Pepperell Red Bulls", "result": "L", "score": "0\u20134", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Wen Ham United", "result": "W", "score": "3\u20131", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Pepperell Red Bulls", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2026-05-13", "display_date": "Wednesday, May 13", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20135", "venue": "H"}], "slug": "harvard-blues-fc-over-48-div-4-north"}, "Nashua Absolute II": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Harvard Blues FC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Northshore United Soccer Club", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-13", "display_date": "Wednesday, May 13", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Wen Ham United", "result": "W", "score": "7\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Wen Ham United", "result": "W", "score": "5\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Pepperell Red Bulls", "result": "W", "score": "5\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Northshore United Soccer Club", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20134", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Northshore United Soccer Club", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-13", "display_date": "Wednesday, May 13", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "A"}], "slug": "nashua-absolute-ii-over-48-div-4-north"}, "Northshore United Soccer Club": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Arlington Pond Dawgz", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Nashua Absolute II", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Harvard Blues FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Wen Ham United", "result": "W", "score": "3\u20130", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Nashua Absolute II", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Pepperell Red Bulls", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Nashua Absolute II", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Wen Ham United", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "H"}], "slug": "northshore-united-soccer-club-over-48-div-4-north"}, "Pepperell Red Bulls": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Wen Ham United", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard Blues FC", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Nashua Absolute II", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Arlington Pond Dawgz", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-30", "display_date": "Thursday, April 30", "opponent": "Wen Ham United", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Nashua Absolute II", "result": "L", "score": "1\u20135", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Harvard Blues FC", "result": "W", "score": "4\u20130", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Northshore United Soccer Club", "result": "L", "score": "0\u20132", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Harvard Blues FC", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Nashua Absolute II", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Arlington Pond Dawgz", "result": "D", "score": "0\u20130", "venue": "A"}], "slug": "pepperell-red-bulls-over-48-div-4-north"}, "Wen Ham United": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Pepperell Red Bulls", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "2\u20137", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Northshore United Soccer Club", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20137", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Nashua Absolute II", "result": "L", "score": "1\u20135", "venue": "A"}, {"date": "2026-04-30", "display_date": "Thursday, April 30", "opponent": "Pepperell Red Bulls", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Northshore United Soccer Club", "result": "L", "score": "0\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Harvard Blues FC", "result": "L", "score": "1\u20133", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Arlington Pond Dawgz", "result": "L", "score": "2\u20137", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Northshore United Soccer Club", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20137", "venue": "H"}], "slug": "wen-ham-united-over-48-div-4-north"}};
+const FLIGHT_CARDS = {"Andover Gold": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Old School Soccer Club", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Nashua Absolute II", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Windham 50s", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-10-16", "display_date": "Friday, October 16", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Malden Everett Veterans", "result": "W", "score": "3\u20131", "venue": "H"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "FC Belmont", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Nashua Absolute II", "result": "W", "score": "2\u20131", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Pepperell Red Bulls", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Old School Soccer Club", "result": "L", "score": "2\u20134", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Nashua Absolute II", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Windham 50s", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-10-16", "display_date": "Friday, October 16", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "H"}], "slug": "andover-gold-over-48-div-4-north"}, "FC Belmont": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Harvard Blues FC", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Windham 50s", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-10-07", "display_date": "Wednesday, October 07", "opponent": "Old School Soccer Club", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Andover Gold", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Windham 50s", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Malden Everett Veterans", "result": "L", "score": "0\u20132", "venue": "H"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Harvard Blues FC", "result": "W", "score": "2\u20130", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Windham 50s", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Nashua Absolute II", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20133", "venue": "A"}], "slug": "fc-belmont-over-48-div-4-north"}, "Harvard Blues FC": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "FC Belmont", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Malden Everett Veterans", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Pepperell Red Bulls", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-10-16", "display_date": "Friday, October 16", "opponent": "Andover Gold", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Nashua Absolute II", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Old School Soccer Club", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Malden Everett Veterans", "result": "D", "score": "2\u20132", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Windham 50s", "result": "L", "score": "0\u20131", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "FC Belmont", "result": "L", "score": "0\u20132", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Malden Everett Veterans", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Pepperell Red Bulls", "result": "W", "score": "4\u20132", "venue": "H"}, {"date": "2026-10-16", "display_date": "Friday, October 16", "opponent": "Andover Gold", "result": "L", "score": "0\u20131", "venue": "A"}], "slug": "harvard-blues-fc-over-48-div-4-north"}, "Malden Everett Veterans": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Windham 50s", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Old School Soccer Club", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Andover Gold", "result": "L", "score": "1\u20133", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Pepperell Red Bulls", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-09-27", "display_date": "Sunday, September 27", "opponent": "Nashua Absolute II", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Harvard Blues FC", "result": "D", "score": "2\u20132", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "FC Belmont", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Windham 50s", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Harvard Blues FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Old School Soccer Club", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Andover Gold", "result": "L", "score": "1\u20133", "venue": "A"}], "slug": "malden-everett-veterans-over-48-div-4-north"}, "Nashua Absolute II": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Pepperell Red Bulls", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Andover Gold", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "FC Belmont", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Windham 50s", "result": "L", "score": "1\u20134", "venue": "A"}, {"date": "2026-09-27", "display_date": "Sunday, September 27", "opponent": "Malden Everett Veterans", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Andover Gold", "result": "L", "score": "1\u20132", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Old School Soccer Club", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Pepperell Red Bulls", "result": "D", "score": "3\u20133", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Andover Gold", "result": "L", "score": "2\u20133", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "FC Belmont", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Harvard Blues FC", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "nashua-absolute-ii-over-48-div-4-north"}, "Old School Soccer Club": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Andover Gold", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Pepperell Red Bulls", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Malden Everett Veterans", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Windham 50s", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-10-07", "display_date": "Wednesday, October 07", "opponent": "FC Belmont", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Harvard Blues FC", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Pepperell Red Bulls", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Nashua Absolute II", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Andover Gold", "result": "W", "score": "4\u20132", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Pepperell Red Bulls", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Malden Everett Veterans", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Windham 50s", "result": "L", "score": "0\u20135", "venue": "H"}], "slug": "old-school-soccer-club-over-48-div-4-north"}, "Pepperell Red Bulls": {"next_game": {"date": "2026-10-31", "display_date": "Saturday, October 31", "opponent": "Windham 50s", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Old School Soccer Club", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Harvard Blues FC", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "FC Belmont", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Malden Everett Veterans", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Old School Soccer Club", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Andover Gold", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Nashua Absolute II", "result": "D", "score": "3\u20133", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Old School Soccer Club", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Harvard Blues FC", "result": "L", "score": "2\u20134", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "FC Belmont", "result": "W", "score": "3\u20132", "venue": "H"}], "slug": "pepperell-red-bulls-over-48-div-4-north"}, "Windham 50s": {"next_game": {"date": "2026-10-31", "display_date": "Saturday, October 31", "opponent": "Pepperell Red Bulls", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "FC Belmont", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Andover Gold", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Old School Soccer Club", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Nashua Absolute II", "result": "W", "score": "4\u20131", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "FC Belmont", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Harvard Blues FC", "result": "W", "score": "1\u20130", "venue": "H"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Malden Everett Veterans", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "FC Belmont", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Andover Gold", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Old School Soccer Club", "result": "W", "score": "5\u20130", "venue": "A"}], "slug": "windham-50s-over-48-div-4-north"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Arlington Pond Dawgz"] = { w: 6, l: 0, t: 2, gp: 8 };
+STANDINGS_MAP["Windham 50s"] = { w: 5, l: 1, t: 1, gp: 7 };
 
-STANDINGS_MAP["Northshore United Soccer Club"] = { w: 4, l: 1, t: 3, gp: 8 };
+STANDINGS_MAP["Malden Everett Veterans"] = { w: 5, l: 1, t: 2, gp: 8 };
 
-STANDINGS_MAP["Nashua Absolute II"] = { w: 4, l: 2, t: 2, gp: 8 };
+STANDINGS_MAP["Pepperell Red Bulls"] = { w: 4, l: 1, t: 2, gp: 7 };
 
-STANDINGS_MAP["Pepperell Red Bulls"] = { w: 3, l: 3, t: 2, gp: 8 };
+STANDINGS_MAP["Andover Gold"] = { w: 4, l: 3, t: 1, gp: 8 };
+
+STANDINGS_MAP["Old School Soccer Club"] = { w: 3, l: 4, t: 1, gp: 8 };
+
+STANDINGS_MAP["FC Belmont"] = { w: 1, l: 4, t: 3, gp: 8 };
 
 STANDINGS_MAP["Harvard Blues FC"] = { w: 1, l: 5, t: 2, gp: 8 };
 
-STANDINGS_MAP["Wen Ham United"] = { w: 0, l: 7, t: 1, gp: 8 };
+STANDINGS_MAP["Nashua Absolute II"] = { w: 1, l: 5, t: 2, gp: 8 };
 
 
 const popup     = document.getElementById("team-popup");

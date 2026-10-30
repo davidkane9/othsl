@@ -617,18 +617,18 @@
     </div>
 
     <section class="hero">
-      <p>Spring 2026</p>
+      <p>Fall 2026</p>
       <h1>Franklin</h1>
       <p>Over 48 Division 5 South</p>
 
       <div class="chips">
-        
-        <span class="chip">ELO 1359</span>
-        
-        
-        <span class="chip">Place 6</span>
-        
-        <span class="chip">Record 0-8-0</span>
+
+        <span class="chip">ELO 1456</span>
+
+
+        <span class="chip">Place 3</span>
+
+        <span class="chip">Record 3-2-1</span>
       </div>
     </section>
 
@@ -660,55 +660,47 @@
               </tr>
             </thead>
             <tbody id="standings-tbody">
-              
+
               <tr>
-                <td class="team-name-cell" data-team="Ashland 48">Ashland 48</td>
-                <td>8</td>
-                <td>24</td>
-                <td>+45</td>
-                <td>3.00</td>
+                <td class="team-name-cell" data-team="Hogs FC">Hogs FC</td>
+                <td>7</td>
+                <td>17</td>
+                <td>+25</td>
+                <td>2.43</td>
               </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Needham FC">Needham FC</td>
-                <td>8</td>
-                <td>16</td>
-                <td>+2</td>
-                <td>2.00</td>
-              </tr>
-              
+
               <tr>
                 <td class="team-name-cell" data-team="Criolo City FC">Criolo City FC</td>
-                <td>8</td>
-                <td>10</td>
-                <td>-4</td>
-                <td>1.25</td>
+                <td>6</td>
+                <td>12</td>
+                <td>+6</td>
+                <td>2.00</td>
               </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="Raynham Crue">Raynham Crue</td>
-                <td>8</td>
-                <td>10</td>
-                <td>-10</td>
-                <td>1.25</td>
-              </tr>
-              
-              <tr>
-                <td class="team-name-cell" data-team="HTK FC">HTK FC</td>
-                <td>8</td>
-                <td>10</td>
-                <td>-16</td>
-                <td>1.25</td>
-              </tr>
-              
+
               <tr class="highlight">
                 <td class="team-name-cell" data-team="Franklin">Franklin</td>
-                <td>8</td>
-                <td>-2</td>
-                <td>-17</td>
-                <td>-0.25</td>
+                <td>6</td>
+                <td>10</td>
+                <td>+1</td>
+                <td>1.67</td>
               </tr>
-              
+
+              <tr>
+                <td class="team-name-cell" data-team="HTK FC">HTK FC</td>
+                <td>6</td>
+                <td>4</td>
+                <td>-9</td>
+                <td>0.67</td>
+              </tr>
+
+              <tr>
+                <td class="team-name-cell" data-team="BNFC O48">BNFC O48</td>
+                <td>7</td>
+                <td>1</td>
+                <td>-23</td>
+                <td>0.14</td>
+              </tr>
+
             </tbody>
           </table>
         </div>
@@ -718,16 +710,16 @@
     </section>
 
     <!-- ── Overall Outlook ──────────────────────────────────────────── -->
-    
+
     <section class="section" id="ai-team-section">
       <div class="section-title">
           <h2>Summary</h2>
       </div>
       <div class="panel" style="padding:18px 22px">
-        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Franklin are 6th with -2 points and 0% promotion, 0% stay, and 100% relegation odds, with the model centering them around 6th place (expected 6.00). They do not have a scheduled remaining match that materially changes their promotion or relegation outlook right now.</p>
+        <p style="font-size:.95rem;color:var(--ink);line-height:1.7;margin:0">Franklin are 3rd with 10 points and 8% promotion, 92% stay, and 0% relegation odds, with the model centering them around 3rd place (expected 2.92). The most important remaining match is vs Hogs FC on Sunday, November 08: if Franklin win, their promotion odds go from 8% to 24%; if they lose, their promotion odds go from 8% to 2%.</p>
       </div>
     </section>
-    
+
 
     <section class="section" id="sim-section">
       <div class="section-title">
@@ -759,7 +751,7 @@
           <span class="outcome-label">Stay</span>
           <span class="outcome-pct" id="pct-stay">—</span>
         </div>
-        
+
       </div>
 
       <!-- what-if grid -->
@@ -769,14 +761,14 @@
           <button id="reset-btn" class="reset-btn">Reset all</button>
         </div>
         <p class="note" style="margin-bottom:10px">Use the dropdown on any remaining game to lock an outcome — the simulation updates live. Changing one team's result automatically flips the opponent.</p>
-        
+
         <div id="game-list"></div>
       </div>
     </section>
 
 
     <footer>
-      A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+      A Khaykin and Kane production. Current data from <a href="https://victory.mass-soccer.org/schedules?season_id=179&amp;league_id=7">Mass Soccer Victory</a> (updated 2026-10-30); historical data from OTHSL.
       ELO ratings are model estimates, not official standings.
 
       <div style="margin-top:14px">
@@ -806,12 +798,13 @@
   </main>
 
 <script>
-const SIM_DATA        = {"current_elos": {"Ashland 48": 1600.4, "Criolo City FC": 1477.4, "Franklin": 1359.1, "HTK FC": 1423.1, "Needham FC": 1521.4, "Raynham Crue": 1456.0}, "current_regression": 0.0, "current_stats": {"Ashland 48": {"gd": 45, "gf": 50, "gp": 8, "l": 0, "pts": 24, "t": 0, "w": 8}, "Criolo City FC": {"gd": -4, "gf": 18, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}, "Franklin": {"gd": -17, "gf": 8, "gp": 8, "l": 8, "pts": -2, "t": 0, "w": 0}, "HTK FC": {"gd": -16, "gf": 10, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}, "Needham FC": {"gd": 2, "gf": 15, "gp": 8, "l": 2, "pts": 16, "t": 1, "w": 5}, "Raynham Crue": {"gd": -10, "gf": 13, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 2, "remaining_games": [{"away": "Criolo City FC", "away_win_prob": 0.686, "date": "2026-06-07", "draw_prob": 0.22, "home": "Franklin", "home_win_prob": 0.094, "id": "2026-06-07|Franklin|Criolo City FC", "involves_team": true}, {"away": "HTK FC", "away_win_prob": 0.05, "date": "2026-06-07", "draw_prob": 0.22, "home": "Ashland 48", "home_win_prob": 0.775, "id": "2026-06-07|Ashland 48|HTK FC", "involves_team": false}, {"away": "Raynham Crue", "away_win_prob": 0.21, "date": "2026-06-07", "draw_prob": 0.22, "home": "Needham FC", "home_win_prob": 0.57, "id": "2026-06-07|Needham FC|Raynham Crue", "involves_team": false}, {"away": "Franklin", "away_win_prob": 0.214, "date": "2026-06-14", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.566, "id": "2026-06-14|HTK FC|Franklin", "involves_team": true}, {"away": "Needham FC", "away_win_prob": 0.514, "date": "2026-06-14", "draw_prob": 0.22, "home": "Criolo City FC", "home_win_prob": 0.266, "id": "2026-06-14|Criolo City FC|Needham FC", "involves_team": false}, {"away": "Ashland 48", "away_win_prob": 0.73, "date": "2026-06-14", "draw_prob": 0.22, "home": "Raynham Crue", "home_win_prob": 0.05, "id": "2026-06-14|Raynham Crue|Ashland 48", "involves_team": false}], "schedule_inferred": false, "selected_team": "Franklin", "teams": ["Ashland 48", "Needham FC", "Criolo City FC", "Raynham Crue", "HTK FC", "Franklin"], "total_teams": 6};
-const FLIGHT_RESULTS  = [{"ag": 9, "away": "Ashland 48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 1, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 4, "away": "Needham FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-05", "forfeit": false, "hg": 0, "home": "Raynham Crue", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 0, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 3, "home": "Needham FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Raynham Crue", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-12", "forfeit": false, "hg": 8, "home": "Ashland 48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 2, "home": "Needham FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 5, "home": "Ashland 48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-19", "forfeit": false, "hg": 1, "home": "Raynham Crue", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 10, "away": "Ashland 48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 3, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Raynham Crue", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 1, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Needham FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-04-26", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 2, "home": "Raynham Crue", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Ashland 48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-03", "forfeit": false, "hg": 1, "home": "Needham FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Raynham Crue", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 2, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-10", "forfeit": false, "hg": 5, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": null, "away": "Needham FC", "away_forfeit": true, "away_forfeit_no_penalty": true, "date": "2026-05-10", "forfeit": true, "hg": 2, "home": "Ashland 48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": null, "away": "Franklin", "away_forfeit": true, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": true, "hg": 2, "home": "Ashland 48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 5, "home": "Raynham Crue", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-17", "forfeit": false, "hg": 1, "home": "Needham FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-22", "forfeit": false, "hg": 2, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Needham FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 0, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Ashland 48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 0, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Raynham Crue", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-05-31", "forfeit": false, "hg": 2, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
+const SIM_DATA        = {"current_elos": {"BNFC O48": 1349.5, "Criolo City FC": 1513.5, "Franklin": 1455.9, "HTK FC": 1399.7, "Hogs FC": 1551.6}, "current_regression": 0.0, "current_stats": {"BNFC O48": {"gd": -23, "gf": 3, "gp": 7, "l": 6, "pts": 1, "t": 1, "w": 0}, "Criolo City FC": {"gd": 6, "gf": 16, "gp": 6, "l": 0, "pts": 12, "t": 3, "w": 3}, "Franklin": {"gd": 1, "gf": 15, "gp": 6, "l": 2, "pts": 10, "t": 1, "w": 3}, "HTK FC": {"gd": -9, "gf": 8, "gp": 6, "l": 4, "pts": 4, "t": 1, "w": 1}, "Hogs FC": {"gd": 25, "gf": 29, "gp": 7, "l": 0, "pts": 17, "t": 2, "w": 5}}, "promotion_cut": 2, "regression_gp_full": 6, "relegation_cut": 1, "remaining_games": [{"away": "Criolo City FC", "away_win_prob": 0.61, "date": "2026-11-01", "draw_prob": 0.22, "home": "BNFC O48", "home_win_prob": 0.17, "id": "2026-11-01|BNFC O48|Criolo City FC", "involves_team": false}, {"away": "Franklin", "away_win_prob": 0.47, "date": "2026-11-01", "draw_prob": 0.22, "home": "HTK FC", "home_win_prob": 0.31, "id": "2026-11-01|HTK FC|Franklin", "involves_team": true}, {"away": "HTK FC", "away_win_prob": 0.232, "date": "2026-11-08", "draw_prob": 0.22, "home": "Criolo City FC", "home_win_prob": 0.548, "id": "2026-11-08|Criolo City FC|HTK FC", "involves_team": false}, {"away": "Hogs FC", "away_win_prob": 0.524, "date": "2026-11-08", "draw_prob": 0.22, "home": "Franklin", "home_win_prob": 0.256, "id": "2026-11-08|Franklin|Hogs FC", "involves_team": true}], "schedule_inferred": false, "selected_team": "Franklin", "teams": ["Hogs FC", "Criolo City FC", "Franklin", "HTK FC", "BNFC O48"], "total_teams": 5};
+const BASELINE_OUTLOOK = {"counts": {"BNFC O48": [0, 0, 0, 0, 0, 10000], "Criolo City FC": [0, 851, 8321, 828, 0, 0], "Franklin": [0, 0, 828, 9172, 0, 0], "HTK FC": [0, 0, 0, 0, 10000, 0], "Hogs FC": [0, 9149, 851, 0, 0, 0]}, "display_stats": {"BNFC O48": {"modal": 5, "promo": 0, "relg": 99, "stay": 1}, "Criolo City FC": {"modal": 2, "promo": 92, "relg": 0, "stay": 8}, "Franklin": {"modal": 3, "promo": 8, "relg": 0, "stay": 92}, "HTK FC": {"modal": 4, "promo": 0, "relg": 1, "stay": 99}, "Hogs FC": {"modal": 1, "promo": 100, "relg": 0, "stay": 0}}, "regression": 0.0, "team_stats": {"BNFC O48": {"expected_place": 5.0, "modal_place": 5, "place_counts": [0, 0, 0, 0, 0, 10000], "promotion_probability": 0.0, "relegation_probability": 100.0, "stay_probability": 0.0}, "Criolo City FC": {"expected_place": 2.0, "modal_place": 2, "place_counts": [0, 851, 8321, 828, 0, 0], "promotion_probability": 91.7, "relegation_probability": 0.0, "stay_probability": 8.3}, "Franklin": {"expected_place": 2.92, "modal_place": 3, "place_counts": [0, 0, 828, 9172, 0, 0], "promotion_probability": 8.3, "relegation_probability": 0.0, "stay_probability": 91.7}, "HTK FC": {"expected_place": 4.0, "modal_place": 4, "place_counts": [0, 0, 0, 0, 10000, 0], "promotion_probability": 0.0, "relegation_probability": 0.0, "stay_probability": 100.0}, "Hogs FC": {"expected_place": 1.09, "modal_place": 1, "place_counts": [0, 9149, 851, 0, 0, 0], "promotion_probability": 100.0, "relegation_probability": 0.0, "stay_probability": 0.0}}, "total_runs": 10000};
+const FLIGHT_RESULTS  = [{"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 4, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-08-30", "forfeit": false, "hg": 2, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 2, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-13", "forfeit": false, "hg": 5, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 2, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-20", "forfeit": false, "hg": 1, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 3, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-09-27", "forfeit": false, "hg": 3, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 6, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 6, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-04", "forfeit": false, "hg": 0, "home": "HTK FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-10", "forfeit": false, "hg": 0, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "Franklin", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 0, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 2, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-11", "forfeit": false, "hg": 5, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "BNFC O48", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 7, "home": "Hogs FC", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 5, "away": "Criolo City FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-18", "forfeit": false, "hg": 3, "home": "Franklin", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 1, "away": "HTK FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 1, "home": "BNFC O48", "home_forfeit": false, "home_forfeit_no_penalty": false}, {"ag": 0, "away": "Hogs FC", "away_forfeit": false, "away_forfeit_no_penalty": false, "date": "2026-10-25", "forfeit": false, "hg": 0, "home": "Criolo City FC", "home_forfeit": false, "home_forfeit_no_penalty": false}];
 const SCHEDULE_INFERRED = false;
 const IS_TOP_FLIGHT   = false;
 const IS_BOTTOM_FLIGHT = true;
-const TOTAL_RUNS      = 10000;
+const TOTAL_RUNS      = BASELINE_OUTLOOK.total_runs;
 const CURRENT_REGRESSION = SIM_DATA.current_regression || 0;
 
 // ── Page transition ──────────────────────────────────────────────
@@ -826,7 +819,12 @@ document.querySelectorAll(".page-link").forEach(link => {
 
 // ── Simulation engine (runs in a Blob Web Worker) ────────────────
 const WORKER_SRC = `
-  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 200)); }
+  let randomState = 123456789;
+  function randomDraw() {
+    randomState = (Math.imul(1664525, randomState) + 1013904223) >>> 0;
+    return randomState / 4294967296;
+  }
+  function expResult(a, b) { return 1 / (1 + Math.pow(10, (b - a) / 400)); }
   function regressedResult(a, b, reg) {
     const base = expResult(a, b);
     return base * (1 - reg) + 0.5 * reg;
@@ -846,9 +844,9 @@ const WORKER_SRC = `
       } else {
         const we = regressedResult(el[g.home] || 1500, el[g.away] || 1500, currentRegression);
         const dp = 0.22;
-        const hp = Math.max(0.05, Math.min(0.90, we - dp / 2));
+        const hp = Math.max(0.05, Math.min(1 - dp - 0.05, we - dp / 2));
         const ap = Math.max(0.05, 1 - dp - hp);
-        const r  = Math.random();
+        const r  = randomDraw();
         act = r < hp ? 1 : r < hp + dp ? 0.5 : 0;
       }
       const h = g.home, a = g.away;
@@ -1185,7 +1183,23 @@ function updateUI(completed, counts) {
 }
 
 function startSim() {
-  if (worker) worker.terminate();
+  if (worker) { worker.terminate(); worker = null; }
+  const isBaseline = current_stats === SIM_DATA.current_stats
+    && remaining_games === SIM_DATA.remaining_games
+    && Object.keys(overrides).length === 0;
+  const summary = document.getElementById('ai-team-section');
+  if (summary) summary.hidden = !isBaseline;
+  if (isBaseline) {
+    teamStats = BASELINE_OUTLOOK.display_stats;
+    updateUI(BASELINE_OUTLOOK.total_runs, BASELINE_OUTLOOK.counts[selected_team]);
+    const display = teamStats[selected_team];
+    elPctPromo.textContent = display.promo + '%';
+    elPctStay.textContent = display.stay + '%';
+    if (elPctRel) elPctRel.textContent = display.relg + '%';
+    elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. Current outlook.`;
+    renderGrid();
+    return;
+  }
   elStatus.textContent = "Running simulation…";
   elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
 
@@ -1210,7 +1224,7 @@ function startSim() {
     if (msg.type === 'progress') {
       updateUI(msg.completed, msg.counts);
       if (msg.done) {
-        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+        elStatus.textContent = `${TOTAL_RUNS.toLocaleString()} simulations complete. What-if outlook.`;
       }
     } else if (msg.type === 'team_stats') {
       teamStats = msg.teamStats;
@@ -1418,20 +1432,18 @@ startSim();
 })();
 
 // ── Team card popup ──────────────────────────────────────────────
-const FLIGHT_CARDS = {"Ashland 48": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "HTK FC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Criolo City FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Franklin", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Needham FC", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Needham FC", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Franklin", "result": "W", "score": "10\u20133", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Criolo City FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Raynham Crue", "result": "W", "score": "8\u20130", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "HTK FC", "result": "W", "score": "9\u20131", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Criolo City FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Franklin", "result": "W", "score": "F", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Needham FC", "result": "W", "score": "F", "venue": "H"}], "slug": "ashland-48-over-48-div-5-south"}, "Criolo City FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Franklin", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Ashland 48", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-22", "display_date": "Friday, May 22", "opponent": "Franklin", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham Crue", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "HTK FC", "result": "W", "score": "5\u20130", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "HTK FC", "result": "W", "score": "6\u20131", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Raynham Crue", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Ashland 48", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Needham FC", "result": "L", "score": "2\u20133", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Ashland 48", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-05-22", "display_date": "Friday, May 22", "opponent": "Franklin", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Raynham Crue", "result": "L", "score": "2\u20135", "venue": "A"}], "slug": "criolo-city-fc-over-48-div-5-south"}, "Franklin": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Criolo City FC", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Needham FC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-22", "display_date": "Friday, May 22", "opponent": "Criolo City FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Ashland 48", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Raynham Crue", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Raynham Crue", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Ashland 48", "result": "L", "score": "3\u201310", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Needham FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "HTK FC", "result": "L", "score": "0\u20132", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Needham FC", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-05-22", "display_date": "Friday, May 22", "opponent": "Criolo City FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Ashland 48", "result": "L", "score": "F", "venue": "A"}], "slug": "franklin-over-48-div-5-south"}, "HTK FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Ashland 48", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Raynham Crue", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Needham FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Criolo City FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Criolo City FC", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Needham FC", "result": "L", "score": "0\u20133", "venue": "H"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Raynham Crue", "result": "W", "score": "3\u20131", "venue": "A"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Franklin", "result": "W", "score": "2\u20130", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Ashland 48", "result": "L", "score": "1\u20139", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Raynham Crue", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Needham FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Criolo City FC", "result": "L", "score": "0\u20135", "venue": "A"}], "slug": "htk-fc-over-48-div-5-south"}, "Needham FC": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Raynham Crue", "venue": "vs"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Franklin", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Ashland 48", "result": "L", "score": "F", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Ashland 48", "result": "L", "score": "1\u20136", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "HTK FC", "result": "W", "score": "3\u20130", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "Franklin", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Criolo City FC", "result": "W", "score": "3\u20132", "venue": "H"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Raynham Crue", "result": "W", "score": "4\u20130", "venue": "A"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "Franklin", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "HTK FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Ashland 48", "result": "L", "score": "F", "venue": "A"}], "slug": "needham-fc-over-48-div-5-south"}, "Raynham Crue": {"next_game": {"date": "2026-06-07", "display_date": "Sunday, June 07", "opponent": "Needham FC", "venue": "@"}, "played": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Criolo City FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Franklin", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-05-03", "display_date": "Sunday, May 03", "opponent": "Franklin", "result": "W", "score": "2\u20131", "venue": "H"}, {"date": "2026-04-26", "display_date": "Sunday, April 26", "opponent": "Criolo City FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-04-19", "display_date": "Sunday, April 19", "opponent": "HTK FC", "result": "L", "score": "1\u20133", "venue": "H"}, {"date": "2026-04-12", "display_date": "Sunday, April 12", "opponent": "Ashland 48", "result": "L", "score": "0\u20138", "venue": "A"}, {"date": "2026-04-05", "display_date": "Sunday, April 05", "opponent": "Needham FC", "result": "L", "score": "0\u20134", "venue": "H"}], "recent": [{"date": "2026-05-31", "display_date": "Sunday, May 31", "opponent": "HTK FC", "result": "L", "score": "1\u20132", "venue": "A"}, {"date": "2026-05-17", "display_date": "Sunday, May 17", "opponent": "Criolo City FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-05-10", "display_date": "Sunday, May 10", "opponent": "Franklin", "result": "W", "score": "3\u20132", "venue": "A"}], "slug": "raynham-crue-over-48-div-5-south"}};
+const FLIGHT_CARDS = {"BNFC O48": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Criolo City FC", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "HTK FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Hogs FC", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Franklin", "result": "L", "score": "0\u20131", "venue": "H"}, {"date": "2026-10-10", "display_date": "Saturday, October 10", "opponent": "Hogs FC", "result": "L", "score": "0\u20135", "venue": "H"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Franklin", "result": "L", "score": "0\u20136", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "HTK FC", "result": "L", "score": "0\u20132", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Criolo City FC", "result": "L", "score": "1\u20134", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "HTK FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Hogs FC", "result": "L", "score": "1\u20137", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Franklin", "result": "L", "score": "0\u20131", "venue": "H"}], "slug": "bnfc-o48-over-48-div-5-south"}, "Criolo City FC": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "BNFC O48", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Hogs FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Franklin", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-09-27", "display_date": "Sunday, September 27", "opponent": "Franklin", "result": "D", "score": "3\u20133", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Hogs FC", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "HTK FC", "result": "W", "score": "3\u20132", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "BNFC O48", "result": "W", "score": "4\u20131", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Hogs FC", "result": "D", "score": "0\u20130", "venue": "H"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Franklin", "result": "W", "score": "5\u20133", "venue": "A"}, {"date": "2026-09-27", "display_date": "Sunday, September 27", "opponent": "Franklin", "result": "D", "score": "3\u20133", "venue": "H"}], "slug": "criolo-city-fc-over-48-div-5-south"}, "Franklin": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "HTK FC", "venue": "@"}, "played": [{"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Criolo City FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "BNFC O48", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}, {"date": "2026-09-27", "display_date": "Sunday, September 27", "opponent": "Criolo City FC", "result": "D", "score": "3\u20133", "venue": "A"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Hogs FC", "result": "L", "score": "0\u20135", "venue": "A"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "HTK FC", "result": "W", "score": "2\u20131", "venue": "H"}], "recent": [{"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "Criolo City FC", "result": "L", "score": "3\u20135", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "BNFC O48", "result": "W", "score": "1\u20130", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "BNFC O48", "result": "W", "score": "6\u20130", "venue": "H"}], "slug": "franklin-over-48-div-5-south"}, "HTK FC": {"next_game": {"date": "2026-11-01", "display_date": "Sunday, November 01", "opponent": "Franklin", "venue": "vs"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "BNFC O48", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Hogs FC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Hogs FC", "result": "L", "score": "0\u20136", "venue": "H"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "BNFC O48", "result": "W", "score": "2\u20130", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Criolo City FC", "result": "L", "score": "2\u20133", "venue": "H"}, {"date": "2026-08-30", "display_date": "Sunday, August 30", "opponent": "Franklin", "result": "L", "score": "1\u20132", "venue": "A"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "BNFC O48", "result": "D", "score": "1\u20131", "venue": "A"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "Hogs FC", "result": "L", "score": "2\u20135", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "Hogs FC", "result": "L", "score": "0\u20136", "venue": "H"}], "slug": "htk-fc-over-48-div-5-south"}, "Hogs FC": {"next_game": {"date": "2026-11-08", "display_date": "Sunday, November 08", "opponent": "Franklin", "venue": "@"}, "played": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Criolo City FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "BNFC O48", "result": "W", "score": "7\u20131", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "HTK FC", "result": "W", "score": "5\u20132", "venue": "H"}, {"date": "2026-10-10", "display_date": "Saturday, October 10", "opponent": "BNFC O48", "result": "W", "score": "5\u20130", "venue": "A"}, {"date": "2026-10-04", "display_date": "Sunday, October 04", "opponent": "HTK FC", "result": "W", "score": "6\u20130", "venue": "A"}, {"date": "2026-09-20", "display_date": "Sunday, September 20", "opponent": "Criolo City FC", "result": "D", "score": "1\u20131", "venue": "H"}, {"date": "2026-09-13", "display_date": "Sunday, September 13", "opponent": "Franklin", "result": "W", "score": "5\u20130", "venue": "H"}], "recent": [{"date": "2026-10-25", "display_date": "Sunday, October 25", "opponent": "Criolo City FC", "result": "D", "score": "0\u20130", "venue": "A"}, {"date": "2026-10-18", "display_date": "Sunday, October 18", "opponent": "BNFC O48", "result": "W", "score": "7\u20131", "venue": "H"}, {"date": "2026-10-11", "display_date": "Sunday, October 11", "opponent": "HTK FC", "result": "W", "score": "5\u20132", "venue": "H"}], "slug": "hogs-fc-over-48-div-5-south"}};
 const STANDINGS_MAP = {};
 
-STANDINGS_MAP["Ashland 48"] = { w: 8, l: 0, t: 0, gp: 8 };
+STANDINGS_MAP["Hogs FC"] = { w: 5, l: 0, t: 2, gp: 7 };
 
-STANDINGS_MAP["Needham FC"] = { w: 5, l: 2, t: 1, gp: 8 };
+STANDINGS_MAP["Criolo City FC"] = { w: 3, l: 0, t: 3, gp: 6 };
 
-STANDINGS_MAP["Criolo City FC"] = { w: 3, l: 4, t: 1, gp: 8 };
+STANDINGS_MAP["Franklin"] = { w: 3, l: 2, t: 1, gp: 6 };
 
-STANDINGS_MAP["Raynham Crue"] = { w: 3, l: 4, t: 1, gp: 8 };
+STANDINGS_MAP["HTK FC"] = { w: 1, l: 4, t: 1, gp: 6 };
 
-STANDINGS_MAP["HTK FC"] = { w: 3, l: 4, t: 1, gp: 8 };
-
-STANDINGS_MAP["Franklin"] = { w: 0, l: 8, t: 0, gp: 8 };
+STANDINGS_MAP["BNFC O48"] = { w: 0, l: 6, t: 1, gp: 7 };
 
 
 const popup     = document.getElementById("team-popup");

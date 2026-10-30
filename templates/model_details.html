@@ -126,11 +126,12 @@
 
   <div class="panel">
     <h2>Core Rating Model</h2>
+    <p>Current standings use the official Mass Soccer table, including point deductions and league ordering. Projections use regular league fixtures; byes, cross-flight exhibitions, and playoff rounds are excluded. Promotion and relegation zones are model assumptions. Historical tables are reconstructed from match results and may omit administrative deductions.</p>
     <p>
       Every team carries an ELO rating inside its age group. The rating is a compact summary of recent results: stronger teams rise, weaker teams fall,
       and the gap between two ratings determines the expected result before the match starts.
     </p>
-    <div class="formula">P(home result strength) = 1 / (1 + 10^((ELO_away - ELO_home) / 200))</div>
+    <div class="formula">P(home result strength) = 1 / (1 + 10^((ELO_away - ELO_home) / 400))</div>
     <p class="muted">
       Match results then update both teams with a K-factor of 32. A win moves rating more than a draw, and an upset moves rating more than an expected result.
       New or sparse teams naturally drift back toward the league middle because their rating history contains less evidence.

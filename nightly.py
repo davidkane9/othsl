@@ -50,7 +50,7 @@ def main():
         return
 
     # 2. Stage updated data files
-    ok = run(["git", "-C", BASE, "add", "data/current_results.csv", "data/elo_history.csv"])
+    ok = run(["git", "-C", BASE, "add", "data/current_results.csv", "data/current_standings.json", "data/all_results.csv", "data/elo_history.csv", "data/flight_importance.json"])
     if not ok:
         return
 

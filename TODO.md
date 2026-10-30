@@ -1,3 +1,5 @@
+Implementation update (October 2026): current data now comes from Mass Soccer Victory, Fall 2026 (season 179, league 7). The importer, official standings, ELO calculation, static build, and scheduled deployment are implemented. See README.md for the current workflow. The notes below are the original project brief and include ideas that remain future work.
+
 Here are some thoughts about the overall organization of the project.
 
 # Data

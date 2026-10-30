@@ -466,7 +466,7 @@
   {% endif %}
 
   <footer>
-    A Khaykin and Kane production. Data scraped from <a href="https://www.othsl.org">othsl.org</a>.
+    A Khaykin and Kane production. Current data from <a href="{{ schedule_url }}">Mass Soccer Victory</a>{% if data_updated %} (updated {{ data_updated }}){% endif %}; historical data from OTHSL.
     ELO ratings are model estimates, not official standings.
 
     <div style="margin-top:14px">
@@ -498,6 +498,7 @@
 <script>
 const IS_HISTORICAL    = {{ is_historical | tojson }};
 const SIM_DATA         = {{ sim_data | tojson }};
+const BASELINE_OUTLOOK = {{ flight_outlook | default(none) | tojson }};
 const FLIGHT_RESULTS   = {{ flight_results | tojson }};
 const FLIGHT_CARDS     = {{ flight_team_cards | tojson }};
 const CLINCH_ROWS      = {{ clinch_scenarios.rows | tojson if clinch_scenarios else '{}' }};
@@ -783,7 +784,12 @@ document.querySelectorAll(".page-link").forEach(link=>{
 
 // ── Simulation worker ─────────────────────────────────────────────────────
 const WORKER_SRC = `
-  function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/200));}
+  let randomState = 123456789;
+  function randomDraw() {
+    randomState = (Math.imul(1664525, randomState) + 1013904223) >>> 0;
+    return randomState / 4294967296;
+  }
+  function expResult(a,b){return 1/(1+Math.pow(10,(b-a)/400));}
   function regressedResult(a,b,reg){const base=expResult(a,b);return base*(1-reg)+0.5*reg;}
   function simOnce(teams,baseStats,baseElos,games,overrides,regression){
     const st={},el={};
@@ -794,8 +800,8 @@ const WORKER_SRC = `
       if(ov!==undefined){act=ov==='home'?1:ov==='draw'?0.5:0;}
       else{
         const we=regressedResult(el[g.home]||1500,el[g.away]||1500,regression),dp=0.22;
-        const hp=Math.max(0.05,Math.min(0.90,we-dp/2)),ap=Math.max(0.05,1-dp-hp);
-        const r=Math.random(); act=r<hp?1:r<hp+dp?0.5:0;
+        const hp=Math.max(0.05,Math.min(1-dp-0.05,we-dp/2)),ap=Math.max(0.05,1-dp-hp);
+        const r=randomDraw(); act=r<hp?1:r<hp+dp?0.5:0;
       }
       const h=g.home,a=g.away;
       if(act===1)       {st[h].pts+=3;st[h].gd++;st[h].gf+=2;st[a].gd--;st[a].gf++;}
@@ -828,7 +834,17 @@ const WORKER_SRC = `
 
 let worker = null;
 function startSim() {
-  if (worker) worker.terminate();
+  if (worker) { worker.terminate(); worker = null; }
+  const isBaseline = BASELINE_OUTLOOK && !viewDate && Object.keys(overrides).length === 0;
+  const summary = document.getElementById('ai-flight-section');
+  if (summary) summary.hidden = !isBaseline;
+  if (isBaseline) {
+    teamStats = BASELINE_OUTLOOK.display_stats;
+    elCounter.innerHTML = `${BASELINE_OUTLOOK.total_runs.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
+    elStatus.textContent = `${BASELINE_OUTLOOK.total_runs.toLocaleString()} simulations complete. Current outlook.`;
+    renderGrid();
+    return;
+  }
   elStatus.textContent = "Running simulation…";
   elCounter.innerHTML  = `0 <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
 
@@ -850,7 +866,7 @@ function startSim() {
     const msg=e.data;
     if(msg.type==='progress'){
       elCounter.innerHTML=`${msg.completed.toLocaleString()} <span style="opacity:.45">/ ${TOTAL_RUNS.toLocaleString()}</span>`;
-      if(msg.done) elStatus.textContent=`${TOTAL_RUNS.toLocaleString()} simulations complete.`;
+      if(msg.done) elStatus.textContent=`${TOTAL_RUNS.toLocaleString()} simulations complete. What-if outlook.`;
     } else if(msg.type==='team_stats'){
       teamStats=msg.teamStats; renderGrid();
     } else if(msg.type==='done'){
