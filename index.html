@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTHSL | Fall 2026</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255, 252, 247, 0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38, 61, 41, 0.14);
+    --field: #23442b;
+    --field-2: #6f8f63;
+    --accent: #c68a2b;
+    --shadow: 0 20px 50px rgba(27, 38, 29, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198, 138, 43, 0.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35, 68, 43, 0.2), transparent 28%),
+      linear-gradient(180deg, #f8f3e9 0%, var(--bg) 55%, #efe6d4 100%);
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: page-enter 0.55s ease forwards;
+  }
+
+  body.is-leaving .page {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+
+  @keyframes page-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 28px 32px;
+    border-radius: 30px;
+    color: #f7f2e8;
+    background:
+      linear-gradient(135deg, rgba(23, 52, 31, 0.97), rgba(41, 76, 49, 0.93)),
+      linear-gradient(135deg, rgba(198, 138, 43, 0.16), transparent);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: auto -50px -120px auto;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(198, 138, 43, 0.36), transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* ── Plinko (centered, full hero) ────────────────────────────── */
+  .plinko-panel {
+    background: rgba(18,40,22,0.82); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px; padding: 16px 14px 12px; display: flex;
+    flex-direction: column; align-items: center; gap: 0;
+    width: 100%; max-width: 560px;
+  }
+  .plinko-eyebrow { font-size: .63rem; text-transform: uppercase; letter-spacing: .1em;
+                    color: rgba(247,242,232,.4); margin-bottom: 3px; }
+  .plinko-team-name { font-size: 1rem; font-weight: 700; color: #f7f2e8;
+                      margin-bottom: 8px; text-align: center; }
+  .plinko-body { display: grid; grid-template-columns: 1fr 120px; gap: 10px;
+                 width: 100%; align-items: start; }
+  .plinko-canvas-wrap { position: relative; width: 100%; }
+  #plinko-canvas { display: block; width: 100%; }
+  .plinko-log { display: flex; flex-direction: column; gap: 2px;
+                font-size: 0.67rem; font-family: Georgia, serif;
+                width: 120px; overflow-y: auto; overflow-x: hidden;
+                scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.1) transparent; }
+  .plinko-log-entry { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .plinko-stats { display: flex; gap: 16px; margin-top: 6px; }
+  .plinko-stat { text-align: center; }
+  .plinko-stat-val { font-size: 1.15rem; font-weight: 700; color: #f7f2e8; line-height: 1; }
+  .plinko-stat-lbl { font-size: .58rem; text-transform: uppercase; letter-spacing: .07em;
+                     color: rgba(247,242,232,.45); margin-top: 2px; }
+  .plinko-how { font-size: .75rem; color: rgba(247,242,232,.6); line-height: 1.5;
+                margin-top: 8px; text-align: center; display: none; max-width: 340px; }
+  .plinko-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+  .plinko-link {
+    font-size: .75rem; color: rgba(247,242,232,.55); text-decoration: none;
+    border: 1px solid rgba(255,255,255,.12); border-radius: 20px;
+    padding: 4px 12px; transition: all .15s; cursor: pointer;
+    background: none; font-family: inherit;
+  }
+  .plinko-link:hover { color: #f7f2e8; background: rgba(255,255,255,.08); }
+  .plinko-speed-wrap { display: flex; align-items: center; gap: 5px; }
+  .plinko-speed-wrap label { font-size: .65rem; color: rgba(247,242,232,.4); text-transform: uppercase; letter-spacing: .06em; }
+  #plinko-speed {
+    width: 72px; accent-color: rgba(198,138,43,0.85); cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px; background: rgba(255,255,255,.18);
+    outline: none;
+  }
+  #plinko-speed::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%;
+    background: rgba(198,138,43,0.9); cursor: pointer;
+  }
+
+  .section {
+    margin-top: 26px;
+    padding: 28px;
+    border-radius: 26px;
+    background: var(--panel);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .section-title h2 {
+    margin: 0 0 4px;
+    font-size: 1.55rem;
+    letter-spacing: -0.03em;
+  }
+
+  .section-title p,
+  .note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  footer {
+    margin-top: 22px;
+    padding: 20px 6px 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Feedback */
+  .feedback-section {
+    margin-top: 10px;
+  }
+
+  .feedback-toggle {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 18px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .feedback-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .feedback-drawer {
+    display: none;
+    margin-top: 16px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    text-align: left;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feedback-drawer.open { display: block; }
+
+  .feedback-drawer h4 {
+    margin: 0 0 4px;
+    font-size: 1rem;
+  }
+
+  .feedback-drawer p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .feedback-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .feedback-field label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .feedback-field input,
+  .feedback-field textarea {
+    padding: 10px 13px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: #fffdf7;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+  }
+
+  .feedback-field textarea { min-height: 90px; }
+
+  .feedback-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 22px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--field);
+    color: #f9f4ea;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .feedback-submit:disabled {
+    background: #90a08f;
+    cursor: not-allowed;
+  }
+
+  .feedback-thanks {
+    display: none;
+    color: var(--field);
+    font-size: 0.92rem;
+    margin-top: 10px;
+  }
+
+  .subscribe-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 22px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(35,68,43,0.08), rgba(198,138,43,0.10));
+    border: 1px solid rgba(198,138,43,0.25);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .subscribe-banner-text {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .subscribe-banner-text strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+
+  .subscribe-banner-text span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .subscribe-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+
+  .subscribe-btn:hover { opacity: 0.88; }
+
+  /* ── Nav ─────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0;
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 16px;
+    display: flex; align-items: center; gap: 24px; height: 52px;
+    width: min(1180px, calc(100% - 32px));
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  @media (max-width: 640px) {
+    .page { width: min(100% - 20px, 1180px); padding-top: 14px; }
+    .hero, .section { padding: 18px; border-radius: 22px; }
+    .section-title { flex-direction: column; align-items: start; }
+  }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="./" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="./" class="active">Home</a></li>
+      <li><a href="./teams/">Find Team</a></li>
+      <li><a href="./calibration/">Model Calibration</a></li>
+      <li><a href="./model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+<main class="page">
+    <section class="hero">
+      <span class="eyebrow">OTHSL Match Intelligence · Fall 2026</span>
+
+      
+      <div class="plinko-panel">
+        <div class="plinko-eyebrow">Season simulation</div>
+        <div class="plinko-team-name" id="plinko-team-name">Arlington PondDawgz 62 - Over 62 2C</div>
+        <div class="plinko-body">
+          <div class="plinko-canvas-wrap"><canvas id="plinko-canvas"></canvas></div>
+          <div class="plinko-log" id="plinko-log"></div>
+        </div>
+        <div class="plinko-stats">
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#4ade80" id="plinko-promo-pct">—</div>
+            <div class="plinko-stat-lbl">Promotion</div>
+          </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:rgba(247,242,232,.7)" id="plinko-team-count">8 teams</div>
+            <div class="plinko-stat-lbl" id="plinko-flight-label">Over 62 Div 2 Central</div>
+          </div>
+          <div class="plinko-stat">
+            <div class="plinko-stat-val" style="color:#f87171" id="plinko-relg-pct">—</div>
+            <div class="plinko-stat-lbl">Relegation</div>
+          </div>
+        </div>
+        <div class="plinko-how" id="plinko-how">
+          Each ball is one simulated season — every game played out by ELO probability.
+          A win shifts the team left toward promotion; a loss shifts right toward relegation.
+          The distribution shows where Arlington PondDawgz 62 - Over 62 2C most likely finishes.
+        </div>
+        <div class="plinko-actions">
+          <a class="plinko-link page-link" href="teams/">Find your team →</a>
+          <button id="plinko-replay" class="plinko-link">↺ Replay</button>
+          <button id="plinko-next-team" class="plinko-link" >Next team</button>
+          <div class="plinko-speed-wrap">
+            <label for="plinko-speed">Speed</label>
+            <input type="range" id="plinko-speed" min="0.1" max="2" step="0.1" value="0.7">
+          </div>
+        </div>
+      </div>
+      
+
+    </section>
+
+    <div class="subscribe-banner">
+      <div class="subscribe-banner-text">
+        <strong>Stay in the loop</strong>
+        <span>Get weekly updates, standings, and match recaps delivered to your inbox.</span>
+      </div>
+      <a class="subscribe-btn" href="https://substack.com/@jacobkhaykin" target="_blank" rel="noopener">
+        Subscribe ↗
+      </a>
+    </div>
+
+    <footer>
+      A Khaykin and Kane production. Current data from <a href="https://victory.mass-soccer.org/schedules?season_id=179&amp;league_id=7">Mass Soccer Victory</a> (updated 2026-11-07); historical data from OTHSL.
+      ELO ratings are model estimates, not official standings.
+
+      <div class="feedback-section">
+        <button class="feedback-toggle" id="feedback-toggle-btn">Send Feedback</button>
+        <div class="feedback-drawer" id="feedback-drawer">
+          <h4>Send feedback</h4>
+          <p>Spotted a bug, missing data, or have an idea? Let us know.</p>
+          <form id="feedback-form" action="https://formspree.io/f/xlgadoln" method="POST">
+            <div class="feedback-field">
+              <label for="fb-name">Name (optional)</label>
+              <input type="text" id="fb-name" name="name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-email">Email (optional)</label>
+              <input type="email" id="fb-email" name="email" placeholder="your@email.com" autocomplete="email">
+            </div>
+            <div class="feedback-field">
+              <label for="fb-message">Message</label>
+              <textarea id="fb-message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button class="feedback-submit" type="submit" id="feedback-submit-btn">Send</button>
+            <div class="feedback-thanks" id="feedback-thanks">Thanks — message sent!</div>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+<script>
+// ── Plinko: game-by-game season simulation ───────────────────────
+(function() {
+  const canvas = document.getElementById('plinko-canvas');
+  if (!canvas) return;
+  {
+  const PLINKO_CHOICES = [{"current_position": 5, "current_stats": {"Boston Nigeria Eagles FC": {"gd": -3, "gf": 16, "gp": 8, "l": 3, "pts": 11, "t": 2, "w": 3}, "Needham United": {"gd": -4, "gf": 12, "gp": 9, "l": 5, "pts": 10, "t": 1, "w": 3}, "Os Amigos F.C.": {"gd": 4, "gf": 21, "gp": 8, "l": 3, "pts": 11, "t": 2, "w": 3}, "PRAIA KAPITAL FC": {"gd": -7, "gf": 20, "gp": 9, "l": 5, "pts": 2, "t": 3, "w": 1}, "Plymouth FC": {"gd": 4, "gf": 25, "gp": 9, "l": 3, "pts": 14, "t": 1, "w": 5}, "Southside F.C.": {"gd": -3, "gf": 15, "gp": 9, "l": 3, "pts": 14, "t": 2, "w": 4}, "Taunton Eagles SC": {"gd": 2, "gf": 16, "gp": 9, "l": 3, "pts": 16, "t": 1, "w": 5}, "Torres FC": {"gd": 7, "gf": 17, "gp": 9, "l": 2, "pts": 13, "t": 4, "w": 3}}, "display_name": "Os Amigos F.C. - Over 30 1S", "flight_code": "Over 30 1S", "flight_label": "Over 30 Div 1 South", "flight_slug": "over-30-div-1-south", "games_played": 8, "games_remaining": 2, "n_teams": 8, "place_probs": [{"place": 1, "probability": 11.8}, {"place": 2, "probability": 10.8}, {"place": 3, "probability": 12.0}, {"place": 4, "probability": 18.5}, {"place": 5, "probability": 18.1}, {"place": 6, "probability": 21.2}, {"place": 7, "probability": 7.6}], "promo_cut": 2, "promo_prob": 22.6, "relg_cut": 2, "relg_prob": 7.6, "remaining_games": [{"away": "Plymouth FC", "away_win_prob": 0.475, "date": "2026-11-08", "draw_prob": 0.22, "home": "Needham United", "home_win_prob": 0.305, "id": "2026-11-08|Needham United|Plymouth FC", "involves_team": false}, {"away": "Torres FC", "away_win_prob": 0.46, "date": "2026-11-08", "draw_prob": 0.22, "home": "Boston Nigeria Eagles FC", "home_win_prob": 0.32, "id": "2026-11-08|Boston Nigeria Eagles FC|Torres FC", "involves_team": false}, {"away": "PRAIA KAPITAL FC", "away_win_prob": 0.325, "date": "2026-11-08", "draw_prob": 0.22, "home": "Os Amigos F.C.", "home_win_prob": 0.455, "id": "2026-11-08|Os Amigos F.C.|PRAIA KAPITAL FC", "involves_team": true}, {"away": "Taunton Eagles SC", "away_win_prob": 0.379, "date": "2026-11-08", "draw_prob": 0.22, "home": "Southside F.C.", "home_win_prob": 0.401, "id": "2026-11-08|Southside F.C.|Taunton Eagles SC", "involves_team": false}, {"away": "Boston Nigeria Eagles FC", "away_win_prob": 0.373, "date": "2026-11-12", "draw_prob": 0.22, "home": "Os Amigos F.C.", "home_win_prob": 0.407, "id": "2026-11-12|Os Amigos F.C.|Boston Nigeria Eagles FC", "involves_team": true}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Os Amigos F.C.|Taunton Eagles SC", "opponent": "Taunton Eagles SC", "result": "L", "score": "1-2", "venue": "vs"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|PRAIA KAPITAL FC|Os Amigos F.C.", "opponent": "PRAIA KAPITAL FC", "result": "W", "score": "6-3", "venue": "@"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|Southside F.C.|Os Amigos F.C.", "opponent": "Southside F.C.", "result": "D", "score": "4-4", "venue": "@"}, {"date": "2026-09-27", "fixed": true, "id": "2026-09-27|Os Amigos F.C.|Plymouth FC", "opponent": "Plymouth FC", "result": "W", "score": "3-0", "venue": "vs"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|Torres FC|Os Amigos F.C.", "opponent": "Torres FC", "result": "D", "score": "2-2", "venue": "@"}, {"date": "2026-10-18", "fixed": true, "id": "2026-10-18|Needham United|Os Amigos F.C.", "opponent": "Needham United", "result": "W", "score": "4-2", "venue": "@"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Os Amigos F.C.|Southside F.C.", "opponent": "Southside F.C.", "result": "L", "score": "1-2", "venue": "vs"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|Taunton Eagles SC|Os Amigos F.C.", "opponent": "Taunton Eagles SC", "result": "L", "score": "0-2", "venue": "@"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.455, "id": "2026-11-08|Os Amigos F.C.|PRAIA KAPITAL FC", "opponent": "PRAIA KAPITAL FC", "venue": "vs"}, {"date": "2026-11-12", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.407, "id": "2026-11-12|Os Amigos F.C.|Boston Nigeria Eagles FC", "opponent": "Boston Nigeria Eagles FC", "venue": "vs"}], "team": "Os Amigos F.C.", "team_games": [{"away": "PRAIA KAPITAL FC", "away_win_prob": 0.325, "date": "2026-11-08", "draw_prob": 0.22, "home": "Os Amigos F.C.", "home_win_prob": 0.455, "id": "2026-11-08|Os Amigos F.C.|PRAIA KAPITAL FC", "involves_team": true}, {"away": "Boston Nigeria Eagles FC", "away_win_prob": 0.373, "date": "2026-11-12", "draw_prob": 0.22, "home": "Os Amigos F.C.", "home_win_prob": 0.407, "id": "2026-11-12|Os Amigos F.C.|Boston Nigeria Eagles FC", "involves_team": true}], "teams": ["Taunton Eagles SC", "Plymouth FC", "Southside F.C.", "Torres FC", "Os Amigos F.C.", "Boston Nigeria Eagles FC", "Needham United", "PRAIA KAPITAL FC"]}, {"current_position": 1, "current_stats": {"Canary Square Veterans": {"gd": 0, "gf": 20, "gp": 8, "l": 5, "pts": 9, "t": 0, "w": 3}, "FC Franklin II": {"gd": -8, "gf": 20, "gp": 8, "l": 3, "pts": 9, "t": 3, "w": 2}, "HTK FC": {"gd": 1, "gf": 21, "gp": 8, "l": 3, "pts": 13, "t": 1, "w": 4}, "Irish Village White": {"gd": -8, "gf": 14, "gp": 7, "l": 4, "pts": 7, "t": 1, "w": 2}, "Medway": {"gd": 10, "gf": 27, "gp": 8, "l": 2, "pts": 16, "t": 1, "w": 5}, "Milton FC": {"gd": -5, "gf": 11, "gp": 7, "l": 4, "pts": 5, "t": 1, "w": 2}, "Post-game Nomads": {"gd": 10, "gf": 27, "gp": 8, "l": 2, "pts": 16, "t": 1, "w": 5}}, "display_name": "Medway - Over 40 5S", "flight_code": "Over 40 5S", "flight_label": "Over 40 Div 5 South", "flight_slug": "over-40-div-5-south", "games_played": 8, "games_remaining": 1, "n_teams": 7, "place_probs": [{"place": 1, "probability": 52.9}, {"place": 2, "probability": 47.1}], "promo_cut": 2, "promo_prob": 100.0, "relg_cut": 2, "relg_prob": 0.0, "remaining_games": [{"away": "Irish Village White", "away_win_prob": 0.396, "date": "2026-11-08", "draw_prob": 0.22, "home": "Milton FC", "home_win_prob": 0.384, "id": "2026-11-08|Milton FC|Irish Village White", "involves_team": false}, {"away": "Post-game Nomads", "away_win_prob": 0.475, "date": "2026-11-08", "draw_prob": 0.22, "home": "Medway", "home_win_prob": 0.305, "id": "2026-11-08|Medway|Post-game Nomads", "involves_team": true}, {"away": "Canary Square Veterans", "away_win_prob": 0.336, "date": "2026-11-08", "draw_prob": 0.22, "home": "FC Franklin II", "home_win_prob": 0.444, "id": "2026-11-08|FC Franklin II|Canary Square Veterans", "involves_team": false}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Medway|Canary Square Veterans", "opponent": "Canary Square Veterans", "result": "W", "score": "5-2", "venue": "vs"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|Post-game Nomads|Medway", "opponent": "Post-game Nomads", "result": "W", "score": "4-3", "venue": "@"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|FC Franklin II|Medway", "opponent": "FC Franklin II", "result": "W", "score": "4-3", "venue": "@"}, {"date": "2026-10-08", "fixed": true, "id": "2026-10-08|Medway|Irish Village White", "opponent": "Irish Village White", "result": "L", "score": "1-3", "venue": "vs"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|HTK FC|Medway", "opponent": "HTK FC", "result": "W", "score": "5-1", "venue": "@"}, {"date": "2026-10-18", "fixed": true, "id": "2026-10-18|Milton FC|Medway", "opponent": "Milton FC", "result": "D", "score": "1-1", "venue": "@"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Medway|FC Franklin II", "opponent": "FC Franklin II", "result": "W", "score": "6-1", "venue": "vs"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|Canary Square Veterans|Medway", "opponent": "Canary Square Veterans", "result": "L", "score": "1-3", "venue": "@"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.305, "id": "2026-11-08|Medway|Post-game Nomads", "opponent": "Post-game Nomads", "venue": "vs"}], "team": "Medway", "team_games": [{"away": "Post-game Nomads", "away_win_prob": 0.475, "date": "2026-11-08", "draw_prob": 0.22, "home": "Medway", "home_win_prob": 0.305, "id": "2026-11-08|Medway|Post-game Nomads", "involves_team": true}], "teams": ["Medway", "Post-game Nomads", "HTK FC", "FC Franklin II", "Canary Square Veterans", "Irish Village White", "Milton FC"]}, {"current_position": 4, "current_stats": {"AFC Medfield": {"gd": 10, "gf": 23, "gp": 9, "l": 2, "pts": 19, "t": 1, "w": 6}, "Celtic Legends O55": {"gd": 14, "gf": 24, "gp": 8, "l": 1, "pts": 21, "t": 0, "w": 7}, "FC Franklin Seniors": {"gd": -10, "gf": 10, "gp": 9, "l": 5, "pts": 10, "t": 1, "w": 3}, "FIMA O55": {"gd": 8, "gf": 22, "gp": 8, "l": 2, "pts": 16, "t": 1, "w": 5}, "Fernandes O55++": {"gd": -4, "gf": 14, "gp": 7, "l": 5, "pts": 6, "t": 0, "w": 2}, "Neponset Older Boys": {"gd": -20, "gf": 2, "gp": 7, "l": 7, "pts": -6, "t": 0, "w": 0}, "Warthog Legends": {"gd": 2, "gf": 14, "gp": 8, "l": 4, "pts": 10, "t": 1, "w": 3}}, "display_name": "Warthog Legends - Over 55 3S", "flight_code": "Over 55 3S", "flight_label": "Over 55 Div 3 South", "flight_slug": "over-55-div-3-south", "games_played": 8, "games_remaining": 1, "n_teams": 7, "place_probs": [{"place": 4, "probability": 100.0}], "promo_cut": 2, "promo_prob": 0.0, "relg_cut": 2, "relg_prob": 0.0, "remaining_games": [{"away": "Fernandes O55++", "away_win_prob": 0.432, "date": "2026-11-08", "draw_prob": 0.22, "home": "Neponset Older Boys", "home_win_prob": 0.348, "id": "2026-11-08|Neponset Older Boys|Fernandes O55++", "involves_team": false}, {"away": "FIMA O55", "away_win_prob": 0.44, "date": "2026-11-08", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.34, "id": "2026-11-08|Warthog Legends|FIMA O55", "involves_team": true}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Warthog Legends|AFC Medfield", "opponent": "AFC Medfield", "result": "L", "score": "0-1", "venue": "vs"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|FIMA O55|Warthog Legends", "opponent": "FIMA O55", "result": "D", "score": "1-1", "venue": "@"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|FC Franklin Seniors|Warthog Legends", "opponent": "FC Franklin Seniors", "result": "W", "score": "4-0", "venue": "@"}, {"date": "2026-10-04", "fixed": true, "id": "2026-10-04|Warthog Legends|Neponset Older Boys", "opponent": "Neponset Older Boys", "result": "W", "score": "4-1", "venue": "vs"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|Fernandes O55++|Warthog Legends", "opponent": "Fernandes O55++", "result": "L", "score": "2-3", "venue": "@"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Warthog Legends|FC Franklin Seniors", "opponent": "FC Franklin Seniors", "result": "W", "score": "3-1", "venue": "vs"}, {"date": "2026-10-28", "fixed": true, "id": "2026-10-28|Warthog Legends|Celtic Legends O55", "opponent": "Celtic Legends O55", "result": "L", "score": "0-4", "venue": "vs"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|AFC Medfield|Warthog Legends", "opponent": "AFC Medfield", "result": "L", "score": "0-1", "venue": "@"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.34, "id": "2026-11-08|Warthog Legends|FIMA O55", "opponent": "FIMA O55", "venue": "vs"}], "team": "Warthog Legends", "team_games": [{"away": "FIMA O55", "away_win_prob": 0.44, "date": "2026-11-08", "draw_prob": 0.22, "home": "Warthog Legends", "home_win_prob": 0.34, "id": "2026-11-08|Warthog Legends|FIMA O55", "involves_team": true}], "teams": ["Celtic Legends O55", "AFC Medfield", "FIMA O55", "Warthog Legends", "FC Franklin Seniors", "Fernandes O55++", "Neponset Older Boys"]}, {"current_position": 5, "current_stats": {"Arlington PondDawgz 62": {"gd": 2, "gf": 11, "gp": 9, "l": 2, "pts": 15, "t": 3, "w": 4}, "Boston Villa FC": {"gd": 15, "gf": 20, "gp": 8, "l": 2, "pts": 18, "t": 0, "w": 6}, "Danvers EFC": {"gd": 8, "gf": 23, "gp": 9, "l": 1, "pts": 20, "t": 2, "w": 6}, "Hopkinton OF": {"gd": -17, "gf": 6, "gp": 9, "l": 8, "pts": 3, "t": 0, "w": 1}, "Lynnfield F.C. Olympians": {"gd": -16, "gf": 11, "gp": 9, "l": 8, "pts": 1, "t": 0, "w": 1}, "Medway": {"gd": 4, "gf": 16, "gp": 9, "l": 2, "pts": 17, "t": 2, "w": 5}, "Nashoba Apple Corps": {"gd": -3, "gf": 16, "gp": 9, "l": 5, "pts": 10, "t": 1, "w": 3}, "Warthog Wonders": {"gd": 7, "gf": 24, "gp": 8, "l": 2, "pts": 14, "t": 2, "w": 4}}, "display_name": "Arlington PondDawgz 62 - Over 62 2C", "flight_code": "Over 62 2C", "flight_label": "Over 62 Div 2 Central", "flight_slug": "over-62-div-2-central", "games_played": 9, "games_remaining": 1, "n_teams": 8, "place_probs": [{"place": 3, "probability": 20.5}, {"place": 4, "probability": 33.9}, {"place": 5, "probability": 45.6}], "promo_cut": 2, "promo_prob": 0.0, "relg_cut": 2, "relg_prob": 0.0, "remaining_games": [{"away": "Warthog Wonders", "away_win_prob": 0.271, "date": "2026-09-27", "draw_prob": 0.22, "home": "Boston Villa FC", "home_win_prob": 0.509, "id": "2026-09-27|Boston Villa FC|Warthog Wonders", "involves_team": false}, {"away": "Arlington PondDawgz 62", "away_win_prob": 0.428, "date": "2026-11-08", "draw_prob": 0.22, "home": "Warthog Wonders", "home_win_prob": 0.352, "id": "2026-11-08|Warthog Wonders|Arlington PondDawgz 62", "involves_team": true}, {"away": "Danvers EFC", "away_win_prob": 0.585, "date": "2026-11-08", "draw_prob": 0.22, "home": "Lynnfield F.C. Olympians", "home_win_prob": 0.195, "id": "2026-11-08|Lynnfield F.C. Olympians|Danvers EFC", "involves_team": false}, {"away": "Boston Villa FC", "away_win_prob": 0.465, "date": "2026-11-08", "draw_prob": 0.22, "home": "Medway", "home_win_prob": 0.315, "id": "2026-11-08|Medway|Boston Villa FC", "involves_team": false}, {"away": "Nashoba Apple Corps", "away_win_prob": 0.544, "date": "2026-11-08", "draw_prob": 0.22, "home": "Hopkinton OF", "home_win_prob": 0.236, "id": "2026-11-08|Hopkinton OF|Nashoba Apple Corps", "involves_team": false}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Lynnfield F.C. Olympians|Arlington PondDawgz 62", "opponent": "Lynnfield F.C. Olympians", "result": "W", "score": "2-0", "venue": "@"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|Arlington PondDawgz 62|Warthog Wonders", "opponent": "Warthog Wonders", "result": "D", "score": "1-1", "venue": "vs"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|Arlington PondDawgz 62|Danvers EFC", "opponent": "Danvers EFC", "result": "D", "score": "1-1", "venue": "vs"}, {"date": "2026-09-27", "fixed": true, "id": "2026-09-27|Medway|Arlington PondDawgz 62", "opponent": "Medway", "result": "D", "score": "0-0", "venue": "@"}, {"date": "2026-10-04", "fixed": true, "id": "2026-10-04|Nashoba Apple Corps|Arlington PondDawgz 62", "opponent": "Nashoba Apple Corps", "result": "W", "score": "3-2", "venue": "@"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|Arlington PondDawgz 62|Hopkinton OF", "opponent": "Hopkinton OF", "result": "W", "score": "1-0", "venue": "vs"}, {"date": "2026-10-18", "fixed": true, "id": "2026-10-18|Arlington PondDawgz 62|Boston Villa FC", "opponent": "Boston Villa FC", "result": "L", "score": "0-2", "venue": "vs"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Danvers EFC|Arlington PondDawgz 62", "opponent": "Danvers EFC", "result": "L", "score": "1-3", "venue": "@"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|Arlington PondDawgz 62|Lynnfield F.C. Olympians", "opponent": "Lynnfield F.C. Olympians", "result": "W", "score": "2-0", "venue": "vs"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.352, "id": "2026-11-08|Warthog Wonders|Arlington PondDawgz 62", "opponent": "Warthog Wonders", "venue": "@"}], "team": "Arlington PondDawgz 62", "team_games": [{"away": "Arlington PondDawgz 62", "away_win_prob": 0.428, "date": "2026-11-08", "draw_prob": 0.22, "home": "Warthog Wonders", "home_win_prob": 0.352, "id": "2026-11-08|Warthog Wonders|Arlington PondDawgz 62", "involves_team": true}], "teams": ["Boston Villa FC", "Danvers EFC", "Medway", "Warthog Wonders", "Arlington PondDawgz 62", "Nashoba Apple Corps", "Hopkinton OF", "Lynnfield F.C. Olympians"]}, {"current_position": 7, "current_stats": {"Cabo Verde FC": {"gd": 13, "gf": 27, "gp": 9, "l": 2, "pts": 19, "t": 1, "w": 6}, "Crafty Veterans": {"gd": 13, "gf": 23, "gp": 9, "l": 3, "pts": 18, "t": 0, "w": 6}, "FIMA FC": {"gd": 3, "gf": 19, "gp": 9, "l": 2, "pts": 17, "t": 2, "w": 5}, "Great Woods FC": {"gd": -9, "gf": 15, "gp": 9, "l": 5, "pts": 10, "t": 1, "w": 3}, "Hopkinton Hotspur": {"gd": -2, "gf": 15, "gp": 8, "l": 5, "pts": 9, "t": 0, "w": 3}, "Irish Village Green": {"gd": 16, "gf": 31, "gp": 9, "l": 3, "pts": 18, "t": 0, "w": 6}, "Medfield FC": {"gd": -14, "gf": 10, "gp": 8, "l": 6, "pts": 4, "t": 1, "w": 1}, "Peru Sports FC": {"gd": -20, "gf": 12, "gp": 9, "l": 6, "pts": 7, "t": 1, "w": 2}}, "display_name": "Peru Sports FC - Over 40 3S", "flight_code": "Over 40 3S", "flight_label": "Over 40 Div 3 South", "flight_slug": "over-40-div-3-south", "games_played": 9, "games_remaining": 1, "n_teams": 8, "place_probs": [{"place": 6, "probability": 6.3}, {"place": 7, "probability": 55.0}, {"place": 8, "probability": 38.7}], "promo_cut": 2, "promo_prob": 0.0, "relg_cut": 2, "relg_prob": 93.7, "remaining_games": [{"away": "Hopkinton Hotspur", "away_win_prob": 0.519, "date": "2026-11-07", "draw_prob": 0.22, "home": "Medfield FC", "home_win_prob": 0.261, "id": "2026-11-07|Medfield FC|Hopkinton Hotspur", "involves_team": false}, {"away": "Irish Village Green", "away_win_prob": 0.506, "date": "2026-11-08", "draw_prob": 0.22, "home": "Great Woods FC", "home_win_prob": 0.274, "id": "2026-11-08|Great Woods FC|Irish Village Green", "involves_team": false}, {"away": "Peru Sports FC", "away_win_prob": 0.447, "date": "2026-11-08", "draw_prob": 0.22, "home": "Medfield FC", "home_win_prob": 0.333, "id": "2026-11-08|Medfield FC|Peru Sports FC", "involves_team": true}, {"away": "FIMA FC", "away_win_prob": 0.439, "date": "2026-11-08", "draw_prob": 0.22, "home": "Crafty Veterans", "home_win_prob": 0.341, "id": "2026-11-08|Crafty Veterans|FIMA FC", "involves_team": false}, {"away": "Hopkinton Hotspur", "away_win_prob": 0.243, "date": "2026-11-08", "draw_prob": 0.22, "home": "Cabo Verde FC", "home_win_prob": 0.537, "id": "2026-11-08|Cabo Verde FC|Hopkinton Hotspur", "involves_team": false}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Great Woods FC|Peru Sports FC", "opponent": "Great Woods FC", "result": "W", "score": "2-0", "venue": "@"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|Peru Sports FC|Medfield FC", "opponent": "Medfield FC", "result": "W", "score": "3-1", "venue": "vs"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|Irish Village Green|Peru Sports FC", "opponent": "Irish Village Green", "result": "L", "score": "1-5", "venue": "@"}, {"date": "2026-09-27", "fixed": true, "id": "2026-09-27|Peru Sports FC|Cabo Verde FC", "opponent": "Cabo Verde FC", "result": "L", "score": "2-5", "venue": "vs"}, {"date": "2026-10-04", "fixed": true, "id": "2026-10-04|FIMA FC|Peru Sports FC", "opponent": "FIMA FC", "result": "L", "score": "1-3", "venue": "@"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|Peru Sports FC|Crafty Veterans", "opponent": "Crafty Veterans", "result": "L", "score": "0-5", "venue": "vs"}, {"date": "2026-10-18", "fixed": true, "id": "2026-10-18|Hopkinton Hotspur|Peru Sports FC", "opponent": "Hopkinton Hotspur", "result": "L", "score": "1-5", "venue": "@"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Peru Sports FC|Irish Village Green", "opponent": "Irish Village Green", "result": "L", "score": "0-6", "venue": "vs"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|Peru Sports FC|Great Woods FC", "opponent": "Great Woods FC", "result": "D", "score": "2-2", "venue": "vs"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.333, "id": "2026-11-08|Medfield FC|Peru Sports FC", "opponent": "Medfield FC", "venue": "@"}], "team": "Peru Sports FC", "team_games": [{"away": "Peru Sports FC", "away_win_prob": 0.447, "date": "2026-11-08", "draw_prob": 0.22, "home": "Medfield FC", "home_win_prob": 0.333, "id": "2026-11-08|Medfield FC|Peru Sports FC", "involves_team": true}], "teams": ["Cabo Verde FC", "Crafty Veterans", "Irish Village Green", "FIMA FC", "Hopkinton Hotspur", "Great Woods FC", "Peru Sports FC", "Medfield FC"]}, {"current_position": 8, "current_stats": {"Everett Phoenix": {"gd": 16, "gf": 24, "gp": 8, "l": 1, "pts": 19, "t": 1, "w": 6}, "Exeter Seadogs": {"gd": 5, "gf": 20, "gp": 9, "l": 6, "pts": 9, "t": 0, "w": 3}, "Lexington o68": {"gd": -8, "gf": 5, "gp": 9, "l": 5, "pts": 6, "t": 3, "w": 1}, "Lynnfield F.C. Pioneers": {"gd": -19, "gf": 6, "gp": 9, "l": 7, "pts": 4, "t": 1, "w": 1}, "New England United FC": {"gd": 3, "gf": 18, "gp": 8, "l": 2, "pts": 14, "t": 1, "w": 5}, "Sudbury FC Platinum": {"gd": -3, "gf": 13, "gp": 9, "l": 4, "pts": 9, "t": 3, "w": 2}, "The Warthogs": {"gd": -7, "gf": 13, "gp": 9, "l": 5, "pts": 10, "t": 1, "w": 3}, "Wanderers": {"gd": 13, "gf": 20, "gp": 9, "l": 0, "pts": 27, "t": 0, "w": 9}}, "display_name": "Lynnfield F.C. Pioneers - Over 68 1C", "flight_code": "Over 68 1C", "flight_label": "Over 68 Div 1 Central", "flight_slug": "over-68-div-1-central", "games_played": 9, "games_remaining": 1, "n_teams": 8, "place_probs": [{"place": 7, "probability": 14.7}, {"place": 8, "probability": 85.3}], "promo_cut": 2, "promo_prob": 0.0, "relg_cut": 2, "relg_prob": 100.0, "remaining_games": [{"away": "Exeter Seadogs", "away_win_prob": 0.375, "date": "2026-11-08", "draw_prob": 0.22, "home": "Sudbury FC Platinum", "home_win_prob": 0.405, "id": "2026-11-08|Sudbury FC Platinum|Exeter Seadogs", "involves_team": false}, {"away": "New England United FC", "away_win_prob": 0.313, "date": "2026-11-08", "draw_prob": 0.22, "home": "Wanderers", "home_win_prob": 0.467, "id": "2026-11-08|Wanderers|New England United FC", "involves_team": false}, {"away": "The Warthogs", "away_win_prob": 0.538, "date": "2026-11-08", "draw_prob": 0.22, "home": "Lynnfield F.C. Pioneers", "home_win_prob": 0.242, "id": "2026-11-08|Lynnfield F.C. Pioneers|The Warthogs", "involves_team": true}, {"away": "Lexington o68", "away_win_prob": 0.168, "date": "2026-11-08", "draw_prob": 0.22, "home": "Everett Phoenix", "home_win_prob": 0.612, "id": "2026-11-08|Everett Phoenix|Lexington o68", "involves_team": false}], "season_steps": [{"date": "2026-08-30", "fixed": true, "id": "2026-08-30|Lynnfield F.C. Pioneers|Lexington o68", "opponent": "Lexington o68", "result": "D", "score": "2-2", "venue": "vs"}, {"date": "2026-09-13", "fixed": true, "id": "2026-09-13|The Warthogs|Lynnfield F.C. Pioneers", "opponent": "The Warthogs", "result": "L", "score": "0-3", "venue": "@"}, {"date": "2026-09-20", "fixed": true, "id": "2026-09-20|Everett Phoenix|Lynnfield F.C. Pioneers", "opponent": "Everett Phoenix", "result": "L", "score": "0-5", "venue": "@"}, {"date": "2026-09-27", "fixed": true, "id": "2026-09-27|Lynnfield F.C. Pioneers|Exeter Seadogs", "opponent": "Exeter Seadogs", "result": "L", "score": "0-5", "venue": "vs"}, {"date": "2026-10-04", "fixed": true, "id": "2026-10-04|Lynnfield F.C. Pioneers|Wanderers", "opponent": "Wanderers", "result": "L", "score": "0-1", "venue": "vs"}, {"date": "2026-10-11", "fixed": true, "id": "2026-10-11|New England United FC|Lynnfield F.C. Pioneers", "opponent": "New England United FC", "result": "L", "score": "1-2", "venue": "@"}, {"date": "2026-10-18", "fixed": true, "id": "2026-10-18|Sudbury FC Platinum|Lynnfield F.C. Pioneers", "opponent": "Sudbury FC Platinum", "result": "L", "score": "1-2", "venue": "@"}, {"date": "2026-10-25", "fixed": true, "id": "2026-10-25|Lynnfield F.C. Pioneers|Everett Phoenix", "opponent": "Everett Phoenix", "result": "L", "score": "1-5", "venue": "vs"}, {"date": "2026-11-01", "fixed": true, "id": "2026-11-01|Lexington o68|Lynnfield F.C. Pioneers", "opponent": "Lexington o68", "result": "W", "score": "1-0", "venue": "@"}, {"date": "2026-11-08", "draw_prob": 0.22, "fixed": false, "home_win_prob": 0.242, "id": "2026-11-08|Lynnfield F.C. Pioneers|The Warthogs", "opponent": "The Warthogs", "venue": "vs"}], "team": "Lynnfield F.C. Pioneers", "team_games": [{"away": "The Warthogs", "away_win_prob": 0.538, "date": "2026-11-08", "draw_prob": 0.22, "home": "Lynnfield F.C. Pioneers", "home_win_prob": 0.242, "id": "2026-11-08|Lynnfield F.C. Pioneers|The Warthogs", "involves_team": true}], "teams": ["Wanderers", "Everett Phoenix", "New England United FC", "The Warthogs", "Exeter Seadogs", "Sudbury FC Platinum", "Lexington o68", "Lynnfield F.C. Pioneers"]}];
+  if (!PLINKO_CHOICES.length) return;
+  const teamNameEl = document.getElementById('plinko-team-name');
+  const teamCountEl = document.getElementById('plinko-team-count');
+  const flightLabelEl = document.getElementById('plinko-flight-label');
+  const logEl = document.getElementById('plinko-log');
+  const promoEl = document.getElementById('plinko-promo-pct');
+  const relgEl = document.getElementById('plinko-relg-pct');
+  const howEl = document.getElementById('plinko-how');
+  const replayBtn = document.getElementById('plinko-replay');
+  const nextBtn = document.getElementById('plinko-next-team');
+  const speedSlider = document.getElementById('plinko-speed');
+  let speedMul = speedSlider ? (parseFloat(speedSlider.value) || 0.7) : 0.7;
+  if (speedSlider) {
+    speedSlider.addEventListener('input', () => {
+      speedMul = parseFloat(speedSlider.value) || speedMul;
+    });
+  }
+
+  let frameToken = 0;
+  let currentIndex = Math.floor(Math.random() * PLINKO_CHOICES.length);
+
+  function renderPlinko(PLINKO) {
+    if (!PLINKO || !PLINKO.team_games || !PLINKO.team_games.length) return;
+    const seasonSteps = PLINKO.season_steps || [];
+    const remainingGames = PLINKO.remaining_games || [];
+    const teamName = PLINKO.team;
+    if (!seasonSteps.length) return;
+
+    if (teamNameEl) teamNameEl.textContent = PLINKO.display_name || `${PLINKO.team} - ${PLINKO.flight_code || PLINKO.flight_label}`;
+    if (teamCountEl) teamCountEl.textContent = `${PLINKO.n_teams} teams`;
+    if (flightLabelEl) flightLabelEl.textContent = PLINKO.flight_label;
+
+    const currentFrame = ++frameToken;
+    const dpr = window.devicePixelRatio || 1;
+    const N = PLINKO.n_teams;
+    const G = seasonSteps.length;
+    const PC = PLINKO.promo_cut || 0;
+    const RC = PLINKO.relg_cut || 0;
+    const ROW_H = 26;
+    const BIN_H = 64;
+    const TOP_PAD = 12;
+    const LAND_Y = (G + 1.35) * ROW_H;
+    const CW = canvas.parentElement.clientWidth || 260;
+    const CH = (G + 2) * ROW_H + BIN_H;
+    const LANES = Math.max(7, G + 1);
+    const START_LANE = Math.floor(LANES / 2);
+
+    canvas.width = CW * dpr;
+    canvas.height = CH * dpr;
+    canvas.style.width = CW + 'px';
+    canvas.style.height = CH + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+
+    const laneW = CW / LANES;
+    const binW = CW / N;
+    const binTopY = (G + 1.55) * ROW_H;
+
+    if (logEl) logEl.style.height = CH + 'px';
+    if (howEl) {
+      howEl.textContent =
+        `Each ball replays all ${seasonSteps.length} ${PLINKO.team} league games. ` +
+        `The first ${PLINKO.games_played || 0} rows are locked results, ` +
+        `and the last ${PLINKO.games_remaining || 0} are simulated. ` +
+        `Wins move left, losses move right, and ties stay centered before the drop into the final place bin.`;
+    }
+
+    function cloneStats(stats) {
+      const out = {};
+      Object.keys(stats || {}).forEach((team) => {
+        out[team] = { ...stats[team] };
+      });
+      return out;
+    }
+
+    function applyOutcome(stats, home, away, outcome) {
+      if (!stats[home] || !stats[away]) return;
+      if (outcome === 'H') {
+        stats[home].pts += 3;
+        stats[home].gd += 1;
+        stats[home].gf += 2;
+        stats[home].w += 1;
+        stats[away].gd -= 1;
+        stats[away].gf += 1;
+        stats[away].l += 1;
+      } else if (outcome === 'A') {
+        stats[away].pts += 3;
+        stats[away].gd += 1;
+        stats[away].gf += 2;
+        stats[away].w += 1;
+        stats[home].gd -= 1;
+        stats[home].gf += 1;
+        stats[home].l += 1;
+      } else {
+        stats[home].pts += 1;
+        stats[away].pts += 1;
+        stats[home].gf += 1;
+        stats[away].gf += 1;
+        stats[home].t += 1;
+        stats[away].t += 1;
+      }
+      stats[home].gp += 1;
+      stats[away].gp += 1;
+    }
+
+    function sampleOutcome(game) {
+      const rawHome = Number.isFinite(game.home_win_prob) ? game.home_win_prob : 0.5;
+      const rawDraw = Number.isFinite(game.draw_prob) ? game.draw_prob : 0.22;
+      const rawAway = Number.isFinite(game.away_win_prob) ? game.away_win_prob : Math.max(0, 1 - rawHome - rawDraw);
+      const total = Math.max(0.001, rawHome + rawDraw + rawAway);
+      const homeWinProb = rawHome / total;
+      const drawProb = rawDraw / total;
+      const roll = Math.random();
+      if (roll < homeWinProb) return 'H';
+      if (roll < homeWinProb + drawProb) return 'D';
+      return 'A';
+    }
+
+    function simulateSeason() {
+      const stats = cloneStats(PLINKO.current_stats || {});
+      const stepResults = {};
+
+      remainingGames.forEach((game) => {
+        const outcome = sampleOutcome(game);
+        applyOutcome(stats, game.home, game.away, outcome);
+        if (game.home === teamName) stepResults[game.id] = outcome === 'H' ? 'W' : outcome === 'D' ? 'T' : 'L';
+        if (game.away === teamName) stepResults[game.id] = outcome === 'A' ? 'W' : outcome === 'D' ? 'T' : 'L';
+      });
+
+      const ordered = (PLINKO.teams || []).slice().sort((a, b) => {
+        const sa = stats[a];
+        const sb = stats[b];
+        if (!sa || !sb) return a.localeCompare(b);
+        return (sb.pts - sa.pts) || (sb.gd - sa.gd) || (sb.gf - sa.gf) || a.localeCompare(b);
+      });
+      const finalPlace = Math.max(1, ordered.indexOf(teamName) + 1);
+
+      const results = seasonSteps.map((step) => {
+        if (step.fixed) return step.result || 'T';
+        return stepResults[step.id] || 'T';
+      });
+
+      return { finalPlace, results };
+    }
+
+    function laneCenter(lane) {
+      return (lane + 0.5) * laneW;
+    }
+
+    function placeCenter(placeIdx) {
+      return placeIdx * binW + binW / 2;
+    }
+
+    function resultDelta(result) {
+      if (result === 'W') return -1;
+      if (result === 'L') return 1;
+      return 0;
+    }
+
+    function resultColor(result) {
+      if (result === 'W') return '#4ade80';
+      if (result === 'L') return '#f87171';
+      return '#f7f2e8';
+    }
+
+    function resultMarker(result) {
+      if (result === 'W') return '<';
+      if (result === 'L') return '>';
+      return '=';
+    }
+
+    function updateLog(results, upTo) {
+      if (!logEl) return;
+      const items = seasonSteps.slice(0, upTo + 1).map((step, idx) => {
+        const result = results[idx] || 'T';
+        const score = step.fixed && step.score ? ` ${step.score}` : '';
+        const tag = step.fixed ? 'played' : 'sim';
+        return `<div class="plinko-log-entry" style="color:${resultColor(result)}">${step.venue} ${step.opponent} <strong>${result}${resultMarker(result)}</strong>${score} <span style="opacity:.45">(${tag})</span></div>`;
+      });
+      logEl.innerHTML = items.join('');
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function binColor(i) {
+      if (i < PC) return 'rgba(74,222,128,0.65)';
+      if (i >= N - RC) return 'rgba(248,113,113,0.55)';
+      return 'rgba(255,255,255,0.14)';
+    }
+
+    let balls = [];
+    let binCounts = new Array(N).fill(0);
+    let totalDropped = 0;
+    let totalLanded = 0;
+    const MAX_BALLS = 60;
+
+    function updateStats() {
+      const promoPct = totalLanded ? Math.round(100 * binCounts.slice(0, PC).reduce((a, b) => a + b, 0) / totalLanded) : Math.round(PLINKO.promo_prob || 0);
+      let relSum = 0;
+      if (RC > 0) {
+        for (let i = N - RC; i < N; i++) relSum += binCounts[i];
+      }
+      const relgPct = totalLanded ? Math.round(100 * relSum / totalLanded) : Math.round(PLINKO.relg_prob || 0);
+      if (promoEl) promoEl.textContent = `${promoPct}%`;
+      if (relgEl) relgEl.textContent = `${relgPct}%`;
+    }
+
+    function spawnBall() {
+      const sim = simulateSeason();
+      for (const ball of balls) ball.isLatest = false;
+      balls.push({
+        x: laneCenter(START_LANE),
+        y: TOP_PAD,
+        vx: 0,
+        vy: 0.4,
+        lane: START_LANE,
+        gameIdx: -1,
+        hitRow: -1,
+        results: sim.results,
+        finalPlace: sim.finalPlace,
+        targetX: laneCenter(START_LANE),
+        done: false,
+        isLatest: true,
+      });
+      totalDropped += 1;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, CW, CH);
+
+      for (let row = 0; row < G; row++) {
+        const y = (row + 1) * ROW_H;
+        ctx.strokeStyle = 'rgba(247,242,232,0.07)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(CW, y);
+        ctx.stroke();
+
+        ctx.fillStyle = seasonSteps[row].fixed ? 'rgba(247,242,232,0.22)' : 'rgba(198,138,43,0.32)';
+        const offset = row % 2 === 0 ? 0 : laneW * 0.5;
+        for (let peg = 0; peg <= LANES; peg++) {
+          const px = peg * laneW - offset;
+          if (px > 2 && px < CW - 2) {
+            ctx.beginPath();
+            ctx.arc(px, y, 2.4, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+      }
+
+      const maxCount = Math.max(1, ...binCounts);
+      const maxBarH = BIN_H - 14;
+      for (let i = 0; i < N; i++) {
+        const bx = i * binW + 1;
+        const h = binCounts[i] > 0 ? Math.max(4, (binCounts[i] / maxCount) * maxBarH) : 0;
+        ctx.fillStyle = binColor(i);
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(bx, binTopY + maxBarH - h, binW - 2, h + 6, [3, 3, 0, 0]);
+        else ctx.rect(bx, binTopY + maxBarH - h, binW - 2, h + 6);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(247,242,232,0.32)';
+        ctx.font = `bold ${Math.max(8, Math.min(10, binW * 0.42))}px Georgia`;
+        ctx.textAlign = 'center';
+        ctx.fillText(String(i + 1), bx + (binW - 2) / 2, binTopY + maxBarH + 16);
+      }
+
+      ctx.font = '7px Georgia';
+      ctx.textAlign = 'center';
+      if (PC > 0) {
+        ctx.fillStyle = 'rgba(74,222,128,0.55)';
+        ctx.fillText('PROMO', (PC * binW) / 2, binTopY - 4);
+      }
+      if (RC > 0) {
+        ctx.fillStyle = 'rgba(248,113,113,0.55)';
+        ctx.fillText('DROP', CW - (RC * binW) / 2, binTopY - 4);
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, 5, 0, Math.PI * 2);
+        const grad = ctx.createRadialGradient(ball.x - 1.5, ball.y - 1.5, 0, ball.x, ball.y, 5);
+        grad.addColorStop(0, '#f9d77e');
+        grad.addColorStop(1, '#c68a2b');
+        ctx.fillStyle = grad;
+        ctx.fill();
+      }
+    }
+
+    let lastSpawn = 0;
+    function tick(ts) {
+      if (currentFrame !== frameToken) return;
+      const spawnMs = 420 / speedMul;
+      if (totalDropped < MAX_BALLS && ts - lastSpawn > spawnMs) {
+        spawnBall();
+        lastSpawn = ts;
+      }
+
+      for (const ball of balls) {
+        if (ball.done) continue;
+
+        ball.vy += 0.016 * speedMul;
+        ball.vy = Math.min(ball.vy, 5 * speedMul);
+        ball.y += ball.vy;
+
+        ball.vx += (ball.targetX - ball.x) * (0.028 * speedMul);
+        ball.vx *= 0.84;
+        ball.x += ball.vx;
+
+        const nextRow = ball.gameIdx + 1;
+        if (nextRow < G && ball.hitRow < nextRow) {
+          const rowY = (nextRow + 1) * ROW_H;
+          if (ball.y >= rowY) {
+            ball.hitRow = nextRow;
+            ball.gameIdx = nextRow;
+            ball.lane = Math.max(0, Math.min(LANES - 1, ball.lane + resultDelta(ball.results[nextRow])));
+            ball.targetX = laneCenter(ball.lane);
+            ball.vx += resultDelta(ball.results[nextRow]) * (0.6 + Math.random() * 0.25);
+            if (ball.isLatest) updateLog(ball.results, ball.gameIdx);
+        }
+        }
+
+        if (ball.gameIdx >= G - 1) {
+          ball.targetX = placeCenter(ball.finalPlace - 1);
+        }
+
+        if (ball.x < 5) {
+          ball.x = 5;
+          ball.vx = Math.abs(ball.vx) * 0.35;
+        }
+        if (ball.x > CW - 5) {
+          ball.x = CW - 5;
+          ball.vx = -Math.abs(ball.vx) * 0.35;
+        }
+
+        if (ball.y >= LAND_Y) {
+          ball.done = true;
+          binCounts[Math.max(0, Math.min(N - 1, ball.finalPlace - 1))] += 1;
+          totalLanded += 1;
+          updateStats();
+          if (ball.isLatest) updateLog(ball.results, G - 1);
+          if (totalLanded >= MAX_BALLS && howEl) howEl.style.display = 'block';
+        }
+      }
+
+      draw();
+      requestAnimationFrame(tick);
+    }
+
+    updateStats();
+    requestAnimationFrame(tick);
+    if (replayBtn) {
+      replayBtn.onclick = () => {
+        balls = [];
+        binCounts = new Array(N).fill(0);
+        totalDropped = 0;
+        totalLanded = 0;
+        if (logEl) logEl.innerHTML = '';
+        if (howEl) howEl.style.display = 'none';
+        updateStats();
+      };
+    }
+  }
+  renderPlinko(PLINKO_CHOICES[currentIndex]);
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      if (PLINKO_CHOICES.length < 2) return;
+      currentIndex = (currentIndex + 1) % PLINKO_CHOICES.length;
+      renderPlinko(PLINKO_CHOICES[currentIndex]);
+    };
+  }
+  }
+})();
+
+// Page-link transitions
+document.addEventListener("click", function (e) {
+  var link = e.target.closest(".page-link");
+  if (!link) return;
+  e.preventDefault();
+  var href = link.getAttribute("href");
+  document.body.classList.add("is-leaving");
+  window.setTimeout(function () { window.location.href = href; }, 180);
+});
+
+// Feedback form
+(function() {
+  const toggleBtn = document.getElementById("feedback-toggle-btn");
+  const drawer = document.getElementById("feedback-drawer");
+  const fbForm = document.getElementById("feedback-form");
+  const submitBtn = document.getElementById("feedback-submit-btn");
+  const thanks = document.getElementById("feedback-thanks");
+
+  toggleBtn.addEventListener("click", () => {
+    drawer.classList.toggle("open");
+    toggleBtn.textContent = drawer.classList.contains("open") ? "Close" : "Send Feedback";
+  });
+
+  fbForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    try {
+      const data = new FormData(fbForm);
+      const res = await fetch(fbForm.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        fbForm.reset();
+        thanks.style.display = "block";
+        submitBtn.style.display = "none";
+      } else {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+        alert("Something went wrong. Please try again.");
+      }
+    } catch {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+      alert("Network error. Please try again.");
+    }
+  });
+})();
+</script>
+</body>
+</html>
