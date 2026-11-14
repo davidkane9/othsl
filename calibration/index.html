@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model Calibration | OTHSL</title>
+<style>
+  :root {
+    --bg: #f4efe4;
+    --panel: rgba(255,252,247,0.9);
+    --panel-strong: #fffaf1;
+    --ink: #1f2a1f;
+    --muted: #5f695f;
+    --line: rgba(38,61,41,0.14);
+    --field: #23442b;
+    --accent: #c68a2b;
+    --win: #237744;
+    --loss: #a63f35;
+    --shadow: 0 20px 50px rgba(27,38,29,.12);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(198,138,43,.16), transparent 32%),
+      radial-gradient(circle at top right, rgba(35,68,43,.2), transparent 28%),
+      var(--bg);
+    min-height: 100vh;
+  }
+
+  /* ── Nav ─────────────────────────────────────────────────────────── */
+  .site-nav {
+    background: rgba(23,52,31,0.97);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    max-width: 1180px; margin: 0 auto; padding: 0 20px;
+    display: flex; align-items: center; gap: 28px; height: 52px;
+  }
+  .nav-brand {
+    color: #f7f2e8; font-weight: 700; font-size: 1.05rem;
+    letter-spacing: -.02em; text-decoration: none; flex-shrink: 0;
+  }
+  .nav-links { display: flex; gap: 2px; list-style: none; padding: 0; margin: 0; }
+  .nav-links a {
+    color: rgba(247,242,232,.72); text-decoration: none; font-size: .88rem;
+    padding: 5px 11px; border-radius: 7px; transition: background .13s, color .13s;
+  }
+  .nav-links a:hover { background: rgba(255,255,255,.1); color: #f7f2e8; }
+  .nav-links a.active { background: rgba(255,255,255,.12); color: #f7f2e8; }
+
+  /* ── Page ───────────────────────────────────────────────────────── */
+  main { max-width: 960px; margin: 0 auto; padding: 36px 20px 60px; }
+
+  .page-header { margin-bottom: 32px; }
+  .page-header h1 { margin: 0 0 6px; font-size: 2rem; letter-spacing: -.04em; }
+  .page-header p { margin: 0; color: var(--muted); font-size: .97rem; line-height: 1.6; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .stat-label {
+    font-size: .75rem; text-transform: uppercase; letter-spacing: .07em;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .stat-value { font-size: 2rem; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+  .stat-sub { font-size: .8rem; color: var(--muted); margin-top: 4px; }
+
+  h2 { margin: 0 0 6px; font-size: 1.2rem; }
+  .section-sub { color: var(--muted); font-size: .88rem; margin: 0 0 20px; }
+
+  /* ── Canvas chart ───────────────────────────────────────────────── */
+  .chart-wrap { position: relative; }
+  canvas { display: block; width: 100%; max-width: 640px; cursor: crosshair; }
+  #cal-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 12px; font-size: .82rem;
+    box-shadow: 0 4px 20px rgba(27,38,29,.14);
+    transition: opacity .1s;
+    white-space: nowrap;
+  }
+
+  /* ── Week selector ─────────────────────────────────────────────── */
+  .week-selector {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .week-selector label { font-size: .9rem; white-space: nowrap; }
+  #week-slider { flex: 1; max-width: 320px; accent-color: var(--field); cursor: pointer; }
+  .week-data-info { font-size: .8rem; color: var(--muted); }
+  .flight-size-select {
+    padding: 6px 10px;
+    font-size: .85rem;
+    border: 1px solid rgba(38,61,41,0.3);
+    background: rgba(35,68,43,.05);
+    border-radius: 8px;
+    color: var(--ink);
+  }
+  .outlook-charts {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  }
+  @media (max-width: 640px) { .outlook-charts { grid-template-columns: 1fr; } }
+  .chart-sub-title { font-size: .88rem; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+  .outlook-tooltip {
+    position: absolute; pointer-events: none; opacity: 0;
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: 10px; padding: 8px 12px; font-size: .82rem;
+    box-shadow: 0 4px 20px rgba(27,38,29,.14); transition: opacity .1s; white-space: nowrap;
+  }
+
+  /* ── Bucket bars ────────────────────────────────────────────────── */
+  .bucket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+    gap: 4px;
+    align-items: end;
+    height: 80px;
+    margin-top: 14px;
+  }
+  .bucket-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .bucket-bar {
+    width: 100%; border-radius: 3px 3px 0 0;
+    background: rgba(35,68,43,.45);
+    transition: background .15s;
+  }
+  .bucket-bar:hover { background: var(--field); }
+  .bucket-label { font-size: .6rem; color: var(--muted); }
+
+  footer { text-align: center; font-size: .82rem; color: var(--muted); margin-top: 40px; }
+  footer a { color: inherit; }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X533VTFZS5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date()); gtag('config', 'G-X533VTFZS5');
+</script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../" class="nav-brand">OTHSL</a>
+    <ul class="nav-links">
+      <li><a href="../">Home</a></li>
+      <li><a href="../teams/">Find Team</a></li>
+      <li><a href="./" class="active">Model Calibration</a></li>
+      <li><a href="../model-details/">Model Details</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>Model Calibration</h1>
+    <p>
+      How accurate are the ELO-based win probability estimates?
+      Each game's pre-match ELO ratings are used to predict the outcome, then compared to what actually happened
+      across 66394 historical games.
+    </p>
+    <p style="margin-top:8px">
+      For the full explanation of goal difference, forfeits, card points, and the season simulator, see
+      <a href="../model-details/" style="color:var(--field)">Model Details</a>.
+    </p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Brier Score</div>
+      <div class="stat-value">0.179</div>
+      <div class="stat-sub">Lower is better · 0 = perfect · 0.25 = coin flip</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Favorite Win Rate</div>
+      <div class="stat-value">56.9%</div>
+      <div class="stat-sub">Games where the higher-ELO side won outright</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Games Analyzed</div>
+      <div class="stat-value">66,394</div>
+      <div class="stat-sub">Non-forfeit games across all historical seasons</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Season-Start Regression</div>
+      <div class="stat-value">65%</div>
+      <div class="stat-sub">Win probability pulled toward 50% at game 0, fading to 0% by game 6</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Calibration Curve</h2>
+    <p class="section-sub">
+      Each dot is a bucket of games grouped by predicted win probability.
+      The diagonal line is perfect calibration — dots above mean the model underestimates; dots below mean it overestimates.
+      Dot size reflects number of games in that bucket.
+    </p>
+    <div class="chart-wrap">
+      <canvas id="cal-canvas" width="640" height="420"></canvas>
+      <div id="cal-tooltip"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Game Count by Predicted Probability</h2>
+    <p class="section-sub">How many games fall into each 5% probability bucket — a well-spread distribution means the model uses its full range.</p>
+    <div class="bucket-grid" id="bucket-grid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Season Outlook Calibration</h2>
+    <p class="section-sub">
+      At each game-week checkpoint, the simulation predicts each team's chance of promotion or relegation.
+      How well do those predictions match what actually happened across historical seasons?
+      Use the slider to see how calibration improves as more games are played.
+    </p>
+    <div class="week-selector">
+      <label>Week: <strong id="week-display">0</strong></label>
+      <input type="range" id="week-slider" min="0" max="10" value="0" step="1">
+      <span class="week-data-info" id="week-data-info"></span>
+      <label for="flight-size-filter">Flights:</label>
+      <select id="flight-size-filter" class="flight-size-select">
+        <option value="all">All sizes</option>
+        <option value="small">4-5 teams</option>
+        <option value="medium">6 teams</option>
+        <option value="large">7-9 teams</option>
+      </select>
+    </div>
+    <div class="outlook-charts">
+      <div>
+        <div class="chart-sub-title">Promotion Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="promo-canvas"></canvas>
+          <div class="outlook-tooltip" id="promo-tooltip"></div>
+        </div>
+      </div>
+      <div>
+        <div class="chart-sub-title">Relegation Calibration</div>
+        <div class="chart-wrap">
+          <canvas id="relg-canvas"></canvas>
+          <div class="outlook-tooltip" id="relg-tooltip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  A Khaykin and Kane production. Data from <a href="https://www.othsl.org">othsl.org</a>.
+</footer>
+
+<script>
+const CAL_POINTS = [{"actual": 0.045, "n": 100, "pred": 0.184}, {"actual": 0.073, "n": 525, "pred": 0.23}, {"actual": 0.157, "n": 1511, "pred": 0.279}, {"actual": 0.239, "n": 3409, "pred": 0.327}, {"actual": 0.304, "n": 6204, "pred": 0.377}, {"actual": 0.4, "n": 9340, "pred": 0.426}, {"actual": 0.491, "n": 11706, "pred": 0.476}, {"actual": 0.587, "n": 11976, "pred": 0.524}, {"actual": 0.671, "n": 9478, "pred": 0.574}, {"actual": 0.758, "n": 6374, "pred": 0.623}, {"actual": 0.831, "n": 3591, "pred": 0.672}, {"actual": 0.901, "n": 1593, "pred": 0.721}, {"actual": 0.945, "n": 482, "pred": 0.769}, {"actual": 0.984, "n": 93, "pred": 0.816}];
+
+// ── Calibration curve ──────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('cal-canvas');
+  const tooltip = document.getElementById('cal-tooltip');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 640, H = 420;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const PAD = { top: 24, right: 24, bottom: 52, left: 56 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top  - PAD.bottom;
+
+  function px(x, y) {
+    return [PAD.left + x * cw, PAD.top + (1 - y) * ch];
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(38,61,41,0.08)';
+    ctx.lineWidth = 1;
+    for (let v = 0; v <= 10; v++) {
+      const t = v / 10;
+      ctx.beginPath();
+      const [x0,y0] = px(t, 0); const [x1,y1] = px(t, 1);
+      ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+      ctx.beginPath();
+      const [x2,y2] = px(0, t); const [x3,y3] = px(1, t);
+      ctx.moveTo(x2, y2); ctx.lineTo(x3, y3); ctx.stroke();
+    }
+
+    // Confidence band ±0.1
+    ctx.fillStyle = 'rgba(35,68,43,0.05)';
+    ctx.beginPath();
+    const [bx0, by0] = px(0, 0.1);
+    ctx.moveTo(...px(0, 0.1));
+    for (let t = 0; t <= 1; t += 0.01) ctx.lineTo(...px(t, Math.min(1, t + 0.1)));
+    ctx.lineTo(...px(1, 1)); ctx.lineTo(...px(1, 0.9));
+    for (let t = 1; t >= 0; t -= 0.01) ctx.lineTo(...px(t, Math.max(0, t - 0.1)));
+    ctx.lineTo(bx0, by0);
+    ctx.fill();
+
+    // Perfect calibration diagonal
+    ctx.strokeStyle = 'rgba(35,68,43,0.35)';
+    ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(1,1)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(38,61,41,0.3)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(1,0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...px(0,0)); ctx.lineTo(...px(0,1)); ctx.stroke();
+
+    // Axis labels
+    ctx.fillStyle = '#5f695f'; ctx.font = '11px Georgia, serif'; ctx.textAlign = 'center';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(t, 0);
+      ctx.fillText((t * 100).toFixed(0) + '%', x, y + 18);
+    }
+    ctx.textAlign = 'right';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(0, t);
+      ctx.fillText((t * 100).toFixed(0) + '%', x - 8, y + 4);
+    }
+    ctx.save(); ctx.translate(14, PAD.top + ch / 2); ctx.rotate(-Math.PI/2);
+    ctx.textAlign = 'center'; ctx.fillText('Actual win rate', 0, 0); ctx.restore();
+    ctx.textAlign = 'center';
+    ctx.fillText('Predicted win probability', PAD.left + cw / 2, H - 8);
+
+    // Find max n for sizing dots
+    const maxN = Math.max(...CAL_POINTS.map(p => p.n), 1);
+    const minR = 5, maxR = 18;
+
+    // Actual calibration dots
+    for (const pt of CAL_POINTS) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = minR + (pt.n / maxN) * (maxR - minR);
+      // Glow
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+      grd.addColorStop(0, 'rgba(35,119,68,0.22)');
+      grd.addColorStop(1, 'rgba(35,119,68,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      // Dot
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#237744'; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+
+  draw();
+
+  // Tooltip on hover
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const maxN = Math.max(...CAL_POINTS.map(p => p.n), 1);
+    let hit = null;
+    for (const pt of CAL_POINTS) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = 5 + (pt.n / maxN) * 13 + 4;
+      if (Math.hypot(mx - cx, my - cy) < r) { hit = pt; break; }
+    }
+    if (hit) {
+      tooltip.style.opacity = '1';
+      tooltip.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> → ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} games</span>`;
+      const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+      let lx = e.clientX - rect.left + 14, ly = e.clientY - rect.top - th / 2;
+      if (lx + tw > W) lx = e.clientX - rect.left - tw - 14;
+      tooltip.style.left = lx + 'px'; tooltip.style.top = ly + 'px';
+    } else {
+      tooltip.style.opacity = '0';
+    }
+  });
+  canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = '0'; });
+})();
+
+const SEASON_CAL = {"0": {"all": {"promo": [{"actual": 0.183, "flight_equiv": 25.28, "n": 180, "pred": 0.038}, {"actual": 0.15, "flight_equiv": 196.94, "n": 1389, "pred": 0.161}, {"actual": 0.218, "flight_equiv": 642.96, "n": 4223, "pred": 0.249}, {"actual": 0.335, "flight_equiv": 716.9, "n": 4468, "pred": 0.341}, {"actual": 0.482, "flight_equiv": 351.68, "n": 2129, "pred": 0.435}, {"actual": 0.633, "flight_equiv": 88.9, "n": 531, "pred": 0.532}, {"actual": 0.667, "flight_equiv": 11.02, "n": 66, "pred": 0.631}, {"actual": 0.4, "flight_equiv": 1.75, "n": 10, "pred": 0.727}, {"actual": 0.714, "flight_equiv": 1.26, "n": 7, "pred": 0.833}], "relg": [{"actual": 0.136, "flight_equiv": 23.3, "n": 162, "pred": 0.066}, {"actual": 0.125, "flight_equiv": 219.96, "n": 1491, "pred": 0.16}, {"actual": 0.231, "flight_equiv": 680.59, "n": 4441, "pred": 0.249}, {"actual": 0.345, "flight_equiv": 718.56, "n": 4496, "pred": 0.342}, {"actual": 0.48, "flight_equiv": 321.51, "n": 1964, "pred": 0.435}, {"actual": 0.615, "flight_equiv": 60.7, "n": 371, "pred": 0.528}, {"actual": 0.588, "flight_equiv": 5.33, "n": 34, "pred": 0.624}, {"actual": 0.63, "flight_equiv": 4.14, "n": 27, "pred": 0.743}, {"actual": 0.538, "flight_equiv": 1.93, "n": 13, "pred": 0.835}, {"actual": 0.333, "flight_equiv": 0.98, "n": 6, "pred": 0.96}]}, "large": {"promo": [{"actual": 0.169, "flight_equiv": 17.84, "n": 136, "pred": 0.036}, {"actual": 0.136, "flight_equiv": 107.74, "n": 855, "pred": 0.158}, {"actual": 0.225, "flight_equiv": 192.92, "n": 1529, "pred": 0.243}, {"actual": 0.34, "flight_equiv": 101.75, "n": 800, "pred": 0.335}, {"actual": 0.531, "flight_equiv": 28.9, "n": 224, "pred": 0.432}, {"actual": 0.585, "flight_equiv": 6.98, "n": 53, "pred": 0.533}, {"actual": 0.647, "flight_equiv": 2.3, "n": 17, "pred": 0.633}], "relg": [{"actual": 0.137, "flight_equiv": 16.22, "n": 124, "pred": 0.064}, {"actual": 0.142, "flight_equiv": 105.48, "n": 833, "pred": 0.157}, {"actual": 0.241, "flight_equiv": 204.99, "n": 1624, "pred": 0.244}, {"actual": 0.357, "flight_equiv": 103.28, "n": 814, "pred": 0.336}, {"actual": 0.452, "flight_equiv": 20.12, "n": 157, "pred": 0.429}, {"actual": 0.484, "flight_equiv": 4.04, "n": 31, "pred": 0.531}, {"actual": 0.167, "flight_equiv": 1.66, "n": 12, "pred": 0.633}, {"actual": 0.462, "flight_equiv": 1.8, "n": 13, "pred": 0.74}, {"actual": 0.556, "flight_equiv": 1.27, "n": 9, "pred": 0.827}]}, "medium": {"promo": [{"actual": 0.195, "flight_equiv": 6.83, "n": 41, "pred": 0.042}, {"actual": 0.174, "flight_equiv": 88.0, "n": 528, "pred": 0.165}, {"actual": 0.215, "flight_equiv": 443.83, "n": 2663, "pred": 0.253}, {"actual": 0.336, "flight_equiv": 593.0, "n": 3558, "pred": 0.343}, {"actual": 0.473, "flight_equiv": 295.83, "n": 1775, "pred": 0.436}, {"actual": 0.64, "flight_equiv": 71.67, "n": 430, "pred": 0.531}, {"actual": 0.703, "flight_equiv": 6.17, "n": 37, "pred": 0.631}, {"actual": 0.4, "flight_equiv": 0.83, "n": 5, "pred": 0.728}], "relg": [{"actual": 0.294, "flight_equiv": 2.83, "n": 17, "pred": 0.072}, {"actual": 0.106, "flight_equiv": 86.83, "n": 521, "pred": 0.167}, {"actual": 0.223, "flight_equiv": 445.0, "n": 2670, "pred": 0.253}, {"actual": 0.341, "flight_equiv": 607.83, "n": 3647, "pred": 0.344}, {"actual": 0.482, "flight_equiv": 300.33, "n": 1802, "pred": 0.436}, {"actual": 0.626, "flight_equiv": 56.67, "n": 340, "pred": 0.527}, {"actual": 0.818, "flight_equiv": 3.67, "n": 22, "pred": 0.618}, {"actual": 0.786, "flight_equiv": 2.33, "n": 14, "pred": 0.746}, {"actual": 0.2, "flight_equiv": 0.83, "n": 5, "pred": 0.968}]}, "small": {"promo": [{"actual": 0.0, "flight_equiv": 1.2, "n": 6, "pred": 0.165}, {"actual": 0.097, "flight_equiv": 6.2, "n": 31, "pred": 0.263}, {"actual": 0.273, "flight_equiv": 22.15, "n": 110, "pred": 0.346}, {"actual": 0.515, "flight_equiv": 26.95, "n": 130, "pred": 0.439}, {"actual": 0.625, "flight_equiv": 10.25, "n": 48, "pred": 0.545}, {"actual": 0.583, "flight_equiv": 2.55, "n": 12, "pred": 0.631}], "relg": [{"actual": 0.0, "flight_equiv": 4.25, "n": 21, "pred": 0.074}, {"actual": 0.102, "flight_equiv": 27.65, "n": 137, "pred": 0.154}, {"actual": 0.259, "flight_equiv": 30.6, "n": 147, "pred": 0.236}, {"actual": 0.457, "flight_equiv": 7.45, "n": 35, "pred": 0.327}, {"actual": 0.6, "flight_equiv": 1.05, "n": 5, "pred": 0.44}]}}, "1": {"all": {"promo": [{"actual": 0.079, "flight_equiv": 117.04, "n": 823, "pred": 0.06}, {"actual": 0.113, "flight_equiv": 472.06, "n": 3086, "pred": 0.149}, {"actual": 0.21, "flight_equiv": 426.24, "n": 2704, "pred": 0.241}, {"actual": 0.333, "flight_equiv": 338.32, "n": 2154, "pred": 0.344}, {"actual": 0.477, "flight_equiv": 319.11, "n": 2024, "pred": 0.445}, {"actual": 0.596, "flight_equiv": 253.36, "n": 1553, "pred": 0.541}, {"actual": 0.715, "flight_equiv": 89.27, "n": 534, "pred": 0.634}, {"actual": 0.806, "flight_equiv": 17.5, "n": 103, "pred": 0.732}, {"actual": 0.706, "flight_equiv": 2.88, "n": 17, "pred": 0.828}, {"actual": 0.714, "flight_equiv": 1.21, "n": 7, "pred": 0.931}], "relg": [{"actual": 0.054, "flight_equiv": 155.6, "n": 1059, "pred": 0.064}, {"actual": 0.112, "flight_equiv": 465.85, "n": 2996, "pred": 0.147}, {"actual": 0.226, "flight_equiv": 379.09, "n": 2416, "pred": 0.243}, {"actual": 0.361, "flight_equiv": 363.35, "n": 2337, "pred": 0.345}, {"actual": 0.455, "flight_equiv": 360.85, "n": 2278, "pred": 0.444}, {"actual": 0.592, "flight_equiv": 237.29, "n": 1460, "pred": 0.537}, {"actual": 0.697, "flight_equiv": 59.57, "n": 363, "pred": 0.631}, {"actual": 0.727, "flight_equiv": 8.91, "n": 55, "pred": 0.732}, {"actual": 0.55, "flight_equiv": 3.11, "n": 20, "pred": 0.836}, {"actual": 0.762, "flight_equiv": 3.38, "n": 21, "pred": 0.96}]}, "large": {"promo": [{"actual": 0.075, "flight_equiv": 66.77, "n": 523, "pred": 0.057}, {"actual": 0.112, "flight_equiv": 135.16, "n": 1072, "pred": 0.141}, {"actual": 0.201, "flight_equiv": 84.4, "n": 666, "pred": 0.243}, {"actual": 0.332, "flight_equiv": 74.87, "n": 590, "pred": 0.345}, {"actual": 0.499, "flight_equiv": 64.16, "n": 507, "pred": 0.44}, {"actual": 0.689, "flight_equiv": 24.71, "n": 193, "pred": 0.536}, {"actual": 0.63, "flight_equiv": 6.06, "n": 46, "pred": 0.629}, {"actual": 0.733, "flight_equiv": 2.04, "n": 15, "pred": 0.729}, {"actual": 0.6, "flight_equiv": 0.68, "n": 5, "pred": 0.836}], "relg": [{"actual": 0.056, "flight_equiv": 78.88, "n": 620, "pred": 0.064}, {"actual": 0.117, "flight_equiv": 113.95, "n": 900, "pred": 0.14}, {"actual": 0.24, "flight_equiv": 85.61, "n": 676, "pred": 0.247}, {"actual": 0.351, "flight_equiv": 90.95, "n": 720, "pred": 0.346}, {"actual": 0.507, "flight_equiv": 61.49, "n": 487, "pred": 0.438}, {"actual": 0.537, "flight_equiv": 20.89, "n": 162, "pred": 0.53}, {"actual": 0.567, "flight_equiv": 4.07, "n": 30, "pred": 0.636}, {"actual": 0.4, "flight_equiv": 1.37, "n": 10, "pred": 0.742}, {"actual": 0.375, "flight_equiv": 1.11, "n": 8, "pred": 0.836}, {"actual": 1.0, "flight_equiv": 0.68, "n": 5, "pred": 0.944}]}, "medium": {"promo": [{"actual": 0.082, "flight_equiv": 48.67, "n": 292, "pred": 0.064}, {"actual": 0.114, "flight_equiv": 329.5, "n": 1977, "pred": 0.152}, {"actual": 0.216, "flight_equiv": 329.33, "n": 1976, "pred": 0.241}, {"actual": 0.335, "flight_equiv": 249.5, "n": 1497, "pred": 0.343}, {"actual": 0.468, "flight_equiv": 244.5, "n": 1467, "pred": 0.446}, {"actual": 0.586, "flight_equiv": 218.5, "n": 1311, "pred": 0.541}, {"actual": 0.718, "flight_equiv": 73.17, "n": 439, "pred": 0.634}, {"actual": 0.786, "flight_equiv": 11.67, "n": 70, "pred": 0.73}, {"actual": 0.667, "flight_equiv": 1.5, "n": 9, "pred": 0.827}], "relg": [{"actual": 0.052, "flight_equiv": 57.17, "n": 343, "pred": 0.069}, {"actual": 0.11, "flight_equiv": 338.0, "n": 2028, "pred": 0.15}, {"actual": 0.223, "flight_equiv": 274.83, "n": 1649, "pred": 0.241}, {"actual": 0.361, "flight_equiv": 258.5, "n": 1551, "pred": 0.345}, {"actual": 0.44, "flight_equiv": 295.17, "n": 1771, "pred": 0.445}, {"actual": 0.599, "flight_equiv": 216.0, "n": 1296, "pred": 0.538}, {"actual": 0.709, "flight_equiv": 55.5, "n": 333, "pred": 0.631}, {"actual": 0.818, "flight_equiv": 7.33, "n": 44, "pred": 0.73}, {"actual": 0.667, "flight_equiv": 2.0, "n": 12, "pred": 0.836}, {"actual": 0.667, "flight_equiv": 2.5, "n": 15, "pred": 0.962}]}, "small": {"promo": [{"actual": 0.25, "flight_equiv": 1.6, "n": 8, "pred": 0.046}, {"actual": 0.081, "flight_equiv": 7.4, "n": 37, "pred": 0.158}, {"actual": 0.129, "flight_equiv": 12.5, "n": 62, "pred": 0.241}, {"actual": 0.299, "flight_equiv": 13.95, "n": 67, "pred": 0.347}, {"actual": 0.52, "flight_equiv": 10.45, "n": 50, "pred": 0.437}, {"actual": 0.49, "flight_equiv": 10.15, "n": 49, "pred": 0.548}, {"actual": 0.776, "flight_equiv": 10.05, "n": 49, "pred": 0.637}, {"actual": 0.944, "flight_equiv": 3.8, "n": 18, "pred": 0.743}], "relg": [{"actual": 0.042, "flight_equiv": 19.55, "n": 96, "pred": 0.051}, {"actual": 0.103, "flight_equiv": 13.9, "n": 68, "pred": 0.143}, {"actual": 0.187, "flight_equiv": 18.65, "n": 91, "pred": 0.245}, {"actual": 0.47, "flight_equiv": 13.9, "n": 66, "pred": 0.344}, {"actual": 0.5, "flight_equiv": 4.2, "n": 20, "pred": 0.432}]}}, "10": {"all": {"promo": [{"actual": 0.012, "flight_equiv": 1212.9, "n": 7817, "pred": 0.003}, {"actual": 0.164, "flight_equiv": 43.48, "n": 281, "pred": 0.144}, {"actual": 0.248, "flight_equiv": 31.15, "n": 202, "pred": 0.242}, {"actual": 0.338, "flight_equiv": 32.7, "n": 207, "pred": 0.343}, {"actual": 0.473, "flight_equiv": 26.45, "n": 169, "pred": 0.445}, {"actual": 0.54, "flight_equiv": 29.38, "n": 187, "pred": 0.543}, {"actual": 0.662, "flight_equiv": 31.2, "n": 201, "pred": 0.643}, {"actual": 0.717, "flight_equiv": 26.63, "n": 173, "pred": 0.746}, {"actual": 0.816, "flight_equiv": 32.07, "n": 206, "pred": 0.847}, {"actual": 0.972, "flight_equiv": 506.04, "n": 3169, "pred": 0.995}], "relg": [{"actual": 0.007, "flight_equiv": 1218.53, "n": 7836, "pred": 0.002}, {"actual": 0.167, "flight_equiv": 48.87, "n": 311, "pred": 0.142}, {"actual": 0.246, "flight_equiv": 32.53, "n": 211, "pred": 0.242}, {"actual": 0.365, "flight_equiv": 32.75, "n": 211, "pred": 0.345}, {"actual": 0.38, "flight_equiv": 30.33, "n": 192, "pred": 0.444}, {"actual": 0.61, "flight_equiv": 27.67, "n": 177, "pred": 0.548}, {"actual": 0.654, "flight_equiv": 29.73, "n": 188, "pred": 0.648}, {"actual": 0.702, "flight_equiv": 29.88, "n": 191, "pred": 0.745}, {"actual": 0.789, "flight_equiv": 36.16, "n": 232, "pred": 0.848}, {"actual": 0.988, "flight_equiv": 485.57, "n": 3063, "pred": 0.996}]}, "large": {"promo": [{"actual": 0.018, "flight_equiv": 305.35, "n": 2410, "pred": 0.003}, {"actual": 0.2, "flight_equiv": 11.43, "n": 90, "pred": 0.142}, {"actual": 0.203, "flight_equiv": 8.05, "n": 64, "pred": 0.246}, {"actual": 0.321, "flight_equiv": 6.77, "n": 53, "pred": 0.342}, {"actual": 0.489, "flight_equiv": 5.71, "n": 45, "pred": 0.445}, {"actual": 0.468, "flight_equiv": 5.95, "n": 47, "pred": 0.543}, {"actual": 0.698, "flight_equiv": 8.0, "n": 63, "pred": 0.642}, {"actual": 0.632, "flight_equiv": 7.23, "n": 57, "pred": 0.751}, {"actual": 0.903, "flight_equiv": 7.79, "n": 62, "pred": 0.846}, {"actual": 0.938, "flight_equiv": 85.72, "n": 674, "pred": 0.993}], "relg": [{"actual": 0.008, "flight_equiv": 306.58, "n": 2419, "pred": 0.002}, {"actual": 0.228, "flight_equiv": 10.02, "n": 79, "pred": 0.139}, {"actual": 0.188, "flight_equiv": 8.66, "n": 69, "pred": 0.243}, {"actual": 0.361, "flight_equiv": 7.71, "n": 61, "pred": 0.34}, {"actual": 0.395, "flight_equiv": 5.43, "n": 43, "pred": 0.444}, {"actual": 0.531, "flight_equiv": 6.23, "n": 49, "pred": 0.549}, {"actual": 0.651, "flight_equiv": 5.43, "n": 43, "pred": 0.646}, {"actual": 0.64, "flight_equiv": 6.34, "n": 50, "pred": 0.743}, {"actual": 0.781, "flight_equiv": 8.09, "n": 64, "pred": 0.845}, {"actual": 0.985, "flight_equiv": 87.5, "n": 688, "pred": 0.995}]}, "medium": {"promo": [{"actual": 0.009, "flight_equiv": 872.5, "n": 5235, "pred": 0.003}, {"actual": 0.151, "flight_equiv": 31.0, "n": 186, "pred": 0.146}, {"actual": 0.274, "flight_equiv": 22.5, "n": 135, "pred": 0.24}, {"actual": 0.342, "flight_equiv": 24.83, "n": 149, "pred": 0.344}, {"actual": 0.467, "flight_equiv": 20.33, "n": 122, "pred": 0.445}, {"actual": 0.569, "flight_equiv": 22.83, "n": 137, "pred": 0.543}, {"actual": 0.644, "flight_equiv": 22.5, "n": 135, "pred": 0.644}, {"actual": 0.754, "flight_equiv": 19.0, "n": 114, "pred": 0.744}, {"actual": 0.766, "flight_equiv": 22.83, "n": 137, "pred": 0.846}, {"actual": 0.98, "flight_equiv": 396.67, "n": 2380, "pred": 0.995}], "relg": [{"actual": 0.006, "flight_equiv": 863.0, "n": 5178, "pred": 0.002}, {"actual": 0.145, "flight_equiv": 38.0, "n": 228, "pred": 0.143}, {"actual": 0.279, "flight_equiv": 22.67, "n": 136, "pred": 0.243}, {"actual": 0.369, "flight_equiv": 24.83, "n": 149, "pred": 0.346}, {"actual": 0.367, "flight_equiv": 24.5, "n": 147, "pred": 0.444}, {"actual": 0.648, "flight_equiv": 20.83, "n": 125, "pred": 0.548}, {"actual": 0.652, "flight_equiv": 23.5, "n": 141, "pred": 0.648}, {"actual": 0.721, "flight_equiv": 23.33, "n": 140, "pred": 0.746}, {"actual": 0.795, "flight_equiv": 27.67, "n": 166, "pred": 0.849}, {"actual": 0.988, "flight_equiv": 386.67, "n": 2320, "pred": 0.995}]}, "small": {"promo": [{"actual": 0.006, "flight_equiv": 35.05, "n": 172, "pred": 0.001}, {"actual": 0.0, "flight_equiv": 1.05, "n": 5, "pred": 0.134}, {"actual": 0.4, "flight_equiv": 1.1, "n": 5, "pred": 0.338}, {"actual": 1.0, "flight_equiv": 1.45, "n": 7, "pred": 0.864}, {"actual": 0.991, "flight_equiv": 23.65, "n": 115, "pred": 0.999}], "relg": [{"actual": 0.0, "flight_equiv": 48.95, "n": 239, "pred": 0.001}, {"actual": 0.167, "flight_equiv": 1.2, "n": 6, "pred": 0.232}, {"actual": 1.0, "flight_equiv": 11.4, "n": 55, "pred": 0.998}]}}, "2": {"all": {"promo": [{"actual": 0.049, "flight_equiv": 351.96, "n": 2342, "pred": 0.051}, {"actual": 0.1, "flight_equiv": 373.74, "n": 2403, "pred": 0.143}, {"actual": 0.226, "flight_equiv": 337.06, "n": 2168, "pred": 0.245}, {"actual": 0.331, "flight_equiv": 287.24, "n": 1811, "pred": 0.343}, {"actual": 0.445, "flight_equiv": 219.97, "n": 1381, "pred": 0.444}, {"actual": 0.576, "flight_equiv": 185.45, "n": 1161, "pred": 0.543}, {"actual": 0.728, "flight_equiv": 151.58, "n": 948, "pred": 0.644}, {"actual": 0.816, "flight_equiv": 96.49, "n": 592, "pred": 0.739}, {"actual": 0.869, "flight_equiv": 29.6, "n": 175, "pred": 0.831}, {"actual": 0.833, "flight_equiv": 3.91, "n": 24, "pred": 0.945}], "relg": [{"actual": 0.035, "flight_equiv": 375.45, "n": 2449, "pred": 0.049}, {"actual": 0.115, "flight_equiv": 367.1, "n": 2381, "pred": 0.144}, {"actual": 0.211, "flight_equiv": 341.7, "n": 2172, "pred": 0.243}, {"actual": 0.351, "flight_equiv": 272.35, "n": 1720, "pred": 0.343}, {"actual": 0.475, "flight_equiv": 217.32, "n": 1384, "pred": 0.445}, {"actual": 0.565, "flight_equiv": 203.35, "n": 1288, "pred": 0.544}, {"actual": 0.701, "flight_equiv": 161.33, "n": 1007, "pred": 0.641}, {"actual": 0.799, "flight_equiv": 78.66, "n": 482, "pred": 0.735}, {"actual": 0.854, "flight_equiv": 14.41, "n": 89, "pred": 0.831}, {"actual": 0.818, "flight_equiv": 5.31, "n": 33, "pred": 0.951}]}, "large": {"promo": [{"actual": 0.056, "flight_equiv": 126.06, "n": 993, "pred": 0.042}, {"actual": 0.099, "flight_equiv": 90.73, "n": 718, "pred": 0.143}, {"actual": 0.241, "flight_equiv": 81.35, "n": 643, "pred": 0.243}, {"actual": 0.326, "flight_equiv": 52.11, "n": 411, "pred": 0.343}, {"actual": 0.47, "flight_equiv": 37.73, "n": 296, "pred": 0.442}, {"actual": 0.556, "flight_equiv": 31.43, "n": 248, "pred": 0.544}, {"actual": 0.72, "flight_equiv": 25.38, "n": 200, "pred": 0.637}, {"actual": 0.736, "flight_equiv": 11.29, "n": 87, "pred": 0.734}, {"actual": 0.733, "flight_equiv": 2.0, "n": 15, "pred": 0.827}, {"actual": 0.857, "flight_equiv": 0.93, "n": 7, "pred": 0.929}], "relg": [{"actual": 0.041, "flight_equiv": 120.87, "n": 953, "pred": 0.043}, {"actual": 0.119, "flight_equiv": 100.35, "n": 793, "pred": 0.143}, {"actual": 0.224, "flight_equiv": 70.82, "n": 559, "pred": 0.239}, {"actual": 0.354, "flight_equiv": 50.95, "n": 401, "pred": 0.345}, {"actual": 0.492, "flight_equiv": 45.25, "n": 358, "pred": 0.447}, {"actual": 0.558, "flight_equiv": 39.54, "n": 312, "pred": 0.54}, {"actual": 0.674, "flight_equiv": 22.4, "n": 175, "pred": 0.634}, {"actual": 0.739, "flight_equiv": 5.96, "n": 46, "pred": 0.732}, {"actual": 0.714, "flight_equiv": 1.91, "n": 14, "pred": 0.849}, {"actual": 0.857, "flight_equiv": 0.95, "n": 7, "pred": 0.954}]}, "medium": {"promo": [{"actual": 0.043, "flight_equiv": 219.5, "n": 1317, "pred": 0.057}, {"actual": 0.102, "flight_equiv": 271.67, "n": 1630, "pred": 0.143}, {"actual": 0.219, "flight_equiv": 247.67, "n": 1486, "pred": 0.246}, {"actual": 0.331, "flight_equiv": 225.33, "n": 1352, "pred": 0.343}, {"actual": 0.438, "flight_equiv": 175.33, "n": 1052, "pred": 0.444}, {"actual": 0.59, "flight_equiv": 143.67, "n": 862, "pred": 0.542}, {"actual": 0.727, "flight_equiv": 118.0, "n": 708, "pred": 0.646}, {"actual": 0.829, "flight_equiv": 80.0, "n": 480, "pred": 0.739}, {"actual": 0.879, "flight_equiv": 23.5, "n": 141, "pred": 0.831}, {"actual": 0.786, "flight_equiv": 2.33, "n": 14, "pred": 0.951}], "relg": [{"actual": 0.033, "flight_equiv": 226.33, "n": 1358, "pred": 0.054}, {"actual": 0.114, "flight_equiv": 255.5, "n": 1533, "pred": 0.145}, {"actual": 0.209, "flight_equiv": 260.33, "n": 1562, "pred": 0.245}, {"actual": 0.351, "flight_equiv": 213.0, "n": 1278, "pred": 0.342}, {"actual": 0.468, "flight_equiv": 166.67, "n": 1000, "pred": 0.445}, {"actual": 0.561, "flight_equiv": 158.67, "n": 952, "pred": 0.546}, {"actual": 0.706, "flight_equiv": 137.33, "n": 824, "pred": 0.643}, {"actual": 0.805, "flight_equiv": 72.5, "n": 435, "pred": 0.736}, {"actual": 0.88, "flight_equiv": 12.5, "n": 75, "pred": 0.828}, {"actual": 0.8, "flight_equiv": 4.17, "n": 25, "pred": 0.948}]}, "small": {"promo": [{"actual": 0.062, "flight_equiv": 6.4, "n": 32, "pred": 0.051}, {"actual": 0.036, "flight_equiv": 11.35, "n": 55, "pred": 0.15}, {"actual": 0.256, "flight_equiv": 8.05, "n": 39, "pred": 0.251}, {"actual": 0.396, "flight_equiv": 9.8, "n": 48, "pred": 0.342}, {"actual": 0.455, "flight_equiv": 6.9, "n": 33, "pred": 0.449}, {"actual": 0.431, "flight_equiv": 10.35, "n": 51, "pred": 0.547}, {"actual": 0.775, "flight_equiv": 8.2, "n": 40, "pred": 0.645}, {"actual": 0.84, "flight_equiv": 5.2, "n": 25, "pred": 0.748}, {"actual": 0.895, "flight_equiv": 4.1, "n": 19, "pred": 0.831}], "relg": [{"actual": 0.014, "flight_equiv": 28.25, "n": 138, "pred": 0.043}, {"actual": 0.127, "flight_equiv": 11.25, "n": 55, "pred": 0.139}, {"actual": 0.137, "flight_equiv": 10.55, "n": 51, "pred": 0.242}, {"actual": 0.317, "flight_equiv": 8.4, "n": 41, "pred": 0.344}, {"actual": 0.538, "flight_equiv": 5.4, "n": 26, "pred": 0.437}, {"actual": 0.833, "flight_equiv": 5.15, "n": 24, "pred": 0.537}, {"actual": 0.75, "flight_equiv": 1.6, "n": 8, "pred": 0.624}]}}, "3": {"all": {"promo": [{"actual": 0.037, "flight_equiv": 526.13, "n": 3456, "pred": 0.039}, {"actual": 0.12, "flight_equiv": 334.26, "n": 2137, "pred": 0.141}, {"actual": 0.214, "flight_equiv": 257.53, "n": 1644, "pred": 0.243}, {"actual": 0.324, "flight_equiv": 204.21, "n": 1298, "pred": 0.344}, {"actual": 0.46, "flight_equiv": 180.9, "n": 1143, "pred": 0.444}, {"actual": 0.564, "flight_equiv": 155.82, "n": 977, "pred": 0.543}, {"actual": 0.671, "flight_equiv": 139.23, "n": 872, "pred": 0.645}, {"actual": 0.784, "flight_equiv": 114.22, "n": 718, "pred": 0.745}, {"actual": 0.901, "flight_equiv": 91.76, "n": 563, "pred": 0.841}, {"actual": 0.934, "flight_equiv": 32.93, "n": 197, "pred": 0.928}], "relg": [{"actual": 0.024, "flight_equiv": 553.36, "n": 3589, "pred": 0.037}, {"actual": 0.119, "flight_equiv": 320.18, "n": 2052, "pred": 0.143}, {"actual": 0.238, "flight_equiv": 248.67, "n": 1593, "pred": 0.244}, {"actual": 0.332, "flight_equiv": 211.83, "n": 1347, "pred": 0.343}, {"actual": 0.451, "flight_equiv": 189.33, "n": 1196, "pred": 0.443}, {"actual": 0.579, "flight_equiv": 149.62, "n": 943, "pred": 0.544}, {"actual": 0.685, "flight_equiv": 139.38, "n": 889, "pred": 0.644}, {"actual": 0.773, "flight_equiv": 124.6, "n": 780, "pred": 0.745}, {"actual": 0.884, "flight_equiv": 78.17, "n": 482, "pred": 0.837}, {"actual": 0.918, "flight_equiv": 21.85, "n": 134, "pred": 0.936}]}, "large": {"promo": [{"actual": 0.041, "flight_equiv": 165.23, "n": 1303, "pred": 0.035}, {"actual": 0.118, "flight_equiv": 74.91, "n": 592, "pred": 0.141}, {"actual": 0.198, "flight_equiv": 56.38, "n": 445, "pred": 0.243}, {"actual": 0.34, "flight_equiv": 44.11, "n": 347, "pred": 0.345}, {"actual": 0.475, "flight_equiv": 33.24, "n": 263, "pred": 0.442}, {"actual": 0.588, "flight_equiv": 27.47, "n": 216, "pred": 0.538}, {"actual": 0.672, "flight_equiv": 24.46, "n": 192, "pred": 0.647}, {"actual": 0.75, "flight_equiv": 19.8, "n": 156, "pred": 0.741}, {"actual": 0.866, "flight_equiv": 10.41, "n": 82, "pred": 0.84}, {"actual": 0.864, "flight_equiv": 2.98, "n": 22, "pred": 0.923}], "relg": [{"actual": 0.023, "flight_equiv": 160.5, "n": 1266, "pred": 0.033}, {"actual": 0.13, "flight_equiv": 76.87, "n": 608, "pred": 0.143}, {"actual": 0.26, "flight_equiv": 58.04, "n": 458, "pred": 0.243}, {"actual": 0.323, "flight_equiv": 43.65, "n": 344, "pred": 0.34}, {"actual": 0.434, "flight_equiv": 34.93, "n": 274, "pred": 0.443}, {"actual": 0.546, "flight_equiv": 26.04, "n": 205, "pred": 0.541}, {"actual": 0.755, "flight_equiv": 30.12, "n": 237, "pred": 0.646}, {"actual": 0.699, "flight_equiv": 19.47, "n": 153, "pred": 0.744}, {"actual": 0.864, "flight_equiv": 7.57, "n": 59, "pred": 0.831}, {"actual": 0.857, "flight_equiv": 1.82, "n": 14, "pred": 0.936}]}, "medium": {"promo": [{"actual": 0.035, "flight_equiv": 349.5, "n": 2097, "pred": 0.041}, {"actual": 0.12, "flight_equiv": 249.5, "n": 1497, "pred": 0.141}, {"actual": 0.222, "flight_equiv": 194.5, "n": 1167, "pred": 0.243}, {"actual": 0.319, "flight_equiv": 151.5, "n": 909, "pred": 0.343}, {"actual": 0.457, "flight_equiv": 142.17, "n": 853, "pred": 0.444}, {"actual": 0.567, "flight_equiv": 120.0, "n": 720, "pred": 0.544}, {"actual": 0.666, "flight_equiv": 107.67, "n": 646, "pred": 0.644}, {"actual": 0.787, "flight_equiv": 90.17, "n": 541, "pred": 0.746}, {"actual": 0.904, "flight_equiv": 75.0, "n": 450, "pred": 0.841}, {"actual": 0.938, "flight_equiv": 27.0, "n": 162, "pred": 0.928}], "relg": [{"actual": 0.025, "flight_equiv": 361.67, "n": 2170, "pred": 0.04}, {"actual": 0.113, "flight_equiv": 230.17, "n": 1381, "pred": 0.142}, {"actual": 0.231, "flight_equiv": 182.83, "n": 1097, "pred": 0.245}, {"actual": 0.335, "flight_equiv": 162.83, "n": 977, "pred": 0.344}, {"actual": 0.457, "flight_equiv": 150.5, "n": 903, "pred": 0.443}, {"actual": 0.587, "flight_equiv": 120.33, "n": 722, "pred": 0.545}, {"actual": 0.656, "flight_equiv": 106.5, "n": 639, "pred": 0.644}, {"actual": 0.79, "flight_equiv": 102.33, "n": 614, "pred": 0.746}, {"actual": 0.886, "flight_equiv": 70.0, "n": 420, "pred": 0.838}, {"actual": 0.924, "flight_equiv": 19.83, "n": 119, "pred": 0.935}]}, "small": {"promo": [{"actual": 0.036, "flight_equiv": 11.4, "n": 56, "pred": 0.041}, {"actual": 0.146, "flight_equiv": 9.85, "n": 48, "pred": 0.143}, {"actual": 0.156, "flight_equiv": 6.65, "n": 32, "pred": 0.253}, {"actual": 0.31, "flight_equiv": 8.6, "n": 42, "pred": 0.35}, {"actual": 0.407, "flight_equiv": 5.5, "n": 27, "pred": 0.442}, {"actual": 0.39, "flight_equiv": 8.35, "n": 41, "pred": 0.546}, {"actual": 0.765, "flight_equiv": 7.1, "n": 34, "pred": 0.643}, {"actual": 0.952, "flight_equiv": 4.25, "n": 21, "pred": 0.747}, {"actual": 0.935, "flight_equiv": 6.35, "n": 31, "pred": 0.839}, {"actual": 1.0, "flight_equiv": 2.95, "n": 13, "pred": 0.938}], "relg": [{"actual": 0.013, "flight_equiv": 31.2, "n": 153, "pred": 0.032}, {"actual": 0.159, "flight_equiv": 13.15, "n": 63, "pred": 0.143}, {"actual": 0.184, "flight_equiv": 7.8, "n": 38, "pred": 0.245}, {"actual": 0.346, "flight_equiv": 5.35, "n": 26, "pred": 0.364}, {"actual": 0.368, "flight_equiv": 3.9, "n": 19, "pred": 0.436}, {"actual": 0.625, "flight_equiv": 3.25, "n": 16, "pred": 0.549}, {"actual": 0.846, "flight_equiv": 2.75, "n": 13, "pred": 0.642}, {"actual": 0.846, "flight_equiv": 2.8, "n": 13, "pred": 0.727}]}}, "4": {"all": {"promo": [{"actual": 0.031, "flight_equiv": 677.93, "n": 4418, "pred": 0.03}, {"actual": 0.13, "flight_equiv": 268.38, "n": 1715, "pred": 0.142}, {"actual": 0.229, "flight_equiv": 204.68, "n": 1308, "pred": 0.243}, {"actual": 0.31, "flight_equiv": 166.7, "n": 1057, "pred": 0.344}, {"actual": 0.435, "flight_equiv": 148.62, "n": 940, "pred": 0.446}, {"actual": 0.574, "flight_equiv": 134.31, "n": 847, "pred": 0.545}, {"actual": 0.657, "flight_equiv": 112.64, "n": 708, "pred": 0.642}, {"actual": 0.782, "flight_equiv": 107.88, "n": 678, "pred": 0.745}, {"actual": 0.863, "flight_equiv": 110.44, "n": 694, "pred": 0.843}, {"actual": 0.947, "flight_equiv": 102.41, "n": 622, "pred": 0.943}], "relg": [{"actual": 0.026, "flight_equiv": 704.67, "n": 4560, "pred": 0.028}, {"actual": 0.129, "flight_equiv": 263.98, "n": 1689, "pred": 0.142}, {"actual": 0.234, "flight_equiv": 203.13, "n": 1291, "pred": 0.242}, {"actual": 0.327, "flight_equiv": 155.3, "n": 988, "pred": 0.345}, {"actual": 0.464, "flight_equiv": 144.08, "n": 919, "pred": 0.443}, {"actual": 0.559, "flight_equiv": 127.56, "n": 807, "pred": 0.544}, {"actual": 0.633, "flight_equiv": 124.83, "n": 788, "pred": 0.645}, {"actual": 0.792, "flight_equiv": 115.03, "n": 721, "pred": 0.744}, {"actual": 0.846, "flight_equiv": 112.38, "n": 710, "pred": 0.845}, {"actual": 0.946, "flight_equiv": 83.05, "n": 514, "pred": 0.939}]}, "large": {"promo": [{"actual": 0.037, "flight_equiv": 195.89, "n": 1545, "pred": 0.026}, {"actual": 0.122, "flight_equiv": 59.41, "n": 469, "pred": 0.141}, {"actual": 0.212, "flight_equiv": 45.47, "n": 359, "pred": 0.245}, {"actual": 0.327, "flight_equiv": 33.96, "n": 269, "pred": 0.343}, {"actual": 0.454, "flight_equiv": 29.11, "n": 229, "pred": 0.446}, {"actual": 0.545, "flight_equiv": 25.7, "n": 202, "pred": 0.544}, {"actual": 0.663, "flight_equiv": 21.24, "n": 166, "pred": 0.643}, {"actual": 0.793, "flight_equiv": 18.43, "n": 145, "pred": 0.746}, {"actual": 0.84, "flight_equiv": 18.89, "n": 150, "pred": 0.843}, {"actual": 0.893, "flight_equiv": 10.89, "n": 84, "pred": 0.931}], "relg": [{"actual": 0.024, "flight_equiv": 196.06, "n": 1548, "pred": 0.026}, {"actual": 0.132, "flight_equiv": 61.66, "n": 486, "pred": 0.142}, {"actual": 0.266, "flight_equiv": 42.83, "n": 338, "pred": 0.244}, {"actual": 0.35, "flight_equiv": 32.27, "n": 254, "pred": 0.347}, {"actual": 0.453, "flight_equiv": 31.09, "n": 245, "pred": 0.444}, {"actual": 0.516, "flight_equiv": 23.93, "n": 188, "pred": 0.544}, {"actual": 0.641, "flight_equiv": 23.12, "n": 181, "pred": 0.649}, {"actual": 0.821, "flight_equiv": 18.39, "n": 145, "pred": 0.743}, {"actual": 0.814, "flight_equiv": 20.48, "n": 161, "pred": 0.84}, {"actual": 0.889, "flight_equiv": 9.16, "n": 72, "pred": 0.935}]}, "medium": {"promo": [{"actual": 0.028, "flight_equiv": 464.83, "n": 2789, "pred": 0.032}, {"actual": 0.134, "flight_equiv": 201.67, "n": 1210, "pred": 0.142}, {"actual": 0.24, "flight_equiv": 153.67, "n": 922, "pred": 0.243}, {"actual": 0.302, "flight_equiv": 125.33, "n": 752, "pred": 0.344}, {"actual": 0.438, "flight_equiv": 114.67, "n": 688, "pred": 0.446}, {"actual": 0.582, "flight_equiv": 102.17, "n": 613, "pred": 0.545}, {"actual": 0.651, "flight_equiv": 86.0, "n": 516, "pred": 0.642}, {"actual": 0.775, "flight_equiv": 86.0, "n": 516, "pred": 0.744}, {"actual": 0.863, "flight_equiv": 86.5, "n": 519, "pred": 0.842}, {"actual": 0.956, "flight_equiv": 83.17, "n": 499, "pred": 0.944}], "relg": [{"actual": 0.028, "flight_equiv": 473.17, "n": 2839, "pred": 0.03}, {"actual": 0.127, "flight_equiv": 192.67, "n": 1156, "pred": 0.143}, {"actual": 0.229, "flight_equiv": 153.0, "n": 918, "pred": 0.242}, {"actual": 0.316, "flight_equiv": 119.33, "n": 716, "pred": 0.344}, {"actual": 0.466, "flight_equiv": 109.83, "n": 659, "pred": 0.443}, {"actual": 0.577, "flight_equiv": 100.83, "n": 605, "pred": 0.545}, {"actual": 0.628, "flight_equiv": 98.5, "n": 591, "pred": 0.644}, {"actual": 0.782, "flight_equiv": 93.83, "n": 563, "pred": 0.745}, {"actual": 0.856, "flight_equiv": 90.0, "n": 540, "pred": 0.846}, {"actual": 0.954, "flight_equiv": 72.83, "n": 437, "pred": 0.94}]}, "small": {"promo": [{"actual": 0.036, "flight_equiv": 17.2, "n": 84, "pred": 0.037}, {"actual": 0.111, "flight_equiv": 7.3, "n": 36, "pred": 0.15}, {"actual": 0.111, "flight_equiv": 5.55, "n": 27, "pred": 0.231}, {"actual": 0.361, "flight_equiv": 7.4, "n": 36, "pred": 0.345}, {"actual": 0.174, "flight_equiv": 4.85, "n": 23, "pred": 0.437}, {"actual": 0.594, "flight_equiv": 6.45, "n": 32, "pred": 0.541}, {"actual": 0.731, "flight_equiv": 5.4, "n": 26, "pred": 0.642}, {"actual": 0.882, "flight_equiv": 3.45, "n": 17, "pred": 0.751}, {"actual": 1.0, "flight_equiv": 5.05, "n": 25, "pred": 0.844}, {"actual": 0.949, "flight_equiv": 8.35, "n": 39, "pred": 0.947}], "relg": [{"actual": 0.023, "flight_equiv": 35.45, "n": 173, "pred": 0.021}, {"actual": 0.149, "flight_equiv": 9.65, "n": 47, "pred": 0.136}, {"actual": 0.057, "flight_equiv": 7.3, "n": 35, "pred": 0.237}, {"actual": 0.444, "flight_equiv": 3.7, "n": 18, "pred": 0.351}, {"actual": 0.533, "flight_equiv": 3.15, "n": 15, "pred": 0.442}, {"actual": 0.357, "flight_equiv": 2.8, "n": 14, "pred": 0.53}, {"actual": 0.75, "flight_equiv": 3.2, "n": 16, "pred": 0.651}, {"actual": 0.923, "flight_equiv": 2.8, "n": 13, "pred": 0.735}, {"actual": 0.889, "flight_equiv": 1.9, "n": 9, "pred": 0.837}, {"actual": 1.0, "flight_equiv": 1.05, "n": 5, "pred": 0.95}]}}, "5": {"all": {"promo": [{"actual": 0.026, "flight_equiv": 809.07, "n": 5250, "pred": 0.023}, {"actual": 0.118, "flight_equiv": 215.88, "n": 1383, "pred": 0.141}, {"actual": 0.256, "flight_equiv": 161.04, "n": 1027, "pred": 0.243}, {"actual": 0.371, "flight_equiv": 134.47, "n": 850, "pred": 0.343}, {"actual": 0.427, "flight_equiv": 120.0, "n": 761, "pred": 0.444}, {"actual": 0.527, "flight_equiv": 97.52, "n": 613, "pred": 0.544}, {"actual": 0.636, "flight_equiv": 103.99, "n": 660, "pred": 0.645}, {"actual": 0.749, "flight_equiv": 102.68, "n": 646, "pred": 0.746}, {"actual": 0.856, "flight_equiv": 113.3, "n": 713, "pred": 0.845}, {"actual": 0.953, "flight_equiv": 174.05, "n": 1073, "pred": 0.954}], "relg": [{"actual": 0.023, "flight_equiv": 820.06, "n": 5289, "pred": 0.021}, {"actual": 0.134, "flight_equiv": 224.2, "n": 1434, "pred": 0.141}, {"actual": 0.236, "flight_equiv": 159.76, "n": 1016, "pred": 0.241}, {"actual": 0.33, "flight_equiv": 131.59, "n": 840, "pred": 0.343}, {"actual": 0.454, "flight_equiv": 107.39, "n": 683, "pred": 0.445}, {"actual": 0.551, "flight_equiv": 104.13, "n": 668, "pred": 0.546}, {"actual": 0.627, "flight_equiv": 104.02, "n": 657, "pred": 0.644}, {"actual": 0.764, "flight_equiv": 111.36, "n": 700, "pred": 0.745}, {"actual": 0.842, "flight_equiv": 112.52, "n": 707, "pred": 0.845}, {"actual": 0.96, "flight_equiv": 156.97, "n": 982, "pred": 0.954}]}, "large": {"promo": [{"actual": 0.028, "flight_equiv": 221.06, "n": 1743, "pred": 0.021}, {"actual": 0.131, "flight_equiv": 51.21, "n": 404, "pred": 0.141}, {"actual": 0.234, "flight_equiv": 35.58, "n": 282, "pred": 0.243}, {"actual": 0.36, "flight_equiv": 25.74, "n": 203, "pred": 0.345}, {"actual": 0.434, "flight_equiv": 24.0, "n": 189, "pred": 0.443}, {"actual": 0.492, "flight_equiv": 16.77, "n": 132, "pred": 0.543}, {"actual": 0.697, "flight_equiv": 22.24, "n": 175, "pred": 0.649}, {"actual": 0.734, "flight_equiv": 18.11, "n": 143, "pred": 0.746}, {"actual": 0.834, "flight_equiv": 20.77, "n": 163, "pred": 0.845}, {"actual": 0.908, "flight_equiv": 23.54, "n": 184, "pred": 0.943}], "relg": [{"actual": 0.02, "flight_equiv": 217.43, "n": 1716, "pred": 0.018}, {"actual": 0.154, "flight_equiv": 51.97, "n": 410, "pred": 0.139}, {"actual": 0.243, "flight_equiv": 33.84, "n": 267, "pred": 0.239}, {"actual": 0.313, "flight_equiv": 28.78, "n": 227, "pred": 0.342}, {"actual": 0.434, "flight_equiv": 22.29, "n": 175, "pred": 0.449}, {"actual": 0.57, "flight_equiv": 24.48, "n": 193, "pred": 0.544}, {"actual": 0.636, "flight_equiv": 19.27, "n": 151, "pred": 0.644}, {"actual": 0.68, "flight_equiv": 19.59, "n": 153, "pred": 0.745}, {"actual": 0.847, "flight_equiv": 19.05, "n": 150, "pred": 0.848}, {"actual": 0.972, "flight_equiv": 22.31, "n": 176, "pred": 0.946}]}, "medium": {"promo": [{"actual": 0.025, "flight_equiv": 569.17, "n": 3415, "pred": 0.025}, {"actual": 0.11, "flight_equiv": 156.67, "n": 940, "pred": 0.141}, {"actual": 0.264, "flight_equiv": 118.67, "n": 712, "pred": 0.243}, {"actual": 0.382, "flight_equiv": 103.83, "n": 623, "pred": 0.343}, {"actual": 0.425, "flight_equiv": 92.5, "n": 555, "pred": 0.444}, {"actual": 0.54, "flight_equiv": 77.5, "n": 465, "pred": 0.545}, {"actual": 0.623, "flight_equiv": 77.0, "n": 462, "pred": 0.643}, {"actual": 0.748, "flight_equiv": 80.67, "n": 484, "pred": 0.747}, {"actual": 0.858, "flight_equiv": 87.83, "n": 527, "pred": 0.845}, {"actual": 0.962, "flight_equiv": 139.17, "n": 835, "pred": 0.956}], "relg": [{"actual": 0.024, "flight_equiv": 564.33, "n": 3386, "pred": 0.023}, {"actual": 0.129, "flight_equiv": 163.83, "n": 983, "pred": 0.141}, {"actual": 0.232, "flight_equiv": 121.17, "n": 727, "pred": 0.242}, {"actual": 0.334, "flight_equiv": 99.17, "n": 595, "pred": 0.345}, {"actual": 0.464, "flight_equiv": 83.0, "n": 498, "pred": 0.444}, {"actual": 0.548, "flight_equiv": 77.0, "n": 462, "pred": 0.547}, {"actual": 0.624, "flight_equiv": 82.5, "n": 495, "pred": 0.644}, {"actual": 0.786, "flight_equiv": 88.67, "n": 532, "pred": 0.746}, {"actual": 0.839, "flight_equiv": 90.17, "n": 541, "pred": 0.844}, {"actual": 0.957, "flight_equiv": 133.17, "n": 799, "pred": 0.957}]}, "small": {"promo": [{"actual": 0.043, "flight_equiv": 18.85, "n": 92, "pred": 0.021}, {"actual": 0.179, "flight_equiv": 8.0, "n": 39, "pred": 0.135}, {"actual": 0.273, "flight_equiv": 6.8, "n": 33, "pred": 0.245}, {"actual": 0.167, "flight_equiv": 4.9, "n": 24, "pred": 0.334}, {"actual": 0.412, "flight_equiv": 3.5, "n": 17, "pred": 0.445}, {"actual": 0.438, "flight_equiv": 3.25, "n": 16, "pred": 0.541}, {"actual": 0.435, "flight_equiv": 4.75, "n": 23, "pred": 0.649}, {"actual": 0.895, "flight_equiv": 3.9, "n": 19, "pred": 0.737}, {"actual": 0.957, "flight_equiv": 4.7, "n": 23, "pred": 0.852}, {"actual": 0.981, "flight_equiv": 11.35, "n": 54, "pred": 0.962}], "relg": [{"actual": 0.032, "flight_equiv": 38.3, "n": 187, "pred": 0.016}, {"actual": 0.049, "flight_equiv": 8.4, "n": 41, "pred": 0.136}, {"actual": 0.273, "flight_equiv": 4.75, "n": 22, "pred": 0.248}, {"actual": 0.389, "flight_equiv": 3.65, "n": 18, "pred": 0.326}, {"actual": 0.3, "flight_equiv": 2.1, "n": 10, "pred": 0.442}, {"actual": 0.385, "flight_equiv": 2.65, "n": 13, "pred": 0.549}, {"actual": 0.636, "flight_equiv": 2.25, "n": 11, "pred": 0.656}, {"actual": 0.867, "flight_equiv": 3.1, "n": 15, "pred": 0.742}, {"actual": 0.875, "flight_equiv": 3.3, "n": 16, "pred": 0.85}, {"actual": 1.0, "flight_equiv": 1.5, "n": 7, "pred": 0.934}]}}, "6": {"all": {"promo": [{"actual": 0.02, "flight_equiv": 897.12, "n": 5813, "pred": 0.017}, {"actual": 0.132, "flight_equiv": 183.08, "n": 1170, "pred": 0.14}, {"actual": 0.224, "flight_equiv": 127.6, "n": 813, "pred": 0.243}, {"actual": 0.366, "flight_equiv": 111.11, "n": 703, "pred": 0.345}, {"actual": 0.434, "flight_equiv": 102.78, "n": 648, "pred": 0.444}, {"actual": 0.545, "flight_equiv": 87.82, "n": 556, "pred": 0.546}, {"actual": 0.65, "flight_equiv": 91.15, "n": 574, "pred": 0.645}, {"actual": 0.745, "flight_equiv": 91.76, "n": 584, "pred": 0.746}, {"actual": 0.849, "flight_equiv": 98.89, "n": 623, "pred": 0.846}, {"actual": 0.962, "flight_equiv": 239.69, "n": 1486, "pred": 0.966}], "relg": [{"actual": 0.02, "flight_equiv": 930.65, "n": 5987, "pred": 0.016}, {"actual": 0.154, "flight_equiv": 179.42, "n": 1152, "pred": 0.14}, {"actual": 0.254, "flight_equiv": 121.59, "n": 777, "pred": 0.242}, {"actual": 0.341, "flight_equiv": 106.33, "n": 678, "pred": 0.344}, {"actual": 0.419, "flight_equiv": 90.96, "n": 578, "pred": 0.445}, {"actual": 0.579, "flight_equiv": 88.2, "n": 561, "pred": 0.545}, {"actual": 0.615, "flight_equiv": 83.29, "n": 533, "pred": 0.647}, {"actual": 0.729, "flight_equiv": 87.22, "n": 549, "pred": 0.746}, {"actual": 0.83, "flight_equiv": 113.72, "n": 718, "pred": 0.848}, {"actual": 0.959, "flight_equiv": 229.61, "n": 1437, "pred": 0.963}]}, "large": {"promo": [{"actual": 0.027, "flight_equiv": 242.02, "n": 1909, "pred": 0.016}, {"actual": 0.118, "flight_equiv": 40.91, "n": 323, "pred": 0.141}, {"actual": 0.186, "flight_equiv": 27.21, "n": 215, "pred": 0.242}, {"actual": 0.409, "flight_equiv": 22.36, "n": 176, "pred": 0.344}, {"actual": 0.444, "flight_equiv": 19.39, "n": 153, "pred": 0.446}, {"actual": 0.525, "flight_equiv": 17.61, "n": 139, "pred": 0.546}, {"actual": 0.615, "flight_equiv": 16.55, "n": 130, "pred": 0.641}, {"actual": 0.776, "flight_equiv": 19.29, "n": 152, "pred": 0.746}, {"actual": 0.789, "flight_equiv": 18.09, "n": 142, "pred": 0.846}, {"actual": 0.953, "flight_equiv": 35.55, "n": 279, "pred": 0.962}], "relg": [{"actual": 0.02, "flight_equiv": 238.7, "n": 1884, "pred": 0.014}, {"actual": 0.149, "flight_equiv": 42.52, "n": 336, "pred": 0.141}, {"actual": 0.249, "flight_equiv": 27.58, "n": 217, "pred": 0.242}, {"actual": 0.349, "flight_equiv": 23.7, "n": 186, "pred": 0.341}, {"actual": 0.34, "flight_equiv": 18.21, "n": 144, "pred": 0.444}, {"actual": 0.604, "flight_equiv": 18.29, "n": 144, "pred": 0.545}, {"actual": 0.627, "flight_equiv": 19.61, "n": 153, "pred": 0.652}, {"actual": 0.732, "flight_equiv": 16.25, "n": 127, "pred": 0.746}, {"actual": 0.825, "flight_equiv": 19.48, "n": 154, "pred": 0.848}, {"actual": 0.952, "flight_equiv": 34.66, "n": 273, "pred": 0.958}]}, "medium": {"promo": [{"actual": 0.017, "flight_equiv": 631.5, "n": 3789, "pred": 0.017}, {"actual": 0.133, "flight_equiv": 136.17, "n": 817, "pred": 0.14}, {"actual": 0.238, "flight_equiv": 96.83, "n": 581, "pred": 0.243}, {"actual": 0.353, "flight_equiv": 84.0, "n": 504, "pred": 0.346}, {"actual": 0.436, "flight_equiv": 78.83, "n": 473, "pred": 0.444}, {"actual": 0.555, "flight_equiv": 66.67, "n": 400, "pred": 0.546}, {"actual": 0.664, "flight_equiv": 71.5, "n": 429, "pred": 0.646}, {"actual": 0.73, "flight_equiv": 69.67, "n": 418, "pred": 0.747}, {"actual": 0.864, "flight_equiv": 77.0, "n": 462, "pred": 0.846}, {"actual": 0.962, "flight_equiv": 189.83, "n": 1139, "pred": 0.967}], "relg": [{"actual": 0.02, "flight_equiv": 648.5, "n": 3891, "pred": 0.018}, {"actual": 0.157, "flight_equiv": 132.0, "n": 792, "pred": 0.14}, {"actual": 0.26, "flight_equiv": 91.17, "n": 547, "pred": 0.243}, {"actual": 0.336, "flight_equiv": 79.33, "n": 476, "pred": 0.345}, {"actual": 0.447, "flight_equiv": 70.5, "n": 423, "pred": 0.446}, {"actual": 0.574, "flight_equiv": 67.67, "n": 406, "pred": 0.545}, {"actual": 0.612, "flight_equiv": 61.83, "n": 371, "pred": 0.645}, {"actual": 0.719, "flight_equiv": 68.17, "n": 409, "pred": 0.746}, {"actual": 0.831, "flight_equiv": 92.83, "n": 557, "pred": 0.847}, {"actual": 0.96, "flight_equiv": 190.0, "n": 1140, "pred": 0.965}]}, "small": {"promo": [{"actual": 0.017, "flight_equiv": 23.6, "n": 115, "pred": 0.021}, {"actual": 0.233, "flight_equiv": 6.0, "n": 30, "pred": 0.136}, {"actual": 0.235, "flight_equiv": 3.55, "n": 17, "pred": 0.248}, {"actual": 0.304, "flight_equiv": 4.75, "n": 23, "pred": 0.342}, {"actual": 0.318, "flight_equiv": 4.55, "n": 22, "pred": 0.443}, {"actual": 0.471, "flight_equiv": 3.55, "n": 17, "pred": 0.542}, {"actual": 0.533, "flight_equiv": 3.1, "n": 15, "pred": 0.648}, {"actual": 0.857, "flight_equiv": 2.8, "n": 14, "pred": 0.734}, {"actual": 0.947, "flight_equiv": 3.8, "n": 19, "pred": 0.853}, {"actual": 0.985, "flight_equiv": 14.3, "n": 68, "pred": 0.974}], "relg": [{"actual": 0.014, "flight_equiv": 43.45, "n": 212, "pred": 0.014}, {"actual": 0.125, "flight_equiv": 4.9, "n": 24, "pred": 0.148}, {"actual": 0.077, "flight_equiv": 2.85, "n": 13, "pred": 0.234}, {"actual": 0.375, "flight_equiv": 3.3, "n": 16, "pred": 0.352}, {"actual": 0.364, "flight_equiv": 2.25, "n": 11, "pred": 0.427}, {"actual": 0.455, "flight_equiv": 2.25, "n": 11, "pred": 0.544}, {"actual": 0.556, "flight_equiv": 1.85, "n": 9, "pred": 0.623}, {"actual": 1.0, "flight_equiv": 2.8, "n": 13, "pred": 0.746}, {"actual": 0.857, "flight_equiv": 1.4, "n": 7, "pred": 0.849}, {"actual": 1.0, "flight_equiv": 4.95, "n": 24, "pred": 0.951}]}}, "7": {"all": {"promo": [{"actual": 0.018, "flight_equiv": 980.1, "n": 6341, "pred": 0.013}, {"actual": 0.139, "flight_equiv": 142.2, "n": 909, "pred": 0.14}, {"actual": 0.209, "flight_equiv": 117.65, "n": 745, "pred": 0.243}, {"actual": 0.34, "flight_equiv": 83.72, "n": 532, "pred": 0.345}, {"actual": 0.462, "flight_equiv": 77.29, "n": 489, "pred": 0.445}, {"actual": 0.541, "flight_equiv": 71.16, "n": 451, "pred": 0.547}, {"actual": 0.663, "flight_equiv": 80.61, "n": 511, "pred": 0.645}, {"actual": 0.756, "flight_equiv": 81.75, "n": 517, "pred": 0.747}, {"actual": 0.833, "flight_equiv": 98.55, "n": 627, "pred": 0.849}, {"actual": 0.967, "flight_equiv": 290.98, "n": 1808, "pred": 0.974}], "relg": [{"actual": 0.017, "flight_equiv": 1003.18, "n": 6463, "pred": 0.012}, {"actual": 0.155, "flight_equiv": 146.19, "n": 927, "pred": 0.142}, {"actual": 0.24, "flight_equiv": 104.12, "n": 662, "pred": 0.243}, {"actual": 0.372, "flight_equiv": 81.51, "n": 524, "pred": 0.345}, {"actual": 0.389, "flight_equiv": 75.35, "n": 481, "pred": 0.445}, {"actual": 0.498, "flight_equiv": 78.05, "n": 494, "pred": 0.544}, {"actual": 0.667, "flight_equiv": 76.6, "n": 487, "pred": 0.645}, {"actual": 0.746, "flight_equiv": 74.78, "n": 473, "pred": 0.745}, {"actual": 0.828, "flight_equiv": 95.36, "n": 603, "pred": 0.847}, {"actual": 0.969, "flight_equiv": 288.87, "n": 1816, "pred": 0.973}]}, "large": {"promo": [{"actual": 0.022, "flight_equiv": 259.88, "n": 2050, "pred": 0.011}, {"actual": 0.153, "flight_equiv": 30.54, "n": 242, "pred": 0.139}, {"actual": 0.161, "flight_equiv": 24.45, "n": 192, "pred": 0.242}, {"actual": 0.299, "flight_equiv": 17.37, "n": 137, "pred": 0.347}, {"actual": 0.492, "flight_equiv": 14.99, "n": 118, "pred": 0.444}, {"actual": 0.568, "flight_equiv": 15.09, "n": 118, "pred": 0.546}, {"actual": 0.669, "flight_equiv": 15.63, "n": 124, "pred": 0.644}, {"actual": 0.722, "flight_equiv": 16.02, "n": 126, "pred": 0.746}, {"actual": 0.84, "flight_equiv": 20.65, "n": 163, "pred": 0.851}, {"actual": 0.94, "flight_equiv": 44.39, "n": 348, "pred": 0.97}], "relg": [{"actual": 0.014, "flight_equiv": 259.38, "n": 2048, "pred": 0.01}, {"actual": 0.143, "flight_equiv": 30.24, "n": 238, "pred": 0.143}, {"actual": 0.279, "flight_equiv": 21.84, "n": 172, "pred": 0.24}, {"actual": 0.414, "flight_equiv": 20.02, "n": 157, "pred": 0.345}, {"actual": 0.333, "flight_equiv": 17.23, "n": 135, "pred": 0.443}, {"actual": 0.474, "flight_equiv": 14.7, "n": 116, "pred": 0.543}, {"actual": 0.69, "flight_equiv": 16.05, "n": 126, "pred": 0.643}, {"actual": 0.743, "flight_equiv": 14.41, "n": 113, "pred": 0.746}, {"actual": 0.775, "flight_equiv": 18.09, "n": 142, "pred": 0.845}, {"actual": 0.976, "flight_equiv": 47.04, "n": 371, "pred": 0.969}]}, "medium": {"promo": [{"actual": 0.016, "flight_equiv": 693.17, "n": 4159, "pred": 0.014}, {"actual": 0.133, "flight_equiv": 108.67, "n": 652, "pred": 0.141}, {"actual": 0.229, "flight_equiv": 87.5, "n": 525, "pred": 0.244}, {"actual": 0.354, "flight_equiv": 63.5, "n": 381, "pred": 0.345}, {"actual": 0.456, "flight_equiv": 60.0, "n": 360, "pred": 0.445}, {"actual": 0.527, "flight_equiv": 53.17, "n": 319, "pred": 0.547}, {"actual": 0.663, "flight_equiv": 62.33, "n": 374, "pred": 0.645}, {"actual": 0.769, "flight_equiv": 62.83, "n": 377, "pred": 0.748}, {"actual": 0.823, "flight_equiv": 74.5, "n": 447, "pred": 0.848}, {"actual": 0.975, "flight_equiv": 230.33, "n": 1382, "pred": 0.975}], "relg": [{"actual": 0.019, "flight_equiv": 701.0, "n": 4206, "pred": 0.013}, {"actual": 0.159, "flight_equiv": 110.0, "n": 660, "pred": 0.142}, {"actual": 0.228, "flight_equiv": 78.83, "n": 473, "pred": 0.244}, {"actual": 0.359, "flight_equiv": 59.83, "n": 359, "pred": 0.346}, {"actual": 0.409, "flight_equiv": 56.17, "n": 337, "pred": 0.445}, {"actual": 0.504, "flight_equiv": 61.5, "n": 369, "pred": 0.544}, {"actual": 0.658, "flight_equiv": 58.5, "n": 351, "pred": 0.646}, {"actual": 0.744, "flight_equiv": 58.67, "n": 352, "pred": 0.745}, {"actual": 0.839, "flight_equiv": 74.67, "n": 448, "pred": 0.848}, {"actual": 0.968, "flight_equiv": 236.83, "n": 1421, "pred": 0.974}]}, "small": {"promo": [{"actual": 0.03, "flight_equiv": 27.05, "n": 132, "pred": 0.018}, {"actual": 0.133, "flight_equiv": 3.0, "n": 15, "pred": 0.131}, {"actual": 0.179, "flight_equiv": 5.7, "n": 28, "pred": 0.241}, {"actual": 0.357, "flight_equiv": 2.85, "n": 14, "pred": 0.334}, {"actual": 0.364, "flight_equiv": 2.3, "n": 11, "pred": 0.44}, {"actual": 0.643, "flight_equiv": 2.9, "n": 14, "pred": 0.544}, {"actual": 0.615, "flight_equiv": 2.65, "n": 13, "pred": 0.643}, {"actual": 0.714, "flight_equiv": 2.9, "n": 14, "pred": 0.743}, {"actual": 1.0, "flight_equiv": 3.4, "n": 17, "pred": 0.86}, {"actual": 0.949, "flight_equiv": 16.25, "n": 78, "pred": 0.98}], "relg": [{"actual": 0.005, "flight_equiv": 42.8, "n": 209, "pred": 0.009}, {"actual": 0.172, "flight_equiv": 5.95, "n": 29, "pred": 0.145}, {"actual": 0.176, "flight_equiv": 3.45, "n": 17, "pred": 0.251}, {"actual": 0.125, "flight_equiv": 1.65, "n": 8, "pred": 0.337}, {"actual": 0.444, "flight_equiv": 1.95, "n": 9, "pred": 0.453}, {"actual": 0.556, "flight_equiv": 1.85, "n": 9, "pred": 0.536}, {"actual": 0.7, "flight_equiv": 2.05, "n": 10, "pred": 0.65}, {"actual": 0.875, "flight_equiv": 1.7, "n": 8, "pred": 0.759}, {"actual": 1.0, "flight_equiv": 2.6, "n": 13, "pred": 0.845}, {"actual": 0.958, "flight_equiv": 5.0, "n": 24, "pred": 0.977}]}}, "8": {"all": {"promo": [{"actual": 0.016, "flight_equiv": 1048.73, "n": 6771, "pred": 0.009}, {"actual": 0.115, "flight_equiv": 116.6, "n": 742, "pred": 0.141}, {"actual": 0.208, "flight_equiv": 84.81, "n": 544, "pred": 0.244}, {"actual": 0.378, "flight_equiv": 76.97, "n": 487, "pred": 0.344}, {"actual": 0.426, "flight_equiv": 64.08, "n": 408, "pred": 0.443}, {"actual": 0.546, "flight_equiv": 59.84, "n": 381, "pred": 0.546}, {"actual": 0.648, "flight_equiv": 67.53, "n": 426, "pred": 0.647}, {"actual": 0.769, "flight_equiv": 70.67, "n": 446, "pred": 0.744}, {"actual": 0.837, "flight_equiv": 78.45, "n": 502, "pred": 0.849}, {"actual": 0.971, "flight_equiv": 351.31, "n": 2188, "pred": 0.981}], "relg": [{"actual": 0.012, "flight_equiv": 1072.56, "n": 6898, "pred": 0.009}, {"actual": 0.183, "flight_equiv": 116.65, "n": 744, "pred": 0.141}, {"actual": 0.245, "flight_equiv": 80.17, "n": 511, "pred": 0.243}, {"actual": 0.336, "flight_equiv": 68.0, "n": 435, "pred": 0.342}, {"actual": 0.433, "flight_equiv": 68.2, "n": 432, "pred": 0.447}, {"actual": 0.489, "flight_equiv": 55.94, "n": 358, "pred": 0.541}, {"actual": 0.651, "flight_equiv": 61.28, "n": 390, "pred": 0.645}, {"actual": 0.743, "flight_equiv": 68.58, "n": 436, "pred": 0.746}, {"actual": 0.827, "flight_equiv": 80.95, "n": 510, "pred": 0.847}, {"actual": 0.97, "flight_equiv": 346.67, "n": 2181, "pred": 0.98}]}, "large": {"promo": [{"actual": 0.023, "flight_equiv": 271.36, "n": 2141, "pred": 0.008}, {"actual": 0.063, "flight_equiv": 23.93, "n": 189, "pred": 0.142}, {"actual": 0.197, "flight_equiv": 19.91, "n": 157, "pred": 0.241}, {"actual": 0.368, "flight_equiv": 14.81, "n": 117, "pred": 0.344}, {"actual": 0.462, "flight_equiv": 13.45, "n": 106, "pred": 0.446}, {"actual": 0.533, "flight_equiv": 13.64, "n": 107, "pred": 0.544}, {"actual": 0.62, "flight_equiv": 12.63, "n": 100, "pred": 0.646}, {"actual": 0.79, "flight_equiv": 13.38, "n": 105, "pred": 0.742}, {"actual": 0.809, "flight_equiv": 17.25, "n": 136, "pred": 0.849}, {"actual": 0.952, "flight_equiv": 55.65, "n": 437, "pred": 0.977}], "relg": [{"actual": 0.014, "flight_equiv": 271.81, "n": 2146, "pred": 0.007}, {"actual": 0.177, "flight_equiv": 25.16, "n": 198, "pred": 0.139}, {"actual": 0.23, "flight_equiv": 17.12, "n": 135, "pred": 0.241}, {"actual": 0.28, "flight_equiv": 15.9, "n": 125, "pred": 0.337}, {"actual": 0.375, "flight_equiv": 13.27, "n": 104, "pred": 0.446}, {"actual": 0.495, "flight_equiv": 12.84, "n": 101, "pred": 0.539}, {"actual": 0.714, "flight_equiv": 13.41, "n": 105, "pred": 0.645}, {"actual": 0.736, "flight_equiv": 13.96, "n": 110, "pred": 0.747}, {"actual": 0.855, "flight_equiv": 14.98, "n": 117, "pred": 0.852}, {"actual": 0.96, "flight_equiv": 57.54, "n": 454, "pred": 0.978}]}, "medium": {"promo": [{"actual": 0.013, "flight_equiv": 746.17, "n": 4477, "pred": 0.01}, {"actual": 0.132, "flight_equiv": 89.67, "n": 538, "pred": 0.141}, {"actual": 0.212, "flight_equiv": 63.0, "n": 378, "pred": 0.246}, {"actual": 0.377, "flight_equiv": 59.67, "n": 358, "pred": 0.343}, {"actual": 0.416, "flight_equiv": 49.33, "n": 296, "pred": 0.442}, {"actual": 0.559, "flight_equiv": 43.5, "n": 261, "pred": 0.547}, {"actual": 0.66, "flight_equiv": 52.0, "n": 312, "pred": 0.647}, {"actual": 0.758, "flight_equiv": 55.0, "n": 330, "pred": 0.746}, {"actual": 0.847, "flight_equiv": 60.0, "n": 360, "pred": 0.849}, {"actual": 0.975, "flight_equiv": 275.67, "n": 1654, "pred": 0.982}], "relg": [{"actual": 0.012, "flight_equiv": 754.0, "n": 4524, "pred": 0.009}, {"actual": 0.184, "flight_equiv": 88.83, "n": 533, "pred": 0.141}, {"actual": 0.251, "flight_equiv": 61.0, "n": 366, "pred": 0.244}, {"actual": 0.36, "flight_equiv": 50.0, "n": 300, "pred": 0.344}, {"actual": 0.447, "flight_equiv": 53.33, "n": 320, "pred": 0.447}, {"actual": 0.49, "flight_equiv": 41.5, "n": 249, "pred": 0.542}, {"actual": 0.625, "flight_equiv": 46.17, "n": 277, "pred": 0.644}, {"actual": 0.749, "flight_equiv": 53.17, "n": 319, "pred": 0.746}, {"actual": 0.817, "flight_equiv": 63.67, "n": 382, "pred": 0.846}, {"actual": 0.972, "flight_equiv": 282.33, "n": 1694, "pred": 0.98}]}, "small": {"promo": [{"actual": 0.02, "flight_equiv": 31.2, "n": 153, "pred": 0.012}, {"actual": 0.133, "flight_equiv": 3.0, "n": 15, "pred": 0.135}, {"actual": 0.222, "flight_equiv": 1.9, "n": 9, "pred": 0.246}, {"actual": 0.5, "flight_equiv": 2.5, "n": 12, "pred": 0.352}, {"actual": 0.333, "flight_equiv": 1.3, "n": 6, "pred": 0.44}, {"actual": 0.385, "flight_equiv": 2.7, "n": 13, "pred": 0.552}, {"actual": 0.571, "flight_equiv": 2.9, "n": 14, "pred": 0.646}, {"actual": 0.909, "flight_equiv": 2.3, "n": 11, "pred": 0.731}, {"actual": 0.833, "flight_equiv": 1.2, "n": 6, "pred": 0.855}, {"actual": 0.979, "flight_equiv": 20.0, "n": 97, "pred": 0.986}], "relg": [{"actual": 0.0, "flight_equiv": 46.75, "n": 228, "pred": 0.006}, {"actual": 0.231, "flight_equiv": 2.65, "n": 13, "pred": 0.143}, {"actual": 0.2, "flight_equiv": 2.05, "n": 10, "pred": 0.247}, {"actual": 0.3, "flight_equiv": 2.1, "n": 10, "pred": 0.331}, {"actual": 0.625, "flight_equiv": 1.6, "n": 8, "pred": 0.434}, {"actual": 0.375, "flight_equiv": 1.6, "n": 8, "pred": 0.542}, {"actual": 0.75, "flight_equiv": 1.7, "n": 8, "pred": 0.649}, {"actual": 0.571, "flight_equiv": 1.45, "n": 7, "pred": 0.744}, {"actual": 0.909, "flight_equiv": 2.3, "n": 11, "pred": 0.855}, {"actual": 1.0, "flight_equiv": 6.8, "n": 33, "pred": 0.979}]}}, "9": {"all": {"promo": [{"actual": 0.011, "flight_equiv": 1122.58, "n": 7237, "pred": 0.005}, {"actual": 0.135, "flight_equiv": 85.88, "n": 547, "pred": 0.143}, {"actual": 0.268, "flight_equiv": 68.34, "n": 437, "pred": 0.245}, {"actual": 0.367, "flight_equiv": 56.53, "n": 357, "pred": 0.344}, {"actual": 0.416, "flight_equiv": 49.71, "n": 320, "pred": 0.443}, {"actual": 0.539, "flight_equiv": 48.54, "n": 310, "pred": 0.547}, {"actual": 0.607, "flight_equiv": 51.68, "n": 331, "pred": 0.643}, {"actual": 0.753, "flight_equiv": 55.24, "n": 352, "pred": 0.744}, {"actual": 0.821, "flight_equiv": 62.0, "n": 392, "pred": 0.847}, {"actual": 0.978, "flight_equiv": 416.5, "n": 2598, "pred": 0.989}], "relg": [{"actual": 0.01, "flight_equiv": 1142.92, "n": 7346, "pred": 0.005}, {"actual": 0.147, "flight_equiv": 81.81, "n": 525, "pred": 0.142}, {"actual": 0.253, "flight_equiv": 62.76, "n": 399, "pred": 0.244}, {"actual": 0.36, "flight_equiv": 57.77, "n": 369, "pred": 0.342}, {"actual": 0.446, "flight_equiv": 51.33, "n": 325, "pred": 0.442}, {"actual": 0.503, "flight_equiv": 45.56, "n": 288, "pred": 0.549}, {"actual": 0.609, "flight_equiv": 55.79, "n": 353, "pred": 0.646}, {"actual": 0.731, "flight_equiv": 53.12, "n": 338, "pred": 0.745}, {"actual": 0.85, "flight_equiv": 62.63, "n": 399, "pred": 0.845}, {"actual": 0.98, "flight_equiv": 403.31, "n": 2539, "pred": 0.989}]}, "large": {"promo": [{"actual": 0.019, "flight_equiv": 284.67, "n": 2246, "pred": 0.005}, {"actual": 0.178, "flight_equiv": 18.5, "n": 146, "pred": 0.145}, {"actual": 0.259, "flight_equiv": 14.64, "n": 116, "pred": 0.245}, {"actual": 0.298, "flight_equiv": 10.75, "n": 84, "pred": 0.342}, {"actual": 0.379, "flight_equiv": 13.09, "n": 103, "pred": 0.442}, {"actual": 0.557, "flight_equiv": 11.29, "n": 88, "pred": 0.55}, {"actual": 0.628, "flight_equiv": 11.84, "n": 94, "pred": 0.643}, {"actual": 0.744, "flight_equiv": 11.36, "n": 90, "pred": 0.745}, {"actual": 0.796, "flight_equiv": 11.7, "n": 93, "pred": 0.85}, {"actual": 0.947, "flight_equiv": 67.16, "n": 527, "pred": 0.988}], "relg": [{"actual": 0.012, "flight_equiv": 287.65, "n": 2270, "pred": 0.005}, {"actual": 0.174, "flight_equiv": 18.86, "n": 149, "pred": 0.14}, {"actual": 0.257, "flight_equiv": 12.87, "n": 101, "pred": 0.245}, {"actual": 0.343, "flight_equiv": 12.57, "n": 99, "pred": 0.342}, {"actual": 0.512, "flight_equiv": 10.15, "n": 80, "pred": 0.446}, {"actual": 0.424, "flight_equiv": 8.43, "n": 66, "pred": 0.545}, {"actual": 0.612, "flight_equiv": 10.84, "n": 85, "pred": 0.649}, {"actual": 0.724, "flight_equiv": 11.04, "n": 87, "pred": 0.745}, {"actual": 0.817, "flight_equiv": 13.21, "n": 104, "pred": 0.848}, {"actual": 0.967, "flight_equiv": 69.38, "n": 546, "pred": 0.988}]}, "medium": {"promo": [{"actual": 0.008, "flight_equiv": 804.67, "n": 4828, "pred": 0.005}, {"actual": 0.119, "flight_equiv": 64.33, "n": 386, "pred": 0.142}, {"actual": 0.273, "flight_equiv": 52.5, "n": 315, "pred": 0.244}, {"actual": 0.387, "flight_equiv": 44.33, "n": 266, "pred": 0.344}, {"actual": 0.438, "flight_equiv": 34.67, "n": 208, "pred": 0.444}, {"actual": 0.528, "flight_equiv": 36.0, "n": 216, "pred": 0.545}, {"actual": 0.604, "flight_equiv": 38.33, "n": 230, "pred": 0.643}, {"actual": 0.755, "flight_equiv": 42.83, "n": 257, "pred": 0.743}, {"actual": 0.823, "flight_equiv": 48.0, "n": 288, "pred": 0.846}, {"actual": 0.986, "flight_equiv": 327.33, "n": 1964, "pred": 0.99}], "relg": [{"actual": 0.01, "flight_equiv": 805.67, "n": 4834, "pred": 0.005}, {"actual": 0.138, "flight_equiv": 61.5, "n": 369, "pred": 0.142}, {"actual": 0.249, "flight_equiv": 48.83, "n": 293, "pred": 0.243}, {"actual": 0.364, "flight_equiv": 44.0, "n": 264, "pred": 0.342}, {"actual": 0.424, "flight_equiv": 39.33, "n": 236, "pred": 0.441}, {"actual": 0.523, "flight_equiv": 36.33, "n": 218, "pred": 0.551}, {"actual": 0.609, "flight_equiv": 43.5, "n": 261, "pred": 0.645}, {"actual": 0.739, "flight_equiv": 40.83, "n": 245, "pred": 0.746}, {"actual": 0.858, "flight_equiv": 48.17, "n": 289, "pred": 0.844}, {"actual": 0.984, "flight_equiv": 324.83, "n": 1949, "pred": 0.99}]}, "small": {"promo": [{"actual": 0.012, "flight_equiv": 33.25, "n": 163, "pred": 0.004}, {"actual": 0.133, "flight_equiv": 3.05, "n": 15, "pred": 0.148}, {"actual": 0.167, "flight_equiv": 1.2, "n": 6, "pred": 0.262}, {"actual": 0.429, "flight_equiv": 1.45, "n": 7, "pred": 0.353}, {"actual": 0.333, "flight_equiv": 1.95, "n": 9, "pred": 0.426}, {"actual": 0.667, "flight_equiv": 1.25, "n": 6, "pred": 0.562}, {"actual": 0.429, "flight_equiv": 1.5, "n": 7, "pred": 0.641}, {"actual": 0.8, "flight_equiv": 1.05, "n": 5, "pred": 0.73}, {"actual": 1.0, "flight_equiv": 2.3, "n": 11, "pred": 0.841}, {"actual": 0.981, "flight_equiv": 22.0, "n": 107, "pred": 0.995}], "relg": [{"actual": 0.004, "flight_equiv": 49.6, "n": 242, "pred": 0.004}, {"actual": 0.0, "flight_equiv": 1.45, "n": 7, "pred": 0.14}, {"actual": 0.4, "flight_equiv": 1.05, "n": 5, "pred": 0.238}, {"actual": 0.5, "flight_equiv": 1.2, "n": 6, "pred": 0.327}, {"actual": 0.444, "flight_equiv": 1.85, "n": 9, "pred": 0.446}, {"actual": 0.571, "flight_equiv": 1.45, "n": 7, "pred": 0.64}, {"actual": 0.5, "flight_equiv": 1.25, "n": 6, "pred": 0.742}, {"actual": 1.0, "flight_equiv": 1.25, "n": 6, "pred": 0.852}, {"actual": 0.977, "flight_equiv": 9.1, "n": 44, "pred": 0.994}]}}};
+
+// ── Season outlook charts ──────────────────────────────────────────
+(function() {
+  const slider  = document.getElementById('week-slider');
+  const display = document.getElementById('week-display');
+  const infoEl  = document.getElementById('week-data-info');
+  const flightSizeFilter = document.getElementById('flight-size-filter');
+  const dpr = window.devicePixelRatio || 1;
+  const W = 400, H = 280;
+  const PAD = { top: 20, right: 20, bottom: 44, left: 50 };
+  const cw = W - PAD.left - PAD.right;
+  const ch = H - PAD.top - PAD.bottom;
+
+  function setup(id) {
+    const c = document.getElementById(id);
+    c.width  = W * dpr; c.height = H * dpr;
+    c.style.width  = W + 'px'; c.style.height = H + 'px';
+    const ctx = c.getContext('2d'); ctx.scale(dpr, dpr);
+    return { canvas: c, ctx };
+  }
+
+  const promo = setup('promo-canvas');
+  const relg  = setup('relg-canvas');
+
+  function px(x, y) { return [PAD.left + x * cw, PAD.top + (1 - y) * ch]; }
+
+  function drawChart({ canvas, ctx }, points, fillColor, glowColor) {
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(38,61,41,0.08)'; ctx.lineWidth = 1;
+    for (let v = 0; v <= 10; v++) {
+      const t = v / 10;
+      ctx.beginPath(); ctx.moveTo(...px(t, 0)); ctx.lineTo(...px(t, 1)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(...px(0, t)); ctx.lineTo(...px(1, t)); ctx.stroke();
+    }
+
+    // ±0.1 confidence band
+    ctx.fillStyle = 'rgba(35,68,43,0.05)';
+    ctx.beginPath(); ctx.moveTo(...px(0, 0.1));
+    for (let t = 0; t <= 1; t += 0.01) ctx.lineTo(...px(t, Math.min(1, t + 0.1)));
+    ctx.lineTo(...px(1, 1)); ctx.lineTo(...px(1, 0.9));
+    for (let t = 1; t >= 0; t -= 0.01) ctx.lineTo(...px(t, Math.max(0, t - 0.1)));
+    ctx.closePath(); ctx.fill();
+
+    // Diagonal
+    ctx.strokeStyle = 'rgba(35,68,43,0.35)'; ctx.setLineDash([6, 4]); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 1)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Axes
+    ctx.strokeStyle = 'rgba(38,61,41,0.3)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(1, 0)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(...px(0, 0)); ctx.lineTo(...px(0, 1)); ctx.stroke();
+
+    // Axis tick labels
+    ctx.fillStyle = '#5f695f'; ctx.font = '10px Georgia, serif';
+    ctx.textAlign = 'center';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(t, 0);
+      ctx.fillText((t * 100).toFixed(0) + '%', x, y + 16);
+    }
+    ctx.textAlign = 'right';
+    for (let v = 0; v <= 10; v += 2) {
+      const t = v / 10;
+      const [x, y] = px(0, t);
+      ctx.fillText((t * 100).toFixed(0) + '%', x - 5, y + 3);
+    }
+    ctx.save(); ctx.translate(12, PAD.top + ch / 2); ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = 'center'; ctx.fillText('Actual rate', 0, 0); ctx.restore();
+    ctx.textAlign = 'center';
+    ctx.fillText('Predicted probability', PAD.left + cw / 2, H - 5);
+
+    if (!points || !points.length) {
+      ctx.fillStyle = 'rgba(95,105,95,0.5)'; ctx.font = '12px Georgia, serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('No data for this flight size', W / 2, H / 2);
+      ctx.textBaseline = 'alphabetic';
+      return;
+    }
+
+    const maxN = Math.max(...points.map(p => p.n), 1);
+    const minR = 5, maxR = 16;
+
+    for (const pt of points) {
+      const [cx, cy] = px(pt.pred, pt.actual);
+      const r = minR + (pt.n / maxN) * (maxR - minR);
+      const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 1.8);
+      grd.addColorStop(0, glowColor); grd.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, r * 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fillStyle = fillColor; ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+
+  function makeTooltip(canvas, tooltipEl, getPoints) {
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const points = getPoints();
+      if (!points || !points.length) { tooltipEl.style.opacity = '0'; return; }
+      const maxN = Math.max(...points.map(p => p.n), 1);
+      let hit = null;
+      for (const pt of points) {
+        const [cx, cy] = px(pt.pred, pt.actual);
+        const r = 5 + (pt.n / maxN) * 11 + 4;
+        if (Math.hypot(mx - cx, my - cy) < r) { hit = pt; break; }
+      }
+      if (hit) {
+        tooltipEl.style.opacity = '1';
+        tooltipEl.innerHTML = `<strong>${(hit.pred*100).toFixed(0)}% predicted</strong> -> ${(hit.actual*100).toFixed(1)}% actual<br><span style="color:var(--muted)">${hit.n.toLocaleString()} team-seasons</span>`;
+        const tw = tooltipEl.offsetWidth, th = tooltipEl.offsetHeight;
+        let lx = mx + 14, ly = my - th / 2;
+        if (lx + tw > W) lx = mx - tw - 14;
+        tooltipEl.style.left = lx + 'px'; tooltipEl.style.top = ly + 'px';
+      } else {
+        tooltipEl.style.opacity = '0';
+      }
+    });
+    canvas.addEventListener('mouseleave', () => { tooltipEl.style.opacity = '0'; });
+  }
+
+  let currentWeek = 0;
+  makeTooltip(promo.canvas, document.getElementById('promo-tooltip'), () => {
+    return getFlightSizeWeekData(currentWeek).promo;
+  });
+  makeTooltip(relg.canvas,  document.getElementById('relg-tooltip'), () => {
+    return getFlightSizeWeekData(currentWeek).relg;
+  });
+
+  slider.addEventListener('input', () => {
+    currentWeek = parseInt(slider.value, 10);
+    display.textContent = currentWeek;
+    updateFlightSizeCharts(currentWeek);
+  });
+
+  flightSizeFilter.addEventListener('change', () => {
+    updateFlightSizeCharts(currentWeek);
+  });
+
+  function getFlightSizeWeekData(week) {
+    const sizeKey = flightSizeFilter.value || 'all';
+    const weekData = (SEASON_CAL[String(week)] || {})[sizeKey] || { promo: [], relg: [] };
+    return {
+      promo: Array.isArray(weekData.promo) ? weekData.promo : [],
+      relg: Array.isArray(weekData.relg) ? weekData.relg : [],
+    };
+  }
+
+  function updateFlightSizeCharts(week) {
+    const data = getFlightSizeWeekData(week);
+    drawChart(promo, data.promo, '#237744', 'rgba(35,119,68,0.22)');
+    drawChart(relg,  data.relg,  '#a63f35', 'rgba(166,63,53,0.22)');
+    const np = data.promo.reduce((s, p) => s + p.n, 0);
+    const nr = data.relg.reduce((s, p) => s + p.n, 0);
+    const selectedLabel = flightSizeFilter.options[flightSizeFilter.selectedIndex].text;
+    infoEl.textContent = `${np.toLocaleString()} promo / ${nr.toLocaleString()} relg team-seasons - ${selectedLabel}`;
+  }
+
+  updateFlightSizeCharts(0);
+})();
+
+// ── Bucket bar chart ───────────────────────────────────────────────
+(function() {
+  const grid = document.getElementById('bucket-grid');
+  if (!CAL_POINTS.length) return;
+  const maxN = Math.max(...CAL_POINTS.map(p => p.n));
+  const MAX_H = 68;
+  for (const pt of CAL_POINTS) {
+    const h = Math.max(3, Math.round((pt.n / maxN) * MAX_H));
+    const wrap = document.createElement('div');
+    wrap.className = 'bucket-bar-wrap';
+    wrap.title = `${(pt.pred*100).toFixed(0)}% bucket · ${pt.n.toLocaleString()} games`;
+    const bar = document.createElement('div');
+    bar.className = 'bucket-bar'; bar.style.height = h + 'px';
+    const lbl = document.createElement('div');
+    lbl.className = 'bucket-label'; lbl.textContent = (pt.pred*100).toFixed(0);
+    wrap.appendChild(bar); wrap.appendChild(lbl);
+    grid.appendChild(wrap);
+  }
+})();
+</script>
+</body>
+</html>
